@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
                         .systemBarsPadding(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreen()
+                    AppNavigation()
                 }
             }
         }

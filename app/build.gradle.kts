@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
+    id ("kotlin-parcelize")
 }
 
 android {
@@ -62,4 +63,5 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.2")
+    implementation("androidx.navigation:navigation-compose:2.9.2")
 }
