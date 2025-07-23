@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp
+package com.gorman.ourmemoryapp.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,7 +20,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -29,6 +28,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
+import com.gorman.ourmemoryapp.ui.fonts.mulishFont
+import com.gorman.ourmemoryapp.viewModel.OurMemoryViewModel
+import com.gorman.ourmemoryapp.R
+import com.gorman.ourmemoryapp.data.Veteran
+import com.gorman.ourmemoryapp.data.VeteranUiState
 
 @Composable
 fun MainScreen(onItemClick: (String) -> Unit)
@@ -112,14 +116,14 @@ fun VeteranItem(
             ){
                 Text(text = veteran.name,
                     color = Color.Black,
-                    fontFamily = MulishFont(),
+                    fontFamily = mulishFont(),
                     fontSize = 12.sp,
                     style = TextStyle(fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(8.dp)
                 )
                 Text(text = veteran.baseInfo,
                     color = Color.Black,
-                    fontFamily = MulishFont(),
+                    fontFamily = mulishFont(),
                     fontSize = 11.sp,
                     style = TextStyle(fontWeight = FontWeight.Normal),
                     modifier = Modifier.padding(start = 8.dp, bottom = 16.dp, end = 8.dp)

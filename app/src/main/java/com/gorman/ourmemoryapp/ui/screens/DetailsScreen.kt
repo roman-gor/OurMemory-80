@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp
+package com.gorman.ourmemoryapp.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,14 +22,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
+import com.gorman.ourmemoryapp.viewModel.DetailsViewModel
+import com.gorman.ourmemoryapp.ui.fonts.mulishFont
+import com.gorman.ourmemoryapp.data.Veteran
+import com.gorman.ourmemoryapp.data.VeteranUiState
 
 @Composable
 fun DetailsScreen(id: String, navigateToMainScreen: (String) -> Unit)
@@ -88,14 +90,14 @@ fun DetailsContent(veteran: Veteran)
                 Text(text = veteran.name,
                     color = Color.Black,
                     fontSize = 18.sp,
-                    fontFamily = MulishFont(),
+                    fontFamily = mulishFont(),
                     style = TextStyle(fontWeight = FontWeight.Bold),
                     modifier = Modifier.padding(8.dp)
                 )
                 Text(text = veteran.years,
                     color = Color.Black,
                     fontSize = 16.sp,
-                    fontFamily = MulishFont(),
+                    fontFamily = mulishFont(),
                     style = TextStyle(fontWeight = FontWeight.SemiBold),
                     modifier = Modifier.padding(8.dp)
                 )
@@ -105,7 +107,7 @@ fun DetailsContent(veteran: Veteran)
         Text(text = veteran.allInfo,
             color = Color.Black,
             fontSize = 16.sp,
-            fontFamily = MulishFont(),
+            fontFamily = mulishFont(),
             style = TextStyle(fontWeight = FontWeight.Normal),
             modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
             textAlign = TextAlign.Justify

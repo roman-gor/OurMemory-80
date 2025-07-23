@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp
+package com.gorman.ourmemoryapp.data
 
 import com.google.firebase.Firebase
 import com.google.firebase.database.database

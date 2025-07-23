@@ -1,9 +1,11 @@
-package com.gorman.ourmemoryapp
+package com.gorman.ourmemoryapp.viewModel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gorman.ourmemoryapp.data.FirebaseDB
+import com.gorman.ourmemoryapp.data.VeteranUiState
 import kotlinx.coroutines.launch
 
 class DetailsViewModel: ViewModel() {
