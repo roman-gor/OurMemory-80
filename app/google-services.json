@@ -1,0 +1,87 @@
+{
+  "project_info": {
+    "project_number": "417187244027",
+    "firebase_url": "https://cafeadmin-18799-default-rtdb.firebaseio.com",
+    "project_id": "cafeadmin-18799",
+    "storage_bucket": "cafeadmin-18799.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:417187244027:android:c6146a7ab5000ca5f44d5e",
+        "android_client_info": {
+          "package_name": "com.example.cafeadminjava"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNpfGMMszIrfIeVLHuxuZnrLgvt4rUU4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:417187244027:android:94917be4ad6bca47f44d5e",
+        "android_client_info": {
+          "package_name": "com.gorman.dmxcontroller"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNpfGMMszIrfIeVLHuxuZnrLgvt4rUU4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:417187244027:android:50893c095a8cd541f44d5e",
+        "android_client_info": {
+          "package_name": "com.gorman.moodtracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNpfGMMszIrfIeVLHuxuZnrLgvt4rUU4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:417187244027:android:0392e2cad02b84a2f44d5e",
+        "android_client_info": {
+          "package_name": "com.gorman.ourmemoryapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNpfGMMszIrfIeVLHuxuZnrLgvt4rUU4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
