@@ -68,12 +68,10 @@ fun DetailsScreen(id: String, navigateToMainScreen: (String) -> Unit)
 @Composable
 fun DetailsContent(veteran: Veteran)
 {
-    val scrollState = rememberScrollState()
 
     Column (
         modifier = Modifier.fillMaxSize()
             .padding(top = 16.dp)
-            .verticalScroll(scrollState)
     ) {
         Row {
             Image(
@@ -109,7 +107,9 @@ fun DetailsContent(veteran: Veteran)
             fontSize = 16.sp,
             fontFamily = mulishFont(),
             style = TextStyle(fontWeight = FontWeight.Normal),
-            modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
+            modifier = Modifier
+                .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp)
+                .verticalScroll(rememberScrollState()),
             textAlign = TextAlign.Justify
         )
     }

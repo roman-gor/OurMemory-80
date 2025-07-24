@@ -16,10 +16,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -41,7 +47,8 @@ fun MainScreen(onItemClick: (String) -> Unit)
     val veteranState = ourMemoryViewModel.veteranState
 
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(Color(0xFFF0F0F0))
     )
     {
@@ -68,13 +75,32 @@ fun OurMemoryScreen(
     veterans: List<Veteran>,
     onItemClick: (String) -> Unit)
 {
-    LazyColumn (modifier = Modifier.fillMaxSize()
-        .padding(top = 8.dp))
+    var searchVeteran by remember { mutableStateOf("") }
+    val filteredVeteran = if (searchVeteran.isBlank())
+        veterans
+    else
+        veterans.filter {
+            it.name.contains(searchVeteran, ignoreCase = true)
+        }
+    Column {
+        OutlinedTextField(
+            value = searchVeteran,
+            onValueChange = { searchVeteran = it },
+            placeholder = { Text("Поиск ветерана") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            shape = RoundedCornerShape(16.dp),
+            singleLine = true
+        )
+        LazyColumn (modifier = Modifier
+            .fillMaxSize()
+        )
         {
-        items(veterans)
-        {
-            veteran ->
-            VeteranItem(veteran, onClick = { onItemClick(veteran.id) })
+            items(filteredVeteran)
+            { veteran ->
+                VeteranItem(veteran, onClick = { onItemClick(veteran.id) })
+            }
         }
     }
 }

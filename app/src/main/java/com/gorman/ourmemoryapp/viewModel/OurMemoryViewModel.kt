@@ -5,8 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gorman.ourmemoryapp.data.FirebaseDB
+import com.gorman.ourmemoryapp.data.Veteran
 import com.gorman.ourmemoryapp.data.VeteranUiState
 import kotlinx.coroutines.launch
+import kotlin.collections.plus
 
 class OurMemoryViewModel: ViewModel() {
 
@@ -29,5 +31,4 @@ class OurMemoryViewModel: ViewModel() {
             }
         }
     }
-
 }
