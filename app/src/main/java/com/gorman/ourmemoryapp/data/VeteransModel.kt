@@ -6,11 +6,20 @@ data class Veteran(
     val portrait: String = "",
     val baseInfo: String = "",
     val allInfo: String = "",
-    val years: String= ""
+    val years: String= "",
+    val category: String = "",
+    val rewards: String = ""
 )
 
 sealed class VeteranUiState {
     object Loading : VeteranUiState()
     data class Success(val veterans: List<Veteran>) : VeteranUiState()
     data class Error(val message: String) : VeteranUiState()
+}
+
+sealed class Screen(val route: String)
+{
+    object HomeScreen: Screen("homescreen")
+    object DetailScreen: Screen("detailscreen")
+    object InfoScreen: Screen("infoscreen")
 }

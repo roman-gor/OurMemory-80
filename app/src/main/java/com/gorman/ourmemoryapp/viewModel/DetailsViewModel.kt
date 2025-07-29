@@ -8,11 +8,14 @@ import com.gorman.ourmemoryapp.data.FirebaseDB
 import com.gorman.ourmemoryapp.data.Veteran
 import com.gorman.ourmemoryapp.data.VeteranUiState
 import kotlinx.coroutines.launch
+import kotlin.collections.listOf
 
 class DetailsViewModel: ViewModel() {
 
     private val _veteranState = mutableStateOf<VeteranUiState>(VeteranUiState.Loading)
     val veteranState: State<VeteranUiState> = _veteranState
+    private val _rewardsState = mutableStateOf<List<Int>>(emptyList())
+    val rewardsState: State<List<Int>> = _rewardsState
     private val _repository: FirebaseDB = FirebaseDB()
 
     fun loadVeteranById(id: String)
@@ -28,6 +31,19 @@ class DetailsViewModel: ViewModel() {
             }catch (e: Exception){
                 _veteranState.value = VeteranUiState.Error("${e.message}")
             }
+        }
+    }
+
+    fun loadRewards(veteran: Veteran)
+    {
+        val rewardsList = veteran.rewards
+        if(rewardsList.isNotBlank()) {
+            _rewardsState.value = rewardsList
+                .split(',')
+                .mapNotNull { it.toIntOrNull() }
+        }
+        else {
+            _rewardsState.value = emptyList()
         }
     }
 }
