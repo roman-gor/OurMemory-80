@@ -100,12 +100,15 @@ fun DetailsContent(veteran: Veteran, viewModel: DetailsViewModel)
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .size(width = 160.dp, height = 200.dp)
+                    .aspectRatio(0.8f)
+                    .weight(1.2f)
                     .padding(start = 16.dp, top = 8.dp, bottom = 8.dp)
                     .clip(RoundedCornerShape(8.dp))
                     .background(Color(0xFFF0F0F0))
             )
-            Column {
+            Column (
+                modifier = Modifier.weight(1.8f)
+            ){
                 Card (
                     modifier = Modifier
                         .fillMaxWidth()
@@ -204,7 +207,7 @@ fun DetailsContent(veteran: Veteran, viewModel: DetailsViewModel)
             else -> R.drawable.red_star
         }
         val rewardName = when(selectedReward){
-            1 -> "Орден красного знамени"
+            1 -> "Орден Красного Знамени"
             2 -> "Орден Суворова I степени"
             3 -> "Орден Суворова II степени"
             4 -> "Орден Ленина"
@@ -212,8 +215,8 @@ fun DetailsContent(veteran: Veteran, viewModel: DetailsViewModel)
             6 -> "Медаль \"Партизану Великой Отечественной войны\" II степени"
             7 -> "Медаль \"За победу над Германией в ВОВ 1941-1045 гг.\""
             8 -> "Орден Отечественной войны"
-            9 -> "Орден Красной звезды"
-            else -> "Орден Красной звезды"
+            9 -> "Орден Красной Звезды"
+            else -> "Орден Красной Звезды"
         }
         AlertDialog(
             onDismissRequest = {showDialog = false},
