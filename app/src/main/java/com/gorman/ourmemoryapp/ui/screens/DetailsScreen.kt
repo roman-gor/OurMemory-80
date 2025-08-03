@@ -48,7 +48,6 @@ import com.gorman.ourmemoryapp.viewModel.DetailsViewModel
 import com.gorman.ourmemoryapp.ui.fonts.mulishFont
 import com.gorman.ourmemoryapp.data.Veteran
 import com.gorman.ourmemoryapp.data.VeteranUiState
-import com.gorman.ourmemoryapp.ui.fonts.inriaFont
 
 @Composable
 fun DetailsScreen(id: String, navigateToMainScreen: (String) -> Unit)

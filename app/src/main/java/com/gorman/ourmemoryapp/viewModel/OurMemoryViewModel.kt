@@ -9,7 +9,6 @@ import com.gorman.ourmemoryapp.data.FirebaseDB
 import com.gorman.ourmemoryapp.data.Veteran
 import com.gorman.ourmemoryapp.data.VeteranUiState
 import kotlinx.coroutines.launch
-import kotlin.collections.plus
 
 class OurMemoryViewModel: ViewModel() {
 

@@ -11,12 +11,13 @@ android {
     compileSdk = 36
 
     defaultConfig {
+        val mapkitApiKey: String by rootProject.extra
         applicationId = "com.gorman.ourmemoryapp"
         minSdk = 28
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
+        buildConfigField("String", "MAPKIT_API_KEY", "\"$mapkitApiKey\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -37,6 +38,7 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 }
@@ -66,4 +68,5 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.9.2")
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("com.google.accompanist:accompanist-flowlayout:0.30.1")
+    implementation("com.yandex.android:maps.mobile:4.19.0-lite")
 }

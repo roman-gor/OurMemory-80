@@ -71,7 +71,7 @@ fun MainScreen(onItemClick: (String) -> Unit, navigateToInfoScreen: () -> Unit)
             .background(Color.White)
     )
     {
-        when(val state = veteranState.value)
+        when(veteranState.value)
         {
             is VeteranUiState.Error -> {
                 Text("Error occurred!")

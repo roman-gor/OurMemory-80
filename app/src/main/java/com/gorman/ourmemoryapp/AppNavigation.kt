@@ -28,9 +28,9 @@ fun AppNavigation()
                 navController.navigate(Screen.HomeScreen.route)
             }
         }
-        dialog(Screen.InfoScreen.route) {
+        composable(Screen.InfoScreen.route) {
             InfoScreen {
-                navController.popBackStack()
+                navController.navigateUp()
             }
         }
     }
