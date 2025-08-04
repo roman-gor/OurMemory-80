@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import java.util.Locale
+import androidx.core.app.ActivityCompat.recreate
 import com.gorman.ourmemoryapp.ui.theme.OurMemoryAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,9 +25,22 @@ class MainActivity : ComponentActivity() {
                         .systemBarsPadding(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavigation()
+                    AppNavigation(onChangeLangClick = {
+                        locale -> updateLocale(locale)
+                    })
                 }
             }
         }
+    }
+
+    fun updateLocale(languageCode: String) {
+        val locale = Locale(languageCode)
+        Locale.setDefault(locale)
+
+        val config = resources.configuration
+        config.setLocale(locale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+
+        recreate(this)
     }
 }

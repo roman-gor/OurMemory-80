@@ -45,6 +45,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -99,144 +100,12 @@ fun OurMemoryScreen(
     val filteredVeteran by viewModel.filteredVeterans
     var expanded by remember { mutableStateOf(false) }
     Column {
-        Row (
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            OutlinedTextField(
-                value = viewModel.searchState.value,
-                onValueChange = { viewModel.onSearchTextChange(it) },
-                placeholder = { Text(
-                    text = "Поиск",
-                    style = TextStyle(
-                        fontFamily = mulishFont(),
-                        fontSize = 14.sp,
-                        color = Color.Gray))},
-                textStyle = TextStyle(
-                    fontFamily = mulishFont(),
-                    fontSize = 14.sp,
-                    color = Color.Black),
-                modifier = Modifier.weight(4f),
-                shape = RoundedCornerShape(32.dp),
-                singleLine = true,
-                leadingIcon = {
-                    Icon(painter = painterResource(R.drawable.search_icon),
-                        contentDescription = null,
-                        tint = colorResource(R.color.dark_red))
-                },
-                colors = OutlinedTextFieldDefaults.colors(
-                    focusedContainerColor = Color(0xFFF0F0F0),
-                    unfocusedContainerColor = Color(0xFFF0F0F0),
-                    focusedBorderColor = Color.Transparent,
-                    unfocusedBorderColor = Color.Transparent,
-                    disabledBorderColor = Color.Transparent,
-                    errorBorderColor = Color.Transparent
-                )
-            )
-            Button(onClick = {
-                navigateToInfoScreen()
-            },
-                modifier = Modifier.padding(start = 8.dp)
-                    .aspectRatio(1f)
-                    .weight(1f),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFF0F0F0),
-                    contentColor = Color.Black
-                ),
-                contentPadding = PaddingValues(0.dp)) {
-                Text("i",
-                    style = TextStyle(
-                        fontWeight = FontWeight.Normal,
-                        fontSize = 26.sp,
-                        fontFamily = inriaFont()
-                    ),
-                    textAlign = TextAlign.Center,
-                    color = colorResource(R.color.dark_red)
-                )
-            }
-            Box(
-                modifier = Modifier.weight(1f)
-            ){
-                Button(onClick = {
-                    expanded = true
-                },
-                    modifier = Modifier.padding(start = 8.dp)
-                        .aspectRatio(1f),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color(0xFFF0F0F0),
-                        contentColor = Color.Black
-                    ),
-                    contentPadding = PaddingValues(0.dp)) {
-                    Icon(Icons.Default.KeyboardArrowDown,
-                        contentDescription = null,
-                        tint = colorResource(R.color.dark_red))
-                }
-
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false }
-                ){
-                    DropdownMenuItem(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 2.dp, horizontal = 4.dp),
-                        onClick = {viewModel.onCheckedWarChange(!viewModel.checkedWarState.value)},
-                        text = {
-                            Row (
-                                verticalAlignment = Alignment.CenterVertically
-                            ){
-                                Checkbox(
-                                    checked = viewModel.checkedWarState.value,
-                                    modifier = Modifier.size(20.dp),
-                                    onCheckedChange = {viewModel.onCheckedWarChange(it)},
-                                    colors = CheckboxDefaults.colors(
-                                        checkedColor = colorResource(R.color.dark_red)
-                                    )
-                                )
-                                Spacer(modifier = Modifier.width(16.dp))
-                                Text(text = "Герои Советского Союза",
-                                    style = TextStyle(
-                                        fontFamily = mulishFont(),
-                                        fontSize = 14.sp,
-                                        color = colorResource(R.color.dark_red)
-                                    )
-                                )
-                            }
-                        },
-                    )
-                    DropdownMenuItem(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 2.dp, horizontal = 4.dp),
-                        onClick = {viewModel.onCheckedArtChange(!viewModel.checkedArtState.value)},
-                        text = {
-                            Row (
-                                verticalAlignment = Alignment.CenterVertically
-                            ){
-                                Checkbox(
-                                    checked = viewModel.checkedArtState.value,
-                                    modifier = Modifier.size(20.dp),
-                                    onCheckedChange = {viewModel.onCheckedArtChange(it)},
-                                    colors = CheckboxDefaults.colors(
-                                        checkedColor = colorResource(R.color.dark_red)
-                                    )
-                                )
-                                Spacer(modifier = Modifier.width(16.dp))
-                                Text(text = "Творчество",
-                                    style = TextStyle(
-                                        fontFamily = mulishFont(),
-                                        fontSize = 14.sp,
-                                        color = colorResource(R.color.dark_red)
-                                    )
-                                )
-                            }
-                        }
-                    )
-                }
-            }
-        }
+        Header(viewModel = viewModel,
+            navigateToInfoScreen = navigateToInfoScreen,
+            onClickEvent = {expanded = true},
+            expanded = expanded,
+            onDismiss = {expanded = false}
+        )
         if (!filteredVeteran.isEmpty()){
             LazyColumn (modifier = Modifier
                 .fillMaxSize()
@@ -244,7 +113,8 @@ fun OurMemoryScreen(
             {
                 items(filteredVeteran)
                 { veteran ->
-                    VeteranItem(veteran, onClick = { onItemClick(veteran.id) })
+                    VeteranItem(veteran,
+                        onClick = { onItemClick(veteran.id) })
                 }
             }
         }
@@ -255,7 +125,7 @@ fun OurMemoryScreen(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = "Выберите категорию",
+                    text = stringResource(R.string.chooseCategory),
                     style = TextStyle(
                         fontFamily = mulishFont(),
                         fontSize = 20.sp,
@@ -320,6 +190,174 @@ fun VeteranItem(
                     modifier = Modifier.padding(start = 8.dp, bottom = 16.dp, end = 8.dp)
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun DropDownMenu(
+    expanded: Boolean,
+    viewModel: OurMemoryViewModel,
+    onDismiss: () -> Unit){
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { onDismiss() }
+    ){
+        DropdownMenuItem(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 2.dp, horizontal = 4.dp),
+            onClick = {viewModel.onCheckedWarChange(!viewModel.checkedWarState.value)},
+            text = {
+                Row (
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    Checkbox(
+                        checked = viewModel.checkedWarState.value,
+                        modifier = Modifier.size(20.dp),
+                        onCheckedChange = {viewModel.onCheckedWarChange(it)},
+                        colors = CheckboxDefaults.colors(
+                            checkedColor = colorResource(R.color.dark_red)
+                        )
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(text = stringResource(R.string.heroUSSR),
+                        style = TextStyle(
+                            fontFamily = mulishFont(),
+                            fontSize = 14.sp,
+                            color = colorResource(R.color.dark_red)
+                        )
+                    )
+                }
+            },
+        )
+        DropdownMenuItem(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 2.dp, horizontal = 4.dp),
+            onClick = {viewModel.onCheckedArtChange(!viewModel.checkedArtState.value)},
+            text = {
+                Row (
+                    verticalAlignment = Alignment.CenterVertically
+                ){
+                    Checkbox(
+                        checked = viewModel.checkedArtState.value,
+                        modifier = Modifier.size(20.dp),
+                        onCheckedChange = {viewModel.onCheckedArtChange(it)},
+                        colors = CheckboxDefaults.colors(
+                            checkedColor = colorResource(R.color.dark_red)
+                        )
+                    )
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(text = stringResource(R.string.art),
+                        style = TextStyle(
+                            fontFamily = mulishFont(),
+                            fontSize = 14.sp,
+                            color = colorResource(R.color.dark_red)
+                        )
+                    )
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun Header(
+    viewModel: OurMemoryViewModel,
+    navigateToInfoScreen: () -> Unit,
+    onClickEvent: () -> Unit,
+    expanded: Boolean,
+    onDismiss: () -> Unit){
+    Row (
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        OutlinedTextField(
+            value = viewModel.searchState.value,
+            onValueChange = { viewModel.onSearchTextChange(it) },
+            placeholder = {
+                Text(
+                    text = stringResource(R.string.search),
+                    style = TextStyle(
+                        fontFamily = mulishFont(),
+                        fontSize = 14.sp,
+                        color = Color.Gray
+                    )
+                )
+            },
+            textStyle = TextStyle(
+                fontFamily = mulishFont(),
+                fontSize = 14.sp,
+                color = Color.Black
+            ),
+            modifier = Modifier.weight(4f),
+            shape = RoundedCornerShape(32.dp),
+            singleLine = true,
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(R.drawable.search_icon),
+                    contentDescription = null,
+                    tint = colorResource(R.color.dark_red)
+                )
+            },
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedContainerColor = Color(0xFFF0F0F0),
+                unfocusedContainerColor = Color(0xFFF0F0F0),
+                focusedBorderColor = Color.Transparent,
+                unfocusedBorderColor = Color.Transparent,
+                disabledBorderColor = Color.Transparent,
+                errorBorderColor = Color.Transparent
+            )
+        )
+        Button(
+            onClick = {
+                navigateToInfoScreen()
+            },
+            modifier = Modifier.padding(start = 8.dp)
+                .aspectRatio(1f)
+                .weight(1f),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFF0F0F0),
+                contentColor = Color.Black
+            ),
+            contentPadding = PaddingValues(0.dp)
+        ) {
+            Text(
+                "i",
+                style = TextStyle(
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 26.sp,
+                    fontFamily = inriaFont()
+                ),
+                textAlign = TextAlign.Center,
+                color = colorResource(R.color.dark_red)
+            )
+        }
+        Box(
+            modifier = Modifier.weight(1f)
+        ) {
+            Button(
+                onClick = {
+                    onClickEvent()
+                },
+                modifier = Modifier.padding(start = 8.dp)
+                    .aspectRatio(1f),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFFF0F0F0),
+                    contentColor = Color.Black
+                ),
+                contentPadding = PaddingValues(0.dp)
+            ) {
+                Icon(
+                    Icons.Default.KeyboardArrowDown,
+                    contentDescription = null,
+                    tint = colorResource(R.color.dark_red)
+                )
+            }
+            DropDownMenu(expanded = expanded, viewModel = viewModel, onDismiss = { onDismiss() })
         }
     }
 }

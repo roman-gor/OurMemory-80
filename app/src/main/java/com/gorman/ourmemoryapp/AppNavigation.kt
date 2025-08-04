@@ -4,14 +4,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.dialog
 import com.gorman.ourmemoryapp.data.Screen
 import com.gorman.ourmemoryapp.ui.screens.DetailsScreen
 import com.gorman.ourmemoryapp.ui.screens.InfoScreen
 import com.gorman.ourmemoryapp.ui.screens.MainScreen
 
 @Composable
-fun AppNavigation()
+fun AppNavigation(onChangeLangClick: (String) -> Unit)
 {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.HomeScreen.route) {
@@ -29,9 +28,11 @@ fun AppNavigation()
             }
         }
         composable(Screen.InfoScreen.route) {
-            InfoScreen {
-                navController.navigateUp()
-            }
+            InfoScreen (
+                navigateToBack = { navController.popBackStack() },
+                navigateToImage = {},
+                onChangeLangClick = onChangeLangClick
+            )
         }
     }
 }
