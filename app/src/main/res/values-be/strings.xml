@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Наша памяць</string>
-    <string name="information">\tмінскія вайсковыя могілкі, размешчаныя на вуліцы Казлова,
+    <string name="information">\tМінскія вайсковыя могілкі, размешчаныя на вуліцы Казлова,
         з\'яўляецца адным з найстарэйшых і найбольш значных мемарыяльных месцаў у сталіцы Беларусі.
         Яно было заснавана ў канцы XIX стагоддзя, арыентыровачна ў 1870-1880-х гадах, і першапачаткова
         прызначалася для пахавання вайскоўцаў, якія загінулі пры выкананні службовых
@@ -26,10 +26,13 @@
     <string name="warHeader">Вайсковыя могілкі</string>
     <string name="address">вул. Казлова, 11, Мiнск</string>
     <string name="historyInfoHeader">Гістарычная даведка</string>
+    <string name="news">Навінавая зводка</string>
     <string name="galleryHeader">Галерэя</string>
     <string name="locationHeader">Размяшчэнне</string>
     <string name="chooseCategory">Выберыце катэгорыю</string>
     <string name="search">Пошук</string>
     <string name="heroUSSR">Героі Савецкага Саюза</string>
     <string name="art">Творчасць</string>
+    <string name="slogan">В память о тех, кто подарил нам мирное небо</string>
+    <string name="idea">Узнавайте биографию великих людей, изучайте их историю с помощью аудио-экскурсии и дополнений из творчества и жизни</string>
 </resources>

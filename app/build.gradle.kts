@@ -69,4 +69,6 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("com.google.accompanist:accompanist-flowlayout:0.30.1")
     implementation("com.yandex.android:maps.mobile:4.19.0-lite")
+    implementation("androidx.appcompat:appcompat:1.7.1")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.33.2-alpha")
 }

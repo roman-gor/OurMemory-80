@@ -1,17 +1,23 @@
 package com.gorman.ourmemoryapp.ui.screens
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -28,21 +34,29 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -51,7 +65,9 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.data.Image
+import com.gorman.ourmemoryapp.data.News
 import com.gorman.ourmemoryapp.data.imagesList
+import com.gorman.ourmemoryapp.data.newsList
 import com.gorman.ourmemoryapp.ui.fonts.mulishFont
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
@@ -59,6 +75,7 @@ import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.runtime.image.ImageProvider
 import java.util.Locale
+import androidx.core.net.toUri
 
 @Composable
 fun InfoScreen(navigateToBack: () -> Unit, navigateToImage: () -> Unit, onChangeLangClick: (String) -> Unit)
@@ -81,30 +98,103 @@ fun InfoScreen(navigateToBack: () -> Unit, navigateToImage: () -> Unit, onChange
         modifier = Modifier.fillMaxSize()
             .background(Color.White)
             .padding(8.dp)
-            .verticalScroll(rememberScrollState()),
+            .statusBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Header(navigateToBack = {navigateToBack()}, onChangeLangClick = onChangeLangClick)
-        TextHead(R.string.historyInfoHeader)
-        InfoText()
-        TextHead(R.string.galleryHeader)
-        //TODO onClick event
-        Images(navigateToImage)
-        TextHead(R.string.locationHeader)
-        Text(
-            text = stringResource(R.string.address),
+        Column (
+            modifier = Modifier.fillMaxSize()
+                .padding(top = 8.dp)
+                .background(Color.White)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+            TextHead(R.string.historyInfoHeader)
+            InfoText()
+            TextHead(R.string.galleryHeader)
+            //TODO onClick event
+            Images(navigateToImage)
+            TextHead(R.string.locationHeader)
+            Text(
+                text = stringResource(R.string.address),
+                style = TextStyle(
+                    fontFamily = mulishFont(),
+                    fontWeight = FontWeight.Normal,
+                    fontSize = 14.sp,
+                    color = colorResource(R.color.dark_red)
+                ),
+                modifier = Modifier
+                    .padding(start = 16.dp, top = 8.dp, end = 16.dp)
+                    .fillMaxWidth()
+            )
+            if (isVisible.value)
+                YandexMapView()
+            TextHead(R.string.news)
+            Spacer(modifier = Modifier.height(8.dp))
+            newsList.forEach { new->
+                NewsItem(new)
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+    }
+}
+
+@SuppressLint("UseKtx")
+@Composable
+fun NewsItem(news: News){
+    val context = LocalContext.current
+    var textLayoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
+    val annotatedText = buildAnnotatedString {
+        pushStringAnnotation(tag = "URL", annotation = news.annotation)
+        withStyle(SpanStyle(color = Color.Blue)) {
+            append(news.text)
+        }
+        pop()
+    }
+    Row (
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ){
+        Card (
+            modifier = Modifier
+                .padding(start = 20.dp, end = 16.dp, top = 8.dp)
+                .size(35.dp),
+            shape = RoundedCornerShape(36.dp),
+            elevation = CardDefaults.cardElevation(4.dp)
+        ){
+            Image(
+                painter = painterResource(news.icon),
+                contentDescription = news.text,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.fillMaxSize())
+        }
+        Text(text = annotatedText,
             style = TextStyle(
                 fontFamily = mulishFont(),
-                fontWeight = FontWeight.Normal,
-                fontSize = 14.sp,
-                color = colorResource(R.color.dark_red)
+                fontSize = 16.sp,
+                color = colorResource(R.color.dark_red),
+                fontWeight = FontWeight.Normal
             ),
             modifier = Modifier
-                .padding(start = 16.dp, top = 8.dp, end = 16.dp)
-                .fillMaxWidth()
-        )
-        if (isVisible.value)
-            YandexMapView()
+                .padding(top = 8.dp)
+                .pointerInput(Unit) {
+                    detectTapGestures { offsetPosition ->
+                        textLayoutResult?.let { layoutResult ->
+                            val position = layoutResult.getOffsetForPosition(offsetPosition)
+                            annotatedText.getStringAnnotations(
+                                tag = "URL",
+                                start = position,
+                                end = position
+                            ).firstOrNull()?.let { annotation ->
+                                val intent = Intent(Intent.ACTION_VIEW, annotation.item.toUri())
+                                context.startActivity(intent)
+                            }
+                        }
+                    }
+                },
+            onTextLayout = { layoutResult: TextLayoutResult ->
+                textLayoutResult = layoutResult
+            })
     }
 }
 
@@ -209,7 +299,7 @@ fun Header(navigateToBack: () -> Unit, onChangeLangClick: (String) -> Unit){
 
 @Composable
 fun YandexMapView(){
-    val context = androidx.compose.ui.platform.LocalContext.current
+    val context = LocalContext.current
     val mapView = remember { MapView(context) }
     DisposableEffect(Unit) {
         mapView.onStart()

@@ -1,6 +1,7 @@
 package com.gorman.ourmemoryapp
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import com.yandex.mapkit.MapKitFactory
 
 class MyApp: Application() {

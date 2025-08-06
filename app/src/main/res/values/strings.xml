@@ -25,10 +25,14 @@
     <string name="warHeader">Военное кладбище</string>
     <string name="address">ул. Козлова, 11, Минск</string>
     <string name="historyInfoHeader">Историческая справка</string>
+    <string name="news">Новостная сводка</string>
     <string name="galleryHeader">Галерея</string>
     <string name="locationHeader">Расположение</string>
     <string name="chooseCategory">Выберите категорию</string>
     <string name="search">Поиск</string>
     <string name="heroUSSR">Герои Советского Союза</string>
     <string name="art">Творчество</string>
+    <string name="slogan">В память о тех, кто подарил нам мирное небо и прославил белорусское творчество</string>
+    <string name="idea">Узнавайте биографию великих людей, изучайте их историю с помощью аудио-экскурсии и дополнений из творчества и жизни</string>
+
 </resources>

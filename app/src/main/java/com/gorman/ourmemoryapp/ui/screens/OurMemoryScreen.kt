@@ -12,8 +12,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -34,6 +36,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,6 +56,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.gorman.ourmemoryapp.ui.fonts.mulishFont
 import com.gorman.ourmemoryapp.viewModel.OurMemoryViewModel
 import com.gorman.ourmemoryapp.R
@@ -70,6 +74,7 @@ fun MainScreen(onItemClick: (String) -> Unit, navigateToInfoScreen: () -> Unit)
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
+            .systemBarsPadding()
     )
     {
         when(veteranState.value)
@@ -78,7 +83,8 @@ fun MainScreen(onItemClick: (String) -> Unit, navigateToInfoScreen: () -> Unit)
                 Text("Error occurred!")
             }
             VeteranUiState.Loading -> {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center),
+                    color = colorResource(R.color.dark_red))
             }
             is VeteranUiState.Success -> {
                 OurMemoryScreen(
@@ -201,7 +207,8 @@ fun DropDownMenu(
     onDismiss: () -> Unit){
     DropdownMenu(
         expanded = expanded,
-        onDismissRequest = { onDismiss() }
+        onDismissRequest = { onDismiss() },
+        containerColor = colorResource(R.color.dark_white)
     ){
         DropdownMenuItem(
             modifier = Modifier
@@ -217,7 +224,9 @@ fun DropDownMenu(
                         modifier = Modifier.size(20.dp),
                         onCheckedChange = {viewModel.onCheckedWarChange(it)},
                         colors = CheckboxDefaults.colors(
-                            checkedColor = colorResource(R.color.dark_red)
+                            checkedColor = colorResource(R.color.dark_red),
+                            uncheckedColor = Color.Gray,
+                            checkmarkColor = colorResource(R.color.white)
                         )
                     )
                     Spacer(modifier = Modifier.width(16.dp))
@@ -245,7 +254,9 @@ fun DropDownMenu(
                         modifier = Modifier.size(20.dp),
                         onCheckedChange = {viewModel.onCheckedArtChange(it)},
                         colors = CheckboxDefaults.colors(
-                            checkedColor = colorResource(R.color.dark_red)
+                            checkedColor = colorResource(R.color.dark_red),
+                            uncheckedColor = Color.Gray,
+                            checkmarkColor = colorResource(R.color.white)
                         )
                     )
                     Spacer(modifier = Modifier.width(16.dp))
@@ -284,14 +295,14 @@ fun Header(
                     style = TextStyle(
                         fontFamily = mulishFont(),
                         fontSize = 14.sp,
-                        color = Color.Gray
+                        color = Color.White
                     )
                 )
             },
             textStyle = TextStyle(
                 fontFamily = mulishFont(),
                 fontSize = 14.sp,
-                color = Color.Black
+                color = Color.White
             ),
             modifier = Modifier.weight(4f),
             shape = RoundedCornerShape(32.dp),
@@ -300,12 +311,14 @@ fun Header(
                 Icon(
                     painter = painterResource(R.drawable.search_icon),
                     contentDescription = null,
-                    tint = colorResource(R.color.dark_red)
+                    tint = colorResource(R.color.white)
                 )
             },
             colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = Color(0xFFF0F0F0),
-                unfocusedContainerColor = Color(0xFFF0F0F0),
+//                focusedContainerColor = Color(0xFFF0F0F0),
+//                unfocusedContainerColor = Color(0xFFF0F0F0),
+                focusedContainerColor = colorResource(R.color.dark_red),
+                unfocusedContainerColor = colorResource(R.color.dark_red),
                 focusedBorderColor = Color.Transparent,
                 unfocusedBorderColor = Color.Transparent,
                 disabledBorderColor = Color.Transparent,
@@ -320,21 +333,16 @@ fun Header(
                 .aspectRatio(1f)
                 .weight(1f),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Color(0xFFF0F0F0),
+                //containerColor = Color(0xFFF0F0F0),
+                containerColor = colorResource(R.color.dark_red),
                 contentColor = Color.Black
             ),
             contentPadding = PaddingValues(0.dp)
         ) {
-            Text(
-                "i",
-                style = TextStyle(
-                    fontWeight = FontWeight.Normal,
-                    fontSize = 26.sp,
-                    fontFamily = inriaFont()
-                ),
-                textAlign = TextAlign.Center,
-                color = colorResource(R.color.dark_red)
-            )
+            Icon(painterResource(R.drawable.monument),
+                contentDescription = "Monument",
+                tint = colorResource(R.color.white),
+                modifier = Modifier.padding(8.dp))
         }
         Box(
             modifier = Modifier.weight(1f)
@@ -346,7 +354,8 @@ fun Header(
                 modifier = Modifier.padding(start = 8.dp)
                     .aspectRatio(1f),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFF0F0F0),
+                    //containerColor = Color(0xFFF0F0F0),
+                    containerColor = colorResource(R.color.dark_red),
                     contentColor = Color.Black
                 ),
                 contentPadding = PaddingValues(0.dp)
@@ -354,7 +363,7 @@ fun Header(
                 Icon(
                     Icons.Default.KeyboardArrowDown,
                     contentDescription = null,
-                    tint = colorResource(R.color.dark_red)
+                    tint = colorResource(R.color.white)
                 )
             }
             DropDownMenu(expanded = expanded, viewModel = viewModel, onDismiss = { onDismiss() })

@@ -19,3 +19,16 @@ val imagesList = listOf(
     Image(id = 8, res = R.drawable.img9),
     Image(id = 9, res = R.drawable.img10)
     )
+
+data class News(
+    val id: Int,
+    val icon: Int,
+    val text: String,
+    val annotation: String
+)
+
+val newsList = listOf(
+    News(id = 0, icon = R.drawable.tochka_news, text = "Tochka.by", annotation = "https://tochka.by/articles/life/muzey_pod_otkrytym_nebom_chem_vas_mozhet_udivit_voennoe_kladbishche/"),
+    News(id = 1, icon = R.drawable.sb_by_news, text = "SB.by", annotation = "https://news.sb.by/articles/na-karte-minska-poyavilas-eshche-odna-tsifrovaya-zvezda-pamyatnuyu-tablichku-ustanovili-na-voennom-k.html"),
+    News(id = 2, icon = R.drawable.minsk_news, text = "Minsknews.by", annotation = "https://minsknews.by/lyudi-zhivy-do-teh-por-poka-o-nih-pomnyat-istoriya-voennogo-kladbishha-v-minske/"),
+)
