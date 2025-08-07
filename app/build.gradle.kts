@@ -71,4 +71,7 @@ dependencies {
     implementation("com.yandex.android:maps.mobile:4.19.0-lite")
     implementation("androidx.appcompat:appcompat:1.7.1")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.33.2-alpha")
+    implementation("com.google.accompanist:accompanist-pager:0.34.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.34.0")
+    implementation("com.airbnb.android:lottie-compose:6.6.7")
 }

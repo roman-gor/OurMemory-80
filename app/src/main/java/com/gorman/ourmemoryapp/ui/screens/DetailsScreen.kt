@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -43,6 +45,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.google.accompanist.flowlayout.FlowRow
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.viewModel.DetailsViewModel
@@ -76,10 +83,20 @@ fun DetailsScreen(id: String, navigateToMainScreen: (String) -> Unit)
             }
             is VeteranUiState.Success -> {
                 detailsViewModel.loadRewards(state.veterans.first())
-                DetailsContent(
-                    veteran = state.veterans.first(),
-                    viewModel = detailsViewModel
-                )
+                val pagerState = rememberPagerState(pageCount = {
+                    2
+                })
+                HorizontalPager(state = pagerState) { page ->
+                    when(page){
+                        0 -> DetailsContent(
+                            veteran = state.veterans.first(),
+                            viewModel = detailsViewModel
+                        )
+                        1 -> ExtraContent(
+                            veteran = state.veterans.first()
+                        )
+                    }
+                }
             }
         }
     }
@@ -116,7 +133,7 @@ fun DetailsContent(veteran: Veteran, viewModel: DetailsViewModel)
                         .padding(end = 16.dp, start = 8.dp, top = 8.dp, bottom = 16.dp),
                     shape = RoundedCornerShape(8.dp),
                     elevation = CardDefaults.cardElevation(4.dp),
-                    colors = CardDefaults.cardColors(containerColor = colorResource(R.color.red))
+                    colors = CardDefaults.cardColors(containerColor = colorResource(R.color.dark_red))
                 ){
                     Column {
                         Text(text = veteran.name,
@@ -191,8 +208,38 @@ fun DetailsContent(veteran: Veteran, viewModel: DetailsViewModel)
                 textAlign = TextAlign.Justify
             )
         }
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            SwipeAnimation()
+        }
     }
+    RewardsDisplay(showDialog = showDialog, selectedReward = selectedReward, onDismiss = {showDialog = false})
+}
 
+@Composable
+fun SwipeAnimation(){
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec.Asset("swipe_left.json")
+    )
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever
+    )
+    LottieAnimation(
+        composition = composition,
+        progress = {progress},
+        modifier = Modifier
+            .size(250.dp)
+            .padding(bottom = 16.dp)
+    )
+}
+
+@Composable
+fun RewardsDisplay(showDialog: Boolean, selectedReward: Int, onDismiss: () -> Unit){
     if(showDialog)
     {
         val rewardRes = when(selectedReward){
@@ -220,7 +267,7 @@ fun DetailsContent(veteran: Veteran, viewModel: DetailsViewModel)
             else -> "Орден Красной Звезды"
         }
         AlertDialog(
-            onDismissRequest = {showDialog = false},
+            onDismissRequest = {onDismiss()},
             confirmButton = {},
             modifier = Modifier,
             text = {
@@ -244,5 +291,42 @@ fun DetailsContent(veteran: Veteran, viewModel: DetailsViewModel)
                 }
             }
         )
+    }
+}
+
+@Composable
+fun ExtraContent(veteran: Veteran){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(16.dp)
+    ) {
+        Text(
+            text = "Дополнительные материалы",
+            fontFamily = mulishFont(),
+            fontWeight = FontWeight.Bold,
+            fontSize = 18.sp,
+            color = colorResource(R.color.red)
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Пример: отображение военного листа
+        Text(
+            text = "Военный лист: не указано",
+            fontSize = 14.sp,
+            fontFamily = mulishFont()
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // Пример: аудиоэкскурсия (заглушка)
+        Text(
+            text = "Аудиоэкскурсия",
+            fontSize = 14.sp,
+            fontFamily = mulishFont()
+        )
+        // Здесь можно вставить плеер, если есть ссылка
     }
 }

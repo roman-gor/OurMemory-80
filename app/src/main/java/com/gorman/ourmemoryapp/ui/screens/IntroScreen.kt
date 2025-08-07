@@ -72,7 +72,7 @@ fun Content(onStartClick: () -> Unit){
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.3f))
+            .background(Color.Black.copy(alpha = 0.5f))
     )
     Column(
         modifier = Modifier
@@ -87,7 +87,7 @@ fun Content(onStartClick: () -> Unit){
                 fontSize = 38.sp,
                 color = colorResource(R.color.white),
                 fontWeight = FontWeight.Bold,
-                letterSpacing = 2.sp
+                letterSpacing = 4.sp
             ))
         Spacer(Modifier.height(60.dp))
         Text(text = stringResource(R.string.slogan),
