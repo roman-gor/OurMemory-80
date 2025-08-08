@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -79,21 +80,27 @@ fun DetailsScreen(id: String, navigateToMainScreen: (String) -> Unit)
                 Text("Error occurred")
             }
             is VeteranUiState.Loading -> {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center),
+                    color = colorResource(R.color.dark_red))
             }
             is VeteranUiState.Success -> {
-                detailsViewModel.loadRewards(state.veterans.first())
+                val veteran = state.veterans.first()
+                detailsViewModel.loadRewards(veteran)
+                detailsViewModel.loadAdditionalInfo(veteran)
                 val pagerState = rememberPagerState(pageCount = {
-                    2
+                    3
                 })
                 HorizontalPager(state = pagerState) { page ->
                     when(page){
                         0 -> DetailsContent(
-                            veteran = state.veterans.first(),
+                            veteran = veteran,
                             viewModel = detailsViewModel
                         )
-                        1 -> ExtraContent(
-                            veteran = state.veterans.first()
+                        1 -> TextContent(
+                            viewModel = detailsViewModel
+                        )
+                        2 -> DocContent(
+                            viewModel = detailsViewModel
                         )
                     }
                 }
@@ -103,8 +110,7 @@ fun DetailsScreen(id: String, navigateToMainScreen: (String) -> Unit)
 }
 
 @Composable
-fun DetailsContent(veteran: Veteran, viewModel: DetailsViewModel)
-{
+fun DetailsContent(veteran: Veteran, viewModel: DetailsViewModel) {
     var showDialog by remember { mutableStateOf(false) }
     var selectedReward by remember { mutableIntStateOf(0) }
     Column (
@@ -168,6 +174,8 @@ fun DetailsContent(veteran: Veteran, viewModel: DetailsViewModel)
                             7 -> R.drawable.za_pobedu_germany
                             8 -> R.drawable.otech_war
                             9 -> R.drawable.red_star
+                            10 -> R.drawable.orden_znak_pocheta
+                            11 -> R.drawable.za_otvagu
                             else -> R.drawable.red_star
                         }
                         Image(
@@ -252,6 +260,8 @@ fun RewardsDisplay(showDialog: Boolean, selectedReward: Int, onDismiss: () -> Un
             7 -> R.drawable.za_pobedu_germany
             8 -> R.drawable.otech_war
             9 -> R.drawable.red_star
+            10 -> R.drawable.orden_znak_pocheta
+            11 -> R.drawable.za_otvagu
             else -> R.drawable.red_star
         }
         val rewardName = when(selectedReward){
@@ -264,12 +274,13 @@ fun RewardsDisplay(showDialog: Boolean, selectedReward: Int, onDismiss: () -> Un
             7 -> "Медаль \"За победу над Германией в ВОВ 1941-1045 гг.\""
             8 -> "Орден Отечественной войны"
             9 -> "Орден Красной Звезды"
+            10 -> "Орден \"Знак Почета\""
+            11 -> "Медаль \"За отвагу\""
             else -> "Орден Красной Звезды"
         }
         AlertDialog(
             onDismissRequest = {onDismiss()},
             confirmButton = {},
-            modifier = Modifier,
             text = {
                 Column (
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -289,44 +300,130 @@ fun RewardsDisplay(showDialog: Boolean, selectedReward: Int, onDismiss: () -> Un
                         textAlign = TextAlign.Center
                     )
                 }
-            }
+            },
+            containerColor = colorResource(R.color.dark_white)
         )
     }
 }
 
 @Composable
-fun ExtraContent(veteran: Veteran){
+fun TextContent(viewModel: DetailsViewModel) {
+    val infoText by viewModel.additionalText
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(16.dp)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = stringResource(R.string.biography),
+            style = TextStyle(
+                fontFamily = mulishFont(),
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                color = colorResource(R.color.dark_red)
+            ))
+        if (infoText.isNotEmpty()){
+            TextItem(infoText.first())
+        }
+    }
+}
+
+@Composable
+fun TextItem(infoText: String){
+    Card (
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 16.dp, bottom = 16.dp),
+        shape = RoundedCornerShape(16.dp),
+        elevation = CardDefaults.cardElevation(2.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF0F0F0))
+    ){
+        Text(text = infoText,
+            style = TextStyle(
+                fontWeight = FontWeight.Normal,
+                color = Color.Black,
+                fontSize = 16.sp,
+                fontFamily = mulishFont()),
+            modifier = Modifier
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp)
+                .verticalScroll(rememberScrollState()),
+            textAlign = TextAlign.Justify
+        )
+    }
+}
+
+@Composable
+fun DocContent(viewModel: DetailsViewModel){
+    val infoRes by viewModel.additionalRes
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Дополнительные материалы",
-            fontFamily = mulishFont(),
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp,
-            color = colorResource(R.color.red)
+            text = stringResource(R.string.docs),
+            style = TextStyle(
+                fontFamily = mulishFont(),
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                color = colorResource(R.color.dark_red)
+            )
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Пример: отображение военного листа
-        Text(
-            text = "Военный лист: не указано",
-            fontSize = 14.sp,
-            fontFamily = mulishFont()
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        // Пример: аудиоэкскурсия (заглушка)
+        if (infoRes.isNotEmpty()) {
+            val pagerResState = rememberPagerState(pageCount = {
+                infoRes.size
+            })
+            HorizontalPager(state = pagerResState,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(500.dp),
+                verticalAlignment = Alignment.CenterVertically) { page ->
+                val entry = infoRes.entries.elementAt(page)
+                val url = entry.key
+                val describe = entry.value
+                ResImageItem(url = url, describe = describe)
+            }
+        }
+        Spacer(Modifier.height(20.dp))
         Text(
             text = "Аудиоэкскурсия",
-            fontSize = 14.sp,
-            fontFamily = mulishFont()
+            style = TextStyle(
+                fontFamily = mulishFont(),
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+                color = colorResource(R.color.dark_red)
+            )
         )
-        // Здесь можно вставить плеер, если есть ссылка
+    }
+}
+
+@Composable
+fun ResImageItem(url: String, describe: String){
+    Column (
+        modifier = Modifier.fillMaxWidth()
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Image(painter = rememberAsyncImagePainter(
+            model = url,
+            placeholder = painterResource(R.drawable.image_info_placeholder)),
+            contentDescription = describe,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                .clip(RoundedCornerShape(8.dp)),
+            contentScale = ContentScale.FillWidth)
+        if (describe.isNotEmpty()){
+            Text(text = describe,
+                style = TextStyle(
+                    fontFamily = mulishFont(),
+                    fontSize = 16.sp,
+                    color = colorResource(R.color.dark_red),
+                    fontWeight = FontWeight.Normal
+                ),
+                modifier = Modifier.padding(top = 4.dp))
+        }
     }
 }

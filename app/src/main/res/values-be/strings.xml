@@ -31,8 +31,12 @@
     <string name="locationHeader">Размяшчэнне</string>
     <string name="chooseCategory">Выберыце катэгорыю</string>
     <string name="search">Пошук</string>
+    <string name="biography">Бiяграфiя</string>
+    <string name="docs">Дакументы i фатаздымкi</string>
     <string name="heroUSSR">Героі Савецкага Саюза</string>
     <string name="art">Творчасць</string>
-    <string name="slogan">В память о тех, кто подарил нам мирное небо</string>
-    <string name="idea">Узнавайте биографию великих людей, изучайте их историю с помощью аудио-экскурсии и дополнений из творчества и жизни</string>
+    <string name="slogan">У памяць аб тых, хто падарыў нам мірнае неба і праславіў беларускую творчасць</string>
+    <string name="idea">Пазнавайце біяграфіі, слухайце аудиоэкскурсии, вывучайце творчасць вялікіх людзей!</string>
+    <string name="expand">Разгарнуць</string>
+    <string name="rollup">Згарнуць</string>
 </resources>

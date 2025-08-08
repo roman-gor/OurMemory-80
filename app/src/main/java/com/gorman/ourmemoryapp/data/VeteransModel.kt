@@ -8,7 +8,8 @@ data class Veteran(
     val allInfo: String = "",
     val years: String= "",
     val category: String = "",
-    val rewards: String = ""
+    val rewards: String = "",
+    val veteransInfo: List<String> = emptyList()
 )
 
 sealed class VeteranUiState {

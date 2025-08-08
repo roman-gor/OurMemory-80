@@ -240,6 +240,23 @@ fun TextHead(text: Int){
 }
 
 @Composable
+fun TextHead(text: String){
+    Text(
+        text = text,
+        style = TextStyle(
+            fontFamily = mulishFont(),
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 16.sp,
+            letterSpacing = 0.3.sp,
+            color = colorResource(R.color.dark_red)
+        ),
+        modifier = Modifier
+            .padding(start = 16.dp, top = 16.dp, end = 16.dp)
+            .fillMaxWidth()
+    )
+}
+
+@Composable
 fun Header(navigateToBack: () -> Unit, onChangeLangClick: (String) -> Unit){
     val locale: Locale = LocalConfiguration.current.locales[0]
     Row (

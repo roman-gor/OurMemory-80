@@ -30,9 +30,12 @@
     <string name="locationHeader">Расположение</string>
     <string name="chooseCategory">Выберите категорию</string>
     <string name="search">Поиск</string>
+    <string name="biography">Биография</string>
+    <string name="docs">Документы и фотографии</string>
     <string name="heroUSSR">Герои Советского Союза</string>
     <string name="art">Творчество</string>
     <string name="slogan">В память о тех, кто подарил нам мирное небо и прославил белорусское творчество</string>
-    <string name="idea">Узнавайте биографии, слушайте аудиоэкскурсии, изучайте творчество великих людей</string>
-
+    <string name="idea">Узнавайте биографии, слушайте аудиоэкскурсии, изучайте творчество великих людей!</string>
+    <string name="expand">Развернуть</string>
+    <string name="rollup">Свернуть</string>
 </resources>
