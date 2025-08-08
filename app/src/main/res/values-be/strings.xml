@@ -39,4 +39,16 @@
     <string name="idea">Пазнавайце біяграфіі, слухайце аудиоэкскурсии, вывучайце творчасць вялікіх людзей!</string>
     <string name="expand">Разгарнуць</string>
     <string name="rollup">Згарнуць</string>
+    <string name="red_znamya">Орден Красного Знамени</string>
+    <string name="suvorov_1">Орден Суворова I степени</string>
+    <string name="suvorov_2">Орден Суворова II степен</string>
+    <string name="lenin">Орден Ленина</string>
+    <string name="geroj_sssr">Герой Советского Союза</string>
+    <string name="partizan">Медаль "Партизану Великой Отечественной войны" II степени</string>
+    <string name="za_pobedu_germany">Медаль "За победу над Германией в ВОВ 1941–1045 гг."</string>
+    <string name="otech_war">Орден Отечественной войны</string>
+    <string name="red_star">Орден Красной Звезды</string>
+    <string name="orden_znak_pocheta">Орден "Знак Почета"</string>
+    <string name="za_otvagu">Медаль "За отвагу"</string>
+    <string name="narodny_artist">Медаль "За отвагу"</string>
 </resources>

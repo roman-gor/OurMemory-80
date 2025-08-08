@@ -3,8 +3,10 @@ package com.gorman.ourmemoryapp.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
@@ -14,15 +16,22 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Divider
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -96,7 +105,7 @@ fun DetailsScreen(id: String, navigateToMainScreen: (String) -> Unit)
                             veteran = veteran,
                             viewModel = detailsViewModel
                         )
-                        1 -> TextContent(
+                        1 -> BioContent(
                             viewModel = detailsViewModel
                         )
                         2 -> DocContent(
@@ -176,6 +185,7 @@ fun DetailsContent(veteran: Veteran, viewModel: DetailsViewModel) {
                             9 -> R.drawable.red_star
                             10 -> R.drawable.orden_znak_pocheta
                             11 -> R.drawable.za_otvagu
+                            12 -> R.drawable.narodny_artist
                             else -> R.drawable.red_star
                         }
                         Image(
@@ -262,21 +272,23 @@ fun RewardsDisplay(showDialog: Boolean, selectedReward: Int, onDismiss: () -> Un
             9 -> R.drawable.red_star
             10 -> R.drawable.orden_znak_pocheta
             11 -> R.drawable.za_otvagu
+            12 -> R.drawable.narodny_artist
             else -> R.drawable.red_star
         }
         val rewardName = when(selectedReward){
-            1 -> "Орден Красного Знамени"
-            2 -> "Орден Суворова I степени"
-            3 -> "Орден Суворова II степени"
-            4 -> "Орден Ленина"
-            5 -> "Герой Советского Союза"
-            6 -> "Медаль \"Партизану Великой Отечественной войны\" II степени"
-            7 -> "Медаль \"За победу над Германией в ВОВ 1941-1045 гг.\""
-            8 -> "Орден Отечественной войны"
-            9 -> "Орден Красной Звезды"
-            10 -> "Орден \"Знак Почета\""
-            11 -> "Медаль \"За отвагу\""
-            else -> "Орден Красной Звезды"
+            1 -> R.string.red_znamya
+            2 -> R.string.suvorov_1
+            3 -> R.string.suvorov_1
+            4 -> R.string.lenin
+            5 -> R.string.geroj_sssr
+            6 -> R.string.partizan
+            7 -> R.string.za_pobedu_germany
+            8 -> R.string.otech_war
+            9 -> R.string.red_star
+            10 -> R.string.orden_znak_pocheta
+            11 -> R.string.za_otvagu
+            12 -> R.string.narodny_artist
+            else -> R.string.red_star
         }
         AlertDialog(
             onDismissRequest = {onDismiss()},
@@ -287,9 +299,10 @@ fun RewardsDisplay(showDialog: Boolean, selectedReward: Int, onDismiss: () -> Un
                 ){
                     Image(painterResource(rewardRes),
                         contentDescription = null,
-                        modifier = Modifier.size(320.dp)
+                        modifier = Modifier
+                            .size(320.dp)
                             .padding(8.dp))
-                    Text(text = rewardName,
+                    Text(text = stringResource(rewardName),
                         modifier = Modifier.padding(top = 8.dp),
                         style = TextStyle(
                             color = colorResource(R.color.red),
@@ -307,9 +320,8 @@ fun RewardsDisplay(showDialog: Boolean, selectedReward: Int, onDismiss: () -> Un
 }
 
 @Composable
-fun TextContent(viewModel: DetailsViewModel) {
+fun BioContent(viewModel: DetailsViewModel) {
     val infoText by viewModel.additionalText
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -334,7 +346,7 @@ fun TextItem(infoText: String){
     Card (
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 16.dp, bottom = 16.dp),
+            .padding(top = 16.dp, bottom = 26.dp),
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(2.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFF0F0F0))
@@ -356,6 +368,7 @@ fun TextItem(infoText: String){
 @Composable
 fun DocContent(viewModel: DetailsViewModel){
     val infoRes by viewModel.additionalRes
+    var isPlaying by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -378,7 +391,7 @@ fun DocContent(viewModel: DetailsViewModel){
             HorizontalPager(state = pagerResState,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(500.dp),
+                    .height(400.dp),
                 verticalAlignment = Alignment.CenterVertically) { page ->
                 val entry = infoRes.entries.elementAt(page)
                 val url = entry.key
@@ -386,23 +399,71 @@ fun DocContent(viewModel: DetailsViewModel){
                 ResImageItem(url = url, describe = describe)
             }
         }
-        Spacer(Modifier.height(20.dp))
-        Text(
-            text = "Аудиоэкскурсия",
-            style = TextStyle(
-                fontFamily = mulishFont(),
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                color = colorResource(R.color.dark_red)
-            )
+        Spacer(Modifier.height(8.dp))
+        Divider(modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
+            color = colorResource(R.color.dark_white))
+        Spacer(Modifier.height(12.dp))
+        AudioTrack(isPlaying = isPlaying) { isPlaying = !isPlaying }
+    }
+}
+
+@Composable
+fun AudioTrack(isPlaying: Boolean, onPlay: () -> Unit){
+    Text(
+        text = "Аудиоэкскурсия",
+        style = TextStyle(
+            fontFamily = mulishFont(),
+            fontWeight = FontWeight.Bold,
+            fontSize = 20.sp,
+            color = colorResource(R.color.dark_red)
         )
+    )
+    Card (
+        modifier = Modifier.fillMaxWidth().padding(top = 32.dp, start = 32.dp, end = 32.dp),
+        shape = RoundedCornerShape(12.dp),
+        elevation = CardDefaults.cardElevation(4.dp),
+        colors = CardDefaults.cardColors(containerColor = colorResource(R.color.dark_white))
+    ){
+        Row (
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ){
+            Button(onClick = { onPlay() },
+                modifier = Modifier.size(40.dp),
+                contentPadding = PaddingValues(0.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = colorResource(R.color.dark_red),
+                    contentColor = colorResource(R.color.white)
+                )) {
+                if (!isPlaying) {
+                    Icon(Icons.Default.PlayArrow,
+                        contentDescription = "Play",
+                        modifier = Modifier.size(24.dp),
+                        tint = colorResource(R.color.white))
+                }
+                else {
+                    Icon(painterResource(R.drawable.pause),
+                        contentDescription = "Play",
+                        modifier = Modifier.size(24.dp),
+                        tint = colorResource(R.color.white))
+                }
+            }
+            Spacer(Modifier.width(16.dp))
+            Text("Биография",
+                style = TextStyle(
+                    fontFamily = mulishFont(),
+                    color = colorResource(R.color.black)
+                )
+            )
+        }
     }
 }
 
 @Composable
 fun ResImageItem(url: String, describe: String){
     Column (
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ){
@@ -412,9 +473,10 @@ fun ResImageItem(url: String, describe: String){
             contentDescription = describe,
             modifier = Modifier
                 .fillMaxWidth()
+                .aspectRatio(1f)
                 .padding(top = 16.dp, start = 16.dp, end = 16.dp)
                 .clip(RoundedCornerShape(8.dp)),
-            contentScale = ContentScale.FillWidth)
+            contentScale = ContentScale.Crop)
         if (describe.isNotEmpty()){
             Text(text = describe,
                 style = TextStyle(
@@ -423,7 +485,8 @@ fun ResImageItem(url: String, describe: String){
                     color = colorResource(R.color.dark_red),
                     fontWeight = FontWeight.Normal
                 ),
-                modifier = Modifier.padding(top = 4.dp))
+                modifier = Modifier.padding(top = 4.dp),
+                textAlign = TextAlign.Center)
         }
     }
 }
