@@ -1,5 +1,7 @@
 package com.gorman.ourmemoryapp.ui.screens
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -35,10 +37,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,10 +66,12 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.google.accompanist.flowlayout.FlowRow
 import com.gorman.ourmemoryapp.R
+import com.gorman.ourmemoryapp.data.RetrofitClient
 import com.gorman.ourmemoryapp.viewModel.DetailsViewModel
 import com.gorman.ourmemoryapp.ui.fonts.mulishFont
 import com.gorman.ourmemoryapp.data.Veteran
 import com.gorman.ourmemoryapp.data.VeteranUiState
+import kotlinx.coroutines.launch
 
 @Composable
 fun DetailsScreen(id: String, navigateToMainScreen: (String) -> Unit)
@@ -96,6 +102,7 @@ fun DetailsScreen(id: String, navigateToMainScreen: (String) -> Unit)
                 val veteran = state.veterans.first()
                 detailsViewModel.loadRewards(veteran)
                 detailsViewModel.loadAdditionalInfo(veteran)
+
                 val pagerState = rememberPagerState(pageCount = {
                     3
                 })
@@ -368,7 +375,13 @@ fun TextItem(infoText: String){
 @Composable
 fun DocContent(viewModel: DetailsViewModel){
     val infoRes by viewModel.additionalRes
+    val directedUrls by viewModel.directUrls
     var isPlaying by remember { mutableStateOf(false) }
+    val pagerResState = rememberPagerState(pageCount = { directedUrls.size })
+    LaunchedEffect(infoRes) {
+        viewModel.loadDirectedUrl(infoRes)
+    }
+    Log.e("YANDEX_DISK", "$directedUrls")
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -385,15 +398,12 @@ fun DocContent(viewModel: DetailsViewModel){
             )
         )
         if (infoRes.isNotEmpty()) {
-            val pagerResState = rememberPagerState(pageCount = {
-                infoRes.size
-            })
             HorizontalPager(state = pagerResState,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(400.dp),
+                    .height(450.dp),
                 verticalAlignment = Alignment.CenterVertically) { page ->
-                val entry = infoRes.entries.elementAt(page)
+                val entry = directedUrls.entries.elementAt(page)
                 val url = entry.key
                 val describe = entry.value
                 ResImageItem(url = url, describe = describe)

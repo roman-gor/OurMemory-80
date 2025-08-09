@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gorman.ourmemoryapp.data.FirebaseDB
+import com.gorman.ourmemoryapp.data.RetrofitClient
 import com.gorman.ourmemoryapp.data.Veteran
 import com.gorman.ourmemoryapp.data.VeteranUiState
 import kotlinx.coroutines.launch
@@ -22,8 +23,10 @@ class DetailsViewModel: ViewModel() {
     private val _additionalInfoState = mutableStateOf<List<String>>(emptyList())
     private val _additionalText = mutableStateOf<List<String>>(emptyList())
     val additionalText: State<List<String>> = _additionalText
-    private val _additionalRes = mutableStateOf(mutableMapOf<String, String>())
-    val additionalRes: State<MutableMap<String, String>> = _additionalRes
+    private val _additionalRes = mutableStateOf<Map<String, String>>(emptyMap())
+    val additionalRes: State<Map<String, String>> = _additionalRes
+    private val _directUrls = mutableStateOf<Map<String, String>>(emptyMap())
+    val directUrls: State<Map<String, String>> = _directUrls
 
     fun loadVeteranById(id: String)
     {
@@ -73,5 +76,26 @@ class DetailsViewModel: ViewModel() {
         }
         _additionalText.value = newText
         _additionalRes.value = newMap
+    }
+
+    fun loadDirectedUrl(urls: Map<String, String>){
+        viewModelScope.launch {
+            val loadedUrls = mutableMapOf<String, String>()
+            urls.forEach {
+                if (it.key.contains("yandex")){
+                    try {
+                        val response = RetrofitClient.create().getHrefFromLink(publicKey = it.key)
+                        loadedUrls[response.href] = it.value
+                    }catch (e: Exception)
+                    {
+                        e.message
+                    }
+                }
+                else{
+                    loadedUrls[it.key] = it.value
+                }
+            }
+            _directUrls.value = loadedUrls
+        }
     }
 }
