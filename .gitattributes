@@ -1,0 +1,3 @@
+*.kt linguist-language=Kotlin
+*.xml linguist-language=Kotlin
+*.gradle linguist-language=Kotlin

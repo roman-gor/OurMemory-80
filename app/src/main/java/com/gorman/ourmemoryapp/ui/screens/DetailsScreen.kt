@@ -1,11 +1,9 @@
 package com.gorman.ourmemoryapp.ui.screens
 
-import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,7 +22,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Divider
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.AlertDialog
@@ -33,16 +30,16 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -66,12 +63,10 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.google.accompanist.flowlayout.FlowRow
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.data.RetrofitClient
 import com.gorman.ourmemoryapp.viewModel.DetailsViewModel
 import com.gorman.ourmemoryapp.ui.fonts.mulishFont
 import com.gorman.ourmemoryapp.data.Veteran
 import com.gorman.ourmemoryapp.data.VeteranUiState
-import kotlinx.coroutines.launch
 
 @Composable
 fun DetailsScreen(id: String, navigateToMainScreen: (String) -> Unit)
@@ -214,32 +209,38 @@ fun DetailsContent(veteran: Veteran, viewModel: DetailsViewModel) {
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Card (
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-            shape = RoundedCornerShape(16.dp),
-            elevation = CardDefaults.cardElevation(2.dp),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFFF0F0F0))
+        Column (
+            modifier = Modifier.fillMaxSize()
         ){
-            Text(text = veteran.allInfo,
-                color = Color.Black,
-                fontSize = 14.sp,
-                fontFamily = mulishFont(),
-                style = TextStyle(fontWeight = FontWeight.Normal),
+            Card (
                 modifier = Modifier
-                    .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp)
-                    .verticalScroll(rememberScrollState()),
-                textAlign = TextAlign.Justify
-            )
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            SwipeAnimation()
+                    .fillMaxWidth()
+                    .weight(3.7f)
+                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+                shape = RoundedCornerShape(16.dp),
+                elevation = CardDefaults.cardElevation(2.dp),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFF0F0F0))
+            ){
+                Text(text = veteran.allInfo,
+                    color = Color.Black,
+                    fontSize = 14.sp,
+                    fontFamily = mulishFont(),
+                    style = TextStyle(fontWeight = FontWeight.Normal),
+                    modifier = Modifier
+                        .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp)
+                        .verticalScroll(rememberScrollState()),
+                    textAlign = TextAlign.Justify
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(2.3f)
+                    .padding(bottom = 8.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                SwipeAnimation()
+            }
         }
     }
     RewardsDisplay(showDialog = showDialog, selectedReward = selectedReward, onDismiss = {showDialog = false})
@@ -410,8 +411,10 @@ fun DocContent(viewModel: DetailsViewModel){
             }
         }
         Spacer(Modifier.height(8.dp))
-        Divider(modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
-            color = colorResource(R.color.dark_white))
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
+            thickness = DividerDefaults.Thickness, color = colorResource(R.color.dark_white)
+        )
         Spacer(Modifier.height(12.dp))
         AudioTrack(isPlaying = isPlaying) { isPlaying = !isPlaying }
     }
