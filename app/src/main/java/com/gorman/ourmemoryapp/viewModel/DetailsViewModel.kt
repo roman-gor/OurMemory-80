@@ -5,21 +5,24 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gorman.ourmemoryapp.data.FirebaseDB
-import com.gorman.ourmemoryapp.data.RetrofitClient
 import com.gorman.ourmemoryapp.data.Veteran
 import com.gorman.ourmemoryapp.data.VeteranUiState
+import com.gorman.ourmemoryapp.data.VeteransRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.collections.listOf
 
+@HiltViewModel
 @SuppressLint("MutableCollectionMutableState")
-class DetailsViewModel: ViewModel() {
+class DetailsViewModel @Inject constructor(
+    private val _repository: VeteransRepository
+): ViewModel() {
 
     private val _veteranState = mutableStateOf<VeteranUiState>(VeteranUiState.Loading)
     val veteranState: State<VeteranUiState> = _veteranState
     private val _rewardsState = mutableStateOf<List<Int>>(emptyList())
     val rewardsState: State<List<Int>> = _rewardsState
-    private val _repository: FirebaseDB = FirebaseDB()
     private val _additionalInfoState = mutableStateOf<List<String>>(emptyList())
     private val _additionalText = mutableStateOf<List<String>>(emptyList())
     val additionalText: State<List<String>> = _additionalText
@@ -84,7 +87,7 @@ class DetailsViewModel: ViewModel() {
             urls.forEach {
                 if (it.key.contains("yandex")){
                     try {
-                        val response = RetrofitClient.create().getHrefFromLink(publicKey = it.key)
+                        val response = _repository.getHrefFromLink(publicKey = it.key)
                         loadedUrls[response.href] = it.value
                     }catch (e: Exception)
                     {

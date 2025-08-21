@@ -3,7 +3,9 @@ package com.gorman.ourmemoryapp
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.yandex.mapkit.MapKitFactory
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class MyApp: Application() {
     override fun onCreate() {
         super.onCreate()

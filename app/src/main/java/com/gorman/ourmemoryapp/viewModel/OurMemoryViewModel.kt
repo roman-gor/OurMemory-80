@@ -8,14 +8,19 @@ import androidx.lifecycle.viewModelScope
 import com.gorman.ourmemoryapp.data.FirebaseDB
 import com.gorman.ourmemoryapp.data.Veteran
 import com.gorman.ourmemoryapp.data.VeteranUiState
+import com.gorman.ourmemoryapp.data.VeteransRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.io.IOException
+import javax.inject.Inject
 
-class OurMemoryViewModel: ViewModel() {
+@HiltViewModel
+class OurMemoryViewModel @Inject constructor(
+    private val _repository: VeteransRepository
+) : ViewModel() {
 
     private val _veteranState = mutableStateOf<VeteranUiState>(VeteranUiState.Loading)
     val veteranState: State<VeteranUiState> = _veteranState
-
-    private val _repository: FirebaseDB = FirebaseDB()
 
     private val _searchState = mutableStateOf("")
     val searchState: State<String> = _searchState
@@ -66,8 +71,10 @@ class OurMemoryViewModel: ViewModel() {
             try {
                 _veteransList.value = _repository.getAllVeterans()
                 _veteranState.value = VeteranUiState.Success(_veteransList.value)
-            }catch (e: Exception){
-                _veteranState.value = VeteranUiState.Error(e.localizedMessage ?: "Unknown error")
+            }catch (e: IOException) {
+                _veteranState.value = VeteranUiState.Error("Нет подключения к интернету")
+            } catch (e: Exception) {
+                _veteranState.value = VeteranUiState.Error("Что-то пошло не так")
             }
         }
     }

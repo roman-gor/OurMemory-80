@@ -51,18 +51,18 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import com.gorman.ourmemoryapp.ui.fonts.mulishFont
 import com.gorman.ourmemoryapp.viewModel.OurMemoryViewModel
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.data.Veteran
 import com.gorman.ourmemoryapp.data.VeteranUiState
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun MainScreen(onItemClick: (String) -> Unit, navigateToInfoScreen: () -> Unit)
 {
-    val ourMemoryViewModel: OurMemoryViewModel = viewModel()
+    val ourMemoryViewModel: OurMemoryViewModel = hiltViewModel()
     val veteranState = ourMemoryViewModel.veteranState
 
     Box(
@@ -75,7 +75,11 @@ fun MainScreen(onItemClick: (String) -> Unit, navigateToInfoScreen: () -> Unit)
         when(veteranState.value)
         {
             is VeteranUiState.Error -> {
-                Text("Error occurred!")
+                Column (modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center){
+                    Text("Error occurred!")
+                }
             }
             VeteranUiState.Loading -> {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center),

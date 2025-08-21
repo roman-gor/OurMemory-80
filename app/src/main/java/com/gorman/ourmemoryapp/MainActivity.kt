@@ -10,7 +10,9 @@ import androidx.compose.ui.Modifier
 import java.util.Locale
 import androidx.core.app.ActivityCompat.recreate
 import com.gorman.ourmemoryapp.ui.theme.OurMemoryAppTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
