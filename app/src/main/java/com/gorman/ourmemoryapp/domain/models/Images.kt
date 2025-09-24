@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp.data
+package com.gorman.ourmemoryapp.domain.models
 
 import com.gorman.ourmemoryapp.R
 

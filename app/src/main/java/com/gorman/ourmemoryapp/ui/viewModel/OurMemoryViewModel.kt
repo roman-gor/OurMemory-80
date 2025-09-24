@@ -1,14 +1,13 @@
-package com.gorman.ourmemoryapp.viewModel
+package com.gorman.ourmemoryapp.ui.viewModel
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gorman.ourmemoryapp.data.FirebaseDB
-import com.gorman.ourmemoryapp.data.Veteran
-import com.gorman.ourmemoryapp.data.VeteranUiState
-import com.gorman.ourmemoryapp.data.VeteransRepository
+import com.gorman.ourmemoryapp.domain.models.Veteran
+import com.gorman.ourmemoryapp.domain.models.VeteranUiState
+import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -71,9 +70,9 @@ class OurMemoryViewModel @Inject constructor(
             try {
                 _veteransList.value = _repository.getAllVeterans()
                 _veteranState.value = VeteranUiState.Success(_veteransList.value)
-            }catch (e: IOException) {
+            }catch (_: IOException) {
                 _veteranState.value = VeteranUiState.Error("Нет подключения к интернету")
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 _veteranState.value = VeteranUiState.Error("Что-то пошло не так")
             }
         }

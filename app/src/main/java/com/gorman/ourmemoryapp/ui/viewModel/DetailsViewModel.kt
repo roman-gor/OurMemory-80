@@ -1,20 +1,18 @@
-package com.gorman.ourmemoryapp.viewModel
+package com.gorman.ourmemoryapp.ui.viewModel
 
-import android.annotation.SuppressLint
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gorman.ourmemoryapp.data.Veteran
-import com.gorman.ourmemoryapp.data.VeteranUiState
-import com.gorman.ourmemoryapp.data.VeteransRepository
+import com.gorman.ourmemoryapp.domain.models.Veteran
+import com.gorman.ourmemoryapp.domain.models.VeteranUiState
+import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.collections.listOf
 
 @HiltViewModel
-@SuppressLint("MutableCollectionMutableState")
 class DetailsViewModel @Inject constructor(
     private val _repository: VeteransRepository
 ): ViewModel() {
@@ -88,7 +86,9 @@ class DetailsViewModel @Inject constructor(
                 if (it.key.contains("yandex")){
                     try {
                         val response = _repository.getHrefFromLink(publicKey = it.key)
-                        loadedUrls[response.href] = it.value
+                        response.href?.let { href->
+                            loadedUrls[href] = it.value
+                        }
                     }catch (e: Exception)
                     {
                         e.message

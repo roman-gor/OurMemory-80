@@ -9,6 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import java.util.Locale
 import androidx.core.app.ActivityCompat.recreate
+import com.gorman.ourmemoryapp.ui.AppNavigation
 import com.gorman.ourmemoryapp.ui.theme.OurMemoryAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,8 +24,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavigation(onChangeLangClick = {
-                        locale -> updateLocale(locale)
+                    AppNavigation(onChangeLangClick = { locale ->
+                        updateLocale(locale)
                     })
                 }
             }

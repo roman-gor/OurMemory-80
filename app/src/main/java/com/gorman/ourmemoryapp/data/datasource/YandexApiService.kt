@@ -1,5 +1,6 @@
-package com.gorman.ourmemoryapp.data
+package com.gorman.ourmemoryapp.data.datasource
 
+import com.gorman.ourmemoryapp.data.models.YandexImageResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

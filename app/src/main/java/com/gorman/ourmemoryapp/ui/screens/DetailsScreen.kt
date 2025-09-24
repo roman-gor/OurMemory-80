@@ -55,7 +55,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -64,10 +63,10 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.google.accompanist.flowlayout.FlowRow
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.viewModel.DetailsViewModel
+import com.gorman.ourmemoryapp.ui.viewModel.DetailsViewModel
 import com.gorman.ourmemoryapp.ui.fonts.mulishFont
-import com.gorman.ourmemoryapp.data.Veteran
-import com.gorman.ourmemoryapp.data.VeteranUiState
+import com.gorman.ourmemoryapp.domain.models.Veteran
+import com.gorman.ourmemoryapp.domain.models.VeteranUiState
 
 @Composable
 fun DetailsScreen(id: String, navigateToMainScreen: (String) -> Unit)

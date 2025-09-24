@@ -1,13 +1,10 @@
-package com.gorman.ourmemoryapp
+package com.gorman.ourmemoryapp.ui
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.gorman.ourmemoryapp.data.Screen
+import com.gorman.ourmemoryapp.domain.models.Screen
 import com.gorman.ourmemoryapp.ui.screens.DetailsScreen
 import com.gorman.ourmemoryapp.ui.screens.InfoScreen
 import com.gorman.ourmemoryapp.ui.screens.IntroScreen
@@ -16,14 +13,6 @@ import com.gorman.ourmemoryapp.ui.screens.MainScreen
 @Composable
 fun AppNavigation(onChangeLangClick: (String) -> Unit)
 {
-    val systemUiController = rememberSystemUiController()
-
-    SideEffect {
-        systemUiController.setStatusBarColor(
-            color = Color.Red,
-            darkIcons = true
-        )
-    }
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.IntroScreen.route) {
         composable(Screen.HomeScreen.route){

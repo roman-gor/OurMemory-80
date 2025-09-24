@@ -53,10 +53,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.gorman.ourmemoryapp.ui.fonts.mulishFont
-import com.gorman.ourmemoryapp.viewModel.OurMemoryViewModel
+import com.gorman.ourmemoryapp.ui.viewModel.OurMemoryViewModel
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.data.Veteran
-import com.gorman.ourmemoryapp.data.VeteranUiState
+import com.gorman.ourmemoryapp.domain.models.Veteran
+import com.gorman.ourmemoryapp.domain.models.VeteranUiState
 import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
@@ -314,8 +314,6 @@ fun Header(
                 )
             },
             colors = OutlinedTextFieldDefaults.colors(
-//                focusedContainerColor = Color(0xFFF0F0F0),
-//                unfocusedContainerColor = Color(0xFFF0F0F0),
                 focusedContainerColor = colorResource(R.color.dark_red),
                 unfocusedContainerColor = colorResource(R.color.dark_red),
                 focusedBorderColor = Color.Transparent,

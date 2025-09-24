@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp.data
+package com.gorman.ourmemoryapp.data.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

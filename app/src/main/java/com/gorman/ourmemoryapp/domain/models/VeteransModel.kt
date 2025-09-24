@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp.data
+package com.gorman.ourmemoryapp.domain.models
 
 data class Veteran(
     val id: String = "",

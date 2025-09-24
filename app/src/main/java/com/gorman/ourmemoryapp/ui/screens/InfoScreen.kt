@@ -64,10 +64,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.data.Image
-import com.gorman.ourmemoryapp.data.News
-import com.gorman.ourmemoryapp.data.imagesList
-import com.gorman.ourmemoryapp.data.newsList
+import com.gorman.ourmemoryapp.domain.models.Image
+import com.gorman.ourmemoryapp.domain.models.News
+import com.gorman.ourmemoryapp.domain.models.imagesList
+import com.gorman.ourmemoryapp.domain.models.newsList
 import com.gorman.ourmemoryapp.ui.fonts.mulishFont
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
