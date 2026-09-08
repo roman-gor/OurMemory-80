@@ -402,6 +402,8 @@ fun TextItem(infoText: String) {
 fun DocContent(infoRes: Map<String, String>, directedUrls: Map<String, String>) {
     var isPlaying by remember { mutableStateOf(false) }
     val pagerResState = rememberPagerState(pageCount = { directedUrls.size })
+    val playbackState by viewModel.getPlaybackState().collectAsState(initial = null)
+    val isPlaying = playbackState?.isPlaying ?: false
 
     Log.e("YANDEX_DISK", "$directedUrls")
     Column(
@@ -440,64 +442,78 @@ fun DocContent(infoRes: Map<String, String>, directedUrls: Map<String, String>) 
             color = colorResource(R.color.dark_white)
         )
         Spacer(Modifier.height(12.dp))
-        AudioTrack(isPlaying = isPlaying) { isPlaying = !isPlaying }
+
+        AudioTrack(
+            viewModel = viewModel,
+            veteranId = veteranId,
+            isPlaying = isPlaying
+        )
     }
 }
 
 @Composable
-fun AudioTrack(isPlaying: Boolean, onPlay: () -> Unit) {
-    Text(
-        text = "Аудиоэкскурсия",
-        style = TextStyle(
-            fontFamily = mulishFont(),
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp,
-            color = colorResource(R.color.dark_red)
-        )
-    )
-    Card(
+fun AudioTrack(
+    viewModel: DetailsViewModel,
+    veteranId: String,
+    isPlaying: Boolean
+){
+    val audioList by viewModel.audioList
+    val audioTitle = if (audioList.isNotEmpty()) audioList.first().title else "Биография"
+
+
+    Card (
         modifier = Modifier.fillMaxWidth().padding(top = 32.dp, start = 32.dp, end = 32.dp),
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(containerColor = colorResource(R.color.dark_white))
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+    ){
+        Column(
+            modifier = Modifier.fillMaxWidth().padding(16.dp)
         ) {
-            Button(
-                onClick = { onPlay() },
-                modifier = Modifier.size(40.dp),
-                contentPadding = PaddingValues(0.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(R.color.dark_red),
-                    contentColor = colorResource(R.color.white)
-                )
-            ) {
-                if (!isPlaying) {
-                    Icon(
-                        painter = painterResource(R.drawable.play_arrow),
-                        contentDescription = "Play",
-                        modifier = Modifier.size(24.dp),
-                        tint = colorResource(R.color.white)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ){
+                Button(
+                    onClick = {
+                        if (isPlaying) {
+                            viewModel.pauseAudio()
+                        } else {
+                            viewModel.playFirstAudioForVeteran(veteranId)
+                        }
+                    },
+                    modifier = Modifier.size(40.dp),
+                    contentPadding = PaddingValues(0.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = colorResource(R.color.dark_red),
+                        contentColor = colorResource(R.color.white)
                     )
-                } else {
-                    Icon(
-                        painterResource(R.drawable.pause),
-                        contentDescription = "Play",
-                        modifier = Modifier.size(24.dp),
-                        tint = colorResource(R.color.white)
-                    )
+                ) {
+                    if (!isPlaying) {
+                        Icon(
+                            Icons.Default.PlayArrow,
+                            contentDescription = "Play",
+                            modifier = Modifier.size(24.dp),
+                            tint = colorResource(R.color.white)
+                        )
+                    } else {
+                        Icon(
+                            painterResource(R.drawable.pause),
+                            contentDescription = "Pause",
+                            modifier = Modifier.size(24.dp),
+                            tint = colorResource(R.color.white)
+                        )
+                    }
                 }
-            }
-            Spacer(Modifier.width(16.dp))
-            Text(
-                "Биография",
-                style = TextStyle(
-                    fontFamily = mulishFont(),
-                    color = colorResource(R.color.black)
+                Spacer(Modifier.width(16.dp))
+                Text(
+                    audioTitle,
+                    style = TextStyle(
+                        fontFamily = mulishFont(),
+                        color = colorResource(R.color.black)
+                    )
                 )
-            )
+            }
         }
     }
 }

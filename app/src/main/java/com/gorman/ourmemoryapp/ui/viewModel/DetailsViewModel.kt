@@ -2,6 +2,11 @@ package com.gorman.ourmemoryapp.ui.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gorman.ourmemoryapp.R
+import com.gorman.ourmemoryapp.data.repository.AudioRepository
+import com.gorman.ourmemoryapp.domain.models.AudioItem
+import com.gorman.ourmemoryapp.domain.models.Veteran
+import com.gorman.ourmemoryapp.domain.models.VeteranUiState
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
 import com.gorman.ourmemoryapp.ui.states.DetailsUiState
 import dagger.assisted.Assisted
@@ -18,6 +23,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel(assistedFactory = DetailsViewModel.Factory::class)
 class DetailsViewModel @AssistedInject constructor(
@@ -102,5 +110,94 @@ class DetailsViewModel @AssistedInject constructor(
             }
         }
         return loadedUrls
+    }
+}
+
+
+    fun loadAudioForVeteran(veteranId: String) {
+        val audioItems = when (veteranId) {
+            "10" -> listOf(
+                AudioItem(
+                    id = 10,
+                    title = "Биография ветерана",
+                    fileName = "veteran_bio_10.mp3",
+                    rawResourceId = R.raw.veteran_bio_10,
+                    itemId = 10
+                ),
+
+            )
+            "17" -> listOf(
+                AudioItem(
+                    id = 17,
+                    title = "Биография ветерана",
+                    fileName = "veteran_bio_17.mp3",
+                    rawResourceId = com.gorman.ourmemoryapp.R.raw.veteran_bio_17,
+                    itemId = 17
+                ),
+
+                )
+            else -> emptyList()
+        }
+
+        _audioList.value = audioItems
+    }
+    fun playFirstAudioForVeteran(veteranId: String) {
+        val audioItem = when (veteranId) {
+            "10" -> AudioItem(
+                id = 10,
+                title = "Биография ветерана",
+                fileName = "veteran_bio_10.mp3",
+                rawResourceId = com.gorman.ourmemoryapp.R.raw.veteran_bio_10,
+                itemId = 1
+            )
+            "17" -> AudioItem(
+                id = 17,
+                title = "Биография ветерана",
+                fileName = "veteran_bio_17.mp3",
+                rawResourceId = com.gorman.ourmemoryapp.R.raw.veteran_bio_17,
+                itemId = 2
+            )
+            else -> null
+        }
+
+        audioItem?.let {
+            playAudio(it)
+        }
+    }
+    fun playAudio(audioItem: AudioItem) {
+        viewModelScope.launch {
+            try {
+                audioRepository.stopAudio()
+                audioRepository.playAudio(audioItem)
+            } catch (e: Exception) {
+                Log.e("DetailsViewModel", "Error playing audio", e)
+            }
+        }
+    }
+
+    fun pauseAudio() {
+        audioRepository.pauseAudio()
+    }
+
+    fun resumeAudio() {
+        audioRepository.resumeAudio()
+    }
+
+    fun stopAudio() {
+        audioRepository.stopAudio()
+    }
+
+    fun seekTo(position: Int) {
+        audioRepository.seekTo(position)
+    }
+
+    fun getPlaybackState(): Flow<AudioRepository.PlaybackState> {
+        return audioRepository.playbackState
+    }
+
+    companion object {
+        fun loadAudioForVeteran() {
+            TODO("Not yet implemented")
+        }
     }
 }
