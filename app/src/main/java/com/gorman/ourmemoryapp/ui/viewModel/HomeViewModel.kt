@@ -37,9 +37,7 @@ class HomeViewModel @Inject constructor(
                 if (search.isBlank()) {
                     veteransList
                 } else {
-                    veteransList.filter {
-                        it.name.contains(search, ignoreCase = true)
-                    }
+                    veteransList.filter { it.name.contains(search, ignoreCase = true) }
                 }
             }
             war -> {

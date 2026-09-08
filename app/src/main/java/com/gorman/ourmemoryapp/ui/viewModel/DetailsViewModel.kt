@@ -1,13 +1,14 @@
 package com.gorman.ourmemoryapp.ui.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.data.repository.AudioRepository
 import com.gorman.ourmemoryapp.domain.models.AudioItem
-import com.gorman.ourmemoryapp.domain.models.Veteran
-import com.gorman.ourmemoryapp.domain.models.VeteranUiState
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
+import com.gorman.ourmemoryapp.ui.states.AudioAction
+import com.gorman.ourmemoryapp.ui.states.DetailsUiEvent
 import com.gorman.ourmemoryapp.ui.states.DetailsUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -23,14 +24,13 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel(assistedFactory = DetailsViewModel.Factory::class)
 class DetailsViewModel @AssistedInject constructor(
     @Assisted private val veteranId: String,
-    private val _repository: VeteransRepository
+    private val veteranRepository: VeteransRepository,
+    private val audioRepository: AudioRepository
 ) : ViewModel() {
 
     @AssistedFactory
@@ -38,8 +38,10 @@ class DetailsViewModel @AssistedInject constructor(
         fun create(veteranId: String): DetailsViewModel
     }
 
+    val playbackState = audioRepository.playbackState
+
     val uiState: StateFlow<DetailsUiState> = flow {
-        val veterans = _repository.getAllVeterans()
+        val veterans = veteranRepository.getAllVeterans()
         val filteredVeteran = veterans.find { it.id == veteranId }
             ?: error("Veteran with ID = $veteranId was not found")
 
@@ -72,6 +74,7 @@ class DetailsViewModel @AssistedInject constructor(
         }
 
         val directUrls = loadDirectedUrlSequentially(initialMap)
+        val audioVeteran = loadAudioForVeteran(veteranId)
 
         emit(
             DetailsUiState.Success(
@@ -80,7 +83,8 @@ class DetailsViewModel @AssistedInject constructor(
                 additionalInfo = infoList.toPersistentList(),
                 additionalRes = initialMap.toPersistentMap(),
                 directUrls = directUrls.toPersistentMap(),
-                additionalText = textList.toPersistentList()
+                additionalText = textList.toPersistentList(),
+                audio = audioVeteran
             ) as DetailsUiState
         )
     }.flowOn(
@@ -93,12 +97,26 @@ class DetailsViewModel @AssistedInject constructor(
         initialValue = DetailsUiState.Loading
     )
 
+    fun onUiEvent(event: DetailsUiEvent) {
+        when (event) {
+            is DetailsUiEvent.OnAudioAction -> {
+                when (event.action) {
+                    AudioAction.Play -> playAudioForVeteran()
+                    AudioAction.Pause -> pauseAudio()
+                    AudioAction.Resume -> resumeAudio()
+                    AudioAction.Stop -> stopAudio()
+                    is AudioAction.SeekTo -> seekTo(event.action.position)
+                }
+            }
+        }
+    }
+
     private suspend fun loadDirectedUrlSequentially(urls: Map<String, String>): Map<String, String> {
         val loadedUrls = mutableMapOf<String, String>()
         urls.forEach { (key, value) ->
             if (key.contains("yandex")) {
                 runCatching {
-                    val response = _repository.getHrefFromLink(publicKey = key)
+                    val response = veteranRepository.getHrefFromLink(publicKey = key)
                     response.href?.let { href ->
                         loadedUrls[href] = value
                     }
@@ -111,93 +129,47 @@ class DetailsViewModel @AssistedInject constructor(
         }
         return loadedUrls
     }
-}
 
-
-    fun loadAudioForVeteran(veteranId: String) {
-        val audioItems = when (veteranId) {
-            "10" -> listOf(
-                AudioItem(
-                    id = 10,
-                    title = "Биография ветерана",
-                    fileName = "veteran_bio_10.mp3",
-                    rawResourceId = R.raw.veteran_bio_10,
-                    itemId = 10
-                ),
-
-            )
-            "17" -> listOf(
-                AudioItem(
-                    id = 17,
-                    title = "Биография ветерана",
-                    fileName = "veteran_bio_17.mp3",
-                    rawResourceId = com.gorman.ourmemoryapp.R.raw.veteran_bio_17,
-                    itemId = 17
-                ),
-
-                )
-            else -> emptyList()
-        }
-
-        _audioList.value = audioItems
-    }
-    fun playFirstAudioForVeteran(veteranId: String) {
-        val audioItem = when (veteranId) {
-            "10" -> AudioItem(
+    private fun loadAudioForVeteran(veteranId: String): AudioItem {
+        return when (veteranId) {
+            else -> AudioItem(
                 id = 10,
                 title = "Биография ветерана",
                 fileName = "veteran_bio_10.mp3",
-                rawResourceId = com.gorman.ourmemoryapp.R.raw.veteran_bio_10,
-                itemId = 1
+                rawResourceId = R.raw.veteran_bio_10,
+                itemId = 10
             )
-            "17" -> AudioItem(
-                id = 17,
-                title = "Биография ветерана",
-                fileName = "veteran_bio_17.mp3",
-                rawResourceId = com.gorman.ourmemoryapp.R.raw.veteran_bio_17,
-                itemId = 2
-            )
-            else -> null
         }
-
-        audioItem?.let {
+    }
+    private fun playAudioForVeteran() {
+        (uiState.value as? DetailsUiState.Success)?.audio?.let {
             playAudio(it)
         }
     }
-    fun playAudio(audioItem: AudioItem) {
+    private fun playAudio(audioItem: AudioItem) {
         viewModelScope.launch {
-            try {
+            runCatching {
                 audioRepository.stopAudio()
                 audioRepository.playAudio(audioItem)
-            } catch (e: Exception) {
-                Log.e("DetailsViewModel", "Error playing audio", e)
+            }.onFailure { error ->
+                Log.e("DetailsViewModel", "Error playing audio", error)
             }
         }
     }
 
-    fun pauseAudio() {
+    private fun pauseAudio() {
         audioRepository.pauseAudio()
     }
 
-    fun resumeAudio() {
+    private fun resumeAudio() {
         audioRepository.resumeAudio()
     }
 
-    fun stopAudio() {
+    private fun stopAudio() {
         audioRepository.stopAudio()
     }
 
-    fun seekTo(position: Int) {
+    private fun seekTo(position: Int) {
         audioRepository.seekTo(position)
-    }
-
-    fun getPlaybackState(): Flow<AudioRepository.PlaybackState> {
-        return audioRepository.playbackState
-    }
-
-    companion object {
-        fun loadAudioForVeteran() {
-            TODO("Not yet implemented")
-        }
     }
 }

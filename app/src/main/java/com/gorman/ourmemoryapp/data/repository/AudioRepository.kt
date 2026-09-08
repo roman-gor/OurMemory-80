@@ -2,25 +2,25 @@ package com.gorman.ourmemoryapp.data.repository
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.util.Log
 import com.gorman.ourmemoryapp.domain.models.AudioItem
+import com.gorman.ourmemoryapp.domain.models.AudioPlaybackState
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class AudioRepository @Inject constructor(
     @param:ApplicationContext private val context: Context
 ) {
-
     private var mediaPlayer: MediaPlayer? = null
 
-    private val _playbackState = MutableStateFlow(PlaybackState())
-    val playbackState: StateFlow<PlaybackState> = _playbackState.asStateFlow()
+    private val _playbackState = MutableStateFlow(AudioPlaybackState())
+    val playbackState = _playbackState.asStateFlow()
+
     fun playAudio(audioItem: AudioItem) {
         stopAudio()
-
-        try {
+        runCatching {
             mediaPlayer = MediaPlayer.create(context, audioItem.rawResourceId).apply {
                 setOnCompletionListener {
                     _playbackState.value = _playbackState.value.copy(
@@ -36,8 +36,8 @@ class AudioRepository @Inject constructor(
                     duration = duration
                 )
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
+        }.onFailure { error ->
+            Log.e("Audio Repository", "Error play audio", error)
         }
     }
 
@@ -58,19 +58,10 @@ class AudioRepository @Inject constructor(
         mediaPlayer?.stop()
         mediaPlayer?.release()
         mediaPlayer = null
-        _playbackState.value = PlaybackState()
+        _playbackState.value = AudioPlaybackState()
     }
 
     fun seekTo(position: Int) {
         mediaPlayer?.seekTo(position)
     }
-
-    fun getAudioForVeteran(veteranId: String) {}
-
-    data class PlaybackState(
-        val isPlaying: Boolean = false,
-        val currentAudio: AudioItem? = null,
-        val currentPosition: Int = 0,
-        val duration: Int = 0
-    )
 }

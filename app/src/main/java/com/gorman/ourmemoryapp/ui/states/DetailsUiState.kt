@@ -1,5 +1,6 @@
 package com.gorman.ourmemoryapp.ui.states
 
+import com.gorman.ourmemoryapp.domain.models.AudioItem
 import com.gorman.ourmemoryapp.domain.models.Veteran
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
@@ -14,7 +15,8 @@ sealed interface DetailsUiState {
         val additionalInfo: ImmutableList<String> = persistentListOf(),
         val additionalRes: ImmutableMap<String, String> = persistentMapOf(),
         val directUrls: ImmutableMap<String, String> = persistentMapOf(),
-        val additionalText: ImmutableList<String> = persistentListOf()
+        val additionalText: ImmutableList<String> = persistentListOf(),
+        val audio: AudioItem? = null
     ) : DetailsUiState
     data class Error(val throwable: Throwable) : DetailsUiState
 }

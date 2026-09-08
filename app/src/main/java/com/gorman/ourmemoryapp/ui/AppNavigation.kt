@@ -30,12 +30,7 @@ fun AppNavigation(onChangeLangClick: (String) -> Unit) {
                 creationCallback = { factory -> factory.create(veteranId.orEmpty()) }
             )
 
-            DetailsScreen(
-                detailsViewModel = detailsViewModel,
-                navigateToMainScreen = {
-                    navController.navigate(Screen.HomeScreen.route)
-                }
-            )
+            DetailsScreen(detailsViewModel = detailsViewModel)
         }
         composable(Screen.InfoScreen.route) {
             InfoScreen(

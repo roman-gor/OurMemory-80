@@ -62,17 +62,20 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.gorman.ourmemoryapp.R
+import com.gorman.ourmemoryapp.domain.models.AudioItem
 import com.gorman.ourmemoryapp.domain.models.Veteran
 import com.gorman.ourmemoryapp.ui.fonts.mulishFont
+import com.gorman.ourmemoryapp.ui.states.AudioAction
+import com.gorman.ourmemoryapp.ui.states.DetailsUiEvent
 import com.gorman.ourmemoryapp.ui.states.DetailsUiState
 import com.gorman.ourmemoryapp.ui.viewModel.DetailsViewModel
 
 @Composable
 fun DetailsScreen(
-    detailsViewModel: DetailsViewModel = hiltViewModel(),
-    navigateToMainScreen: (String) -> Unit
+    detailsViewModel: DetailsViewModel = hiltViewModel()
 ) {
     val uiState = detailsViewModel.uiState.collectAsStateWithLifecycle()
+    val onUiEvent = detailsViewModel::onUiEvent
 
     Box(
         modifier = Modifier
@@ -96,16 +99,13 @@ fun DetailsScreen(
                 val pagerState = rememberPagerState(pageCount = { 3 })
                 HorizontalPager(state = pagerState) { page ->
                     when (page) {
-                        0 -> DetailsContent(
-                            veteran = veteran,
-                            rewards = state.rewards
-                        )
-                        1 -> BioContent(
-                            infoText = state.additionalText
-                        )
+                        0 -> DetailsContent(veteran, state.rewards)
+                        1 -> BioContent(state.additionalText)
                         2 -> DocContent(
                             infoRes = state.additionalRes,
-                            directedUrls = state.directUrls
+                            audio = state.audio,
+                            directedUrls = state.directUrls,
+                            onAudioAction = { onUiEvent(DetailsUiEvent.OnAudioAction(it)) }
                         )
                     }
                 }
@@ -399,11 +399,14 @@ fun TextItem(infoText: String) {
 }
 
 @Composable
-fun DocContent(infoRes: Map<String, String>, directedUrls: Map<String, String>) {
+fun DocContent(
+    infoRes: Map<String, String>,
+    directedUrls: Map<String, String>,
+    audio: AudioItem?,
+    onAudioAction: (AudioAction) -> Unit
+) {
     var isPlaying by remember { mutableStateOf(false) }
     val pagerResState = rememberPagerState(pageCount = { directedUrls.size })
-    val playbackState by viewModel.getPlaybackState().collectAsState(initial = null)
-    val isPlaying = playbackState?.isPlaying ?: false
 
     Log.e("YANDEX_DISK", "$directedUrls")
     Column(
@@ -437,38 +440,45 @@ fun DocContent(infoRes: Map<String, String>, directedUrls: Map<String, String>) 
         }
         Spacer(Modifier.height(8.dp))
         HorizontalDivider(
-            modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp),
             thickness = DividerDefaults.Thickness,
             color = colorResource(R.color.dark_white)
         )
         Spacer(Modifier.height(12.dp))
 
         AudioTrack(
-            viewModel = viewModel,
-            veteranId = veteranId,
-            isPlaying = isPlaying
+            audio = audio,
+            isPlaying = isPlaying,
+            onAudioAction = { action ->
+                isPlaying = action == AudioAction.Play
+                onAudioAction(action)
+            }
         )
     }
 }
 
 @Composable
 fun AudioTrack(
-    viewModel: DetailsViewModel,
-    veteranId: String,
-    isPlaying: Boolean
-){
-    val audioList by viewModel.audioList
-    val audioTitle = if (audioList.isNotEmpty()) audioList.first().title else "Биография"
-
+    audio: AudioItem?,
+    isPlaying: Boolean,
+    onAudioAction: (AudioAction) -> Unit
+) {
+    val audioTitle = audio?.title.orEmpty()
 
     Card (
-        modifier = Modifier.fillMaxWidth().padding(top = 32.dp, start = 32.dp, end = 32.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 32.dp, start = 32.dp, end = 32.dp),
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(containerColor = colorResource(R.color.dark_white))
     ){
         Column(
-            modifier = Modifier.fillMaxWidth().padding(16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -477,9 +487,9 @@ fun AudioTrack(
                 Button(
                     onClick = {
                         if (isPlaying) {
-                            viewModel.pauseAudio()
+                            onAudioAction(AudioAction.Pause)
                         } else {
-                            viewModel.playFirstAudioForVeteran(veteranId)
+                            onAudioAction(AudioAction.Play)
                         }
                     },
                     modifier = Modifier.size(40.dp),
@@ -491,7 +501,7 @@ fun AudioTrack(
                 ) {
                     if (!isPlaying) {
                         Icon(
-                            Icons.Default.PlayArrow,
+                            painter = painterResource(R.drawable.play_arrow),
                             contentDescription = "Play",
                             modifier = Modifier.size(24.dp),
                             tint = colorResource(R.color.white)
