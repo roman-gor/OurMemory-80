@@ -1,0 +1,228 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$( fontWeight = FontWeight.Normal, color = Color.Black, fontSize = 16.sp, fontFamily = mulishFont())</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$( model = url, placeholder = painterResource(R.drawable.image_info_placeholder))</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$( modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp), thickness = DividerDefaults.Thickness, color = colorResource(R.color.dark_white) )</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$( painter = painterResource(R.drawable.play_arrow), contentDescription = "Play", modifier = Modifier.size(24.dp), tint = colorResource(R.color.white))</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$("Биография", style = TextStyle( fontFamily = mulishFont(), color = colorResource(R.color.black) ) )</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$(modifier = Modifier.align(Alignment.Center), color = colorResource(R.color.dark_red))</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$(onClick = { onPlay() }, modifier = Modifier.size(40.dp), contentPadding = PaddingValues(0.dp), colors = ButtonDefaults.buttonColors( containerColor = colorResource(R.color.dark_red), contentColor = colorResource(R.color.white) ))</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$(painter = rememberAsyncImagePainter( model = url, placeholder = painterResource(R.drawable.image_info_placeholder)), contentDescription = describe, modifier = Modifier .fillMaxWidth() .aspectRatio(1f) .padding(top = 16.dp, start = 16.dp, end = 16.dp) .clip(RoundedCornerShape(8.dp)), contentScale = ContentScale.Crop)</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$(painterResource(R.drawable.pause), contentDescription = "Play", modifier = Modifier.size(24.dp), tint = colorResource(R.color.white))</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$(painterResource(rewardRes), contentDescription = null, modifier = Modifier .size(320.dp) .padding(8.dp))</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$(state = pagerResState, modifier = Modifier .fillMaxWidth() .height(450.dp), verticalAlignment = Alignment.CenterVertically)</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$(text = describe, style = TextStyle( fontFamily = mulishFont(), fontSize = 16.sp, color = colorResource(R.color.dark_red), fontWeight = FontWeight.Normal ), modifier = Modifier.padding(top = 4.dp), textAlign = TextAlign.Center)</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$(text = infoText, style = TextStyle( fontWeight = FontWeight.Normal, color = Color.Black, fontSize = 16.sp, fontFamily = mulishFont()), modifier = Modifier .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp) .verticalScroll(rememberScrollState()), textAlign = TextAlign.Justify )</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$(text = stringResource(R.string.biography), style = TextStyle( fontFamily = mulishFont(), fontWeight = FontWeight.Bold, fontSize = 20.sp, color = colorResource(R.color.dark_red) ))</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$(text = stringResource(rewardName), modifier = Modifier.padding(top = 8.dp), style = TextStyle( color = colorResource(R.color.red), fontFamily = mulishFont(), fontSize = 16.sp, fontWeight = FontWeight.Bold ), textAlign = TextAlign.Center )</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$(text = veteran.allInfo, color = Color.Black, fontSize = 14.sp, fontFamily = mulishFont(), style = TextStyle(fontWeight = FontWeight.Normal), modifier = Modifier .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp) .verticalScroll(rememberScrollState()), textAlign = TextAlign.Justify )</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$(text = veteran.name, color = colorResource(R.color.white), fontSize = 16.sp, fontFamily = mulishFont(), style = TextStyle(fontWeight = FontWeight.Bold), modifier = Modifier.padding(8.dp) )</ID>
+    <ID>ArgumentListWrapping:DetailsScreen.kt$(text = veteran.years, color = colorResource(R.color.white), fontSize = 14.sp, fontFamily = mulishFont(), style = TextStyle(fontWeight = FontWeight.SemiBold), modifier = Modifier.padding(8.dp) )</ID>
+    <ID>ArgumentListWrapping:Images.kt$(id = 0, icon = R.drawable.tochka_news, text = "Tochka.by", annotation = "https://tochka.by/articles/life/muzey_pod_otkrytym_nebom_chem_vas_mozhet_udivit_voennoe_kladbishche/")</ID>
+    <ID>ArgumentListWrapping:Images.kt$(id = 1, icon = R.drawable.sb_by_news, text = "SB.by", annotation = "https://news.sb.by/articles/na-karte-minska-poyavilas-eshche-odna-tsifrovaya-zvezda-pamyatnuyu-tablichku-ustanovili-na-voennom-k.html")</ID>
+    <ID>ArgumentListWrapping:Images.kt$(id = 2, icon = R.drawable.minsk_news, text = "Minsknews.by", annotation = "https://minsknews.by/lyudi-zhivy-do-teh-por-poka-o-nih-pomnyat-istoriya-voennogo-kladbishha-v-minske/")</ID>
+    <ID>ArgumentListWrapping:InfoScreen.kt$( painter = painterResource(news.icon), contentDescription = news.text, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())</ID>
+    <ID>ArgumentListWrapping:InfoScreen.kt$( rows = GridCells.Fixed(1), modifier = Modifier .height(220.dp) .padding(top = 8.dp, start = 16.dp, end = 16.dp))</ID>
+    <ID>ArgumentListWrapping:InfoScreen.kt$(R.color.dark_red )</ID>
+    <ID>ArgumentListWrapping:InfoScreen.kt$(onClick = { navigateToBack() }, modifier = Modifier.padding(start = 8.dp) .aspectRatio(1f) .weight(1f), colors = ButtonDefaults.buttonColors( containerColor = Color(0xFFF0F0F0), contentColor = Color.Black ), contentPadding = PaddingValues(0.dp))</ID>
+    <ID>ArgumentListWrapping:InfoScreen.kt$(onClick = { val newLang = if (locale.language == "ru") "be" else "ru" onChangeLangClick(newLang) }, modifier = Modifier.padding(start = 8.dp) .aspectRatio(1f) .weight(1f), colors = ButtonDefaults.buttonColors( containerColor = Color(0xFFF0F0F0), contentColor = Color.Black ), contentPadding = PaddingValues(0.dp))</ID>
+    <ID>ArgumentListWrapping:InfoScreen.kt$(stringResource(R.string.warHeader), modifier = Modifier.weight(5f), textAlign = TextAlign.Center, style = TextStyle( fontFamily = mulishFont(), fontWeight = FontWeight.Bold, color = colorResource(R.color.dark_red), fontSize = 18.sp ))</ID>
+    <ID>ArgumentListWrapping:InfoScreen.kt$(text = annotatedText, style = TextStyle( fontFamily = mulishFont(), fontSize = 16.sp, color = colorResource(R.color.dark_red), fontWeight = FontWeight.Normal ), modifier = Modifier .padding(top = 8.dp) .pointerInput(Unit) { detectTapGestures { offsetPosition -&gt; textLayoutResult?.let { layoutResult -&gt; val position = layoutResult.getOffsetForPosition(offsetPosition) annotatedText.getStringAnnotations( tag = "URL", start = position, end = position ).firstOrNull()?.let { annotation -&gt; val intent = Intent(Intent.ACTION_VIEW, annotation.item.toUri()) context.startActivity(intent) } } } }, onTextLayout = { layoutResult: TextLayoutResult -&gt; textLayoutResult = layoutResult })</ID>
+    <ID>ArgumentListWrapping:InfoScreen.kt$(text = if (locale.language == "ru") "БЕЛ" else "РУС", style = TextStyle( fontWeight = FontWeight.Normal, color = colorResource(R.color.dark_red), fontSize = 12.sp, fontFamily = mulishFont() ) )</ID>
+    <ID>ArgumentListWrapping:InfoScreen.kt$(text = stringResource(R.string.information), color = Color.Black, fontSize = 14.sp, fontFamily = mulishFont(), style = TextStyle(fontWeight = FontWeight.Normal), modifier = Modifier .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp) .verticalScroll(rememberScrollState()), textAlign = TextAlign.Justify )</ID>
+    <ID>ArgumentListWrapping:IntroScreen.kt$("Начать", modifier = Modifier.padding(start = 8.dp), style = TextStyle( fontFamily = mulishFont(), fontSize = 18.sp, fontWeight = FontWeight.Medium, textAlign = TextAlign.Center ))</ID>
+    <ID>ArgumentListWrapping:IntroScreen.kt$(Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = null, modifier = Modifier.padding(end = 8.dp))</ID>
+    <ID>ArgumentListWrapping:IntroScreen.kt$(text = stringResource(R.string.app_name), style = TextStyle( fontFamily = mulishFont(), fontSize = 38.sp, color = colorResource(R.color.white), fontWeight = FontWeight.Bold, letterSpacing = 4.sp ))</ID>
+    <ID>ArgumentListWrapping:IntroScreen.kt$(text = stringResource(R.string.idea), style = TextStyle( fontFamily = mulishFont(), fontSize = 20.sp, color = colorResource(R.color.white), fontWeight = FontWeight.Normal, textAlign = TextAlign.Center ))</ID>
+    <ID>ArgumentListWrapping:IntroScreen.kt$(text = stringResource(R.string.slogan), style = TextStyle( fontFamily = mulishFont(), fontSize = 20.sp, color = colorResource(R.color.white), fontWeight = FontWeight.Medium, textAlign = TextAlign.Center ))</ID>
+    <ID>ArgumentListWrapping:OurMemoryScreen.kt$(modifier = Modifier .fillMaxSize() )</ID>
+    <ID>ArgumentListWrapping:OurMemoryScreen.kt$(modifier = Modifier.align(Alignment.Center), color = colorResource(R.color.dark_red))</ID>
+    <ID>ArgumentListWrapping:OurMemoryScreen.kt$(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center)</ID>
+    <ID>ArgumentListWrapping:OurMemoryScreen.kt$(painterResource(R.drawable.monument), contentDescription = "Monument", tint = colorResource(R.color.white), modifier = Modifier.padding(8.dp))</ID>
+    <ID>ArgumentListWrapping:OurMemoryScreen.kt$(text = stringResource(R.string.art), style = TextStyle( fontFamily = mulishFont(), fontSize = 14.sp, color = colorResource(R.color.dark_red) ) )</ID>
+    <ID>ArgumentListWrapping:OurMemoryScreen.kt$(text = stringResource(R.string.heroUSSR), style = TextStyle( fontFamily = mulishFont(), fontSize = 14.sp, color = colorResource(R.color.dark_red) ) )</ID>
+    <ID>ArgumentListWrapping:OurMemoryScreen.kt$(text = veteran.baseInfo, color = Color.Black, fontFamily = mulishFont(), fontSize = 11.sp, style = TextStyle(fontWeight = FontWeight.Normal), modifier = Modifier.padding(start = 8.dp, bottom = 16.dp, end = 8.dp) )</ID>
+    <ID>ArgumentListWrapping:OurMemoryScreen.kt$(text = veteran.name, color = colorResource(R.color.dark_red), fontFamily = mulishFont(), fontSize = 12.sp, style = TextStyle(fontWeight = FontWeight.Bold), modifier = Modifier.padding(8.dp) )</ID>
+    <ID>ArgumentListWrapping:OurMemoryScreen.kt$(veteran, onClick = { onItemClick(veteran.id) })</ID>
+    <ID>ArgumentListWrapping:OurMemoryScreen.kt$(viewModel = viewModel, navigateToInfoScreen = navigateToInfoScreen, onClickEvent = {expanded = true}, expanded = expanded, onDismiss = {expanded = false} )</ID>
+    <ID>BlockCommentInitialStarAlignment:Theme.kt$/* Other default colors to override background = Color(0xFFFFFBFE), surface = Color(0xFFFFFBFE), onPrimary = Color.White, onSecondary = Color.White, onTertiary = Color.White, onBackground = Color(0xFF1C1B1F), onSurface = Color(0xFF1C1B1F), */</ID>
+    <ID>BlockCommentInitialStarAlignment:Type.kt$/* Other default text styles to override titleLarge = TextStyle( fontFamily = FontFamily.Default, fontWeight = FontWeight.Normal, fontSize = 22.sp, lineHeight = 28.sp, letterSpacing = 0.sp ), labelSmall = TextStyle( fontFamily = FontFamily.Default, fontWeight = FontWeight.Medium, fontSize = 11.sp, lineHeight = 16.sp, letterSpacing = 0.5.sp ) */</ID>
+    <ID>CommentSpacing:InfoScreen.kt$//TODO onClick event</ID>
+    <ID>CommentSpacing:OurMemoryScreen.kt$//containerColor = Color(0xFFF0F0F0),</ID>
+    <ID>ConstructorParameterNaming:DetailsViewModel.kt$DetailsViewModel$private val _repository: VeteransRepository</ID>
+    <ID>ConstructorParameterNaming:FirebaseDBImpl.kt$FirebaseDBImpl$private val _dbRef: DatabaseReference</ID>
+    <ID>ConstructorParameterNaming:OurMemoryViewModel.kt$OurMemoryViewModel$private val _repository: VeteransRepository</ID>
+    <ID>CyclomaticComplexMethod:DetailsScreen.kt$@Composable fun DetailsContent(veteran: Veteran, viewModel: DetailsViewModel)</ID>
+    <ID>CyclomaticComplexMethod:DetailsScreen.kt$@Composable fun RewardsDisplay(showDialog: Boolean, selectedReward: Int, onDismiss: () -&gt; Unit)</ID>
+    <ID>Filename:inriaFont.kt$com.gorman.ourmemoryapp.ui.fonts.inriaFont.kt</ID>
+    <ID>Filename:mulishFont.kt$com.gorman.ourmemoryapp.ui.fonts.mulishFont.kt</ID>
+    <ID>FinalNewline:AppModule.kt$com.gorman.ourmemoryapp.di.AppModule.kt</ID>
+    <ID>FinalNewline:AppNavigation.kt$com.gorman.ourmemoryapp.ui.AppNavigation.kt</ID>
+    <ID>FinalNewline:Color.kt$com.gorman.ourmemoryapp.ui.theme.Color.kt</ID>
+    <ID>FinalNewline:DetailsViewModel.kt$com.gorman.ourmemoryapp.ui.viewModel.DetailsViewModel.kt</ID>
+    <ID>FinalNewline:ExampleInstrumentedTest.kt$com.gorman.ourmemoryapp.ExampleInstrumentedTest.kt</ID>
+    <ID>FinalNewline:ExampleUnitTest.kt$com.gorman.ourmemoryapp.ExampleUnitTest.kt</ID>
+    <ID>FinalNewline:FirebaseDB.kt$com.gorman.ourmemoryapp.data.datasource.FirebaseDB.kt</ID>
+    <ID>FinalNewline:FirebaseDBImpl.kt$com.gorman.ourmemoryapp.data.datasource.FirebaseDBImpl.kt</ID>
+    <ID>FinalNewline:Images.kt$com.gorman.ourmemoryapp.domain.models.Images.kt</ID>
+    <ID>FinalNewline:MainActivity.kt$com.gorman.ourmemoryapp.MainActivity.kt</ID>
+    <ID>FinalNewline:MyApp.kt$com.gorman.ourmemoryapp.MyApp.kt</ID>
+    <ID>FinalNewline:OurMemoryScreen.kt$com.gorman.ourmemoryapp.ui.screens.OurMemoryScreen.kt</ID>
+    <ID>FinalNewline:OurMemoryViewModel.kt$com.gorman.ourmemoryapp.ui.viewModel.OurMemoryViewModel.kt</ID>
+    <ID>FinalNewline:Theme.kt$com.gorman.ourmemoryapp.ui.theme.Theme.kt</ID>
+    <ID>FinalNewline:Type.kt$com.gorman.ourmemoryapp.ui.theme.Type.kt</ID>
+    <ID>FinalNewline:VeteransModel.kt$com.gorman.ourmemoryapp.domain.models.VeteransModel.kt</ID>
+    <ID>FinalNewline:VeteransRepository.kt$com.gorman.ourmemoryapp.domain.repository.VeteransRepository.kt</ID>
+    <ID>FinalNewline:VeteransRepositoryImpl.kt$com.gorman.ourmemoryapp.data.repository.VeteransRepositoryImpl.kt</ID>
+    <ID>FinalNewline:YandexApiService.kt$com.gorman.ourmemoryapp.data.datasource.YandexApiService.kt</ID>
+    <ID>FinalNewline:YandexImageMapper.kt$com.gorman.ourmemoryapp.data.mapper.YandexImageMapper.kt</ID>
+    <ID>FinalNewline:inriaFont.kt$com.gorman.ourmemoryapp.ui.fonts.inriaFont.kt</ID>
+    <ID>FinalNewline:mulishFont.kt$com.gorman.ourmemoryapp.ui.fonts.mulishFont.kt</ID>
+    <ID>FunctionStartOfBodySpacing:AppNavigation.kt$@Composable fun AppNavigation(onChangeLangClick: (String) -&gt; Unit)</ID>
+    <ID>FunctionStartOfBodySpacing:DetailsScreen.kt$@Composable fun AudioTrack(isPlaying: Boolean, onPlay: () -&gt; Unit)</ID>
+    <ID>FunctionStartOfBodySpacing:DetailsScreen.kt$@Composable fun DetailsScreen(id: String, navigateToMainScreen: (String) -&gt; Unit)</ID>
+    <ID>FunctionStartOfBodySpacing:DetailsScreen.kt$@Composable fun DocContent(viewModel: DetailsViewModel)</ID>
+    <ID>FunctionStartOfBodySpacing:DetailsScreen.kt$@Composable fun ResImageItem(url: String, describe: String)</ID>
+    <ID>FunctionStartOfBodySpacing:DetailsScreen.kt$@Composable fun RewardsDisplay(showDialog: Boolean, selectedReward: Int, onDismiss: () -&gt; Unit)</ID>
+    <ID>FunctionStartOfBodySpacing:DetailsScreen.kt$@Composable fun SwipeAnimation()</ID>
+    <ID>FunctionStartOfBodySpacing:DetailsScreen.kt$@Composable fun TextItem(infoText: String)</ID>
+    <ID>FunctionStartOfBodySpacing:DetailsViewModel.kt$DetailsViewModel$fun loadAdditionalInfo(veteran: Veteran)</ID>
+    <ID>FunctionStartOfBodySpacing:DetailsViewModel.kt$DetailsViewModel$fun loadDirectedUrl(urls: Map&lt;String, String&gt;)</ID>
+    <ID>FunctionStartOfBodySpacing:DetailsViewModel.kt$DetailsViewModel$fun loadRewards(veteran: Veteran)</ID>
+    <ID>FunctionStartOfBodySpacing:DetailsViewModel.kt$DetailsViewModel$fun loadVeteranById(id: String)</ID>
+    <ID>FunctionStartOfBodySpacing:InfoScreen.kt$@Composable fun Header(navigateToBack: () -&gt; Unit, onChangeLangClick: (String) -&gt; Unit)</ID>
+    <ID>FunctionStartOfBodySpacing:InfoScreen.kt$@Composable fun ImageItem(image: Image, onClick: () -&gt; Unit)</ID>
+    <ID>FunctionStartOfBodySpacing:InfoScreen.kt$@Composable fun Images(onClick: () -&gt; Unit)</ID>
+    <ID>FunctionStartOfBodySpacing:InfoScreen.kt$@Composable fun InfoScreen(navigateToBack: () -&gt; Unit, navigateToImage: () -&gt; Unit, onChangeLangClick: (String) -&gt; Unit)</ID>
+    <ID>FunctionStartOfBodySpacing:InfoScreen.kt$@Composable fun InfoText()</ID>
+    <ID>FunctionStartOfBodySpacing:InfoScreen.kt$@Composable fun TextHead(text: Int)</ID>
+    <ID>FunctionStartOfBodySpacing:InfoScreen.kt$@Composable fun YandexMapView()</ID>
+    <ID>FunctionStartOfBodySpacing:InfoScreen.kt$@SuppressLint("UseKtx") @Composable fun NewsItem(news: News)</ID>
+    <ID>FunctionStartOfBodySpacing:IntroScreen.kt$@Composable fun Content(onStartClick: () -&gt; Unit)</ID>
+    <ID>FunctionStartOfBodySpacing:IntroScreen.kt$@Composable fun ImageSlideshow(imgList: List&lt;Image&gt;)</ID>
+    <ID>FunctionStartOfBodySpacing:OurMemoryScreen.kt$@Composable fun DropDownMenu( expanded: Boolean, viewModel: OurMemoryViewModel, onDismiss: () -&gt; Unit)</ID>
+    <ID>FunctionStartOfBodySpacing:OurMemoryScreen.kt$@Composable fun Header( viewModel: OurMemoryViewModel, navigateToInfoScreen: () -&gt; Unit, onClickEvent: () -&gt; Unit, expanded: Boolean, onDismiss: () -&gt; Unit)</ID>
+    <ID>FunctionStartOfBodySpacing:OurMemoryScreen.kt$@Composable fun MainScreen(onItemClick: (String) -&gt; Unit, navigateToInfoScreen: () -&gt; Unit)</ID>
+    <ID>FunctionStartOfBodySpacing:OurMemoryScreen.kt$@Composable fun OurMemoryScreen( onItemClick: (String) -&gt; Unit, navigateToInfoScreen: () -&gt; Unit, viewModel: OurMemoryViewModel)</ID>
+    <ID>FunctionStartOfBodySpacing:OurMemoryScreen.kt$@Composable fun VeteranItem( veteran: Veteran, onClick: () -&gt; Unit)</ID>
+    <ID>FunctionStartOfBodySpacing:OurMemoryViewModel.kt$OurMemoryViewModel$fun fetchingData()</ID>
+    <ID>FunctionStartOfBodySpacing:OurMemoryViewModel.kt$OurMemoryViewModel$fun onCheckedArtChange(value: Boolean)</ID>
+    <ID>FunctionStartOfBodySpacing:OurMemoryViewModel.kt$OurMemoryViewModel$fun onCheckedWarChange(value: Boolean)</ID>
+    <ID>FunctionStartOfBodySpacing:OurMemoryViewModel.kt$OurMemoryViewModel$fun onSearchTextChange(value: String)</ID>
+    <ID>FunctionStartOfBodySpacing:inriaFont.kt$fun inriaFont(): FontFamily</ID>
+    <ID>FunctionStartOfBodySpacing:mulishFont.kt$fun mulishFont(): FontFamily</ID>
+    <ID>ImportOrdering:AppModule.kt$import com.google.firebase.database.DatabaseReference import com.google.firebase.database.FirebaseDatabase import com.gorman.ourmemoryapp.data.datasource.FirebaseDB import com.gorman.ourmemoryapp.data.datasource.YandexApiService import com.gorman.ourmemoryapp.data.datasource.FirebaseDBImpl import com.gorman.ourmemoryapp.data.repository.VeteransRepositoryImpl import com.gorman.ourmemoryapp.domain.repository.VeteransRepository import dagger.Module import dagger.Provides import dagger.hilt.InstallIn import dagger.hilt.components.SingletonComponent import retrofit2.Retrofit import retrofit2.converter.gson.GsonConverterFactory import javax.inject.Singleton</ID>
+    <ID>ImportOrdering:AppNavigation.kt$import androidx.compose.runtime.Composable import androidx.navigation.compose.NavHost import androidx.navigation.compose.rememberNavController import androidx.navigation.compose.composable import com.gorman.ourmemoryapp.domain.models.Screen import com.gorman.ourmemoryapp.ui.screens.DetailsScreen import com.gorman.ourmemoryapp.ui.screens.InfoScreen import com.gorman.ourmemoryapp.ui.screens.IntroScreen import com.gorman.ourmemoryapp.ui.screens.MainScreen</ID>
+    <ID>ImportOrdering:DetailsScreen.kt$import android.util.Log import androidx.compose.foundation.Image import androidx.compose.foundation.background import androidx.compose.foundation.clickable import androidx.compose.foundation.layout.Box import androidx.compose.foundation.layout.Column import androidx.compose.foundation.layout.PaddingValues import androidx.compose.foundation.layout.Row import androidx.compose.foundation.layout.Spacer import androidx.compose.foundation.layout.aspectRatio import androidx.compose.foundation.layout.fillMaxSize import androidx.compose.foundation.layout.fillMaxWidth import androidx.compose.foundation.layout.height import androidx.compose.foundation.layout.padding import androidx.compose.foundation.layout.size import androidx.compose.foundation.layout.statusBarsPadding import androidx.compose.foundation.layout.width import androidx.compose.foundation.pager.HorizontalPager import androidx.compose.foundation.pager.rememberPagerState import androidx.compose.foundation.rememberScrollState import androidx.compose.foundation.shape.RoundedCornerShape import androidx.compose.foundation.verticalScroll import androidx.compose.material3.AlertDialog import androidx.compose.material3.Button import androidx.compose.material3.ButtonDefaults import androidx.compose.material3.Card import androidx.compose.material3.CardDefaults import androidx.compose.material3.CircularProgressIndicator import androidx.compose.material3.DividerDefaults import androidx.compose.material3.HorizontalDivider import androidx.compose.material3.Icon import androidx.compose.material3.Text import androidx.compose.runtime.Composable import androidx.compose.runtime.LaunchedEffect import androidx.compose.runtime.getValue import androidx.compose.runtime.mutableIntStateOf import androidx.compose.runtime.mutableStateOf import androidx.compose.runtime.remember import androidx.compose.runtime.setValue import androidx.compose.ui.Alignment import androidx.compose.ui.Modifier import androidx.compose.ui.draw.clip import androidx.compose.ui.graphics.Color import androidx.compose.ui.layout.ContentScale import androidx.compose.ui.res.colorResource import androidx.compose.ui.res.painterResource import androidx.compose.ui.res.stringResource import androidx.compose.ui.text.TextStyle import androidx.compose.ui.text.font.FontWeight import androidx.compose.ui.text.style.TextAlign import androidx.compose.ui.unit.dp import androidx.compose.ui.unit.sp import androidx.hilt.navigation.compose.hiltViewModel import coil.compose.rememberAsyncImagePainter import com.airbnb.lottie.compose.LottieAnimation import com.airbnb.lottie.compose.LottieCompositionSpec import com.airbnb.lottie.compose.LottieConstants import com.airbnb.lottie.compose.animateLottieCompositionAsState import com.airbnb.lottie.compose.rememberLottieComposition import com.google.accompanist.flowlayout.FlowRow import com.gorman.ourmemoryapp.R import com.gorman.ourmemoryapp.ui.viewModel.DetailsViewModel import com.gorman.ourmemoryapp.ui.fonts.mulishFont import com.gorman.ourmemoryapp.domain.models.Veteran import com.gorman.ourmemoryapp.domain.models.VeteranUiState</ID>
+    <ID>ImportOrdering:ExampleInstrumentedTest.kt$import androidx.test.platform.app.InstrumentationRegistry import androidx.test.ext.junit.runners.AndroidJUnit4 import org.junit.Test import org.junit.runner.RunWith import org.junit.Assert.*</ID>
+    <ID>ImportOrdering:ExampleUnitTest.kt$import org.junit.Test import org.junit.Assert.*</ID>
+    <ID>ImportOrdering:InfoScreen.kt$import android.annotation.SuppressLint import android.content.Intent import androidx.compose.foundation.Image import androidx.compose.foundation.background import androidx.compose.foundation.clickable import androidx.compose.foundation.gestures.detectTapGestures import androidx.compose.foundation.layout.Arrangement import androidx.compose.foundation.layout.Column import androidx.compose.foundation.layout.PaddingValues import androidx.compose.foundation.layout.Row import androidx.compose.foundation.layout.Spacer import androidx.compose.foundation.layout.aspectRatio import androidx.compose.foundation.layout.fillMaxSize import androidx.compose.foundation.layout.fillMaxWidth import androidx.compose.foundation.layout.height import androidx.compose.foundation.layout.padding import androidx.compose.foundation.layout.size import androidx.compose.foundation.layout.statusBarsPadding import androidx.compose.foundation.lazy.grid.GridCells import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid import androidx.compose.foundation.lazy.grid.items import androidx.compose.foundation.rememberScrollState import androidx.compose.foundation.shape.RoundedCornerShape import androidx.compose.foundation.verticalScroll import androidx.compose.material3.Button import androidx.compose.material3.ButtonDefaults import androidx.compose.material3.Card import androidx.compose.material3.CardDefaults import androidx.compose.material3.Icon import androidx.compose.material3.Text import androidx.compose.runtime.Composable import androidx.compose.runtime.DisposableEffect import androidx.compose.runtime.getValue import androidx.compose.runtime.mutableStateOf import androidx.compose.runtime.remember import androidx.compose.runtime.setValue import androidx.compose.ui.Alignment import androidx.compose.ui.Modifier import androidx.compose.ui.draw.clip import androidx.compose.ui.graphics.Color import androidx.compose.ui.input.pointer.pointerInput import androidx.compose.ui.layout.ContentScale import androidx.compose.ui.platform.LocalConfiguration import androidx.compose.ui.platform.LocalContext import androidx.compose.ui.platform.LocalDensity import androidx.compose.ui.res.colorResource import androidx.compose.ui.res.painterResource import androidx.compose.ui.res.stringResource import androidx.compose.ui.text.SpanStyle import androidx.compose.ui.text.TextLayoutResult import androidx.compose.ui.text.TextStyle import androidx.compose.ui.text.buildAnnotatedString import androidx.compose.ui.text.font.FontWeight import androidx.compose.ui.text.style.TextAlign import androidx.compose.ui.text.withStyle import androidx.compose.ui.unit.dp import androidx.compose.ui.unit.sp import androidx.compose.ui.viewinterop.AndroidView import androidx.lifecycle.Lifecycle import androidx.lifecycle.LifecycleEventObserver import androidx.lifecycle.compose.LocalLifecycleOwner import com.gorman.ourmemoryapp.R import com.gorman.ourmemoryapp.domain.models.Image import com.gorman.ourmemoryapp.domain.models.News import com.gorman.ourmemoryapp.domain.models.imagesList import com.gorman.ourmemoryapp.domain.models.newsList import com.gorman.ourmemoryapp.ui.fonts.mulishFont import com.yandex.mapkit.MapKitFactory import com.yandex.mapkit.geometry.Point import com.yandex.mapkit.map.CameraPosition import com.yandex.mapkit.mapview.MapView import com.yandex.runtime.image.ImageProvider import java.util.Locale import androidx.core.net.toUri</ID>
+    <ID>ImportOrdering:MainActivity.kt$import android.os.Bundle import androidx.activity.ComponentActivity import androidx.activity.compose.setContent import androidx.compose.foundation.layout.fillMaxSize import androidx.compose.material3.MaterialTheme import androidx.compose.material3.Surface import androidx.compose.ui.Modifier import java.util.Locale import androidx.core.app.ActivityCompat.recreate import com.gorman.ourmemoryapp.ui.AppNavigation import com.gorman.ourmemoryapp.ui.theme.OurMemoryAppTheme import dagger.hilt.android.AndroidEntryPoint</ID>
+    <ID>ImportOrdering:OurMemoryScreen.kt$import androidx.compose.foundation.Image import androidx.compose.foundation.background import androidx.compose.foundation.clickable import androidx.compose.foundation.layout.Arrangement import androidx.compose.foundation.layout.Box import androidx.compose.foundation.layout.Column import androidx.compose.foundation.layout.PaddingValues import androidx.compose.foundation.layout.Row import androidx.compose.foundation.layout.Spacer import androidx.compose.foundation.layout.aspectRatio import androidx.compose.foundation.layout.fillMaxSize import androidx.compose.foundation.layout.fillMaxWidth import androidx.compose.foundation.layout.padding import androidx.compose.foundation.layout.size import androidx.compose.foundation.layout.systemBarsPadding import androidx.compose.foundation.layout.width import androidx.compose.foundation.lazy.LazyColumn import androidx.compose.foundation.lazy.items import androidx.compose.foundation.shape.RoundedCornerShape import androidx.compose.material.icons.Icons import androidx.compose.material.icons.filled.KeyboardArrowDown import androidx.compose.material3.Button import androidx.compose.material3.ButtonDefaults import androidx.compose.material3.Card import androidx.compose.material3.CardDefaults import androidx.compose.material3.Checkbox import androidx.compose.material3.CheckboxDefaults import androidx.compose.material3.CircularProgressIndicator import androidx.compose.material3.DropdownMenu import androidx.compose.material3.DropdownMenuItem import androidx.compose.material3.Icon import androidx.compose.material3.OutlinedTextField import androidx.compose.material3.OutlinedTextFieldDefaults import androidx.compose.material3.Text import androidx.compose.runtime.Composable import androidx.compose.runtime.getValue import androidx.compose.runtime.mutableStateOf import androidx.compose.runtime.remember import androidx.compose.runtime.setValue import androidx.compose.ui.Alignment import androidx.compose.ui.Modifier import androidx.compose.ui.draw.clip import androidx.compose.ui.graphics.Color import androidx.compose.ui.layout.ContentScale import androidx.compose.ui.res.colorResource import androidx.compose.ui.res.painterResource import androidx.compose.ui.res.stringResource import androidx.compose.ui.text.TextStyle import androidx.compose.ui.text.font.FontWeight import androidx.compose.ui.unit.dp import androidx.compose.ui.unit.sp import coil.compose.rememberAsyncImagePainter import com.gorman.ourmemoryapp.ui.fonts.mulishFont import com.gorman.ourmemoryapp.ui.viewModel.OurMemoryViewModel import com.gorman.ourmemoryapp.R import com.gorman.ourmemoryapp.domain.models.Veteran import com.gorman.ourmemoryapp.domain.models.VeteranUiState import androidx.hilt.navigation.compose.hiltViewModel</ID>
+    <ID>ImportOrdering:VeteransRepositoryImpl.kt$import com.gorman.ourmemoryapp.data.datasource.YandexApiService import com.gorman.ourmemoryapp.data.datasource.FirebaseDB import com.gorman.ourmemoryapp.data.mapper.toDomain import com.gorman.ourmemoryapp.domain.models.Veteran import com.gorman.ourmemoryapp.domain.repository.VeteransRepository import com.gorman.ourmemoryapp.domain.models.YandexImage import javax.inject.Inject</ID>
+    <ID>Indentation:AppNavigation.kt$ </ID>
+    <ID>Indentation:DetailsScreen.kt$ </ID>
+    <ID>Indentation:DetailsViewModel.kt$DetailsViewModel$ </ID>
+    <ID>Indentation:Images.kt$ </ID>
+    <ID>Indentation:InfoScreen.kt$ </ID>
+    <ID>Indentation:OurMemoryScreen.kt$ </ID>
+    <ID>Indentation:OurMemoryViewModel.kt$OurMemoryViewModel$ </ID>
+    <ID>Indentation:inriaFont.kt$ </ID>
+    <ID>Indentation:mulishFont.kt$ </ID>
+    <ID>LongMethod:DetailsScreen.kt$@Composable fun DetailsContent(veteran: Veteran, viewModel: DetailsViewModel)</ID>
+    <ID>LongMethod:OurMemoryScreen.kt$@Composable fun Header( viewModel: OurMemoryViewModel, navigateToInfoScreen: () -&gt; Unit, onClickEvent: () -&gt; Unit, expanded: Boolean, onDismiss: () -&gt; Unit)</ID>
+    <ID>MaxLineLength:Images.kt$News(id = 0, icon = R.drawable.tochka_news, text = "Tochka.by", annotation = "https://tochka.by/articles/life/muzey_pod_otkrytym_nebom_chem_vas_mozhet_udivit_voennoe_kladbishche/")</ID>
+    <ID>MaxLineLength:Images.kt$News(id = 1, icon = R.drawable.sb_by_news, text = "SB.by", annotation = "https://news.sb.by/articles/na-karte-minska-poyavilas-eshche-odna-tsifrovaya-zvezda-pamyatnuyu-tablichku-ustanovili-na-voennom-k.html")</ID>
+    <ID>MaxLineLength:Images.kt$News(id = 2, icon = R.drawable.minsk_news, text = "Minsknews.by", annotation = "https://minsknews.by/lyudi-zhivy-do-teh-por-poka-o-nih-pomnyat-istoriya-voennogo-kladbishha-v-minske/")</ID>
+    <ID>MaximumLineLength:Images.kt$ </ID>
+    <ID>MultiLineIfElse:DetailsScreen.kt$40.dp</ID>
+    <ID>MultiLineIfElse:DetailsViewModel.kt$DetailsViewModel$_veteranState.value = VeteranUiState.Error("Не обнаружен ветеран с ID = $id")</ID>
+    <ID>MultiLineIfElse:DetailsViewModel.kt$DetailsViewModel$_veteranState.value = VeteranUiState.Success(listOf(selectedVeteran))</ID>
+    <ID>MultiLineIfElse:DetailsViewModel.kt$DetailsViewModel$newMap[info] = ""</ID>
+    <ID>MultiLineIfElse:InfoScreen.kt$YandexMapView()</ID>
+    <ID>MultiLineIfElse:OurMemoryViewModel.kt$OurMemoryViewModel$all</ID>
+    <ID>MultiLineIfElse:OurMemoryViewModel.kt$OurMemoryViewModel$all.filter { it.name.contains(search, ignoreCase = true) }</ID>
+    <ID>NewLineAtEndOfFile:AppModule.kt$com.gorman.ourmemoryapp.di.AppModule.kt</ID>
+    <ID>NewLineAtEndOfFile:AppNavigation.kt$com.gorman.ourmemoryapp.ui.AppNavigation.kt</ID>
+    <ID>NewLineAtEndOfFile:Color.kt$com.gorman.ourmemoryapp.ui.theme.Color.kt</ID>
+    <ID>NewLineAtEndOfFile:DetailsViewModel.kt$com.gorman.ourmemoryapp.ui.viewModel.DetailsViewModel.kt</ID>
+    <ID>NewLineAtEndOfFile:ExampleInstrumentedTest.kt$com.gorman.ourmemoryapp.ExampleInstrumentedTest.kt</ID>
+    <ID>NewLineAtEndOfFile:ExampleUnitTest.kt$com.gorman.ourmemoryapp.ExampleUnitTest.kt</ID>
+    <ID>NewLineAtEndOfFile:FirebaseDB.kt$com.gorman.ourmemoryapp.data.datasource.FirebaseDB.kt</ID>
+    <ID>NewLineAtEndOfFile:FirebaseDBImpl.kt$com.gorman.ourmemoryapp.data.datasource.FirebaseDBImpl.kt</ID>
+    <ID>NewLineAtEndOfFile:Images.kt$com.gorman.ourmemoryapp.domain.models.Images.kt</ID>
+    <ID>NewLineAtEndOfFile:MainActivity.kt$com.gorman.ourmemoryapp.MainActivity.kt</ID>
+    <ID>NewLineAtEndOfFile:MyApp.kt$com.gorman.ourmemoryapp.MyApp.kt</ID>
+    <ID>NewLineAtEndOfFile:OurMemoryScreen.kt$com.gorman.ourmemoryapp.ui.screens.OurMemoryScreen.kt</ID>
+    <ID>NewLineAtEndOfFile:OurMemoryViewModel.kt$com.gorman.ourmemoryapp.ui.viewModel.OurMemoryViewModel.kt</ID>
+    <ID>NewLineAtEndOfFile:Theme.kt$com.gorman.ourmemoryapp.ui.theme.Theme.kt</ID>
+    <ID>NewLineAtEndOfFile:Type.kt$com.gorman.ourmemoryapp.ui.theme.Type.kt</ID>
+    <ID>NewLineAtEndOfFile:VeteransModel.kt$com.gorman.ourmemoryapp.domain.models.VeteransModel.kt</ID>
+    <ID>NewLineAtEndOfFile:VeteransRepository.kt$com.gorman.ourmemoryapp.domain.repository.VeteransRepository.kt</ID>
+    <ID>NewLineAtEndOfFile:VeteransRepositoryImpl.kt$com.gorman.ourmemoryapp.data.repository.VeteransRepositoryImpl.kt</ID>
+    <ID>NewLineAtEndOfFile:YandexApiService.kt$com.gorman.ourmemoryapp.data.datasource.YandexApiService.kt</ID>
+    <ID>NewLineAtEndOfFile:YandexImageMapper.kt$com.gorman.ourmemoryapp.data.mapper.YandexImageMapper.kt</ID>
+    <ID>NewLineAtEndOfFile:inriaFont.kt$com.gorman.ourmemoryapp.ui.fonts.inriaFont.kt</ID>
+    <ID>NewLineAtEndOfFile:mulishFont.kt$com.gorman.ourmemoryapp.ui.fonts.mulishFont.kt</ID>
+    <ID>NoUnusedImports:Theme.kt$com.gorman.ourmemoryapp.ui.theme.Theme.kt</ID>
+    <ID>NoWildcardImports:ExampleInstrumentedTest.kt$import org.junit.Assert.*</ID>
+    <ID>NoWildcardImports:ExampleUnitTest.kt$import org.junit.Assert.*</ID>
+    <ID>ParameterListWrapping:OurMemoryScreen.kt$( expanded: Boolean, viewModel: OurMemoryViewModel, onDismiss: () -&gt; Unit)</ID>
+    <ID>ParameterListWrapping:OurMemoryScreen.kt$( onItemClick: (String) -&gt; Unit, navigateToInfoScreen: () -&gt; Unit, viewModel: OurMemoryViewModel)</ID>
+    <ID>ParameterListWrapping:OurMemoryScreen.kt$( veteran: Veteran, onClick: () -&gt; Unit)</ID>
+    <ID>ParameterListWrapping:OurMemoryScreen.kt$( viewModel: OurMemoryViewModel, navigateToInfoScreen: () -&gt; Unit, onClickEvent: () -&gt; Unit, expanded: Boolean, onDismiss: () -&gt; Unit)</ID>
+    <ID>SpacingAroundColon:DetailsViewModel.kt$DetailsViewModel$:</ID>
+    <ID>SpacingAroundColon:FirebaseDBImpl.kt$FirebaseDBImpl$:</ID>
+    <ID>SpacingAroundColon:MyApp.kt$MyApp$:</ID>
+    <ID>SpacingAroundColon:VeteransModel.kt$Screen.DetailScreen$:</ID>
+    <ID>SpacingAroundColon:VeteransModel.kt$Screen.HomeScreen$:</ID>
+    <ID>SpacingAroundColon:VeteransModel.kt$Screen.InfoScreen$:</ID>
+    <ID>SpacingAroundColon:VeteransModel.kt$Screen.IntroScreen$:</ID>
+    <ID>SpacingAroundColon:VeteransRepositoryImpl.kt$VeteransRepositoryImpl$:</ID>
+    <ID>SpacingAroundCurly:AppNavigation.kt${</ID>
+    <ID>SpacingAroundCurly:DetailsScreen.kt${</ID>
+    <ID>SpacingAroundCurly:DetailsScreen.kt$}</ID>
+    <ID>SpacingAroundCurly:DetailsViewModel.kt$DetailsViewModel${</ID>
+    <ID>SpacingAroundCurly:DetailsViewModel.kt$DetailsViewModel$}</ID>
+    <ID>SpacingAroundCurly:FirebaseDB.kt$FirebaseDB${</ID>
+    <ID>SpacingAroundCurly:InfoScreen.kt${</ID>
+    <ID>SpacingAroundCurly:InfoScreen.kt$}</ID>
+    <ID>SpacingAroundCurly:IntroScreen.kt${</ID>
+    <ID>SpacingAroundCurly:OurMemoryScreen.kt${</ID>
+    <ID>SpacingAroundCurly:OurMemoryScreen.kt$}</ID>
+    <ID>SpacingAroundCurly:OurMemoryViewModel.kt$OurMemoryViewModel${</ID>
+    <ID>SpacingAroundCurly:OurMemoryViewModel.kt$OurMemoryViewModel$}</ID>
+    <ID>SpacingAroundCurly:VeteransModel.kt$Screen${</ID>
+    <ID>SpacingAroundCurly:inriaFont.kt${</ID>
+    <ID>SpacingAroundCurly:mulishFont.kt${</ID>
+    <ID>SpacingAroundKeyword:DetailsScreen.kt$else</ID>
+    <ID>SpacingAroundKeyword:DetailsScreen.kt$if</ID>
+    <ID>SpacingAroundKeyword:DetailsScreen.kt$when</ID>
+    <ID>SpacingAroundKeyword:DetailsViewModel.kt$DetailsViewModel$else</ID>
+    <ID>SpacingAroundKeyword:DetailsViewModel.kt$DetailsViewModel$if</ID>
+    <ID>SpacingAroundKeyword:IntroScreen.kt$while</ID>
+    <ID>SpacingAroundKeyword:OurMemoryScreen.kt$else</ID>
+    <ID>SpacingAroundKeyword:OurMemoryScreen.kt$when</ID>
+    <ID>SpacingAroundKeyword:OurMemoryViewModel.kt$OurMemoryViewModel$if</ID>
+    <ID>SpacingAroundOperators:DetailsViewModel.kt$DetailsViewModel$-&gt;</ID>
+    <ID>SpacingAroundOperators:InfoScreen.kt$-&gt;</ID>
+    <ID>SpacingAroundOperators:IntroScreen.kt$-&gt;</ID>
+    <ID>SpacingAroundOperators:VeteransModel.kt$Veteran$=</ID>
+    <ID>SpacingAroundParens:AppNavigation.kt$(</ID>
+    <ID>SpacingAroundParens:DetailsScreen.kt$(</ID>
+    <ID>SpacingAroundParens:InfoScreen.kt$(</ID>
+    <ID>SpacingAroundParens:MainActivity.kt$MainActivity$(</ID>
+    <ID>SpacingAroundParens:OurMemoryScreen.kt$(</ID>
+    <ID>StringTemplate:AppNavigation.kt$${veteranId}</ID>
+    <ID>TooGenericExceptionCaught:DetailsViewModel.kt$DetailsViewModel$e: Exception</ID>
+    <ID>UnusedParameter:DetailsScreen.kt$navigateToMainScreen: (String) -&gt; Unit</ID>
+    <ID>WildcardImport:ExampleInstrumentedTest.kt$import org.junit.Assert.*</ID>
+    <ID>WildcardImport:ExampleUnitTest.kt$import org.junit.Assert.*</ID>
+    <ID>Wrapping:DetailsScreen.kt$(</ID>
+    <ID>Wrapping:InfoScreen.kt$(</ID>
+    <ID>Wrapping:IntroScreen.kt$(</ID>
+    <ID>Wrapping:OurMemoryScreen.kt$(</ID>
+  </CurrentIssues>
+</SmellBaseline>

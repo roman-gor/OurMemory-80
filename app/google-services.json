@@ -1,22 +1,22 @@
 {
   "project_info": {
-    "project_number": "417187244027",
-    "firebase_url": "https://cafeadmin-18799-default-rtdb.firebaseio.com",
-    "project_id": "cafeadmin-18799",
-    "storage_bucket": "cafeadmin-18799.firebasestorage.app"
+    "project_number": "395397163961",
+    "firebase_url": "https://chatroom-85fb8-default-rtdb.firebaseio.com",
+    "project_id": "chatroom-85fb8",
+    "storage_bucket": "chatroom-85fb8.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:417187244027:android:c6146a7ab5000ca5f44d5e",
+        "mobilesdk_app_id": "1:395397163961:android:e42f937a0c3b2e4a18e468",
         "android_client_info": {
-          "package_name": "com.example.cafeadminjava"
+          "package_name": "com.gorman.chatroom"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCNpfGMMszIrfIeVLHuxuZnrLgvt4rUU4c"
+          "current_key": "AIzaSyDoLu1DS1xr4N6te8C0yXmQEWY7nZa9bxM"
         }
       ],
       "services": {
@@ -27,45 +27,7 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:417187244027:android:94917be4ad6bca47f44d5e",
-        "android_client_info": {
-          "package_name": "com.gorman.dmxcontroller"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCNpfGMMszIrfIeVLHuxuZnrLgvt4rUU4c"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:417187244027:android:50893c095a8cd541f44d5e",
-        "android_client_info": {
-          "package_name": "com.gorman.moodtracker"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCNpfGMMszIrfIeVLHuxuZnrLgvt4rUU4c"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:417187244027:android:0392e2cad02b84a2f44d5e",
+        "mobilesdk_app_id": "1:395397163961:android:63fd748909b6958518e468",
         "android_client_info": {
           "package_name": "com.gorman.ourmemoryapp"
         }
@@ -73,7 +35,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCNpfGMMszIrfIeVLHuxuZnrLgvt4rUU4c"
+          "current_key": "AIzaSyDoLu1DS1xr4N6te8C0yXmQEWY7nZa9bxM"
         }
       ],
       "services": {

@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -31,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
@@ -46,6 +45,7 @@ import com.gorman.ourmemoryapp.domain.models.Image
 import com.gorman.ourmemoryapp.domain.models.imagesList
 import com.gorman.ourmemoryapp.ui.fonts.mulishFont
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun IntroScreen(onStartClick: () -> Unit) {
@@ -64,7 +64,7 @@ fun IntroScreen(onStartClick: () -> Unit) {
 }
 
 @Composable
-fun Content(onStartClick: () -> Unit){
+fun Content(onStartClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -77,34 +77,40 @@ fun Content(onStartClick: () -> Unit){
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = stringResource(R.string.app_name),
+        Text(
+            text = stringResource(R.string.app_name),
             style = TextStyle(
                 fontFamily = mulishFont(),
                 fontSize = 38.sp,
                 color = colorResource(R.color.white),
                 fontWeight = FontWeight.Bold,
                 letterSpacing = 4.sp
-            ))
+            )
+        )
         Spacer(Modifier.height(60.dp))
-        Text(text = stringResource(R.string.slogan),
+        Text(
+            text = stringResource(R.string.slogan),
             style = TextStyle(
                 fontFamily = mulishFont(),
                 fontSize = 20.sp,
                 color = colorResource(R.color.white),
                 fontWeight = FontWeight.Medium,
                 textAlign = TextAlign.Center
-            ))
+            )
+        )
         Spacer(Modifier.height(36.dp))
         ImageSlideshow(imagesList)
         Spacer(Modifier.height(36.dp))
-        Text(text = stringResource(R.string.idea),
+        Text(
+            text = stringResource(R.string.idea),
             style = TextStyle(
                 fontFamily = mulishFont(),
                 fontSize = 20.sp,
                 color = colorResource(R.color.white),
                 fontWeight = FontWeight.Normal,
                 textAlign = TextAlign.Center
-            ))
+            )
+        )
         Spacer(Modifier.height(60.dp))
         Button(
             onClick = onStartClick,
@@ -121,32 +127,36 @@ fun Content(onStartClick: () -> Unit){
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Начать",
+                Text(
+                    "Начать",
                     modifier = Modifier.padding(start = 8.dp),
                     style = TextStyle(
                         fontFamily = mulishFont(),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Medium,
                         textAlign = TextAlign.Center
-                    ))
-                Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    )
+                )
+                Icon(
+                    painter = painterResource(R.drawable.keyboard_arrow_right),
                     contentDescription = null,
-                    modifier = Modifier.padding(end = 8.dp))
+                    modifier = Modifier.rotate(180f).padding(end = 8.dp)
+                )
             }
         }
     }
 }
 
 @Composable
-fun ImageSlideshow(imgList: List<Image>){
+fun ImageSlideshow(imgList: List<Image>) {
     var currentIndex by remember { mutableIntStateOf(0) }
     LaunchedEffect(key1 = imgList) {
-        while(true){
-            delay(4000L)
+        while (true) {
+            delay(4000L.milliseconds)
             currentIndex = (currentIndex + 1) % imgList.size
         }
     }
-    Crossfade(targetState = currentIndex) {index->
+    Crossfade(targetState = currentIndex) { index ->
         val imagePainter = painterResource(imgList[index].res)
         Image(
             painter = imagePainter,

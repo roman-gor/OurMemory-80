@@ -1,11 +1,10 @@
 package com.gorman.ourmemoryapp.data.models
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
-@Parcelize
+@Serializable
 data class YandexImageResponse(
     val method: String = "",
     val href: String = "",
     val templated: String = ""
-): Parcelable
+)

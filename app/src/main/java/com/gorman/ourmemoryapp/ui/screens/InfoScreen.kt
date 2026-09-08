@@ -1,6 +1,5 @@
 package com.gorman.ourmemoryapp.ui.screens
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,8 +23,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -60,6 +57,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -75,11 +73,13 @@ import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.mapview.MapView
 import com.yandex.runtime.image.ImageProvider
 import java.util.Locale
-import androidx.core.net.toUri
 
 @Composable
-fun InfoScreen(navigateToBack: () -> Unit, navigateToImage: () -> Unit, onChangeLangClick: (String) -> Unit)
-{
+fun InfoScreen(
+    navigateToBack: () -> Unit,
+    navigateToImage: () -> Unit,
+    onChangeLangClick: (String) -> Unit
+) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val isVisible = remember { mutableStateOf(true) }
 
@@ -95,24 +95,25 @@ fun InfoScreen(navigateToBack: () -> Unit, navigateToImage: () -> Unit, onChange
         }
     }
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(Color.White)
             .padding(8.dp)
             .statusBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Header(navigateToBack = {navigateToBack()}, onChangeLangClick = onChangeLangClick)
-        Column (
+        Header(navigateToBack = { navigateToBack() }, onChangeLangClick = onChangeLangClick)
+        Column(
             modifier = Modifier.fillMaxSize()
                 .padding(top = 8.dp)
                 .background(Color.White)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
             TextHead(R.string.historyInfoHeader)
             InfoText()
             TextHead(R.string.galleryHeader)
-            //TODO onClick event
+            // TODO onClick event
             Images(navigateToImage)
             TextHead(R.string.locationHeader)
             Text(
@@ -127,11 +128,10 @@ fun InfoScreen(navigateToBack: () -> Unit, navigateToImage: () -> Unit, onChange
                     .padding(start = 16.dp, top = 8.dp, end = 16.dp)
                     .fillMaxWidth()
             )
-            if (isVisible.value)
-                YandexMapView()
+            if (isVisible.value) YandexMapView()
             TextHead(R.string.news)
             Spacer(modifier = Modifier.height(8.dp))
-            newsList.forEach { new->
+            newsList.forEach { new ->
                 NewsItem(new)
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -139,9 +139,8 @@ fun InfoScreen(navigateToBack: () -> Unit, navigateToImage: () -> Unit, onChange
     }
 }
 
-@SuppressLint("UseKtx")
 @Composable
-fun NewsItem(news: News){
+fun NewsItem(news: News) {
     val context = LocalContext.current
     var textLayoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
     val annotatedText = buildAnnotatedString {
@@ -151,24 +150,26 @@ fun NewsItem(news: News){
         }
         pop()
     }
-    Row (
+    Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
-    ){
-        Card (
+    ) {
+        Card(
             modifier = Modifier
                 .padding(start = 20.dp, end = 16.dp, top = 8.dp)
                 .size(35.dp),
             shape = RoundedCornerShape(36.dp),
             elevation = CardDefaults.cardElevation(4.dp)
-        ){
+        ) {
             Image(
                 painter = painterResource(news.icon),
                 contentDescription = news.text,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize())
+                modifier = Modifier.fillMaxSize()
+            )
         }
-        Text(text = annotatedText,
+        Text(
+            text = annotatedText,
             style = TextStyle(
                 fontFamily = mulishFont(),
                 fontSize = 16.sp,
@@ -194,13 +195,14 @@ fun NewsItem(news: News){
                 },
             onTextLayout = { layoutResult: TextLayoutResult ->
                 textLayoutResult = layoutResult
-            })
+            }
+        )
     }
 }
 
 @Composable
-fun InfoText(){
-    Card (
+fun InfoText() {
+    Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(400.dp)
@@ -208,8 +210,9 @@ fun InfoText(){
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(2.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFF0F0F0))
-    ){
-        Text(text = stringResource(R.string.information),
+    ) {
+        Text(
+            text = stringResource(R.string.information),
             color = Color.Black,
             fontSize = 14.sp,
             fontFamily = mulishFont(),
@@ -223,7 +226,7 @@ fun InfoText(){
 }
 
 @Composable
-fun TextHead(text: Int){
+fun TextHead(text: Int) {
     Text(
         text = stringResource(text),
         style = TextStyle(
@@ -240,15 +243,16 @@ fun TextHead(text: Int){
 }
 
 @Composable
-fun Header(navigateToBack: () -> Unit, onChangeLangClick: (String) -> Unit){
+fun Header(navigateToBack: () -> Unit, onChangeLangClick: (String) -> Unit) {
     val locale: Locale = LocalConfiguration.current.locales[0]
-    Row (
+    Row(
         modifier = Modifier.fillMaxWidth()
             .padding(top = 8.dp, start = 8.dp, end = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
-    ){
-        Button(onClick = {
+    ) {
+        Button(
+            onClick = {
             navigateToBack()
         },
             modifier = Modifier.padding(start = 8.dp)
@@ -258,13 +262,18 @@ fun Header(navigateToBack: () -> Unit, onChangeLangClick: (String) -> Unit){
                 containerColor = Color(0xFFF0F0F0),
                 contentColor = Color.Black
             ),
-            contentPadding = PaddingValues(0.dp)) {
-            Icon(Icons.AutoMirrored.Filled.ArrowBack,
+            contentPadding = PaddingValues(0.dp)
+        ) {
+            Icon(
+                painter = painterResource(R.drawable.arrow_back),
                 contentDescription = "Back",
-                tint = colorResource(R.color.dark_red)
+                tint = colorResource(
+                    R.color.dark_red
+                )
             )
         }
-        Text(stringResource(R.string.warHeader),
+        Text(
+            stringResource(R.string.warHeader),
             modifier = Modifier.weight(5f),
             textAlign = TextAlign.Center,
             style = TextStyle(
@@ -272,11 +281,13 @@ fun Header(navigateToBack: () -> Unit, onChangeLangClick: (String) -> Unit){
                 fontWeight = FontWeight.Bold,
                 color = colorResource(R.color.dark_red),
                 fontSize = 18.sp
-            ))
-        Button(onClick = {
-            val newLang = if (locale.language == "ru") "be" else "ru"
-            onChangeLangClick(newLang)
-        },
+            )
+        )
+        Button(
+            onClick = {
+                val newLang = if (locale.language == "ru") "be" else "ru"
+                onChangeLangClick(newLang)
+            },
             modifier = Modifier.padding(start = 8.dp)
                 .aspectRatio(1f)
                 .weight(1f),
@@ -284,8 +295,10 @@ fun Header(navigateToBack: () -> Unit, onChangeLangClick: (String) -> Unit){
                 containerColor = Color(0xFFF0F0F0),
                 contentColor = Color.Black
             ),
-            contentPadding = PaddingValues(0.dp)) {
-            Text(text = if (locale.language == "ru") "БЕЛ" else "РУС",
+            contentPadding = PaddingValues(0.dp)
+        ) {
+            Text(
+                text = if (locale.language == "ru") "БЕЛ" else "РУС",
                 style = TextStyle(
                     fontWeight = FontWeight.Normal,
                     color = colorResource(R.color.dark_red),
@@ -298,7 +311,7 @@ fun Header(navigateToBack: () -> Unit, onChangeLangClick: (String) -> Unit){
 }
 
 @Composable
-fun YandexMapView(){
+fun YandexMapView() {
     val context = LocalContext.current
     val mapView = remember { MapView(context) }
     DisposableEffect(Unit) {
@@ -311,14 +324,16 @@ fun YandexMapView(){
         }
     }
     val locationPoint = Point(53.908775, 27.586246)
-    mapView.mapWindow.map.move(CameraPosition(
+    mapView.mapWindow.map.move(
+        CameraPosition(
         locationPoint,
         15.0f,
         0.0f,
         0.0f
-    ))
+    )
+    )
     val imageProvider = ImageProvider.fromResource(context, R.drawable.ic_marker)
-    mapView.mapWindow.map.mapObjects.addPlacemark().apply{
+    mapView.mapWindow.map.mapObjects.addPlacemark().apply {
         geometry = locationPoint
         setIcon(imageProvider)
     }
@@ -332,21 +347,21 @@ fun YandexMapView(){
 }
 
 @Composable
-fun Images(onClick: () -> Unit){
+fun Images(onClick: () -> Unit) {
     LazyHorizontalGrid(
         rows = GridCells.Fixed(1),
         modifier = Modifier
             .height(220.dp)
-            .padding(top = 8.dp, start = 16.dp, end = 16.dp)) {
-        items(imagesList){
-            img->
-            ImageItem(image = img, onClick = {onClick})
+            .padding(top = 8.dp, start = 16.dp, end = 16.dp)
+    ) {
+        items(imagesList) { img ->
+            ImageItem(image = img, onClick = { onClick() })
         }
     }
 }
 
 @Composable
-fun ImageItem(image: Image, onClick: () -> Unit){
+fun ImageItem(image: Image, onClick: () -> Unit) {
     val imagePainter = painterResource(image.res)
     val aspectRatio = with(LocalDensity.current) {
         val size = imagePainter.intrinsicSize

@@ -3,8 +3,8 @@ package com.gorman.ourmemoryapp.di
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.gorman.ourmemoryapp.data.datasource.FirebaseDB
-import com.gorman.ourmemoryapp.data.datasource.YandexApiService
 import com.gorman.ourmemoryapp.data.datasource.FirebaseDBImpl
+import com.gorman.ourmemoryapp.data.datasource.YandexApiService
 import com.gorman.ourmemoryapp.data.repository.VeteransRepositoryImpl
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
 import dagger.Module

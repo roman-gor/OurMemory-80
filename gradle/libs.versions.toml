@@ -1,6 +1,6 @@
 [versions]
 accompanistFlowlayout = "0.36.0"
-agp = "9.4.0"
+agp = "9.3.2"
 appcompat = "1.8.0"
 coilCompose = "2.7.0"
 converterGson = "3.0.0"
@@ -15,6 +15,7 @@ ksp = "2.3.9"
 detektVersion = "1.23.8"
 googleServices = "4.5.0"
 hiltAndroidGradlePlugin = "2.60.1"
+kotlinxCoroutines = "1.11.0"
 lifecycleRuntimeKtx = "2.11.0"
 activityCompose = "1.13.0"
 composeBom = "2026.08.00"
@@ -22,8 +23,11 @@ lottieCompose = "6.7.1"
 mapsMobile = "4.19.0-navikit"
 navigationCompose = "2.10.0"
 retrofit = "3.0.0"
+kotlin-immutable = "0.5.2"
 
 [libraries]
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-play-services = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-play-services", version.ref = "kotlinxCoroutines" }
 accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanistFlowlayout" }
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistFlowlayout" }
 accompanist-pager-indicators = { module = "com.google.accompanist:accompanist-pager-indicators", version.ref = "accompanistFlowlayout" }
@@ -34,6 +38,7 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
+kotlinx-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlin-immutable" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }

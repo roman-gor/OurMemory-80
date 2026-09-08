@@ -1,104 +1,106 @@
 package com.gorman.ourmemoryapp.ui.viewModel
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.gorman.ourmemoryapp.domain.models.Veteran
-import com.gorman.ourmemoryapp.domain.models.VeteranUiState
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
+import com.gorman.ourmemoryapp.ui.states.DetailsUiState
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
-import javax.inject.Inject
-import kotlin.collections.listOf
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.toPersistentMap
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.stateIn
 
-@HiltViewModel
-class DetailsViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = DetailsViewModel.Factory::class)
+class DetailsViewModel @AssistedInject constructor(
+    @Assisted private val veteranId: String,
     private val _repository: VeteransRepository
-): ViewModel() {
+) : ViewModel() {
 
-    private val _veteranState = mutableStateOf<VeteranUiState>(VeteranUiState.Loading)
-    val veteranState: State<VeteranUiState> = _veteranState
-    private val _rewardsState = mutableStateOf<List<Int>>(emptyList())
-    val rewardsState: State<List<Int>> = _rewardsState
-    private val _additionalInfoState = mutableStateOf<List<String>>(emptyList())
-    private val _additionalText = mutableStateOf<List<String>>(emptyList())
-    val additionalText: State<List<String>> = _additionalText
-    private val _additionalRes = mutableStateOf<Map<String, String>>(emptyMap())
-    val additionalRes: State<Map<String, String>> = _additionalRes
-    private val _directUrls = mutableStateOf<Map<String, String>>(emptyMap())
-    val directUrls: State<Map<String, String>> = _directUrls
-
-    fun loadVeteranById(id: String)
-    {
-        viewModelScope.launch {
-            try {
-                val response = _repository.getAllVeterans()
-                val selectedVeteran = response.find { it.id == id }
-                if (selectedVeteran != null)
-                    _veteranState.value = VeteranUiState.Success(listOf(selectedVeteran))
-                else
-                    _veteranState.value = VeteranUiState.Error("Не обнаружен ветеран с ID = $id")
-            }catch (e: Exception){
-                _veteranState.value = VeteranUiState.Error("${e.message}")
-            }
-        }
+    @AssistedFactory
+    interface Factory {
+        fun create(veteranId: String): DetailsViewModel
     }
 
-    fun loadRewards(veteran: Veteran)
-    {
-        val rewardsList = veteran.rewards
-        if(rewardsList.isNotBlank()) {
-            _rewardsState.value = rewardsList
+    val uiState: StateFlow<DetailsUiState> = flow {
+        val veterans = _repository.getAllVeterans()
+        val filteredVeteran = veterans.find { it.id == veteranId }
+            ?: error("Veteran with ID = $veteranId was not found")
+
+        val rewards = filteredVeteran.rewards
+        val rewardsList = if (rewards.isEmpty()) {
+            persistentListOf()
+        } else {
+            rewards
                 .split(',')
                 .mapNotNull { it.toIntOrNull() }
+                .toPersistentList()
         }
-        else {
-            _rewardsState.value = emptyList()
-        }
-    }
 
-    fun loadAdditionalInfo(veteran: Veteran){
-        _additionalInfoState.value = veteran.veteransInfo
-        val newMap = _additionalRes.value.toMutableMap()
-        val newText = _additionalText.value.toMutableList()
-        _additionalInfoState.value.forEach { info ->
-            if (info.contains("http")){
-                if (info.contains("|")){
+        val infoList = filteredVeteran.veteransInfo
+        val initialMap = mutableMapOf<String, String>()
+        val textList = mutableListOf<String>()
+
+        infoList.forEach { info ->
+            if (info.contains("http")) {
+                if (info.contains("|")) {
                     val url = info.split("|").getOrNull(0) ?: ""
                     val describe = info.split("|").getOrNull(1) ?: ""
-                    newMap[url] = describe
+                    initialMap[url] = describe
+                } else {
+                    initialMap[info] = ""
                 }
-                else newMap[info] = ""
-            }
-            else {
-                newText += info
+            } else {
+                textList.add(info)
             }
         }
-        _additionalText.value = newText
-        _additionalRes.value = newMap
-    }
 
-    fun loadDirectedUrl(urls: Map<String, String>){
-        viewModelScope.launch {
-            val loadedUrls = mutableMapOf<String, String>()
-            urls.forEach {
-                if (it.key.contains("yandex")){
-                    try {
-                        val response = _repository.getHrefFromLink(publicKey = it.key)
-                        response.href?.let { href->
-                            loadedUrls[href] = it.value
-                        }
-                    }catch (e: Exception)
-                    {
-                        e.message
+        val directUrls = loadDirectedUrlSequentially(initialMap)
+
+        emit(
+            DetailsUiState.Success(
+                veteran = filteredVeteran,
+                rewards = rewardsList,
+                additionalInfo = infoList.toPersistentList(),
+                additionalRes = initialMap.toPersistentMap(),
+                directUrls = directUrls.toPersistentMap(),
+                additionalText = textList.toPersistentList()
+            ) as DetailsUiState
+        )
+    }.flowOn(
+        Dispatchers.IO
+    ).catch { error ->
+        emit(DetailsUiState.Error(error))
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000L),
+        initialValue = DetailsUiState.Loading
+    )
+
+    private suspend fun loadDirectedUrlSequentially(urls: Map<String, String>): Map<String, String> {
+        val loadedUrls = mutableMapOf<String, String>()
+        urls.forEach { (key, value) ->
+            if (key.contains("yandex")) {
+                runCatching {
+                    val response = _repository.getHrefFromLink(publicKey = key)
+                    response.href?.let { href ->
+                        loadedUrls[href] = value
                     }
+                }.onFailure {
+                    loadedUrls[key] = value
                 }
-                else{
-                    loadedUrls[it.key] = it.value
-                }
+            } else {
+                loadedUrls[key] = value
             }
-            _directUrls.value = loadedUrls
         }
+        return loadedUrls
     }
 }

@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.gorman.ourmemoryapp" />
-                  <option name="mobileSdkAppId" value="1:417187244027:android:0392e2cad02b84a2f44d5e" />
-                  <option name="projectId" value="cafeadmin-18799" />
-                  <option name="projectNumber" value="417187244027" />
+                  <option name="mobileSdkAppId" value="1:395397163961:android:63fd748909b6958518e468" />
+                  <option name="projectId" value="chatroom-85fb8" />
+                  <option name="projectNumber" value="395397163961" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

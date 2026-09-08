@@ -4,8 +4,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import com.gorman.ourmemoryapp.R
 
-fun inriaFont(): FontFamily
-{
+fun inriaFont(): FontFamily {
     val inria = FontFamily(
         Font(R.font.inriaserif_bolditalic)
     )

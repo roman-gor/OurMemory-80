@@ -9,7 +9,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class FirebaseDBImpl @Inject constructor(
     private val _dbRef: DatabaseReference
-): FirebaseDB {
+) : FirebaseDB {
     override suspend fun getAllVeterans(): List<Veteran> = suspendCoroutine { continuation ->
         _dbRef.get()
             .addOnSuccessListener { snapshot ->
