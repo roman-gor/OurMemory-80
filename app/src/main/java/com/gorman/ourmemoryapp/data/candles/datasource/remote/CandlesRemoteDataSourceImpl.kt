@@ -24,7 +24,7 @@ class CandlesRemoteDataSourceImpl @Inject constructor(
         val reference = root.child(DatabaseNodes.CANDLES).child(veteranId)
         val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                trySend(snapshot.getValue(Long::class.java) ?: 0L)
+                trySend(snapshot.value.toCandleCount())
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -38,7 +38,7 @@ class CandlesRemoteDataSourceImpl @Inject constructor(
     override suspend fun lightCandle(veteranId: String) = suspendCancellableCoroutine { continuation ->
         root.child(DatabaseNodes.CANDLES).child(veteranId).runTransaction(object : Transaction.Handler {
             override fun doTransaction(currentData: MutableData): Transaction.Result {
-                currentData.value = (currentData.getValue(Long::class.java) ?: 0L) + 1
+                currentData.value = currentData.value.toCandleCount() + 1
                 return Transaction.success(currentData)
             }
 
@@ -50,5 +50,11 @@ class CandlesRemoteDataSourceImpl @Inject constructor(
                 }
             }
         })
+    }
+
+    private fun Any?.toCandleCount(): Long = when (this) {
+        is Number -> toLong()
+        is String -> toLongOrNull() ?: 0L
+        else -> 0L
     }
 }
