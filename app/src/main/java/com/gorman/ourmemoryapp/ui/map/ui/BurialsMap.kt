@@ -14,6 +14,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.ui.common.models.CemeteryLocation
+import com.gorman.ourmemoryapp.ui.common.ui.NumberImageProvider
 import com.gorman.ourmemoryapp.ui.map.models.BurialMarkerUi
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
@@ -61,7 +62,7 @@ fun BurialsMap(
     }
     val clusterListener = remember {
         ClusterListener { cluster ->
-            cluster.appearance.setIcon(ClusterImageProvider(context, cluster.size))
+            cluster.appearance.setIcon(NumberImageProvider(context, cluster.size))
             cluster.addClusterTapListener(clusterTapListener)
         }
     }

@@ -77,4 +77,11 @@
     <string name="map">Карта</string>
     <string name="about_cemetery">Пра могілкі</string>
     <string name="start">Пачаць</string>
+    <string name="tours">Экскурсіі</string>
+    <plurals name="stops_count">
+        <item quantity="one">%d прыпынак</item>
+        <item quantity="few">%d прыпынкі</item>
+        <item quantity="many">%d прыпынкаў</item>
+        <item quantity="other">%d прыпынку</item>
+    </plurals>
 </resources>

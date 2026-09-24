@@ -7,10 +7,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,19 +40,18 @@ import com.gorman.ourmemoryapp.ui.common.ui.rememberMapViewWithLifecycle
 import com.gorman.ourmemoryapp.ui.map.models.MapUiIntent
 import com.gorman.ourmemoryapp.ui.map.models.MapUiState
 import com.gorman.ourmemoryapp.ui.map.viewmodels.MapViewModel
+import com.gorman.ourmemoryapp.ui.tours.ui.ToursSheet
 import kotlinx.coroutines.launch
 
 @Composable
 fun MapScreen(
     onBackClick: (() -> Unit)?,
     onVeteranClick: (String) -> Unit,
+    onTourClick: (String) -> Unit,
     mapViewModel: MapViewModel = hiltViewModel()
 ) {
     val uiState by mapViewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
-    var isSatellite by rememberSaveable { mutableStateOf(false) }
-
-    SystemBarIcons(darkIcons = !isSatellite)
 
     Box(
         modifier = Modifier
@@ -59,11 +63,10 @@ fun MapScreen(
             MapUiState.Error -> ErrorContent(modifier = Modifier.statusBarsPadding())
             is MapUiState.Success -> MapContent(
                 state = state,
-                isSatellite = isSatellite,
-                onMapTypeClick = { isSatellite = !isSatellite },
                 snackbarHostState = snackbarHostState,
                 onUiIntent = mapViewModel::onUiIntent,
                 onVeteranClick = onVeteranClick,
+                onTourClick = onTourClick,
                 onBackClick = onBackClick
             )
         }
@@ -82,13 +85,16 @@ fun MapScreen(
 @Composable
 private fun MapContent(
     state: MapUiState.Success,
-    isSatellite: Boolean,
-    onMapTypeClick: () -> Unit,
     snackbarHostState: SnackbarHostState,
     onUiIntent: (MapUiIntent) -> Unit,
     onVeteranClick: (String) -> Unit,
+    onTourClick: (String) -> Unit,
     onBackClick: (() -> Unit)?
 ) {
+    var showTours by rememberSaveable { mutableStateOf(false) }
+    var isSatellite by rememberSaveable { mutableStateOf(false) }
+
+    SystemBarIcons(darkIcons = !isSatellite)
     val mapView = rememberMapViewWithLifecycle()
     val scope = rememberCoroutineScope()
     val permissionDeniedMessage = stringResource(R.string.allow_location_access_msg)
@@ -119,17 +125,48 @@ private fun MapContent(
                 checkedArt = state.checkedArt,
                 onCheckedWarChange = { onUiIntent(MapUiIntent.OnCheckedWarChange(it)) },
                 onCheckedArtChange = { onUiIntent(MapUiIntent.OnCheckedArtChange(it)) },
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
+                trailingContent = {
+                    if (state.tours.isNotEmpty()) {
+                        AssistChip(
+                            onClick = { showTours = true },
+                            label = { Text(text = stringResource(R.string.tours)) },
+                            leadingIcon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.directions_walk),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(AssistChipDefaults.IconSize)
+                                )
+                            },
+                            colors = AssistChipDefaults.assistChipColors(
+                                containerColor = MaterialTheme.colorScheme.surface,
+                                leadingIconContentColor = MaterialTheme.colorScheme.primary
+                            ),
+                            elevation = AssistChipDefaults.assistChipElevation(elevation = 2.dp)
+                        )
+                    }
+                }
             )
         }
         MapControls(
             isSatellite = isSatellite,
-            onMapTypeClick = onMapTypeClick,
+            onMapTypeClick = { isSatellite = !isSatellite },
             onMyLocationClick = onMyLocationClick,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .navigationBarsPadding()
                 .padding(16.dp)
+        )
+    }
+
+    if (showTours) {
+        ToursSheet(
+            tours = state.tours,
+            onTourClick = { tourId ->
+                showTours = false
+                onTourClick(tourId)
+            },
+            onDismiss = { showTours = false }
         )
     }
 

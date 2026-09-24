@@ -9,8 +9,12 @@ import com.gorman.ourmemoryapp.data.datasource.FirebaseDB
 import com.gorman.ourmemoryapp.data.datasource.FirebaseDBImpl
 import com.gorman.ourmemoryapp.data.datasource.YandexApiService
 import com.gorman.ourmemoryapp.data.repository.VeteransRepositoryImpl
+import com.gorman.ourmemoryapp.data.tours.datasource.remote.ToursRemoteDataSource
+import com.gorman.ourmemoryapp.data.tours.datasource.remote.ToursRemoteDataSourceImpl
+import com.gorman.ourmemoryapp.data.tours.repository.ToursRepositoryImpl
 import com.gorman.ourmemoryapp.di.annotation.IoDispatcher
 import com.gorman.ourmemoryapp.domain.repository.BurialsRepository
+import com.gorman.ourmemoryapp.domain.repository.ToursRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
 import dagger.Module
 import dagger.Provides
@@ -64,6 +68,16 @@ object AppModule {
     @Singleton
     fun provideBurialsRepository(dataSource: BurialsRemoteDataSource): BurialsRepository =
         BurialsRepositoryImpl(dataSource)
+
+    @Provides
+    @Singleton
+    fun provideToursRemoteDataSource(database: FirebaseDatabase): ToursRemoteDataSource =
+        ToursRemoteDataSourceImpl(database)
+
+    @Provides
+    @Singleton
+    fun provideToursRepository(dataSource: ToursRemoteDataSource): ToursRepository =
+        ToursRepositoryImpl(dataSource)
 
     @Provides
     @Singleton

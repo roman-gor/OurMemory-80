@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp.ui.map.models
+package com.gorman.ourmemoryapp.ui.common.models
 
 import androidx.annotation.StringRes
 import com.gorman.ourmemoryapp.R

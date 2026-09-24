@@ -1,8 +1,12 @@
 package com.gorman.ourmemoryapp.data.repository
 
 import android.content.Context
-import android.media.MediaPlayer
 import android.util.Log
+import androidx.media3.common.C
+import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import com.gorman.ourmemoryapp.domain.models.AudioItem
 import com.gorman.ourmemoryapp.domain.models.AudioPlaybackState
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -14,69 +18,79 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class AudioRepository @Inject constructor(
-    @param:ApplicationContext private val context: Context
+    @ApplicationContext context: Context
 ) {
-    private var mediaPlayer: MediaPlayer? = null
-
     private val _playbackState = MutableStateFlow(AudioPlaybackState())
     val playbackState = _playbackState.asStateFlow()
 
-    fun playAudio(audioItem: AudioItem) {
-        stopAudio()
-        runCatching {
-            mediaPlayer = MediaPlayer.create(context, audioItem.rawResourceId).apply {
-                setOnCompletionListener {
-                    _playbackState.value = _playbackState.value.copy(
-                        isPlaying = false,
-                        currentPosition = 0,
-                        currentAudio = null
-                    )
+    private val player = ExoPlayer.Builder(context).build().apply {
+        addListener(object : Player.Listener {
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                if (_playbackState.value.currentAudio != null) {
+                    _playbackState.value = _playbackState.value.copy(isPlaying = isPlaying)
                 }
-                start()
-                _playbackState.value = _playbackState.value.copy(
-                    isPlaying = true,
-                    currentAudio = audioItem,
-                    duration = duration
-                )
             }
-        }.onFailure { error ->
-            Log.e("Audio Repository", "Error play audio", error)
-        }
+
+            override fun onPlaybackStateChanged(playbackState: Int) {
+                when (playbackState) {
+                    Player.STATE_READY -> if (duration != C.TIME_UNSET) {
+                        _playbackState.value = _playbackState.value.copy(duration = duration.toInt())
+                    }
+                    Player.STATE_ENDED -> stopAudio()
+                    else -> Unit
+                }
+            }
+
+            override fun onPlayerError(error: PlaybackException) {
+                Log.e(LOG_TAG, "Error playing audio", error)
+                stopAudio()
+            }
+        })
+    }
+
+    fun playAudio(audioItem: AudioItem) {
+        player.setMediaItem(MediaItem.fromUri(audioItem.url))
+        player.prepare()
+        player.play()
+        _playbackState.value = AudioPlaybackState(isPlaying = true, currentAudio = audioItem)
     }
 
     fun pauseAudio() {
-        mediaPlayer?.pause()
+        player.pause()
         _playbackState.value = _playbackState.value.copy(
             isPlaying = false,
-            currentPosition = mediaPlayer?.currentPosition ?: 0
+            currentPosition = player.currentPosition.toInt()
         )
     }
 
     fun resumeAudio() {
-        mediaPlayer?.start()
-        _playbackState.value = _playbackState.value.copy(isPlaying = true)
+        player.play()
     }
 
     fun stopAudio() {
-        mediaPlayer?.stop()
-        mediaPlayer?.release()
-        mediaPlayer = null
+        player.stop()
+        player.clearMediaItems()
         _playbackState.value = AudioPlaybackState()
     }
 
     fun seekTo(position: Int) {
-        mediaPlayer?.seekTo(position)
+        player.seekTo(position.toLong())
         _playbackState.value = _playbackState.value.copy(currentPosition = position)
     }
 
     fun observePosition(): Flow<Int> = flow {
         while (true) {
-            emit(mediaPlayer?.currentPosition ?: 0)
+            emit(player.currentPosition.toInt())
             delay(POSITION_UPDATE_MILLIS)
         }
     }
 
+    fun release() {
+        player.release()
+    }
+
     companion object {
+        private const val LOG_TAG = "AudioRepository"
         private const val POSITION_UPDATE_MILLIS = 500L
     }
 }

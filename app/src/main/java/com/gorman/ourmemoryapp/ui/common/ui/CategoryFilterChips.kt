@@ -4,6 +4,7 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.FilterChip
@@ -23,7 +24,8 @@ fun CategoryFilterChips(
     onCheckedWarChange: (Boolean) -> Unit,
     onCheckedArtChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp)
+    contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp),
+    trailingContent: @Composable RowScope.() -> Unit = {}
 ) {
     Row(
         modifier = modifier
@@ -41,6 +43,7 @@ fun CategoryFilterChips(
             label = stringResource(R.string.art),
             onClick = { onCheckedArtChange(!checkedArt) }
         )
+        trailingContent()
     }
 }
 

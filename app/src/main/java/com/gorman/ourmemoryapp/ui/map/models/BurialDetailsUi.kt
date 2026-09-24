@@ -1,5 +1,6 @@
 package com.gorman.ourmemoryapp.ui.map.models
 
+import com.gorman.ourmemoryapp.ui.common.models.BurialType
 import com.gorman.ourmemoryapp.ui.common.models.BurialUi
 import kotlinx.collections.immutable.ImmutableList
 

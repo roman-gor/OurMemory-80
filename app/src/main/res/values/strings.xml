@@ -79,4 +79,11 @@
     <string name="map">Карта</string>
     <string name="about_cemetery">О кладбище</string>
     <string name="start">Начать</string>
+    <string name="tours">Экскурсии</string>
+    <plurals name="stops_count">
+        <item quantity="one">%d остановка</item>
+        <item quantity="few">%d остановки</item>
+        <item quantity="many">%d остановок</item>
+        <item quantity="other">%d остановки</item>
+    </plurals>
 </resources>

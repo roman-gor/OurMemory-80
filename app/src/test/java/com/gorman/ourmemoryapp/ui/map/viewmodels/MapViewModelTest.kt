@@ -3,11 +3,14 @@ package com.gorman.ourmemoryapp.ui.map.viewmodels
 import androidx.lifecycle.SavedStateHandle
 import com.gorman.ourmemoryapp.domain.models.Burial
 import com.gorman.ourmemoryapp.domain.models.Screen
+import com.gorman.ourmemoryapp.domain.models.Tour
+import com.gorman.ourmemoryapp.domain.models.TourStop
 import com.gorman.ourmemoryapp.domain.models.Veteran
 import com.gorman.ourmemoryapp.testutil.FakeBurialsRepository
+import com.gorman.ourmemoryapp.testutil.FakeToursRepository
 import com.gorman.ourmemoryapp.testutil.FakeVeteransRepository
 import com.gorman.ourmemoryapp.testutil.MainDispatcherRule
-import com.gorman.ourmemoryapp.ui.map.models.BurialType
+import com.gorman.ourmemoryapp.ui.common.models.BurialType
 import com.gorman.ourmemoryapp.ui.map.models.MapUiIntent
 import com.gorman.ourmemoryapp.ui.map.models.MapUiState
 import kotlinx.coroutines.flow.first
@@ -36,13 +39,17 @@ class MapViewModelTest {
     private val warVeteran = Veteran(id = "1", name = "Иванов", category = "War", burialId = warGrave.id)
     private val artVeteran = Veteran(id = "2", name = "Петров", category = "Art", burialId = artGrave.id)
 
+    private val tour = Tour(id = "t_heroes", title = "Герои", stops = listOf(TourStop(burialId = warGrave.id)))
+
     private fun viewModel(
         savedStateHandle: SavedStateHandle = SavedStateHandle(),
-        burialsError: Throwable? = null
+        burialsError: Throwable? = null,
+        toursError: Throwable? = null
     ) = MapViewModel(
         savedStateHandle = savedStateHandle,
         burialsRepository = FakeBurialsRepository(listOf(monument, warGrave, artGrave, noCoordinates), burialsError),
         veteransRepository = FakeVeteransRepository(listOf(warVeteran, artVeteran)),
+        toursRepository = FakeToursRepository(listOf(tour, Tour(id = "t_empty")), toursError),
         ioDispatcher = mainDispatcherRule.dispatcher
     )
 
@@ -98,6 +105,22 @@ class MapViewModelTest {
         viewModel.onUiIntent(MapUiIntent.OnSheetDismiss)
 
         assertNull(viewModel.awaitSuccess { it.selectedBurial == null }.selectedBurial)
+    }
+
+    @Test
+    fun toursWithStopsAreListed() = runTest {
+        val state = viewModel().awaitSuccess()
+
+        assertEquals(listOf(tour.id), state.tours.map { it.id })
+        assertEquals(1, state.tours.single().stopsCount)
+    }
+
+    @Test
+    fun toursFailureKeepsMapWorking() = runTest {
+        val state = viewModel(toursError = IllegalStateException("offline")).awaitSuccess()
+
+        assertEquals(emptyList<String>(), state.tours.map { it.id })
+        assertEquals(3, state.markers.size)
     }
 
     @Test

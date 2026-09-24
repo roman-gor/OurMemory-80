@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.domain.models.AudioPlaybackState
+import com.gorman.ourmemoryapp.ui.common.models.AudioAction
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.ExpandableTextSection
 import com.gorman.ourmemoryapp.ui.common.ui.FloatingTopBar
@@ -30,7 +31,6 @@ import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.MediaGallery
 import com.gorman.ourmemoryapp.ui.common.ui.SystemBarIcons
 import com.gorman.ourmemoryapp.ui.common.ui.rememberIsHeroScrolledAway
-import com.gorman.ourmemoryapp.ui.details.models.AudioAction
 import com.gorman.ourmemoryapp.ui.details.models.DetailsUiEvent
 import com.gorman.ourmemoryapp.ui.details.models.DetailsUiState
 import com.gorman.ourmemoryapp.ui.details.viewmodels.DetailsViewModel

@@ -31,6 +31,7 @@ import com.gorman.ourmemoryapp.ui.info.ui.InfoScreen
 import com.gorman.ourmemoryapp.ui.intro.ui.IntroScreen
 import com.gorman.ourmemoryapp.ui.map.ui.MapScreen
 import com.gorman.ourmemoryapp.ui.navigation.models.TopLevelTab
+import com.gorman.ourmemoryapp.ui.tours.ui.TourScreen
 
 @Composable
 fun AppNavigation(openedFromLink: Boolean, onChangeLangClick: (String) -> Unit) {
@@ -45,10 +46,6 @@ fun AppNavigation(openedFromLink: Boolean, onChangeLangClick: (String) -> Unit) 
 
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentTab = TopLevelTab.entries.firstOrNull { it.screen.route == backStackEntry?.destination?.route }
-    val openVeteran: (String) -> Unit = { veteranId ->
-        navController.navigate("${Screen.DetailScreen.route}/$veteranId")
-    }
-
     Scaffold(
         bottomBar = {
             if (currentTab != null) {
@@ -61,57 +58,86 @@ fun AppNavigation(openedFromLink: Boolean, onChangeLangClick: (String) -> Unit) 
         contentWindowInsets = WindowInsets(0)
     ) { padding ->
         val bottomPadding = PaddingValues(bottom = padding.calculateBottomPadding())
-        NavHost(
+        AppNavHost(
             navController = navController,
-            startDestination = if (openedFromLink) Screen.HomeScreen.route else Screen.IntroScreen.route,
+            openedFromLink = openedFromLink,
+            onChangeLangClick = onChangeLangClick,
             modifier = Modifier
                 .padding(bottomPadding)
                 .consumeWindowInsets(bottomPadding)
-        ) {
-            composable(Screen.IntroScreen.route) {
-                IntroScreen {
-                    navController.navigate(Screen.HomeScreen.route) {
-                        popUpTo(Screen.IntroScreen.route) { inclusive = true }
-                    }
+        )
+    }
+}
+
+@Composable
+private fun AppNavHost(
+    navController: NavHostController,
+    openedFromLink: Boolean,
+    onChangeLangClick: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val openVeteran: (String) -> Unit = { veteranId ->
+        navController.navigate("${Screen.DetailScreen.route}/$veteranId")
+    }
+    val openTour: (String) -> Unit = { tourId ->
+        navController.navigate(Screen.TourScreen.withTour(tourId))
+    }
+
+    NavHost(
+        navController = navController,
+        startDestination = if (openedFromLink) Screen.HomeScreen.route else Screen.IntroScreen.route,
+        modifier = modifier
+    ) {
+        composable(Screen.IntroScreen.route) {
+            IntroScreen {
+                navController.navigate(Screen.HomeScreen.route) {
+                    popUpTo(Screen.IntroScreen.route) { inclusive = true }
                 }
             }
-            composable(Screen.HomeScreen.route) {
-                MainScreen(onItemClick = openVeteran)
-            }
-            composable(Screen.MapScreen.route) {
-                MapScreen(onBackClick = null, onVeteranClick = openVeteran)
-            }
-            composable(Screen.InfoScreen.route) {
-                InfoScreen(
-                    onOpenMapClick = { navController.navigateToTab(TopLevelTab.MAP) },
-                    onChangeLangClick = onChangeLangClick
-                )
-            }
-            composable(
-                route = "${Screen.DetailScreen.route}/{veteranId}",
-                deepLinks = listOf(navDeepLink { uriPattern = "${VeteranLink.BASE_URL}/{veteranId}" })
-            ) {
-                val veteranId = it.arguments?.getString("veteranId")
-                val detailsViewModel = hiltViewModel<DetailsViewModel, DetailsViewModel.Factory>(
-                    creationCallback = { factory -> factory.create(veteranId.orEmpty()) }
-                )
-                DetailsScreen(
-                    detailsViewModel = detailsViewModel,
-                    onBackClick = { navController.popBackStack() },
-                    onShowOnMapClick = { burialId ->
-                        navController.navigate(Screen.BurialMapScreen.withBurial(burialId))
-                    }
-                )
-            }
-            composable(
-                route = Screen.BurialMapScreen.pattern,
-                arguments = listOf(navArgument(Screen.BurialMapScreen.BURIAL_ID_ARG) { type = NavType.StringType })
-            ) {
-                MapScreen(
-                    onBackClick = { navController.popBackStack() },
-                    onVeteranClick = openVeteran
-                )
-            }
+        }
+        composable(Screen.HomeScreen.route) {
+            MainScreen(onItemClick = openVeteran)
+        }
+        composable(Screen.MapScreen.route) {
+            MapScreen(onBackClick = null, onVeteranClick = openVeteran, onTourClick = openTour)
+        }
+        composable(Screen.InfoScreen.route) {
+            InfoScreen(
+                onOpenMapClick = { navController.navigateToTab(TopLevelTab.MAP) },
+                onChangeLangClick = onChangeLangClick
+            )
+        }
+        composable(
+            route = "${Screen.DetailScreen.route}/{veteranId}",
+            deepLinks = listOf(navDeepLink { uriPattern = "${VeteranLink.BASE_URL}/{veteranId}" })
+        ) {
+            val veteranId = it.arguments?.getString("veteranId")
+            val detailsViewModel = hiltViewModel<DetailsViewModel, DetailsViewModel.Factory>(
+                creationCallback = { factory -> factory.create(veteranId.orEmpty()) }
+            )
+            DetailsScreen(
+                detailsViewModel = detailsViewModel,
+                onBackClick = { navController.popBackStack() },
+                onShowOnMapClick = { burialId ->
+                    navController.navigate(Screen.BurialMapScreen.withBurial(burialId))
+                }
+            )
+        }
+        composable(
+            route = Screen.BurialMapScreen.pattern,
+            arguments = listOf(navArgument(Screen.BurialMapScreen.BURIAL_ID_ARG) { type = NavType.StringType })
+        ) {
+            MapScreen(
+                onBackClick = { navController.popBackStack() },
+                onVeteranClick = openVeteran,
+                onTourClick = openTour
+            )
+        }
+        composable(
+            route = Screen.TourScreen.pattern,
+            arguments = listOf(navArgument(Screen.TourScreen.TOUR_ID_ARG) { type = NavType.StringType })
+        ) {
+            TourScreen(onBackClick = { navController.popBackStack() })
         }
     }
 }

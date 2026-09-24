@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp.ui.map.ui
+package com.gorman.ourmemoryapp.ui.common.ui
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -11,12 +11,12 @@ import com.gorman.ourmemoryapp.ui.theme.MemoryPaper
 import com.gorman.ourmemoryapp.ui.theme.MemoryRed
 import com.yandex.runtime.image.ImageProvider
 
-class ClusterImageProvider(
+class NumberImageProvider(
     private val context: Context,
-    private val size: Int
+    private val number: Int
 ) : ImageProvider() {
 
-    override fun getId() = "$ID_PREFIX$size"
+    override fun getId() = "$ID_PREFIX$number"
 
     override fun getImage(): Bitmap {
         val density = context.resources.displayMetrics.density
@@ -42,12 +42,12 @@ class ClusterImageProvider(
         canvas.drawCircle(radius, radius, radius - strokeWidth / 2, fillPaint)
         canvas.drawCircle(radius, radius, radius - strokeWidth / 2, strokePaint)
         val baseline = radius - (textPaint.descent() + textPaint.ascent()) / 2
-        canvas.drawText(size.toString(), radius, baseline, textPaint)
+        canvas.drawText(number.toString(), radius, baseline, textPaint)
         return bitmap
     }
 
     companion object {
-        private const val ID_PREFIX = "burial_cluster_"
+        private const val ID_PREFIX = "number_marker_"
         private const val RADIUS_DP = 20f
         private const val STROKE_DP = 2f
         private const val TEXT_SIZE_DP = 14f

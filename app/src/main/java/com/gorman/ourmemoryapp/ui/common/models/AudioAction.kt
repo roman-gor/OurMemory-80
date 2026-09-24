@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp.ui.details.models
+package com.gorman.ourmemoryapp.ui.common.models
 
 sealed interface AudioAction {
     object Play : AudioAction

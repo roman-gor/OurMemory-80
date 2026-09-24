@@ -3,17 +3,19 @@ package com.gorman.ourmemoryapp.ui.details.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gorman.ourmemoryapp.BuildConfig
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.data.repository.AudioRepository
 import com.gorman.ourmemoryapp.di.annotation.IoDispatcher
 import com.gorman.ourmemoryapp.domain.models.AudioItem
 import com.gorman.ourmemoryapp.domain.models.AudioPlaybackState
 import com.gorman.ourmemoryapp.domain.models.Burial
+import com.gorman.ourmemoryapp.domain.models.Veteran
 import com.gorman.ourmemoryapp.domain.repository.BurialsRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
+import com.gorman.ourmemoryapp.ui.common.models.AudioAction
 import com.gorman.ourmemoryapp.ui.common.models.MediaUi
 import com.gorman.ourmemoryapp.ui.common.models.toExternalModel
-import com.gorman.ourmemoryapp.ui.details.models.AudioAction
 import com.gorman.ourmemoryapp.ui.details.models.DetailsUiEvent
 import com.gorman.ourmemoryapp.ui.details.models.DetailsUiState
 import com.gorman.ourmemoryapp.ui.details.models.parseRewards
@@ -79,7 +81,7 @@ class DetailsViewModel @AssistedInject constructor(
     }
 
     override fun onCleared() {
-        audioRepository.stopAudio()
+        audioRepository.release()
     }
 
     private fun observeDetailsUiState(): Flow<DetailsUiState> = flow<DetailsUiState> {
@@ -99,7 +101,7 @@ class DetailsViewModel @AssistedInject constructor(
                     .distinct()
                     .toPersistentList(),
                 media = resolveMedia(links).toPersistentList(),
-                audio = loadAudioForVeteran(),
+                audio = audioFor(veteran),
                 burial = burials.firstOrNull { it.id == veteran.burialId && veteran.burialId.isNotBlank() }
                     ?.toExternalModel()
             )
@@ -127,12 +129,14 @@ class DetailsViewModel @AssistedInject constructor(
         }.awaitAll()
     }
 
-    private fun loadAudioForVeteran() = AudioItem(
-        id = BIOGRAPHY_AUDIO_ID,
-        fileName = BIOGRAPHY_AUDIO_FILE_NAME,
-        rawResourceId = R.raw.veteran_bio_10,
-        itemId = BIOGRAPHY_AUDIO_ID
-    )
+    private fun audioFor(veteran: Veteran): AudioItem? = when {
+        veteran.audioUrl.isNotBlank() -> AudioItem(id = veteran.id, url = veteran.audioUrl)
+        veteran.id == BUNDLED_BIOGRAPHY_VETERAN_ID -> AudioItem(
+            id = veteran.id,
+            url = "$ANDROID_RESOURCE_SCHEME${BuildConfig.APPLICATION_ID}/${R.raw.veteran_bio_10}"
+        )
+        else -> null
+    }
 
     private fun onAudioAction(action: AudioAction) {
         when (action) {
@@ -153,7 +157,7 @@ class DetailsViewModel @AssistedInject constructor(
         private const val LOG_TAG = "DetailsViewModel"
         private const val LINK_MARKER = "http"
         private const val DESCRIPTION_SEPARATOR = "|"
-        private const val BIOGRAPHY_AUDIO_ID = 10
-        private const val BIOGRAPHY_AUDIO_FILE_NAME = "veteran_bio_10.mp3"
+        private const val BUNDLED_BIOGRAPHY_VETERAN_ID = "10"
+        private const val ANDROID_RESOURCE_SCHEME = "android.resource://"
     }
 }

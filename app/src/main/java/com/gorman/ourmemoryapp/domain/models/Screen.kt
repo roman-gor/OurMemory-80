@@ -11,4 +11,9 @@ sealed class Screen(val route: String) {
         val pattern = "$route/{$BURIAL_ID_ARG}"
         fun withBurial(burialId: String) = "$route/$burialId"
     }
+    object TourScreen : Screen("tour") {
+        const val TOUR_ID_ARG = "tourId"
+        val pattern = "$route/{$TOUR_ID_ARG}"
+        fun withTour(tourId: String) = "$route/$tourId"
+    }
 }

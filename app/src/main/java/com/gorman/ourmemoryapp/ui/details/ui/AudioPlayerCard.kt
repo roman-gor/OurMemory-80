@@ -28,7 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.domain.models.AudioPlaybackState
-import com.gorman.ourmemoryapp.ui.details.models.AudioAction
+import com.gorman.ourmemoryapp.ui.common.models.AudioAction
 import java.util.Locale
 
 @Composable

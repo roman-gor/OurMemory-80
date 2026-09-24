@@ -9,15 +9,19 @@ import com.gorman.ourmemoryapp.domain.models.Burial
 import com.gorman.ourmemoryapp.domain.models.Screen
 import com.gorman.ourmemoryapp.domain.models.Veteran
 import com.gorman.ourmemoryapp.domain.repository.BurialsRepository
+import com.gorman.ourmemoryapp.domain.repository.ToursRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
+import com.gorman.ourmemoryapp.ui.common.models.BurialType
 import com.gorman.ourmemoryapp.ui.common.models.toExternalModel
 import com.gorman.ourmemoryapp.ui.map.models.BurialDetailsUi
 import com.gorman.ourmemoryapp.ui.map.models.BurialMarkerUi
-import com.gorman.ourmemoryapp.ui.map.models.BurialType
 import com.gorman.ourmemoryapp.ui.map.models.MapUiIntent
 import com.gorman.ourmemoryapp.ui.map.models.MapUiState
 import com.gorman.ourmemoryapp.ui.map.models.toShortUi
+import com.gorman.ourmemoryapp.ui.tours.models.TourSummaryUi
+import com.gorman.ourmemoryapp.ui.tours.models.toSummaryUi
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
@@ -37,6 +41,7 @@ class MapViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val burialsRepository: BurialsRepository,
     private val veteransRepository: VeteransRepository,
+    private val toursRepository: ToursRepository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -72,7 +77,8 @@ class MapViewModel @Inject constructor(
             selectedBurial = selectedId?.let { burialDetails(cemetery, it) },
             focusedBurialId = focusedBurialId,
             checkedWar = war,
-            checkedArt = art
+            checkedArt = art,
+            tours = cemetery.tours
         ) as MapUiState
     }.flowOn(
         ioDispatcher
@@ -84,7 +90,9 @@ class MapViewModel @Inject constructor(
     private suspend fun loadCemetery() = coroutineScope {
         val burials = async { burialsRepository.getAllBurials() }
         val veterans = async { veteransRepository.getAllVeterans() }
+        val tours = async { loadTours() }
         Cemetery(
+            tours = tours.await(),
             burials = burials.await().filter { it.hasCoordinates() },
             veteransByBurial = veterans.await().filter { it.burialId.isNotBlank() }.groupBy { it.burialId }
         )
@@ -101,9 +109,17 @@ class MapViewModel @Inject constructor(
         )
     }
 
+    private suspend fun loadTours() = runCatching { toursRepository.getAllTours() }
+        .onFailure { Log.e(LOG_TAG, "Failed to load tours", it) }
+        .getOrDefault(emptyList())
+        .filter { it.stops.isNotEmpty() }
+        .map { it.toSummaryUi() }
+        .toPersistentList()
+
     private fun Burial.hasCoordinates() = latitude != 0.0 || longitude != 0.0
 
     private data class Cemetery(
+        val tours: ImmutableList<TourSummaryUi>,
         val burials: List<Burial>,
         val veteransByBurial: Map<String, List<Veteran>>
     ) {
