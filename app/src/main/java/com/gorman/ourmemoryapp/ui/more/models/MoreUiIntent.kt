@@ -8,4 +8,8 @@ sealed interface MoreUiIntent {
     data class OnTextScaleChange(val scale: TextScale) : MoreUiIntent
     data class OnVictoryDayReminderChange(val isEnabled: Boolean) : MoreUiIntent
     data class OnFavoriteRemindersChange(val isEnabled: Boolean) : MoreUiIntent
+    data object OnGoogleSignInStarted : MoreUiIntent
+    data class OnGoogleIdToken(val idToken: String) : MoreUiIntent
+    data class OnGoogleSignInFailed(val status: SignInStatus) : MoreUiIntent
+    data object OnSignOutClick : MoreUiIntent
 }

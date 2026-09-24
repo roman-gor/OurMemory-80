@@ -229,4 +229,10 @@
     <string name="mine">Моё</string>
     <string name="in_the_morning_of_may_9_msg">Утром 9 мая напомним почтить память</string>
     <string name="on_birthdays_and_memorial_days_msg">В дни рождения и памяти ветеранов из избранного</string>
+    <string name="keep_your_memory_safe">Сохраните свою память</string>
+    <string name="sign_in_to_keep_favorites_msg">Войдите через Google, и избранное с обращениями сохранятся даже после переустановки</string>
+    <string name="sign_in_with_google">Войти через Google</string>
+    <string name="favorites_and_requests_are_saved_msg">Избранное и обращения сохраняются в аккаунте</string>
+    <string name="could_not_sign_in_msg">Не удалось войти. Проверьте интернет и попробуйте ещё раз</string>
+    <string name="google_sign_in_not_configured_msg">Вход через Google пока не настроен</string>
 </resources>

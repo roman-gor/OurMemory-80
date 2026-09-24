@@ -227,4 +227,10 @@
     <string name="mine">Маё</string>
     <string name="in_the_morning_of_may_9_msg">Раніцай 9 мая нагадаем ушанаваць памяць</string>
     <string name="on_birthdays_and_memorial_days_msg">У дні нараджэння і памяці ветэранаў з абранага</string>
+    <string name="keep_your_memory_safe">Захавайце сваю памяць</string>
+    <string name="sign_in_to_keep_favorites_msg">Увайдзіце праз Google, і абранае са зваротамі захаваюцца нават пасля пераўсталёўкі</string>
+    <string name="sign_in_with_google">Увайсці праз Google</string>
+    <string name="favorites_and_requests_are_saved_msg">Абранае і звароты захоўваюцца ў акаўнце</string>
+    <string name="could_not_sign_in_msg">Не атрымалася ўвайсці. Праверце інтэрнэт і паспрабуйце яшчэ раз</string>
+    <string name="google_sign_in_not_configured_msg">Уваход праз Google пакуль не наладжаны</string>
 </resources>

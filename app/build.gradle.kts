@@ -24,12 +24,14 @@ android {
 
     defaultConfig {
         val mapkitApiKey = rootProject.extra["mapkitApiKey"] as String
+        val googleWebClientId = rootProject.extra["googleWebClientId"] as String
         applicationId = "com.gorman.ourmemoryapp"
         minSdk = 28
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
         buildConfigField("String", "MAPKIT_API_KEY", "\"$mapkitApiKey\"")
+        buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"$googleWebClientId\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -85,6 +87,9 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.storage)
     implementation(libs.firebase.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services)
+    implementation(libs.googleid)
     implementation(libs.coil.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)

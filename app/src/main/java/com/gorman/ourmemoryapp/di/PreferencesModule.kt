@@ -6,9 +6,13 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.google.firebase.database.DatabaseReference
+import com.gorman.ourmemoryapp.data.account.datasource.remote.GoogleAccountRemoteDataSource
 import com.gorman.ourmemoryapp.data.candles.datasource.local.CandlesLocalDataSourceImpl
 import com.gorman.ourmemoryapp.data.candles.datasource.remote.CandlesRemoteDataSourceImpl
 import com.gorman.ourmemoryapp.data.candles.repository.CandlesRepositoryImpl
+import com.gorman.ourmemoryapp.data.favorites.datasource.local.FavoritesLocalDataSource
+import com.gorman.ourmemoryapp.data.favorites.datasource.local.FavoritesLocalDataSourceImpl
+import com.gorman.ourmemoryapp.data.favorites.datasource.remote.FavoritesRemoteDataSource
 import com.gorman.ourmemoryapp.data.favorites.repository.FavoritesRepositoryImpl
 import com.gorman.ourmemoryapp.data.settings.repository.SettingsRepositoryImpl
 import com.gorman.ourmemoryapp.data.tours.repository.TourProgressRepositoryImpl
@@ -66,8 +70,16 @@ object PreferencesModule {
 
     @Provides
     @Singleton
-    fun provideFavoritesRepository(dataStore: DataStore<Preferences>): FavoritesRepository =
-        FavoritesRepositoryImpl(dataStore)
+    fun provideFavoritesLocalDataSource(dataStore: DataStore<Preferences>): FavoritesLocalDataSource =
+        FavoritesLocalDataSourceImpl(dataStore)
+
+    @Provides
+    @Singleton
+    fun provideFavoritesRepository(
+        localDataSource: FavoritesLocalDataSource,
+        remoteDataSource: FavoritesRemoteDataSource,
+        accountDataSource: GoogleAccountRemoteDataSource
+    ): FavoritesRepository = FavoritesRepositoryImpl(localDataSource, remoteDataSource, accountDataSource)
 
     @Provides
     @Singleton

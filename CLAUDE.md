@@ -33,6 +33,7 @@ Detekt uses `config/detekt.yml` with `maxIssues: 0`, so any new finding not in `
 ## Local configuration
 
 - `local.properties` must define `MAPKIT_API_KEY`. The root `build.gradle.kts` reads it into `extra["mapkitApiKey"]`, the app exposes it as `BuildConfig.MAPKIT_API_KEY`, and `MyApp` passes it to `MapKitFactory` on startup.
+- `local.properties` may define `GOOGLE_WEB_CLIENT_ID` (the Web client ID of the Google provider in Firebase Authentication). It becomes `BuildConfig.GOOGLE_WEB_CLIENT_ID`; while it is empty, «Войти через Google» on the More tab shows a "not configured" message. Google sign-in also needs the debug and release SHA-1 in the Firebase project settings.
 - `app/google-services.json` configures Firebase.
 - Release signing reads an optional root `keystore.properties` (`storeFile`, `storePassword`, `keyAlias`, `keyPassword`).
 
@@ -55,11 +56,13 @@ Package root: `app/src/main/java/com/gorman/ourmemoryapp/`:
 | `Candles/{veteranId}` | a counter | incremented in a transaction |
 | `Submissions` | relatives' materials, `status` `pending` / `approved` / `rejected` | written after anonymous auth; photos go to Storage `OurMemory/Submissions/{id}/`. Admins approve with one `updateChildren` that appends text and photos to `Veterans/veteran{id}/veteransInfo` |
 | `Feedback` | visitors' messages and error reports (`type`, `text`, `contact`, optional `veteranId`, `status` `new` / `done`) | written after anonymous auth, read and marked reviewed by admins |
+| `Users/{uid}/favorites/{veteranId}` | `true` for every favorite of a visitor signed in with Google | read and written only by that uid through `FavoritesRemoteDataSource`; signed-out visitors keep favorites in DataStore |
 | `Admins/{uid}` | `true` for every administrator account | read by `AuthRepository` to decide the role |
 
 Other data facts:
 - `VeteransRepositoryImpl`, `BurialsRepositoryImpl` and `ToursRepositoryImpl` load each node once per process and cache it behind a `Mutex`, so screens filter locally. `invalidate()` drops the cache; `ContentEditorRepositoryImpl` calls it after every admin write.
 - Offline persistence is enabled on the `FirebaseDatabase` provider.
+- Visitors may sign in with Google from the More tab. `GoogleAccountRemoteDataSourceImpl` links Google to the current anonymous user, so the uid and the visitor's requests survive; if that Google account was linked before (e.g. before a reinstall) it signs into it instead. After sign-in the local favorites are merged into `Users/{uid}/favorites`. An admin e-mail sign-in on the same device replaces the visitor's Google session.
 - Submissions and feedback carry `authorUid`, and admins may add `reply` and `reviewedAt`; visitors see them under More → «Мои обращения» (`MyRequestsRepository`). The anonymous uid lives until the app is reinstalled.
 - Live listeners go through `DatabaseReference.observeValue()` (`data/firebase/DatabaseReferenceFlows.kt`) so errors reach the flow instead of the main thread. Visitor writes call `AnonymousSession.ensureSignedIn()` first. Parse lists with `DataSnapshot.childrenAs<T>()`, which skips malformed children, and build veteran keys with `VeteranKeys.forId`.
 - `firebase/database.rules.json` and `firebase/storage.rules` cover only `OurMemory` and are **not** wired into `firebase.json`. Deploying them would replace the rules of the other apps, so merge them by hand in the console.

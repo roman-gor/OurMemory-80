@@ -1,6 +1,17 @@
 {
   "rules": {
     "OurMemory": {
+      "Users": {
+        "$uid": {
+          ".read": "auth != null && auth.uid === $uid",
+          ".write": "auth != null && auth.uid === $uid",
+          "favorites": {
+            "$veteranId": {
+              ".validate": "newData.val() === true"
+            }
+          }
+        }
+      },
       "Admins": {
         "$uid": {
           ".read": "auth != null && auth.uid === $uid",

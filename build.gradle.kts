@@ -76,13 +76,14 @@ dependencies {
     detektPlugins(libs.detekt.formatting.plugin)
 }
 
-fun getMapkitApiKey(): String {
+fun getLocalProperty(name: String): String {
     val properties = Properties()
     val localPropertiesFile = rootProject.file("local.properties")
     if (localPropertiesFile.exists()) {
         properties.load(localPropertiesFile.inputStream())
     }
-    return properties.getProperty("MAPKIT_API_KEY", "")
+    return properties.getProperty(name, "")
 }
 
-extra["mapkitApiKey"] = getMapkitApiKey()
+extra["mapkitApiKey"] = getLocalProperty("MAPKIT_API_KEY")
+extra["googleWebClientId"] = getLocalProperty("GOOGLE_WEB_CLIENT_ID")

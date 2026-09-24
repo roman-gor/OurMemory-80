@@ -55,6 +55,7 @@ fun MoreScreen(
     } ?: AppLanguage.RUSSIAN
     val onUiIntent = moreViewModel::onUiIntent
     val scanQr = rememberQrScanAction(onVeteranScanned = onVeteranScanned)
+    val signInWithGoogle = rememberGoogleSignInAction(onUiIntent = onUiIntent)
 
     LazyColumn(
         contentPadding = PaddingValues(
@@ -78,6 +79,14 @@ fun MoreScreen(
             )
         }
         item { MemoryBanner() }
+        item {
+            AccountCard(
+                account = state.account,
+                signInStatus = state.signInStatus,
+                onSignInClick = signInWithGoogle,
+                onSignOutClick = { onUiIntent(MoreUiIntent.OnSignOutClick) }
+            )
+        }
         item {
             PersonalGroup(
                 unseenRequestsCount = state.unseenRequestsCount,
