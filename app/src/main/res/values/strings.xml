@@ -176,4 +176,13 @@
     <string name="save">Сохранить</string>
     <string name="delete_veteran_msg">Удалить ветерана? Карточка исчезнет из приложения</string>
     <string name="cancel">Отмена</string>
+    <string name="burial_places">Места захоронения</string>
+    <string name="new_burial_place">Новое место</string>
+    <string name="description">Описание</string>
+    <string name="section">Участок</string>
+    <string name="row">Ряд</string>
+    <string name="place">Место</string>
+    <string name="latitude">Широта</string>
+    <string name="longitude">Долгота</string>
+    <string name="tap_map_to_move_marker_msg">Нажмите на карту, чтобы переставить метку</string>
 </resources>

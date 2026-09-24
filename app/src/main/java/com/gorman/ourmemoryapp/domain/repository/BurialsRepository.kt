@@ -4,4 +4,5 @@ import com.gorman.ourmemoryapp.domain.models.Burial
 
 interface BurialsRepository {
     suspend fun getAllBurials(): List<Burial>
+    suspend fun invalidate()
 }

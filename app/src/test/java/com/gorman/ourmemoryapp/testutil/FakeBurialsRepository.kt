@@ -8,8 +8,14 @@ class FakeBurialsRepository(
     private val error: Throwable? = null
 ) : BurialsRepository {
 
+    var invalidations = 0
+
     override suspend fun getAllBurials(): List<Burial> {
         error?.let { throw it }
         return burials
+    }
+
+    override suspend fun invalidate() {
+        invalidations++
     }
 }

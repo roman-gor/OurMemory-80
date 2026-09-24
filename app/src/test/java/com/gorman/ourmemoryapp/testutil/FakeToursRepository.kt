@@ -8,8 +8,14 @@ class FakeToursRepository(
     private val error: Throwable? = null
 ) : ToursRepository {
 
+    var invalidations = 0
+
     override suspend fun getAllTours(): List<Tour> {
         error?.let { throw it }
         return tours
+    }
+
+    override suspend fun invalidate() {
+        invalidations++
     }
 }

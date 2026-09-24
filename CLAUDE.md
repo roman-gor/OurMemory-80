@@ -50,15 +50,15 @@ Package root: `app/src/main/java/com/gorman/ourmemoryapp/`:
 | Node under `OurMemory/` | Contents | Accessed by |
 |---|---|---|
 | `Veterans/veteran{id}` | `id`, `name`, `portrait`, `years`, `category` (`"War"` / `"Art"`), `rewards`, `veteransInfo`, `burialId`, `audioUrl`, `birthDate` / `deathDate` (`yyyy-MM-dd`) | read by everyone; written whole by the admin veteran editor through `ContentEditorRepository`, which then calls `VeteransRepository.invalidate()` |
-| `Burials` | a grave, mass grave or monument, with coordinates and section/row/place | read-only |
-| `Tours` | ordered `stops` that point to a `burialId`, with `text` and `audioUrl` | read-only |
+| `Burials/{id}` | a grave, mass grave or monument, with coordinates and section/row/place | read by everyone; written by the admin burial editor (new ids come from `push().key`) |
+| `Tours/{id}` | ordered `stops` that point to a `burialId`, with `text` and `audioUrl` | read by everyone; written by the admin tour editor |
 | `Candles/{veteranId}` | a counter | incremented in a transaction |
 | `Submissions` | relatives' materials, `status` `pending` / `approved` / `rejected` | written after anonymous auth; photos go to Storage `OurMemory/Submissions/{id}/`. Admins approve with one `updateChildren` that appends text and photos to `Veterans/veteran{id}/veteransInfo` |
 | `Feedback` | visitors' messages and error reports (`type`, `text`, `contact`, optional `veteranId`, `status` `new` / `done`) | written after anonymous auth, read and marked reviewed by admins |
 | `Admins/{uid}` | `true` for every administrator account | read by `AuthRepository` to decide the role |
 
 Other data facts:
-- `VeteransRepositoryImpl`, `BurialsRepositoryImpl` and `ToursRepositoryImpl` load each node once per process and cache it behind a `Mutex`, so screens filter locally.
+- `VeteransRepositoryImpl`, `BurialsRepositoryImpl` and `ToursRepositoryImpl` load each node once per process and cache it behind a `Mutex`, so screens filter locally. `invalidate()` drops the cache; `ContentEditorRepositoryImpl` calls it after every admin write.
 - Offline persistence is enabled on the `FirebaseDatabase` provider.
 - Live listeners go through `DatabaseReference.observeValue()` (`data/firebase/DatabaseReferenceFlows.kt`) so errors reach the flow instead of the main thread. Visitor writes call `AnonymousSession.ensureSignedIn()` first. Parse lists with `DataSnapshot.childrenAs<T>()`, which skips malformed children, and build veteran keys with `VeteranKeys.forId`.
 - `firebase/database.rules.json` and `firebase/storage.rules` cover only `OurMemory` and are **not** wired into `firebase.json`. Deploying them would replace the rules of the other apps, so merge them by hand in the console.

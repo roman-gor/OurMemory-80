@@ -17,4 +17,8 @@ class ToursRepositoryImpl @Inject constructor(
     override suspend fun getAllTours(): List<Tour> = mutex.withLock {
         cachedTours ?: dataSource.getAllTours().also { cachedTours = it }
     }
+
+    override suspend fun invalidate() = mutex.withLock {
+        cachedTours = null
+    }
 }

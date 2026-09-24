@@ -174,4 +174,13 @@
     <string name="save">Захаваць</string>
     <string name="delete_veteran_msg">Выдаліць ветэрана? Картка знікне з праграмы</string>
     <string name="cancel">Адмена</string>
+    <string name="burial_places">Месцы пахавання</string>
+    <string name="new_burial_place">Новае месца</string>
+    <string name="description">Апісанне</string>
+    <string name="section">Участак</string>
+    <string name="row">Рад</string>
+    <string name="place">Месца</string>
+    <string name="latitude">Шырата</string>
+    <string name="longitude">Даўгата</string>
+    <string name="tap_map_to_move_marker_msg">Націсніце на карту, каб перастаўляць метку</string>
 </resources>

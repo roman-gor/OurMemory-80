@@ -17,4 +17,8 @@ class BurialsRepositoryImpl @Inject constructor(
     override suspend fun getAllBurials(): List<Burial> = mutex.withLock {
         cachedBurials ?: dataSource.getAllBurials().also { cachedBurials = it }
     }
+
+    override suspend fun invalidate() = mutex.withLock {
+        cachedBurials = null
+    }
 }

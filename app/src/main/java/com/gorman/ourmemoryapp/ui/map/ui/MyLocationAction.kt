@@ -1,8 +1,5 @@
 package com.gorman.ourmemoryapp.ui.map.ui
 
-import android.Manifest
-import android.content.Context
-import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
@@ -12,7 +9,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
+import com.gorman.ourmemoryapp.ui.common.ui.LOCATION_PERMISSIONS
+import com.gorman.ourmemoryapp.ui.common.ui.hasLocationPermission
 import com.gorman.ourmemoryapp.ui.theme.MemoryRed
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.layers.ObjectEvent
@@ -83,15 +81,6 @@ fun rememberMyLocationAction(mapView: MapView, onPermissionDenied: () -> Unit): 
         }
     }
 }
-
-private fun Context.hasLocationPermission() = LOCATION_PERMISSIONS.any {
-    ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
-}
-
-private val LOCATION_PERMISSIONS = arrayOf(
-    Manifest.permission.ACCESS_FINE_LOCATION,
-    Manifest.permission.ACCESS_COARSE_LOCATION
-)
 
 private const val MY_LOCATION_ZOOM = 18f
 private const val ACCURACY_FILL_ALPHA = 0.15f
