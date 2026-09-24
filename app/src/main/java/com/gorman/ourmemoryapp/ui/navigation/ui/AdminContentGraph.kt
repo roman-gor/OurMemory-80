@@ -8,6 +8,7 @@ import androidx.navigation.navArgument
 import com.gorman.ourmemoryapp.domain.models.Screen
 import com.gorman.ourmemoryapp.ui.admin.burials.ui.AdminBurialsScreen
 import com.gorman.ourmemoryapp.ui.admin.burials.ui.BurialEditorScreen
+import com.gorman.ourmemoryapp.ui.admin.guide.models.GuideSection
 import com.gorman.ourmemoryapp.ui.admin.tours.ui.AdminToursScreen
 import com.gorman.ourmemoryapp.ui.admin.tours.ui.TourEditorScreen
 import com.gorman.ourmemoryapp.ui.admin.veterans.ui.AdminVeteransScreen
@@ -18,7 +19,8 @@ fun NavGraphBuilder.adminContentGraph(navController: NavHostController) {
         AdminVeteransScreen(
             onBackClick = { navController.popBackStack() },
             onVeteranClick = { navController.navigate(Screen.AdminVeteranEditorScreen.forVeteran(it)) },
-            onNewVeteranClick = { navController.navigate(Screen.AdminVeteranEditorScreen.forVeteran("")) }
+            onNewVeteranClick = { navController.navigate(Screen.AdminVeteranEditorScreen.forVeteran("")) },
+            onGuideClick = { navController.navigate(Screen.AdminGuideScreen.forSection(GuideSection.VETERAN.name)) }
         )
     }
     composable(
@@ -36,7 +38,8 @@ fun NavGraphBuilder.adminContentGraph(navController: NavHostController) {
         AdminBurialsScreen(
             onBackClick = { navController.popBackStack() },
             onBurialClick = { navController.navigate(Screen.AdminBurialEditorScreen.forBurial(it)) },
-            onNewBurialClick = { navController.navigate(Screen.AdminBurialEditorScreen.forBurial("")) }
+            onNewBurialClick = { navController.navigate(Screen.AdminBurialEditorScreen.forBurial("")) },
+            onGuideClick = { navController.navigate(Screen.AdminGuideScreen.forSection(GuideSection.BURIAL.name)) }
         )
     }
     composable(
@@ -54,7 +57,8 @@ fun NavGraphBuilder.adminContentGraph(navController: NavHostController) {
         AdminToursScreen(
             onBackClick = { navController.popBackStack() },
             onTourClick = { navController.navigate(Screen.AdminTourEditorScreen.forTour(it)) },
-            onNewTourClick = { navController.navigate(Screen.AdminTourEditorScreen.forTour("")) }
+            onNewTourClick = { navController.navigate(Screen.AdminTourEditorScreen.forTour("")) },
+            onGuideClick = { navController.navigate(Screen.AdminGuideScreen.forSection(GuideSection.TOUR.name)) }
         )
     }
     composable(

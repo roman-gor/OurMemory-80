@@ -235,4 +235,88 @@
     <string name="favorites_and_requests_are_saved_msg">Избранное и обращения сохраняются в аккаунте</string>
     <string name="could_not_sign_in_msg">Не удалось войти. Проверьте интернет и попробуйте ещё раз</string>
     <string name="google_sign_in_not_configured_msg">Вход через Google пока не настроен</string>
+    <string name="editor_guide">Памятка редактора</string>
+    <string name="how_to_add_and_edit_content_msg">Как добавлять ветеранов, места и экскурсии</string>
+    <string name="veteran">Ветеран</string>
+    <string name="tour">Экскурсия</string>
+    <string name="voice_over">Озвучка</string>
+    <string name="requests_and_messages">Заявки и обращения</string>
+    <string name="if_something_is_wrong">Если что-то не так</string>
+    <string name="add_burials_first_msg">Начните с мест захоронения: ветераны и экскурсии ссылаются на них</string>
+    <string name="how_to_add_a_veteran">Как добавить ветерана?</string>
+    <string name="how_to_add_a_burial_place">Как добавить место захоронения?</string>
+    <string name="how_to_build_a_tour">Как собрать экскурсию?</string>
+    <string name="add_veteran">Добавить ветерана</string>
+    <string name="add_burial_place">Добавить место</string>
+    <string name="add_tour">Добавить экскурсию</string>
+    <string name="requires_attention">Требует внимания</string>
+    <string name="content">Контент</string>
+    <string name="new_requests">Новые обращения</string>
+    <string name="pending_submissions">Заявки на модерации</string>
+    <string name="everything_is_reviewed_msg">Всё просмотрено</string>
+    <string name="check_new_marker_msg">Проверьте результат на вкладке «Карта»: новая метка должна стоять на своём месте.</string>
+    <string name="save_button_disabled_msg">Если кнопка «Сохранить» неактивна, значит ФИО пустое или дата введена неверно: такое поле подсвечено красным.</string>
+    <string name="stop_order_sets_route_msg">Номера на карте и линия маршрута берутся из порядка остановок, превью видно прямо в редакторе.</string>
+    <string name="check_stresses_before_msg">Перед озвучкой проверьте текст: ударения в фамилиях, годы прописью, сокращения раскрыты полностью.</string>
+    <string name="reply_shown_to_author_msg">Ваш ответ автор увидит в разделе «Ещё → Мои обращения».</string>
+    <string name="deleted_items_cannot_be_restored_msg">Удалённое можно вернуть только вручную, поэтому перед удалением убедитесь, что открыта нужная карточка.</string>
+    <string-array name="burial_place_steps">
+        <item>Админ → Места захоронения → «Добавить место».</item>
+        <item>Выберите тип: могила, братская могила или памятник.</item>
+        <item>Впишите участок, ряд и место с таблички кладбища. Это точнее GPS, и посетители ищут именно по этим номерам.</item>
+        <item>Встаньте у могилы и нажмите «Моё местоположение». Если метка легла неточно, нажмите на карту в нужной точке.</item>
+        <item>Добавьте фото и короткое описание, если есть, и нажмите «Сохранить».</item>
+    </string-array>
+    <string-array name="veteran_steps">
+        <item>Админ → Ветераны → «Добавить ветерана». Номер карточки приложение присвоит само.</item>
+        <item>ФИО полностью и годы жизни как на табличке, например «1905–1966».</item>
+        <item>Категория определяет фильтр в списке и на карте: «Герои Советского Союза» или «Деятели искусств».</item>
+        <item>Даты рождения и смерти выберите в календаре: по ним работают блок «В этот день» и напоминания избранного.</item>
+        <item>Выберите место захоронения из списка мест, созданных заранее.</item>
+        <item>Добавьте портрет: лицо по центру, приложение само сожмёт фото.</item>
+        <item>Награды ставятся плюсом и минусом: два ордена Красной Звезды — «2» напротив ордена.</item>
+        <item>Биографию соберите из абзацев и фото с подписями. Стрелки меняют порядок, крестик удаляет блок.</item>
+    </string-array>
+    <string-array name="tour_steps">
+        <item>Админ → Экскурсии → «Добавить экскурсию».</item>
+        <item>Дайте название и короткое описание, например «Герои Советского Союза, 40 минут».</item>
+        <item>Нажмите «Добавить остановку» и найдите место по фамилии, номеру участка или типу.</item>
+        <item>Для каждой остановки напишите текст, который посетитель читает у могилы, и прикрепите аудиогид.</item>
+        <item>Выставьте порядок остановок стрелками.</item>
+    </string-array>
+    <string-array name="voice_over_steps">
+        <item>Биография длится 1–3 минуты, остановка экскурсии — 30–90 секунд.</item>
+        <item>Формат mp3 или m4a, размер файла до 50 МБ.</item>
+        <item>Для синтеза речи подойдут ElevenLabs или Yandex SpeechKit. Живой голос на диктофон в тихой комнате часто звучит лучше.</item>
+        <item>Перешлите файл себе на телефон и загрузите кнопкой «Добавить аудио» в карточке ветерана или в остановке.</item>
+    </string-array>
+    <string-array name="requests_steps">
+        <item>«Модерация» — материалы родственников. Поправьте текст, уберите лишние фото и нажмите «Одобрить»: всё сразу попадёт в карточку с подписью «Из семейного архива».</item>
+        <item>«Обратная связь» — сообщения и отчёты об ошибках посетителей. Отметьте обращение просмотренным и при желании напишите ответ.</item>
+    </string-array>
+    <string-array name="troubleshooting_steps">
+        <item>Фото или аудио не загружается — проверьте интернет и размер файла. Если ошибка повторяется, попросите разработчика добавить ваш UID в правила Storage.</item>
+        <item>«Нет прав администратора» при входе — в базе нет записи с вашим UID в OurMemory/Admins.</item>
+        <item>Посетитель не видит изменения — приложение загружает данные один раз за запуск, новое появится после перезапуска.</item>
+        <item>Вход администратора на телефоне посетителя сбрасывает его вход через Google. Работайте со своего телефона.</item>
+    </string-array>
+    <plurals name="veteran_cards_count">
+        <item quantity="one">%d карточка</item>
+        <item quantity="few">%d карточки</item>
+        <item quantity="many">%d карточек</item>
+        <item quantity="other">%d карточки</item>
+    </plurals>
+    <plurals name="burial_places_count">
+        <item quantity="one">%d место</item>
+        <item quantity="few">%d места</item>
+        <item quantity="many">%d мест</item>
+        <item quantity="other">%d места</item>
+    </plurals>
+    <plurals name="routes_count">
+        <item quantity="one">%d маршрут</item>
+        <item quantity="few">%d маршрута</item>
+        <item quantity="many">%d маршрутов</item>
+        <item quantity="other">%d маршрута</item>
+    </plurals>
+    <string name="for_cemetery_editors_msg">Для редакторов мемориала: ветераны, места захоронения, экскурсии и заявки посетителей</string>
 </resources>

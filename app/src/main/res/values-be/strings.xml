@@ -233,4 +233,88 @@
     <string name="favorites_and_requests_are_saved_msg">Абранае і звароты захоўваюцца ў акаўнце</string>
     <string name="could_not_sign_in_msg">Не атрымалася ўвайсці. Праверце інтэрнэт і паспрабуйце яшчэ раз</string>
     <string name="google_sign_in_not_configured_msg">Уваход праз Google пакуль не наладжаны</string>
+    <string name="editor_guide">Памятка рэдактара</string>
+    <string name="how_to_add_and_edit_content_msg">Як дадаваць ветэранаў, месцы і экскурсіі</string>
+    <string name="veteran">Ветэран</string>
+    <string name="tour">Экскурсія</string>
+    <string name="voice_over">Агучка</string>
+    <string name="requests_and_messages">Заяўкі і звароты</string>
+    <string name="if_something_is_wrong">Калі нешта не так</string>
+    <string name="add_burials_first_msg">Пачніце з месцаў пахавання: ветэраны і экскурсіі спасылаюцца на іх</string>
+    <string name="how_to_add_a_veteran">Як дадаць ветэрана?</string>
+    <string name="how_to_add_a_burial_place">Як дадаць месца пахавання?</string>
+    <string name="how_to_build_a_tour">Як сабраць экскурсію?</string>
+    <string name="add_veteran">Дадаць ветэрана</string>
+    <string name="add_burial_place">Дадаць месца</string>
+    <string name="add_tour">Дадаць экскурсію</string>
+    <string name="requires_attention">Патрабуе ўвагі</string>
+    <string name="content">Кантэнт</string>
+    <string name="new_requests">Новыя звароты</string>
+    <string name="pending_submissions">Заяўкі на мадэрацыі</string>
+    <string name="everything_is_reviewed_msg">Усё прагледжана</string>
+    <string name="check_new_marker_msg">Праверце вынік на ўкладцы «Карта»: новая метка павінна стаяць на сваім месцы.</string>
+    <string name="save_button_disabled_msg">Калі кнопка «Захаваць» неактыўная, значыць ПІБ пустое або дата ўведзена няправільна: такое поле падсвечана чырвоным.</string>
+    <string name="stop_order_sets_route_msg">Нумары на карце і лінія маршруту бяруцца з парадку прыпынкаў, прэв’ю відаць проста ў рэдактары.</string>
+    <string name="check_stresses_before_msg">Перад агучкай праверце тэкст: націскі ў прозвішчах, гады словамі, скарачэнні раскрыты цалкам.</string>
+    <string name="reply_shown_to_author_msg">Ваш адказ аўтар убачыць у раздзеле «Яшчэ → Мае звароты».</string>
+    <string name="deleted_items_cannot_be_restored_msg">Выдаленае можна вярнуць толькі ўручную, таму перад выдаленнем пераканайцеся, што адкрыта патрэбная картка.</string>
+    <string-array name="burial_place_steps">
+        <item>Адмін → Месцы пахавання → «Дадаць месца».</item>
+        <item>Выберыце тып: магіла, брацкая магіла або помнік.</item>
+        <item>Упішыце ўчастак, рад і месца з таблічкі могілак. Гэта дакладней за GPS, і наведвальнікі шукаюць менавіта па гэтых нумарах.</item>
+        <item>Станьце каля магілы і націсніце «Маё месцазнаходжанне». Калі метка лягла недакладна, націсніце на карту ў патрэбнай кропцы.</item>
+        <item>Дадайце фота і кароткае апісанне, калі ёсць, і націсніце «Захаваць».</item>
+    </string-array>
+    <string-array name="veteran_steps">
+        <item>Адмін → Ветэраны → «Дадаць ветэрана». Нумар карткі праграма прысвоіць сама.</item>
+        <item>ПІБ цалкам і гады жыцця як на таблічцы, напрыклад «1905–1966».</item>
+        <item>Катэгорыя вызначае фільтр у спісе і на карце: «Героі Савецкага Саюза» або «Дзеячы мастацтваў».</item>
+        <item>Даты нараджэння і смерці выберыце ў календары: па іх працуюць блок «У гэты дзень» і напаміны абранага.</item>
+        <item>Выберыце месца пахавання са спіса месцаў, створаных загадзя.</item>
+        <item>Дадайце партрэт: твар па цэнтры, праграма сама сцісне фота.</item>
+        <item>Узнагароды ставяцца плюсам і мінусам: два ордэны Чырвонай Зоркі — «2» насупраць ордэна.</item>
+        <item>Біяграфію збярыце з абзацаў і фота з подпісамі. Стрэлкі мяняюць парадак, крыжык выдаляе блок.</item>
+    </string-array>
+    <string-array name="tour_steps">
+        <item>Адмін → Экскурсіі → «Дадаць экскурсію».</item>
+        <item>Дайце назву і кароткае апісанне, напрыклад «Героі Савецкага Саюза, 40 хвілін».</item>
+        <item>Націсніце «Дадаць прыпынак» і знайдзіце месца па прозвішчы, нумары ўчастка або тыпе.</item>
+        <item>Для кожнага прыпынку напішыце тэкст, які наведвальнік чытае каля магілы, і прымацуйце аўдыягід.</item>
+        <item>Выстаўце парадак прыпынкаў стрэлкамі.</item>
+    </string-array>
+    <string-array name="voice_over_steps">
+        <item>Біяграфія доўжыцца 1–3 хвіліны, прыпынак экскурсіі — 30–90 секунд.</item>
+        <item>Фармат mp3 або m4a, памер файла да 50 МБ.</item>
+        <item>Для сінтэзу маўлення падыдуць ElevenLabs або Yandex SpeechKit. Жывы голас на дыктафон у ціхім пакоі часта гучыць лепш.</item>
+        <item>Перашліце файл сабе на тэлефон і загрузіце кнопкай «Дадаць аўдыя» ў картцы ветэрана або ў прыпынку.</item>
+    </string-array>
+    <string-array name="requests_steps">
+        <item>«Мадэрацыя» — матэрыялы сваякоў. Папраўце тэкст, прыбярыце лішнія фота і націсніце «Ухваліць»: усё адразу трапіць у картку з подпісам «З сямейнага архіва».</item>
+        <item>«Зваротная сувязь» — паведамленні і справаздачы пра памылкі ад наведвальнікаў. Адзначце зварот прагледжаным і пры жаданні напішыце адказ.</item>
+    </string-array>
+    <string-array name="troubleshooting_steps">
+        <item>Фота або аўдыя не загружаецца — праверце інтэрнэт і памер файла. Калі памылка паўтараецца, папрасіце распрацоўшчыка дадаць ваш UID у правілы Storage.</item>
+        <item>«Няма правоў адміністратара» пры ўваходзе — у базе няма запісу з вашым UID у OurMemory/Admins.</item>
+        <item>Наведвальнік не бачыць змены — праграма загружае даныя адзін раз за запуск, новае з’явіцца пасля перазапуску.</item>
+        <item>Уваход адміністратара на тэлефоне наведвальніка скідвае яго ўваход праз Google. Працуйце са свайго тэлефона.</item>
+    </string-array>
+    <plurals name="veteran_cards_count">
+        <item quantity="one">%d картка</item>
+        <item quantity="few">%d карткі</item>
+        <item quantity="many">%d картак</item>
+        <item quantity="other">%d карткі</item>
+    </plurals>
+    <plurals name="burial_places_count">
+        <item quantity="one">%d месца</item>
+        <item quantity="few">%d месцы</item>
+        <item quantity="many">%d месцаў</item>
+        <item quantity="other">%d месца</item>
+    </plurals>
+    <plurals name="routes_count">
+        <item quantity="one">%d маршрут</item>
+        <item quantity="few">%d маршруты</item>
+        <item quantity="many">%d маршрутаў</item>
+        <item quantity="other">%d маршруту</item>
+    </plurals>
+    <string name="for_cemetery_editors_msg">Для рэдактараў мемарыяла: ветэраны, месцы пахавання, экскурсіі і заяўкі наведвальнікаў</string>
 </resources>

@@ -6,18 +6,15 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -35,6 +32,9 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.gorman.ourmemoryapp.R
+import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminAddButton
+import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminSearchField
+import com.gorman.ourmemoryapp.ui.admin.common.ui.GuideHintCard
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.AdminVeteranItemUi
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.AdminVeteransUiEvent
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.AdminVeteransUiState
@@ -49,6 +49,7 @@ fun AdminVeteransScreen(
     onBackClick: () -> Unit,
     onVeteranClick: (String) -> Unit,
     onNewVeteranClick: () -> Unit,
+    onGuideClick: () -> Unit,
     adminVeteransViewModel: AdminVeteransViewModel = hiltViewModel()
 ) {
     val state by adminVeteransViewModel.uiState.collectAsStateWithLifecycle()
@@ -63,17 +64,16 @@ fun AdminVeteransScreen(
             AdminVeteransUiState.Error -> ErrorContent()
             is AdminVeteransUiState.Success -> LazyColumn(
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 96.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
                 item { TopBarSpacer() }
+                item { GuideHintCard(title = stringResource(R.string.how_to_add_a_veteran), onClick = onGuideClick) }
                 item {
-                    OutlinedTextField(
+                    AdminSearchField(
                         value = current.search,
                         onValueChange = { adminVeteransViewModel.onUiEvent(AdminVeteransUiEvent.OnSearchChange(it)) },
-                        placeholder = { Text(text = stringResource(R.string.search_by_name)) },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth()
+                        placeholder = stringResource(R.string.search_by_name)
                     )
                 }
                 items(current.items, key = { it.id }) { item ->
@@ -81,15 +81,11 @@ fun AdminVeteransScreen(
                 }
             }
         }
-        FloatingActionButton(
+        AdminAddButton(
+            text = stringResource(R.string.add_veteran),
             onClick = onNewVeteranClick,
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .navigationBarsPadding()
-                .padding(16.dp)
-        ) {
-            Icon(painter = painterResource(R.drawable.add), contentDescription = stringResource(R.string.new_veteran))
-        }
+            modifier = Modifier.align(Alignment.BottomEnd)
+        )
     }
 }
 
@@ -97,7 +93,8 @@ fun AdminVeteransScreen(
 private fun AdminVeteranRow(item: AdminVeteranItemUi, onClick: () -> Unit) {
     Card(
         onClick = onClick,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        shape = RoundedCornerShape(ROW_CORNER_RADIUS),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
@@ -131,3 +128,5 @@ private fun AdminVeteranRow(item: AdminVeteranItemUi, onClick: () -> Unit) {
         }
     }
 }
+
+private val ROW_CORNER_RADIUS = 20.dp

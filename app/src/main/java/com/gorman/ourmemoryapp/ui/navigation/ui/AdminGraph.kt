@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.gorman.ourmemoryapp.domain.models.Screen
 import com.gorman.ourmemoryapp.ui.admin.feedbacklist.ui.FeedbackListScreen
+import com.gorman.ourmemoryapp.ui.admin.guide.ui.EditorGuideScreen
 import com.gorman.ourmemoryapp.ui.admin.home.ui.AdminHomeScreen
 import com.gorman.ourmemoryapp.ui.admin.login.ui.AdminLoginScreen
 import com.gorman.ourmemoryapp.ui.admin.moderation.ui.ModerationListScreen
@@ -30,8 +31,21 @@ fun NavGraphBuilder.adminGraph(navController: NavHostController) {
             onBurialsClick = { navController.navigate(Screen.AdminBurialsScreen.route) },
             onToursClick = { navController.navigate(Screen.AdminToursScreen.route) },
             onFeedbackClick = { navController.navigate(Screen.AdminFeedbackScreen.route) },
-            onSignedOut = { navController.navigateToTab(TopLevelTab.ABOUT) }
+            onGuideClick = { navController.navigate(Screen.AdminGuideScreen.route) },
+            onSignedOut = { navController.navigateToTab(TopLevelTab.MORE) }
         )
+    }
+    composable(
+        route = Screen.AdminGuideScreen.pattern,
+        arguments = listOf(
+            navArgument(Screen.AdminGuideScreen.SECTION_ARG) {
+                type = NavType.StringType
+                nullable = true
+                defaultValue = null
+            }
+        )
+    ) {
+        EditorGuideScreen(onBackClick = { navController.popBackStack() })
     }
     composable(Screen.AdminFeedbackScreen.route) {
         FeedbackListScreen(

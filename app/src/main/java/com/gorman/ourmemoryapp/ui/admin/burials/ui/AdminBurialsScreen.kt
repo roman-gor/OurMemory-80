@@ -5,21 +5,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -31,6 +28,8 @@ import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.ui.admin.burials.models.AdminBurialItemUi
 import com.gorman.ourmemoryapp.ui.admin.burials.models.AdminBurialsUiState
 import com.gorman.ourmemoryapp.ui.admin.burials.viewmodels.AdminBurialsViewModel
+import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminAddButton
+import com.gorman.ourmemoryapp.ui.admin.common.ui.GuideHintCard
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.PlotNumberText
@@ -42,6 +41,7 @@ fun AdminBurialsScreen(
     onBackClick: () -> Unit,
     onBurialClick: (String) -> Unit,
     onNewBurialClick: () -> Unit,
+    onGuideClick: () -> Unit,
     adminBurialsViewModel: AdminBurialsViewModel = hiltViewModel()
 ) {
     val state by adminBurialsViewModel.uiState.collectAsStateWithLifecycle()
@@ -54,27 +54,26 @@ fun AdminBurialsScreen(
             AdminBurialsUiState.Error -> ErrorContent()
             is AdminBurialsUiState.Success -> LazyColumn(
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 96.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
                 item { TopBarSpacer() }
+                item {
+                    GuideHintCard(
+                    title = stringResource(R.string.how_to_add_a_burial_place),
+                    onClick = onGuideClick
+                )
+                }
                 items(current.items, key = { it.burial.id }) { item ->
                     AdminBurialRow(item = item, onClick = { onBurialClick(item.burial.id) })
                 }
             }
         }
-        FloatingActionButton(
+        AdminAddButton(
+            text = stringResource(R.string.add_burial_place),
             onClick = onNewBurialClick,
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .navigationBarsPadding()
-                .padding(16.dp)
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.add),
-                contentDescription = stringResource(R.string.new_burial_place)
-            )
-        }
+            modifier = Modifier.align(Alignment.BottomEnd)
+        )
     }
 }
 
@@ -82,7 +81,8 @@ fun AdminBurialsScreen(
 private fun AdminBurialRow(item: AdminBurialItemUi, onClick: () -> Unit) {
     Card(
         onClick = onClick,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        shape = RoundedCornerShape(ROW_CORNER_RADIUS),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.padding(12.dp)) {
@@ -103,3 +103,5 @@ private fun AdminBurialRow(item: AdminBurialItemUi, onClick: () -> Unit) {
         }
     }
 }
+
+private val ROW_CORNER_RADIUS = 20.dp
