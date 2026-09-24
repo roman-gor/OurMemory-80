@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp.ui.details.ui
+package com.gorman.ourmemoryapp.ui.common.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,20 +23,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.ui.details.models.MediaUi
+import com.gorman.ourmemoryapp.ui.common.models.MediaUi
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
-fun MediaGallery(media: ImmutableList<MediaUi>, modifier: Modifier = Modifier) {
+fun MediaGallery(
+    title: String,
+    media: ImmutableList<MediaUi>,
+    modifier: Modifier = Modifier
+) {
     var openedPage by remember { mutableStateOf<Int?>(null) }
 
     Column(modifier = modifier.fillMaxWidth()) {
-        SectionTitle(text = stringResource(R.string.docs))
+        SectionTitle(text = title)
         LazyRow(
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)

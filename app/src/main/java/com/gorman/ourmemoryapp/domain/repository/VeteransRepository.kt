@@ -6,4 +6,5 @@ import com.gorman.ourmemoryapp.domain.models.YandexImage
 interface VeteransRepository {
     suspend fun getAllVeterans(): List<Veteran>
     suspend fun getHrefFromLink(publicKey: String): YandexImage
+    suspend fun resolveDirectUrl(url: String): String
 }

@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp.ui.details.ui
+package com.gorman.ourmemoryapp.ui.common.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +34,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.ui.details.models.MediaUi
+import com.gorman.ourmemoryapp.ui.common.models.MediaUi
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -63,19 +61,17 @@ fun PhotoViewerDialog(
             ) { page ->
                 ZoomableImage(item = media[page])
             }
-            IconButton(
+            CircleIconButton(
+                painter = painterResource(R.drawable.chevron_left),
+                contentDescription = stringResource(R.string.back),
                 onClick = onDismiss,
+                containerColor = Color.Black.copy(alpha = BUTTON_BACKGROUND_ALPHA),
+                contentColor = Color.White,
                 modifier = Modifier
                     .align(Alignment.TopStart)
                     .statusBarsPadding()
-                    .padding(8.dp)
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.arrow_back),
-                    contentDescription = stringResource(R.string.back),
-                    tint = Color.White
-                )
-            }
+                    .padding(12.dp)
+            )
             if (description.isNotBlank()) {
                 Text(
                     text = description,
@@ -130,3 +126,4 @@ private const val MIN_ZOOM = 1f
 private const val MAX_ZOOM = 5f
 private const val DOUBLE_TAP_ZOOM = 2.5f
 private const val CAPTION_BACKGROUND_ALPHA = 0.6f
+private const val BUTTON_BACKGROUND_ALPHA = 0.5f

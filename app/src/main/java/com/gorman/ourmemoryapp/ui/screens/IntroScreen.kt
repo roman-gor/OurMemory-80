@@ -29,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
@@ -41,8 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.domain.models.Image
-import com.gorman.ourmemoryapp.domain.models.imagesList
+import com.gorman.ourmemoryapp.ui.common.models.CemeteryPhotos
 import com.gorman.ourmemoryapp.ui.fonts.mulishFont
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.milliseconds
@@ -99,7 +97,7 @@ fun Content(onStartClick: () -> Unit) {
             )
         )
         Spacer(Modifier.height(36.dp))
-        ImageSlideshow(imagesList)
+        ImageSlideshow(CemeteryPhotos.all)
         Spacer(Modifier.height(36.dp))
         Text(
             text = stringResource(R.string.idea),
@@ -140,7 +138,7 @@ fun Content(onStartClick: () -> Unit) {
                 Icon(
                     painter = painterResource(R.drawable.keyboard_arrow_right),
                     contentDescription = null,
-                    modifier = Modifier.rotate(180f).padding(end = 8.dp)
+                    modifier = Modifier.padding(end = 8.dp)
                 )
             }
         }
@@ -148,7 +146,7 @@ fun Content(onStartClick: () -> Unit) {
 }
 
 @Composable
-fun ImageSlideshow(imgList: List<Image>) {
+fun ImageSlideshow(imgList: List<Int>) {
     var currentIndex by remember { mutableIntStateOf(0) }
     LaunchedEffect(key1 = imgList) {
         while (true) {
@@ -157,7 +155,7 @@ fun ImageSlideshow(imgList: List<Image>) {
         }
     }
     Crossfade(targetState = currentIndex) { index ->
-        val imagePainter = painterResource(imgList[index].res)
+        val imagePainter = painterResource(imgList[index])
         Image(
             painter = imagePainter,
             contentDescription = "Images of place",

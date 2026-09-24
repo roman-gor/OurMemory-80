@@ -58,4 +58,24 @@
     <string name="play">Воспроизвести</string>
     <string name="pause">Пауза</string>
     <string name="back">Назад</string>
+    <string name="times_count">×%1$d</string>
+    <string name="cemetery_map">Карта кладбища</string>
+    <string name="show_on_map">Показать на карте</string>
+    <string name="my_location">Моё местоположение</string>
+    <string name="satellite">Спутник</string>
+    <string name="scheme">Схема</string>
+    <string name="grave">Могила</string>
+    <string name="mass_grave">Братская могила</string>
+    <string name="monument">Памятник</string>
+    <string name="allow_location_access_msg">Разрешите доступ к геолокации, чтобы увидеть себя на карте</string>
+    <string name="bel" translatable="false">БЕЛ</string>
+    <string name="rus" translatable="false">РУС</string>
+    <string name="get_directions">Проложить маршрут</string>
+    <string name="opening_hours">Часы работы</string>
+    <string name="phone">Телефон</string>
+    <string name="cemetery_opening_hours"></string>
+    <string name="cemetery_phone" translatable="false"></string>
+    <string name="veterans">Ветераны</string>
+    <string name="map">Карта</string>
+    <string name="about_cemetery">О кладбище</string>
 </resources>

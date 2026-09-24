@@ -59,4 +59,21 @@
     <string name="play">Прайграць</string>
     <string name="pause">Паўза</string>
     <string name="back">Назад</string>
+    <string name="times_count">×%1$d</string>
+    <string name="cemetery_map">Карта могілак</string>
+    <string name="show_on_map">Паказаць на карце</string>
+    <string name="my_location">Маё месцазнаходжанне</string>
+    <string name="satellite">Спадарожнік</string>
+    <string name="scheme">Схема</string>
+    <string name="grave">Магіла</string>
+    <string name="mass_grave">Брацкая магіла</string>
+    <string name="monument">Помнік</string>
+    <string name="allow_location_access_msg">Дазвольце доступ да геалакацыі, каб убачыць сябе на карце</string>
+    <string name="get_directions">Пракласці маршрут</string>
+    <string name="opening_hours">Гадзіны працы</string>
+    <string name="phone">Тэлефон</string>
+    <string name="cemetery_opening_hours"></string>
+    <string name="veterans">Ветэраны</string>
+    <string name="map">Карта</string>
+    <string name="about_cemetery">Пра могілкі</string>
 </resources>

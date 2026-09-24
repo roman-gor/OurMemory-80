@@ -1,0 +1,79 @@
+{
+  "b_001": {
+    "id": "b_001",
+    "latitude": 53.90881,
+    "longitude": 27.58612,
+    "section": "1",
+    "row": "2",
+    "place": "4",
+    "type": "GRAVE",
+    "photo": "",
+    "description": ""
+  },
+  "b_002": {
+    "id": "b_002",
+    "latitude": 53.90884,
+    "longitude": 27.58618,
+    "section": "1",
+    "row": "2",
+    "place": "5",
+    "type": "GRAVE",
+    "photo": "",
+    "description": ""
+  },
+  "b_003": {
+    "id": "b_003",
+    "latitude": 53.90879,
+    "longitude": 27.58621,
+    "section": "1",
+    "row": "3",
+    "place": "1",
+    "type": "GRAVE",
+    "photo": "",
+    "description": ""
+  },
+  "b_004": {
+    "id": "b_004",
+    "latitude": 53.90912,
+    "longitude": 27.58705,
+    "section": "3",
+    "row": "5",
+    "place": "12",
+    "type": "MASS_GRAVE",
+    "photo": "",
+    "description": "Братская могила воинов, погибших при освобождении Минска в 1944 году."
+  },
+  "b_005": {
+    "id": "b_005",
+    "latitude": 53.90846,
+    "longitude": 27.58558,
+    "section": "",
+    "row": "",
+    "place": "",
+    "type": "MONUMENT",
+    "photo": "",
+    "description": "Памятник у главного входа."
+  },
+  "b_006": {
+    "id": "b_006",
+    "latitude": 53.90951,
+    "longitude": 27.58569,
+    "section": "5",
+    "row": "1",
+    "place": "7",
+    "type": "GRAVE",
+    "photo": "",
+    "description": ""
+  },
+  "b_007": {
+    "id": "b_007",
+    "latitude": 53.90807,
+    "longitude": 27.58733,
+    "section": "7",
+    "row": "4",
+    "place": "2",
+    "type": "GRAVE",
+    "photo": "",
+    "description": ""
+  }
+}

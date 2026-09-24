@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -29,13 +30,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.ui.details.models.Reward
+import com.gorman.ourmemoryapp.ui.common.ui.SectionTitle
+import com.gorman.ourmemoryapp.ui.details.models.RewardUi
 import kotlinx.collections.immutable.ImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RewardsRow(rewards: ImmutableList<Reward>, modifier: Modifier = Modifier) {
-    var selectedReward by remember { mutableStateOf<Reward?>(null) }
+fun RewardsRow(rewards: ImmutableList<RewardUi>, modifier: Modifier = Modifier) {
+    var selectedReward by remember { mutableStateOf<RewardUi?>(null) }
 
     Column(modifier = modifier.fillMaxWidth()) {
         SectionTitle(text = stringResource(R.string.awards))
@@ -43,20 +45,27 @@ fun RewardsRow(rewards: ImmutableList<Reward>, modifier: Modifier = Modifier) {
             contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            items(rewards) { reward ->
-                Image(
-                    painter = painterResource(reward.iconRes),
-                    contentDescription = stringResource(reward.nameRes),
+            items(rewards, key = { it.reward.id }) { item ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier
-                        .size(64.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .clickable { selectedReward = reward }
-                )
+                        .clickable { selectedReward = item }
+                ) {
+                    Image(
+                        painter = painterResource(item.reward.iconRes),
+                        contentDescription = stringResource(item.reward.nameRes),
+                        modifier = Modifier.size(64.dp)
+                    )
+                    if (item.count > 1) {
+                        RewardCount(count = item.count, modifier = Modifier.padding(start = 4.dp, end = 4.dp))
+                    }
+                }
             }
         }
     }
 
-    selectedReward?.let { reward ->
+    selectedReward?.let { item ->
         ModalBottomSheet(onDismissRequest = { selectedReward = null }) {
             Column(
                 modifier = Modifier
@@ -65,19 +74,33 @@ fun RewardsRow(rewards: ImmutableList<Reward>, modifier: Modifier = Modifier) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
-                    painter = painterResource(reward.iconRes),
+                    painter = painterResource(item.reward.iconRes),
                     contentDescription = null,
                     modifier = Modifier.size(200.dp)
                 )
                 Text(
-                    text = stringResource(reward.nameRes),
+                    text = stringResource(item.reward.nameRes),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(top = 16.dp)
                 )
+                if (item.count > 1) {
+                    RewardCount(count = item.count, modifier = Modifier.padding(top = 8.dp))
+                }
             }
         }
     }
+}
+
+@Composable
+private fun RewardCount(count: Int, modifier: Modifier = Modifier) {
+    Text(
+        text = stringResource(R.string.times_count, count),
+        style = MaterialTheme.typography.titleMedium,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.primary,
+        modifier = modifier
+    )
 }

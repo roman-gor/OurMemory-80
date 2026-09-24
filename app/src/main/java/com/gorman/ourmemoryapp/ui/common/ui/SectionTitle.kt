@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp.ui.details.ui
+package com.gorman.ourmemoryapp.ui.common.ui
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme

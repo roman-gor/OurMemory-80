@@ -19,4 +19,15 @@ class VeteransRepositoryImpl @Inject constructor(
     override suspend fun getHrefFromLink(publicKey: String): YandexImage {
         return apiService.getHrefFromLink(publicKey = publicKey).toDomain()
     }
+
+    override suspend fun resolveDirectUrl(url: String): String {
+        if (!url.contains(YANDEX_MARKER)) return url
+        return runCatching { getHrefFromLink(publicKey = url).href }
+            .getOrNull()
+            ?: url
+    }
+
+    companion object {
+        private const val YANDEX_MARKER = "yandex"
+    }
 }

@@ -1,8 +1,9 @@
-package com.gorman.ourmemoryapp.ui.details.models
+package com.gorman.ourmemoryapp.ui.common.models
 
 import com.gorman.ourmemoryapp.domain.models.Burial
 
 data class BurialUi(
+    val id: String,
     val latitude: Double,
     val longitude: Double,
     val section: String,
@@ -13,6 +14,7 @@ data class BurialUi(
 }
 
 fun Burial.toExternalModel() = BurialUi(
+    id = id,
     latitude = latitude,
     longitude = longitude,
     section = section,

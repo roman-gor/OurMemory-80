@@ -5,4 +5,10 @@ sealed class Screen(val route: String) {
     object DetailScreen : Screen("detailscreen")
     object InfoScreen : Screen("infoscreen")
     object IntroScreen : Screen("introscreen")
+    object MapScreen : Screen("mapscreen")
+    object BurialMapScreen : Screen("burialmap") {
+        const val BURIAL_ID_ARG = "burialId"
+        val pattern = "$route/{$BURIAL_ID_ARG}"
+        fun withBurial(burialId: String) = "$route/$burialId"
+    }
 }

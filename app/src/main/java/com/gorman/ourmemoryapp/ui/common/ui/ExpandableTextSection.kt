@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp.ui.details.ui
+package com.gorman.ourmemoryapp.ui.common.ui
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Arrangement
@@ -22,13 +22,17 @@ import com.gorman.ourmemoryapp.R
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
-fun BiographySection(paragraphs: ImmutableList<String>, modifier: Modifier = Modifier) {
+fun ExpandableTextSection(
+    title: String,
+    paragraphs: ImmutableList<String>,
+    modifier: Modifier = Modifier
+) {
     var expanded by rememberSaveable { mutableStateOf(false) }
     var firstParagraphOverflows by remember { mutableStateOf(false) }
     val visibleParagraphs = if (expanded) paragraphs else paragraphs.take(1)
 
     Column(modifier = modifier.fillMaxWidth()) {
-        SectionTitle(text = stringResource(R.string.biography))
+        SectionTitle(text = title)
         Column(
             modifier = Modifier
                 .padding(horizontal = 16.dp)

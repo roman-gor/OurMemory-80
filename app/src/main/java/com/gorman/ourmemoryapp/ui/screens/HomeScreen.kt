@@ -1,6 +1,5 @@
 package com.gorman.ourmemoryapp.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -8,54 +7,41 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.domain.models.Veteran
-import com.gorman.ourmemoryapp.ui.fonts.mulishFont
+import com.gorman.ourmemoryapp.ui.common.ui.CategoryFilterChips
+import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
+import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.states.HomeUiIntent
 import com.gorman.ourmemoryapp.ui.states.HomeUiState
 import com.gorman.ourmemoryapp.ui.viewModel.HomeViewModel
@@ -63,7 +49,6 @@ import com.gorman.ourmemoryapp.ui.viewModel.HomeViewModel
 @Composable
 fun MainScreen(
     onItemClick: (String) -> Unit,
-    navigateToInfoScreen: () -> Unit,
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
@@ -72,87 +57,50 @@ fun MainScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
-            .systemBarsPadding()
+            .background(MaterialTheme.colorScheme.background)
+            .statusBarsPadding()
     ) {
         when (val state = uiState) {
-            is HomeUiState.Error -> {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Text("Error occurred!")
-                }
-            }
-            HomeUiState.Loading -> {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = colorResource(R.color.dark_red)
-                )
-            }
-            is HomeUiState.Success -> {
-                OurMemoryScreen(
-                    onItemClick = onItemClick,
-                    navigateToInfoScreen = navigateToInfoScreen,
-                    state = state,
-                    onCheckedArtChange = { onUiIntent(HomeUiIntent.OnCheckedArtChange(it)) },
-                    onCheckedWarChange = { onUiIntent(HomeUiIntent.OnCheckedWarChange(it)) },
-                    onSearchTextChange = { onUiIntent(HomeUiIntent.OnSearchChange(it)) },
-                )
-            }
+            is HomeUiState.Error -> ErrorContent()
+            HomeUiState.Loading -> LoadingContent()
+            is HomeUiState.Success -> OurMemoryScreen(
+                state = state,
+                onItemClick = onItemClick,
+                onUiIntent = onUiIntent
+            )
         }
     }
 }
 
 @Composable
-fun OurMemoryScreen(
-    onItemClick: (String) -> Unit,
-    navigateToInfoScreen: () -> Unit,
+private fun OurMemoryScreen(
     state: HomeUiState.Success,
-    onCheckedArtChange: (Boolean) -> Unit,
-    onCheckedWarChange: (Boolean) -> Unit,
-    onSearchTextChange: (String) -> Unit
+    onItemClick: (String) -> Unit,
+    onUiIntent: (HomeUiIntent) -> Unit
 ) {
-    var expanded by remember { mutableStateOf(false) }
-    Column {
-        Header(
-            data = HeaderData(
-                navigateToInfoScreen = navigateToInfoScreen,
-                onClickEvent = { expanded = true },
-                expanded = expanded,
-                onDismiss = { expanded = false },
-                search = state.search,
-                onSearchTextChange = onSearchTextChange,
-                checkedArt = state.checkedArt,
-                checkedWar = state.checkedWar,
-                onCheckedArtChange = onCheckedArtChange,
-                onCheckedWarChange = onCheckedWarChange
-            )
+    Column(modifier = Modifier.fillMaxSize()) {
+        HomeHeader(
+            state = state,
+            onUiIntent = onUiIntent
         )
-        if (!state.veterans.isEmpty()) {
-            LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(state.veterans) { veteran ->
+        if (state.veterans.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(top = 4.dp, bottom = 16.dp)
+            ) {
+                items(state.veterans, key = { it.id }) { veteran ->
                     VeteranItem(
-                        veteran,
+                        veteran = veteran,
                         onClick = { onItemClick(veteran.id) }
                     )
                 }
             }
         } else {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text(
                     text = stringResource(R.string.chooseCategory),
-                    style = TextStyle(
-                        fontFamily = mulishFont(),
-                        fontSize = 20.sp,
-                        color = colorResource(R.color.dark_red),
-                        fontWeight = FontWeight.Bold
-                    )
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }
@@ -160,254 +108,119 @@ fun OurMemoryScreen(
 }
 
 @Composable
-fun VeteranItem(
-    veteran: Veteran,
-    onClick: () -> Unit
+private fun HomeHeader(
+    state: HomeUiState.Success,
+    onUiIntent: (HomeUiIntent) -> Unit
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clickable { onClick() },
-        shape = RoundedCornerShape(12.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .background(color = Color(0xFFF0F0F0))
-        ) {
-            Image(
-                painter = rememberAsyncImagePainter(
-                    model = veteran.portrait,
-                    placeholder = painterResource(R.drawable.placeholder)
-                ),
-                contentDescription = "Portrait of veteran",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .weight(1.1f)
-                    .aspectRatio(0.8f)
-                    .padding(10.dp)
-                    .align(Alignment.Top)
-                    .clip(RoundedCornerShape(8.dp))
-            )
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(1.9f)
-                    .padding(top = 8.dp)
-            ) {
-                Text(
-                    text = veteran.name,
-                    color = colorResource(R.color.dark_red),
-                    fontFamily = mulishFont(),
-                    fontSize = 12.sp,
-                    style = TextStyle(fontWeight = FontWeight.Bold),
-                    modifier = Modifier.padding(8.dp)
-                )
-                Text(
-                    text = veteran.baseInfo,
-                    color = Color.Black,
-                    fontFamily = mulishFont(),
-                    fontSize = 11.sp,
-                    style = TextStyle(fontWeight = FontWeight.Normal),
-                    modifier = Modifier.padding(start = 8.dp, bottom = 16.dp, end = 8.dp)
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun DropDownMenu(
-    expanded: Boolean,
-    checkedWar: Boolean,
-    checkedArt: Boolean,
-    onCheckedWarChange: (Boolean) -> Unit,
-    onCheckedArtChange: (Boolean) -> Unit,
-    onDismiss: () -> Unit
-) {
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { onDismiss() },
-        containerColor = colorResource(R.color.dark_white)
-    ) {
-        DropdownMenuItem(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 2.dp, horizontal = 4.dp),
-            onClick = { onCheckedWarChange(!checkedWar) },
-            text = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Checkbox(
-                        checked = checkedWar,
-                        modifier = Modifier.size(20.dp),
-                        onCheckedChange = { onCheckedWarChange(it) },
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = colorResource(R.color.dark_red),
-                            uncheckedColor = Color.Gray,
-                            checkmarkColor = colorResource(R.color.white)
-                        )
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Text(
-                        text = stringResource(R.string.heroUSSR),
-                        style = TextStyle(
-                            fontFamily = mulishFont(),
-                            fontSize = 14.sp,
-                            color = colorResource(R.color.dark_red)
-                        )
-                    )
-                }
-            },
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = stringResource(R.string.app_name),
+            style = MaterialTheme.typography.headlineMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 12.dp)
         )
-        DropdownMenuItem(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 2.dp, horizontal = 4.dp),
-            onClick = { onCheckedArtChange(!checkedArt) },
-            text = {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Checkbox(
-                        checked = checkedArt,
-                        modifier = Modifier.size(20.dp),
-                        onCheckedChange = { onCheckedArtChange(it) },
-                        colors = CheckboxDefaults.colors(
-                            checkedColor = colorResource(R.color.dark_red),
-                            uncheckedColor = Color.Gray,
-                            checkmarkColor = colorResource(R.color.white)
-                        )
-                    )
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Text(
-                        text = stringResource(R.string.art),
-                        style = TextStyle(
-                            fontFamily = mulishFont(),
-                            fontSize = 14.sp,
-                            color = colorResource(R.color.dark_red)
-                        )
-                    )
-                }
-            }
-        )
-    }
-}
-
-data class HeaderData(
-    val navigateToInfoScreen: () -> Unit,
-    val onClickEvent: () -> Unit,
-    val expanded: Boolean,
-    val search: String,
-    val onDismiss: () -> Unit,
-    val onSearchTextChange: (String) -> Unit,
-    val checkedArt: Boolean,
-    val checkedWar: Boolean,
-    val onCheckedArtChange: (Boolean) -> Unit,
-    val onCheckedWarChange: (Boolean) -> Unit
-)
-
-@Composable
-fun Header(data: HeaderData) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
         SearchField(
-            search = data.search,
-            onSearchTextChange = { data.onSearchTextChange(it) }
+            search = state.search,
+            onSearchTextChange = { onUiIntent(HomeUiIntent.OnSearchChange(it)) },
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
-        Button(
-            onClick = { data.navigateToInfoScreen() },
-            modifier = Modifier.padding(start = 8.dp).aspectRatio(1f).weight(1f),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(R.color.dark_red),
-                contentColor = Color.Black
-            ),
-            contentPadding = PaddingValues(0.dp)
-        ) {
-            Icon(
-                painterResource(R.drawable.monument),
-                contentDescription = "Monument",
-                tint = colorResource(R.color.white),
-                modifier = Modifier.padding(8.dp)
-            )
-        }
-        Box(
-            modifier = Modifier.weight(1f)
-        ) {
-            Button(
-                onClick = { data.onClickEvent() },
-                modifier = Modifier.padding(start = 8.dp)
-                    .aspectRatio(1f),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colorResource(R.color.dark_red),
-                    contentColor = Color.Black
-                ),
-                contentPadding = PaddingValues(0.dp)
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.keyboard_arrow_down),
-                    contentDescription = null,
-                    tint = colorResource(R.color.white)
-                )
-            }
-            DropDownMenu(
-                expanded = data.expanded,
-                onDismiss = { data.onDismiss() },
-                checkedWar = data.checkedWar,
-                checkedArt = data.checkedArt,
-                onCheckedWarChange = data.onCheckedWarChange,
-                onCheckedArtChange = data.onCheckedArtChange
-            )
-        }
+        CategoryFilterChips(
+            checkedWar = state.checkedWar,
+            checkedArt = state.checkedArt,
+            onCheckedWarChange = { onUiIntent(HomeUiIntent.OnCheckedWarChange(it)) },
+            onCheckedArtChange = { onUiIntent(HomeUiIntent.OnCheckedArtChange(it)) },
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+        )
     }
 }
 
 @Composable
-private fun RowScope.SearchField(
+private fun SearchField(
     search: String,
-    onSearchTextChange: (String) -> Unit
+    onSearchTextChange: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    OutlinedTextField(
+    TextField(
         value = search,
-        onValueChange = { onSearchTextChange(it) },
-        placeholder = {
-            Text(
-                text = stringResource(R.string.search),
-                style = TextStyle(
-                    fontFamily = mulishFont(),
-                    fontSize = 14.sp,
-                    color = Color.White
-                )
-            )
-        },
-        textStyle = TextStyle(
-            fontFamily = mulishFont(),
-            fontSize = 14.sp,
-            color = Color.White
-        ),
-        modifier = Modifier.weight(4f),
-        shape = RoundedCornerShape(32.dp),
-        singleLine = true,
+        onValueChange = onSearchTextChange,
+        placeholder = { Text(text = stringResource(R.string.search)) },
         leadingIcon = {
             Icon(
                 painter = painterResource(R.drawable.search_icon),
-                contentDescription = null,
-                tint = colorResource(R.color.white)
+                contentDescription = null
             )
         },
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = colorResource(R.color.dark_red),
-            unfocusedContainerColor = colorResource(R.color.dark_red),
-            focusedBorderColor = Color.Transparent,
-            unfocusedBorderColor = Color.Transparent,
-            disabledBorderColor = Color.Transparent,
-            errorBorderColor = Color.Transparent
-        )
+        singleLine = true,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+        shape = RoundedCornerShape(14.dp),
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            focusedLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            unfocusedLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant
+        ),
+        modifier = modifier.fillMaxWidth()
     )
 }
+
+@Composable
+private fun VeteranItem(
+    veteran: Veteran,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 6.dp)
+            .clip(RoundedCornerShape(16.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .clickable(onClick = onClick)
+            .padding(10.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        AsyncImage(
+            model = veteran.portrait,
+            contentDescription = veteran.name,
+            placeholder = painterResource(R.drawable.portrait_placeholder),
+            error = painterResource(R.drawable.portrait_placeholder),
+            fallback = painterResource(R.drawable.portrait_placeholder),
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .weight(PORTRAIT_WEIGHT)
+                .aspectRatio(PORTRAIT_ASPECT_RATIO)
+                .clip(RoundedCornerShape(10.dp))
+        )
+        Column(modifier = Modifier.weight(TEXT_WEIGHT)) {
+            Text(
+                text = veteran.name,
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
+            )
+            if (veteran.years.isNotBlank()) {
+                Text(
+                    text = veteran.years,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 2.dp)
+                )
+            }
+            Text(
+                text = veteran.baseInfo,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = BASE_INFO_MAX_LINES,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(top = 6.dp)
+            )
+        }
+    }
+}
+
+private const val PORTRAIT_WEIGHT = 1f
+private const val TEXT_WEIGHT = 2f
+private const val PORTRAIT_ASPECT_RATIO = 0.8f
+private const val BASE_INFO_MAX_LINES = 5

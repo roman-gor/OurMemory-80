@@ -10,12 +10,13 @@ import com.gorman.ourmemoryapp.domain.models.AudioPlaybackState
 import com.gorman.ourmemoryapp.domain.models.Burial
 import com.gorman.ourmemoryapp.domain.repository.BurialsRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
+import com.gorman.ourmemoryapp.ui.common.models.MediaUi
+import com.gorman.ourmemoryapp.ui.common.models.toExternalModel
 import com.gorman.ourmemoryapp.ui.details.models.AudioAction
 import com.gorman.ourmemoryapp.ui.details.models.DetailsUiEvent
 import com.gorman.ourmemoryapp.ui.details.models.DetailsUiState
-import com.gorman.ourmemoryapp.ui.details.models.MediaUi
 import com.gorman.ourmemoryapp.ui.details.models.Reward
-import com.gorman.ourmemoryapp.ui.details.models.toExternalModel
+import com.gorman.ourmemoryapp.ui.details.models.RewardUi
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -115,10 +116,13 @@ class DetailsViewModel @AssistedInject constructor(
             .getOrDefault(emptyList())
     }
 
-    private fun parseRewards(rewards: String): List<Reward> {
+    private fun parseRewards(rewards: String): List<RewardUi> {
         return rewards
             .split(REWARDS_SEPARATOR)
             .mapNotNull { it.trim().toIntOrNull()?.let(Reward::fromId) }
+            .groupingBy { it }
+            .eachCount()
+            .map { (reward, count) -> RewardUi(reward = reward, count = count) }
     }
 
     private suspend fun resolveMedia(links: List<String>): List<MediaUi> = coroutineScope {
@@ -126,16 +130,9 @@ class DetailsViewModel @AssistedInject constructor(
             async {
                 val url = link.substringBefore(DESCRIPTION_SEPARATOR).trim()
                 val description = link.substringAfter(DESCRIPTION_SEPARATOR, missingDelimiterValue = "").trim()
-                MediaUi(url = resolveDirectUrl(url), description = description)
+                MediaUi(url = veteranRepository.resolveDirectUrl(url), description = description)
             }
         }.awaitAll()
-    }
-
-    private suspend fun resolveDirectUrl(url: String): String {
-        if (!url.contains(YANDEX_MARKER)) return url
-        return runCatching { veteranRepository.getHrefFromLink(publicKey = url).href }
-            .getOrNull()
-            ?: url
     }
 
     private fun loadAudioForVeteran() = AudioItem(
@@ -163,7 +160,6 @@ class DetailsViewModel @AssistedInject constructor(
         private const val STOP_TIMEOUT_MILLIS = 5000L
         private const val LOG_TAG = "DetailsViewModel"
         private const val LINK_MARKER = "http"
-        private const val YANDEX_MARKER = "yandex"
         private const val DESCRIPTION_SEPARATOR = "|"
         private const val REWARDS_SEPARATOR = ","
         private const val BIOGRAPHY_AUDIO_ID = 10
