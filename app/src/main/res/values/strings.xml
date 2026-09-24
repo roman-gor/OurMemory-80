@@ -191,4 +191,18 @@
     <string name="stop_text">Текст остановки</string>
     <string name="title">Название</string>
     <string name="delete_tour_msg">Удалить экскурсию? Она исчезнет из приложения</string>
+    <string name="more">Ещё</string>
+    <string name="appearance">Оформление</string>
+    <string name="theme">Тема</string>
+    <string name="as_in_system">Как в системе</string>
+    <string name="light">Светлая</string>
+    <string name="dark">Тёмная</string>
+    <string name="text_size">Размер текста</string>
+    <string name="normal">Обычный</string>
+    <string name="large">Крупный</string>
+    <string name="extra_large">Очень крупный</string>
+    <string name="language">Язык</string>
+    <string name="russian">Русский</string>
+    <string name="belarusian">Беларуская</string>
+    <string name="memorable_days_of_favorites">Памятные дни избранных</string>
 </resources>

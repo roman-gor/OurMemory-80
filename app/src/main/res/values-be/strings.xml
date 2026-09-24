@@ -189,4 +189,18 @@
     <string name="stop_text">Тэкст прыпынку</string>
     <string name="title">Назва</string>
     <string name="delete_tour_msg">Выдаліць экскурсію? Яна знікне з праграмы</string>
+    <string name="more">Яшчэ</string>
+    <string name="appearance">Афармленне</string>
+    <string name="theme">Тэма</string>
+    <string name="as_in_system">Як у сістэме</string>
+    <string name="light">Светлая</string>
+    <string name="dark">Цёмная</string>
+    <string name="text_size">Памер тэксту</string>
+    <string name="normal">Звычайны</string>
+    <string name="large">Буйны</string>
+    <string name="extra_large">Вельмі буйны</string>
+    <string name="language">Мова</string>
+    <string name="russian">Русский</string>
+    <string name="belarusian">Беларуская</string>
+    <string name="memorable_days_of_favorites">Памятныя дні абраных</string>
 </resources>

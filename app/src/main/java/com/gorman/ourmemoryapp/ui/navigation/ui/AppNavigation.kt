@@ -26,6 +26,7 @@ import com.gorman.ourmemoryapp.ui.home.ui.MainScreen
 import com.gorman.ourmemoryapp.ui.info.ui.InfoScreen
 import com.gorman.ourmemoryapp.ui.intro.ui.IntroScreen
 import com.gorman.ourmemoryapp.ui.map.ui.MapScreen
+import com.gorman.ourmemoryapp.ui.more.ui.MoreScreen
 import com.gorman.ourmemoryapp.ui.navigation.models.TopLevelTab
 import com.gorman.ourmemoryapp.ui.navigation.viewmodels.SessionViewModel
 import com.gorman.ourmemoryapp.ui.tours.ui.TourScreen
@@ -104,7 +105,12 @@ private fun AppNavHost(
         tabComposable(Screen.InfoScreen.route) {
             InfoScreen(
                 onOpenMapClick = { navController.navigateToTab(TopLevelTab.MAP) },
-                onChangeLangClick = onChangeLangClick,
+                onChangeLangClick = onChangeLangClick
+            )
+        }
+        tabComposable(Screen.MoreScreen.route) {
+            MoreScreen(
+                onLanguageChange = onChangeLangClick,
                 onWriteToUsClick = { navController.navigate(Screen.FeedbackScreen.route) },
                 onAdminClick = {
                     if (isAdmin) {

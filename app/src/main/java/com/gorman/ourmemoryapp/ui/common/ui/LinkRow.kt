@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp.ui.admin.home.ui
+package com.gorman.ourmemoryapp.ui.common.ui
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,10 +17,10 @@ import androidx.compose.ui.unit.dp
 import com.gorman.ourmemoryapp.R
 
 @Composable
-fun AdminSectionRow(
+fun LinkRow(
     title: String,
-    count: Int,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    count: Int = 0
 ) {
     Card(
         onClick = onClick,

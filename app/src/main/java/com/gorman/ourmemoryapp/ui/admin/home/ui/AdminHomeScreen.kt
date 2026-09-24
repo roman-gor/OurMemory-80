@@ -21,6 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.ui.admin.home.models.AdminHomeUiEvent
 import com.gorman.ourmemoryapp.ui.admin.home.viewmodels.AdminHomeViewModel
+import com.gorman.ourmemoryapp.ui.common.ui.LinkRow
 import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 
 @Composable
@@ -64,27 +65,27 @@ fun AdminHomeScreen(
             )
         }
         item {
-            AdminSectionRow(
+            LinkRow(
                 title = stringResource(R.string.moderation),
                 count = state.pendingSubmissionsCount,
                 onClick = onModerationClick
             )
         }
         item {
-            AdminSectionRow(
+            LinkRow(
                 title = stringResource(R.string.feedback),
                 count = state.newFeedbackCount,
                 onClick = onFeedbackClick
             )
         }
         item {
-            AdminSectionRow(title = stringResource(R.string.veterans), count = 0, onClick = onVeteransClick)
+            LinkRow(title = stringResource(R.string.veterans), onClick = onVeteransClick)
         }
         item {
-            AdminSectionRow(title = stringResource(R.string.burial_places), count = 0, onClick = onBurialsClick)
+            LinkRow(title = stringResource(R.string.burial_places), onClick = onBurialsClick)
         }
         item {
-            AdminSectionRow(title = stringResource(R.string.tours), count = 0, onClick = onToursClick)
+            LinkRow(title = stringResource(R.string.tours), onClick = onToursClick)
         }
         item {
             OutlinedButton(
