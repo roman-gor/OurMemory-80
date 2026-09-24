@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,9 +19,11 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -115,6 +118,13 @@ private fun TourContent(
                             modifier = Modifier.padding(top = 4.dp)
                         )
                     }
+                    if (state.visitedStops.isNotEmpty()) {
+                        TourProgressRow(
+                            visitedCount = state.visitedStops.count { it in state.stops.indices },
+                            totalCount = state.stops.size,
+                            onResetClick = { onUiIntent(TourUiIntent.OnResetProgress) }
+                        )
+                    }
                 }
             }
             itemsIndexed(state.stops, key = { _, stop -> stop.number }) { index, stop ->
@@ -123,10 +133,28 @@ private fun TourContent(
                     isSelected = index == state.selectedStopIndex,
                     isPlaying = playbackState.isPlaying && playbackState.currentAudio?.id == stop.audio?.id,
                     onClick = { onUiIntent(TourUiIntent.OnStopClick(index)) },
-                    onAudioClick = { onUiIntent(TourUiIntent.OnStopAudioClick(index)) }
+                    isVisited = index in state.visitedStops,
+                    onAudioClick = { onUiIntent(TourUiIntent.OnStopAudioClick(index)) },
+                    onVisitedToggle = { onUiIntent(TourUiIntent.OnStopVisitedToggle(index)) }
                 )
             }
             item { Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars)) }
+        }
+    }
+}
+
+@Composable
+private fun TourProgressRow(visitedCount: Int, totalCount: Int, onResetClick: () -> Unit) {
+    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 8.dp)) {
+        Text(
+            text = stringResource(R.string.visited_of_total, visitedCount, totalCount),
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.weight(1f)
+        )
+        TextButton(onClick = onResetClick) {
+            Text(text = stringResource(R.string.start_over))
         }
     }
 }

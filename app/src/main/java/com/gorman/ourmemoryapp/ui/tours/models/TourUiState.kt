@@ -1,6 +1,7 @@
 package com.gorman.ourmemoryapp.ui.tours.models
 
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.ImmutableSet
 
 sealed interface TourUiState {
     data object Loading : TourUiState
@@ -8,7 +9,8 @@ sealed interface TourUiState {
         val title: String,
         val description: String,
         val stops: ImmutableList<TourStopUi>,
-        val selectedStopIndex: Int?
+        val selectedStopIndex: Int?,
+        val visitedStops: ImmutableSet<Int>
     ) : TourUiState
     data object Error : TourUiState
 }

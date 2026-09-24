@@ -75,7 +75,11 @@ fun ToursSheet(
                             )
                         }
                         Text(
-                            text = pluralStringResource(R.plurals.stops_count, tour.stopsCount, tour.stopsCount),
+                            text = if (tour.visitedCount > 0) {
+                                stringResource(R.string.visited_of_total, tour.visitedCount, tour.stopsCount)
+                            } else {
+                                pluralStringResource(R.plurals.stops_count, tour.stopsCount, tour.stopsCount)
+                            },
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.padding(top = 4.dp)

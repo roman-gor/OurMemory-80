@@ -11,11 +11,13 @@ import com.gorman.ourmemoryapp.data.candles.datasource.remote.CandlesRemoteDataS
 import com.gorman.ourmemoryapp.data.candles.repository.CandlesRepositoryImpl
 import com.gorman.ourmemoryapp.data.favorites.repository.FavoritesRepositoryImpl
 import com.gorman.ourmemoryapp.data.settings.repository.SettingsRepositoryImpl
+import com.gorman.ourmemoryapp.data.tours.repository.TourProgressRepositoryImpl
 import com.gorman.ourmemoryapp.di.annotation.MemoryRoot
 import com.gorman.ourmemoryapp.domain.repository.CandlesRepository
 import com.gorman.ourmemoryapp.domain.repository.FavoritesRepository
 import com.gorman.ourmemoryapp.domain.repository.ReminderScheduler
 import com.gorman.ourmemoryapp.domain.repository.SettingsRepository
+import com.gorman.ourmemoryapp.domain.repository.TourProgressRepository
 import com.gorman.ourmemoryapp.reminders.ReminderSchedulerImpl
 import dagger.Module
 import dagger.Provides
@@ -66,4 +68,9 @@ object PreferencesModule {
     @Singleton
     fun provideFavoritesRepository(dataStore: DataStore<Preferences>): FavoritesRepository =
         FavoritesRepositoryImpl(dataStore)
+
+    @Provides
+    @Singleton
+    fun provideTourProgressRepository(dataStore: DataStore<Preferences>): TourProgressRepository =
+        TourProgressRepositoryImpl(dataStore)
 }

@@ -9,6 +9,7 @@ import com.gorman.ourmemoryapp.domain.models.Burial
 import com.gorman.ourmemoryapp.domain.models.Screen
 import com.gorman.ourmemoryapp.domain.models.Veteran
 import com.gorman.ourmemoryapp.domain.repository.BurialsRepository
+import com.gorman.ourmemoryapp.domain.repository.TourProgressRepository
 import com.gorman.ourmemoryapp.domain.repository.ToursRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
 import com.gorman.ourmemoryapp.ui.common.models.BurialType
@@ -42,6 +43,7 @@ class MapViewModel @Inject constructor(
     private val burialsRepository: BurialsRepository,
     private val veteransRepository: VeteransRepository,
     private val toursRepository: ToursRepository,
+    private val tourProgressRepository: TourProgressRepository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -70,8 +72,9 @@ class MapViewModel @Inject constructor(
         flow { emit(loadCemetery()) },
         checkedWarState,
         checkedArtState,
-        selectedBurialId
-    ) { cemetery, war, art, selectedId ->
+        selectedBurialId,
+        tourProgressRepository.observeProgress()
+    ) { cemetery, war, art, selectedId, progress ->
         MapUiState.Success(
             markers = cemetery.visibleMarkers(war, art).toPersistentList(),
             selectedBurial = selectedId?.let { burialDetails(cemetery, it) },
@@ -79,6 +82,8 @@ class MapViewModel @Inject constructor(
             checkedWar = war,
             checkedArt = art,
             tours = cemetery.tours
+                .map { it.copy(visitedCount = progress[it.id]?.count { index -> index < it.stopsCount } ?: 0) }
+                .toPersistentList()
         ) as MapUiState
     }.flowOn(
         ioDispatcher

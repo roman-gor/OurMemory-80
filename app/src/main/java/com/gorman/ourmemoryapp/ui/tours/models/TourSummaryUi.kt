@@ -6,7 +6,8 @@ data class TourSummaryUi(
     val id: String,
     val title: String,
     val description: String,
-    val stopsCount: Int
+    val stopsCount: Int,
+    val visitedCount: Int = 0
 )
 
 fun Tour.toSummaryUi() = TourSummaryUi(

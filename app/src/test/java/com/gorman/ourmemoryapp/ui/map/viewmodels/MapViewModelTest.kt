@@ -7,6 +7,7 @@ import com.gorman.ourmemoryapp.domain.models.Tour
 import com.gorman.ourmemoryapp.domain.models.TourStop
 import com.gorman.ourmemoryapp.domain.models.Veteran
 import com.gorman.ourmemoryapp.testutil.FakeBurialsRepository
+import com.gorman.ourmemoryapp.testutil.FakeTourProgressRepository
 import com.gorman.ourmemoryapp.testutil.FakeToursRepository
 import com.gorman.ourmemoryapp.testutil.FakeVeteransRepository
 import com.gorman.ourmemoryapp.testutil.MainDispatcherRule
@@ -50,6 +51,7 @@ class MapViewModelTest {
         burialsRepository = FakeBurialsRepository(listOf(monument, warGrave, artGrave, noCoordinates), burialsError),
         veteransRepository = FakeVeteransRepository(listOf(warVeteran, artVeteran)),
         toursRepository = FakeToursRepository(listOf(tour, Tour(id = "t_empty")), toursError),
+        tourProgressRepository = FakeTourProgressRepository(mapOf(tour.id to setOf(0))),
         ioDispatcher = mainDispatcherRule.dispatcher
     )
 

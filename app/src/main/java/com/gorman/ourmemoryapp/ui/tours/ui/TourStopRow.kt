@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -32,13 +33,14 @@ fun TourStopRow(
     stop: TourStopUi,
     isSelected: Boolean,
     isPlaying: Boolean,
+    isVisited: Boolean,
     onClick: () -> Unit,
     onAudioClick: () -> Unit,
-    modifier: Modifier = Modifier
+    onVisitedToggle: () -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.Top,
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
             .background(
@@ -85,6 +87,19 @@ fun TourStopRow(
                     maxLines = if (isSelected) Int.MAX_VALUE else COLLAPSED_TEXT_LINES,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(top = 4.dp)
+                )
+            }
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .padding(top = 4.dp)
+                    .clickable(onClick = onVisitedToggle)
+            ) {
+                Checkbox(checked = isVisited, onCheckedChange = { onVisitedToggle() })
+                Text(
+                    text = stringResource(R.string.visited),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
         }

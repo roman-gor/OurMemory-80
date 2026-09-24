@@ -10,6 +10,7 @@ import com.gorman.ourmemoryapp.domain.models.AudioItem
 import com.gorman.ourmemoryapp.domain.models.AudioPlaybackState
 import com.gorman.ourmemoryapp.domain.models.Screen
 import com.gorman.ourmemoryapp.domain.repository.BurialsRepository
+import com.gorman.ourmemoryapp.domain.repository.TourProgressRepository
 import com.gorman.ourmemoryapp.domain.repository.ToursRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
 import com.gorman.ourmemoryapp.ui.common.models.BurialType
@@ -17,9 +18,11 @@ import com.gorman.ourmemoryapp.ui.common.models.toExternalModel
 import com.gorman.ourmemoryapp.ui.tours.models.TourStopUi
 import com.gorman.ourmemoryapp.ui.tours.models.TourUiIntent
 import com.gorman.ourmemoryapp.ui.tours.models.TourUiState
+import com.gorman.ourmemoryapp.ui.tours.models.resumeStopIndex
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.collections.immutable.toPersistentSet
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
@@ -35,6 +38,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,6 +48,7 @@ class TourViewModel @Inject constructor(
     private val burialsRepository: BurialsRepository,
     private val veteransRepository: VeteransRepository,
     private val audioRepository: AudioRepository,
+    private val tourProgressRepository: TourProgressRepository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -75,6 +80,10 @@ class TourViewModel @Inject constructor(
         when (intent) {
             is TourUiIntent.OnStopClick -> selectedStopIndex.value = intent.index
             is TourUiIntent.OnStopAudioClick -> onStopAudioClick(intent.index)
+            is TourUiIntent.OnStopVisitedToggle -> viewModelScope.launch {
+                tourProgressRepository.toggleStop(tourId, intent.index)
+            }
+            TourUiIntent.OnResetProgress -> viewModelScope.launch { tourProgressRepository.reset(tourId) }
         }
     }
 
@@ -84,13 +93,15 @@ class TourViewModel @Inject constructor(
 
     private fun observeTourUiState(): Flow<TourUiState> = combine(
         flow { emit(loadTour()) }.flowOn(ioDispatcher),
-        selectedStopIndex
-    ) { tour, selectedIndex ->
+        selectedStopIndex,
+        tourProgressRepository.observeProgress().map { it[tourId].orEmpty() }
+    ) { tour, selectedIndex, visited ->
         TourUiState.Success(
             title = tour.title,
             description = tour.description,
             stops = tour.stops,
-            selectedStopIndex = selectedIndex
+            selectedStopIndex = selectedIndex ?: resumeStopIndex(tour.stops.size, visited),
+            visitedStops = visited.toPersistentSet()
         ) as TourUiState
     }.catch { error ->
         Log.e(LOG_TAG, "Failed to load tour $tourId", error)
