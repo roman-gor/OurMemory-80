@@ -46,9 +46,9 @@ fun DetailsScreen(
     val listState = rememberLazyListState()
     val isHeroScrolledAway by rememberIsHeroScrolledAway(listState)
     val state = uiState
-    val isCollapsed = state !is DetailsUiState.Success || isHeroScrolledAway
+    val isCollapsed = state is DetailsUiState.Success && isHeroScrolledAway
 
-    SystemBarIcons(darkIcons = isCollapsed)
+    SystemBarIcons(darkIcons = state !is DetailsUiState.Success || isHeroScrolledAway)
 
     Box(
         modifier = Modifier

@@ -17,8 +17,13 @@ fun rememberIsHeroScrolledAway(listState: LazyListState): State<Boolean> {
     val topBarHeight = with(density) { TOP_BAR_HEIGHT.roundToPx() } + statusBarHeight
     return remember(listState, topBarHeight) {
         derivedStateOf {
-            val hero = listState.layoutInfo.visibleItemsInfo.firstOrNull { it.index == 0 }
-            hero == null || hero.size + hero.offset <= topBarHeight
+            val visibleItems = listState.layoutInfo.visibleItemsInfo
+            val hero = visibleItems.firstOrNull { it.index == 0 }
+            when {
+                visibleItems.isEmpty() -> false
+                hero == null -> true
+                else -> hero.size + hero.offset <= topBarHeight
+            }
         }
     }
 }
