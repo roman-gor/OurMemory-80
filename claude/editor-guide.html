@@ -1,0 +1,239 @@
+<title>Памятка редактора «Нашей памяти»</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&family=Mulish:wght@400;600;700&display=swap">
+<style>
+  :root {
+    --paper: #ffffff;
+    --paper-low: #f8f6f5;
+    --paper-high: #f0ecea;
+    --ink: #1f1a1a;
+    --ink-muted: #5f5656;
+    --line: #e2dbda;
+    --red: #7f0410;
+    --red-soft: #f7e4e2;
+    --warn: #8a5a00;
+    --warn-soft: #fff4dc;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #151212;
+      --paper-low: #1d1a1a;
+      --paper-high: #2c2828;
+      --ink: #ede0de;
+      --ink-muted: #d8c2bf;
+      --line: #534341;
+      --red: #ffb3ac;
+      --red-soft: #3a1417;
+      --warn: #f3c56b;
+      --warn-soft: #33290f;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #151212;
+    --paper-low: #1d1a1a;
+    --paper-high: #2c2828;
+    --ink: #ede0de;
+    --ink-muted: #d8c2bf;
+    --line: #534341;
+    --red: #ffb3ac;
+    --red-soft: #3a1417;
+    --warn: #f3c56b;
+    --warn-soft: #33290f;
+    color-scheme: dark;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Mulish", "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    padding-inline: 16px;
+    padding-block: 32px 64px;
+  }
+  .page { max-width: 760px; margin: 0 auto; display: grid; gap: 40px; }
+  h1, h2, h3 { font-family: "Inria Serif", Georgia, "Times New Roman", serif; text-wrap: balance; margin: 0; }
+  h1 { font-size: clamp(30px, 6vw, 42px); line-height: 1.15; color: var(--red); }
+  h2 { font-size: 26px; line-height: 1.25; }
+  h3 { font-size: 19px; }
+  p { margin: 0; max-width: 65ch; }
+  .lead { color: var(--ink-muted); font-size: 17px; margin-top: 12px; }
+  section { display: grid; gap: 14px; }
+  .eyebrow {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--red);
+  }
+
+  .route { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .route div { background: var(--paper-low); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .route b { display: block; font-family: "Inria Serif", Georgia, serif; font-size: 18px; color: var(--red); }
+  .route span { font-size: 14px; color: var(--ink-muted); }
+  @media (max-width: 560px) { .route { grid-template-columns: 1fr; } }
+
+  ol.steps { margin: 0; padding-left: 22px; display: grid; gap: 8px; max-width: 65ch; }
+  ol.steps li::marker { color: var(--red); font-weight: 700; }
+  ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; max-width: 65ch; }
+
+  .path {
+    display: inline-block; background: var(--red-soft); color: var(--red); font-weight: 700;
+    border-radius: 999px; padding: 1px 10px; font-size: 14px; white-space: nowrap;
+  }
+  code {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 14px;
+    background: var(--paper-high); border-radius: 6px; padding: 1px 6px; overflow-wrap: anywhere;
+  }
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
+  table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+  th { background: var(--paper-low); font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-muted); }
+  tr:last-child td { border-bottom: 0; }
+  td:first-child { font-weight: 700; white-space: nowrap; }
+  .req { color: var(--red); font-size: 13px; font-weight: 700; }
+
+  .note { background: var(--warn-soft); border-radius: 12px; padding: 14px 16px; display: grid; gap: 6px; }
+  .note b { color: var(--warn); }
+
+  .audio-spec { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .audio-spec div { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+  .audio-spec small { display: block; color: var(--ink-muted); font-size: 13px; }
+  .audio-spec strong { font-size: 17px; font-variant-numeric: tabular-nums; }
+
+  hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
+  footer { color: var(--ink-muted); font-size: 14px; }
+  a { color: var(--red); }
+  a:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+</style>
+
+<main class="page">
+  <header>
+    <div class="eyebrow">Военное кладбище · Минск</div>
+    <h1>Памятка редактора «Нашей памяти»</h1>
+    <p class="lead">Как добавлять места захоронения, ветеранов, экскурсии и озвучку прямо в приложении, без консоли Firebase и без программиста.</p>
+  </header>
+
+  <section>
+    <div class="eyebrow">Порядок работы</div>
+    <div class="route">
+      <div><b>1. Место</b><span>Координаты ставятся у самой могилы</span></div>
+      <div><b>2. Ветеран</b><span>Карточка привязывается к месту</span></div>
+      <div><b>3. Экскурсия</b><span>Маршрут собирается из мест</span></div>
+    </div>
+    <p>Места нужны раньше всего остального. Без места карточка ветерана не покажет могилу на карте, а в экскурсию нечего будет добавить.</p>
+  </section>
+
+  <section>
+    <h2>Как получить доступ</h2>
+    <p>Это делает владелец проекта один раз для каждого редактора.</p>
+    <ol class="steps">
+      <li>В консоли Firebase откройте <b>Authentication → Sign-in method</b> и включите <b>Email/Password</b>.</li>
+      <li>В <b>Authentication → Users</b> добавьте пользователя с e-mail редактора и временным паролем. Скопируйте его <b>User UID</b>.</li>
+      <li>В <b>Realtime Database</b> внутри узла <code>OurMemory/Admins</code> добавьте запись: ключ — UID, значение — <code>true</code>.</li>
+      <li>Чтобы редактор мог загружать фото и аудио, впишите тот же UID в список <code>isAdmin()</code> в файле <code>firebase/storage.rules</code> и опубликуйте правила Storage в консоли.</li>
+      <li>Редактор открывает приложение: <span class="path">Ещё → Вход для администратора</span>. После входа внизу появится вкладка <span class="path">Админ</span>.</li>
+    </ol>
+    <div class="note">
+      <b>Правила не деплоятся командой</b>
+      <p>База общая с другими приложениями. Правила из папки <code>firebase/</code> вставляются в консоль вручную, внутрь существующих, иначе сломаются соседние проекты.</p>
+    </div>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>Место захоронения</h2>
+    <p><span class="path">Админ → Места захоронения → +</span></p>
+    <ol class="steps">
+      <li>Выберите тип: могила, братская могила или памятник.</li>
+      <li>Впишите участок, ряд и место с таблички кладбища. Это точнее GPS, и посетители ищут именно по этим номерам.</li>
+      <li>Встаньте у могилы и нажмите <b>«Моё местоположение»</b>. Если метка легла неточно, нажмите на карту в нужной точке.</li>
+      <li>Добавьте фото и короткое описание, если есть. Нажмите <b>«Сохранить»</b>.</li>
+    </ol>
+    <p>Проверьте результат на вкладке <span class="path">Карта</span>: новая метка должна стоять на своём месте.</p>
+  </section>
+
+  <section>
+    <h2>Ветеран</h2>
+    <p><span class="path">Админ → Ветераны → +</span>. Номер карточки приложение присвоит само.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Поле</th><th>Что вписывать</th></tr></thead>
+        <tbody>
+          <tr><td>ФИО <span class="req">обязательно</span></td><td>Фамилия, имя, отчество полностью: «Окрестин Борис Семёнович»</td></tr>
+          <tr><td>Годы жизни</td><td>Как на табличке: «1905–1966»</td></tr>
+          <tr><td>Категория</td><td>«Герои Советского Союза» или «Деятели искусств». От неё зависит фильтр в списке и на карте</td></tr>
+          <tr><td>Краткая информация</td><td>Одно-два предложения. Показывается под именем</td></tr>
+          <tr><td>Основной текст</td><td>Первый абзац биографии</td></tr>
+          <tr><td>Даты</td><td>Рождение и смерть через календарь. По ним работают блок «В этот день» и напоминания в избранном</td></tr>
+          <tr><td>Место захоронения</td><td>Выберите из списка мест, созданных на первом шаге</td></tr>
+          <tr><td>Портрет</td><td>Фото с телефона, лицо по центру. Приложение само сожмёт его</td></tr>
+          <tr><td>Награды</td><td>Плюсом и минусом ставится количество. Два ордена Красной Звезды — «2» напротив ордена</td></tr>
+          <tr><td>Аудио</td><td>Озвученная биография, см. раздел ниже</td></tr>
+          <tr><td>Биография и медиа</td><td>Абзацы и фото с подписями в нужном порядке. Стрелки меняют порядок, крестик удаляет блок</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Если кнопка <b>«Сохранить»</b> неактивна, значит ФИО пустое или дата введена неверно: такое поле подсвечено красным.</p>
+  </section>
+
+  <section>
+    <h2>Экскурсия</h2>
+    <p><span class="path">Админ → Экскурсии → +</span></p>
+    <ol class="steps">
+      <li>Дайте экскурсии название и короткое описание: «Герои Советского Союза, 40 минут».</li>
+      <li>Нажмите <b>«Добавить остановку»</b> и найдите место по фамилии, номеру участка или типу.</li>
+      <li>Для каждой остановки напишите текст, который посетитель читает у могилы, и прикрепите аудиогид.</li>
+      <li>Выставьте порядок остановок стрелками. Номера на карте и линия маршрута берутся из этого порядка, превью видно прямо в редакторе.</li>
+    </ol>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>Озвучка</h2>
+    <div class="note">
+      <b>Suno для этого не подойдёт</b>
+      <p>Suno генерирует песни и музыку, а не зачитывает готовый текст. Для биографий и аудиогидов нужен синтез речи (TTS) или живой голос.</p>
+    </div>
+    <ul>
+      <li><b>ElevenLabs</b> — самые естественные голоса с русским языком. Для публичного приложения нужен платный тариф с коммерческой лицензией.</li>
+      <li><b>Yandex SpeechKit</b> — хорошие русские голоса, оплата за объём текста. Удобен, если проект уже живёт в Яндекс Облаке.</li>
+      <li><b>Живой голос</b> — диктофон телефона в тихой комнате. Для мемориального проекта часто звучит лучше любого синтеза.</li>
+    </ul>
+    <div class="audio-spec">
+      <div><small>Формат</small><strong>mp3 или m4a</strong></div>
+      <div><small>Размер файла</small><strong>до 50 МБ</strong></div>
+      <div><small>Длина биографии</small><strong>1–3 минуты</strong></div>
+      <div><small>Остановка экскурсии</small><strong>30–90 секунд</strong></div>
+    </div>
+    <p>Перед генерацией проверьте текст: ударения в фамилиях и названиях деревень, годы прописью («в тысяча девятьсот сорок первом»), сокращения раскрыты полностью. Готовый файл перешлите себе на телефон, например в «Избранное» мессенджера, и загрузите кнопкой <b>«Добавить аудио»</b> в карточке ветерана или в остановке экскурсии.</p>
+  </section>
+
+  <section>
+    <h2>Заявки и обращения посетителей</h2>
+    <ul>
+      <li><span class="path">Админ → Модерация</span> — материалы родственников. Поправьте текст, снимите лишние фото, при желании напишите комментарий автору и нажмите «Одобрить»: текст и фото сразу попадут в карточку с подписью «Из семейного архива».</li>
+      <li><span class="path">Админ → Обратная связь</span> — сообщения и отчёты об ошибках. Ответ увидит автор в разделе <span class="path">Ещё → Мои обращения</span>.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>QR-таблички</h2>
+    <p>После добавления новых ветеранов попросите разработчика собрать свежий лист табличек:</p>
+    <p><code>.venv/bin/python tools/qr/generate_qr_sheet.py --output qr_sheet.pdf</code></p>
+    <p>QR-код открывает карточку ветерана обычной камерой телефона или кнопкой сканера в приложении.</p>
+  </section>
+
+  <section>
+    <h2>Если что-то не так</h2>
+    <ul>
+      <li><b>Фото или аудио не загружается.</b> Проверьте интернет и размер файла. Если ошибка повторяется, скорее всего, UID редактора не вписан в правила Storage.</li>
+      <li><b>«Нет прав администратора» при входе.</b> Нет записи с вашим UID в <code>OurMemory/Admins</code>.</li>
+      <li><b>Посетитель не видит изменения.</b> Приложение загружает данные один раз за запуск. Новое появится, когда посетитель перезапустит приложение.</li>
+      <li><b>Удалили не то.</b> Ветерана и экскурсию можно удалить только после подтверждения, а место захоронения из приложения не удаляется вовсе. Перед удалением убедитесь, что открыта нужная карточка: вернуть удалённое можно только вручную.</li>
+    </ul>
+  </section>
+
+  <footer>Приложение «Наша память». Памятка обновляется вместе с приложением.</footer>
+</main>
