@@ -11,6 +11,8 @@ import com.gorman.ourmemoryapp.ui.admin.home.ui.AdminHomeScreen
 import com.gorman.ourmemoryapp.ui.admin.login.ui.AdminLoginScreen
 import com.gorman.ourmemoryapp.ui.admin.moderation.ui.ModerationListScreen
 import com.gorman.ourmemoryapp.ui.admin.moderation.ui.SubmissionReviewScreen
+import com.gorman.ourmemoryapp.ui.admin.veterans.ui.AdminVeteransScreen
+import com.gorman.ourmemoryapp.ui.admin.veterans.ui.VeteranEditorScreen
 import com.gorman.ourmemoryapp.ui.navigation.models.TopLevelTab
 
 fun NavGraphBuilder.adminGraph(navController: NavHostController) {
@@ -26,6 +28,7 @@ fun NavGraphBuilder.adminGraph(navController: NavHostController) {
     composable(Screen.AdminHomeScreen.route) {
         AdminHomeScreen(
             onModerationClick = { navController.navigate(Screen.AdminModerationScreen.route) },
+            onVeteransClick = { navController.navigate(Screen.AdminVeteransScreen.route) },
             onFeedbackClick = { navController.navigate(Screen.AdminFeedbackScreen.route) },
             onSignedOut = { navController.navigateToTab(TopLevelTab.ABOUT) }
         )
@@ -47,5 +50,23 @@ fun NavGraphBuilder.adminGraph(navController: NavHostController) {
         arguments = listOf(navArgument(Screen.AdminSubmissionScreen.SUBMISSION_ID_ARG) { type = NavType.StringType })
     ) {
         SubmissionReviewScreen(onBackClick = { navController.popBackStack() })
+    }
+    composable(Screen.AdminVeteransScreen.route) {
+        AdminVeteransScreen(
+            onBackClick = { navController.popBackStack() },
+            onVeteranClick = { navController.navigate(Screen.AdminVeteranEditorScreen.forVeteran(it)) },
+            onNewVeteranClick = { navController.navigate(Screen.AdminVeteranEditorScreen.forVeteran("")) }
+        )
+    }
+    composable(
+        route = Screen.AdminVeteranEditorScreen.pattern,
+        arguments = listOf(
+            navArgument(Screen.AdminVeteranEditorScreen.VETERAN_ID_ARG) {
+                type = NavType.StringType
+                defaultValue = ""
+            }
+        )
+    ) {
+        VeteranEditorScreen(onBackClick = { navController.popBackStack() })
     }
 }

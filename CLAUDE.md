@@ -49,7 +49,7 @@ Package root: `app/src/main/java/com/gorman/ourmemoryapp/`:
 
 | Node under `OurMemory/` | Contents | Accessed by |
 |---|---|---|
-| `Veterans` | `id`, `name`, `portrait`, `years`, `category` (`"War"` / `"Art"`), `rewards`, `veteransInfo`, `burialId`, `audioUrl`, `birthDate` / `deathDate` (`yyyy-MM-dd`) | read-only |
+| `Veterans/veteran{id}` | `id`, `name`, `portrait`, `years`, `category` (`"War"` / `"Art"`), `rewards`, `veteransInfo`, `burialId`, `audioUrl`, `birthDate` / `deathDate` (`yyyy-MM-dd`) | read by everyone; written whole by the admin veteran editor through `ContentEditorRepository`, which then calls `VeteransRepository.invalidate()` |
 | `Burials` | a grave, mass grave or monument, with coordinates and section/row/place | read-only |
 | `Tours` | ordered `stops` that point to a `burialId`, with `text` and `audioUrl` | read-only |
 | `Candles/{veteranId}` | a counter | incremented in a transaction |
@@ -83,7 +83,7 @@ Other data facts:
 
 **Navigation and chrome.**
 - `ui/navigation/ui/AppNavigation.kt` hosts a `Scaffold` with bottom tabs (`TopLevelTab`: veterans, map, about, admin) that are shown only on tab roots. The admin tab is shown only while `SessionViewModel.isAdmin` is true.
-- Admins sign in with e-mail and password (Firebase Auth) from the About tab. A user is an admin only when a non-anonymous account has a record in `Admins/{uid}`; `AuthRepository.signIn` signs out any other account. Admin routes live in `ui/navigation/ui/AdminGraph.kt`, admin features in `ui/admin/*`.
+- Admins sign in with e-mail and password (Firebase Auth) from the About tab. A user is an admin only when a non-anonymous account has a record in `Admins/{uid}`; `AuthRepository.signIn` signs out any other account. Admin routes live in `ui/navigation/ui/AdminGraph.kt`, admin features in `ui/admin/*`. Admin media (portraits, photos, audio) is uploaded by `MediaRepository` to Storage `OurMemory/Media/{folder}/`.
 - Pushed routes: `detailscreen/{veteranId}` (also the app link `https://chatroom-85fb8.web.app/veteran/{id}`), `burialmap/{burialId}`, `tour/{tourId}`, `submission/{veteranId}` and `feedback?veteranId={veteranId}` (veteran is optional). Veteran-card routes live in `ui/navigation/ui/VeteranGraph.kt`.
 - When the app is opened from a link, it starts on home instead of the intro.
 - The app is edge-to-edge with an always-light scheme. Hero screens overlay `FloatingTopBar` (a circle back button and a centered title once scrolled) and toggle status bar icon color with `SystemBarIcons`.

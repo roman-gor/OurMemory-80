@@ -10,6 +10,12 @@ sealed class Screen(val route: String) {
     object AdminHomeScreen : Screen("adminhome")
     object AdminFeedbackScreen : Screen("adminfeedback")
     object AdminModerationScreen : Screen("adminmoderation")
+    object AdminVeteransScreen : Screen("adminveterans")
+    object AdminVeteranEditorScreen : Screen("adminveteran") {
+        const val VETERAN_ID_ARG = "veteranId"
+        val pattern = "$route?$VETERAN_ID_ARG={$VETERAN_ID_ARG}"
+        fun forVeteran(veteranId: String) = "$route?$VETERAN_ID_ARG=$veteranId"
+    }
     object AdminSubmissionScreen : Screen("adminsubmission") {
         const val SUBMISSION_ID_ARG = "submissionId"
         val pattern = "$route/{$SUBMISSION_ID_ARG}"

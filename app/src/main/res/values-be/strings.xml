@@ -148,4 +148,30 @@
         <item quantity="many">%d фота</item>
         <item quantity="other">%d фота</item>
     </plurals>
+    <string name="search_by_name">Пошук па імені</string>
+    <string name="new_veteran">Новы ветэран</string>
+    <string name="choose_portrait">Выбраць партрэт</string>
+    <string name="full_name">ПІБ</string>
+    <string name="years_of_life">Гады жыцця</string>
+    <string name="short_info">Кароткая інфармацыя</string>
+    <string name="main_text">Асноўны тэкст</string>
+    <string name="not_specified">Не пазначана</string>
+    <string name="clear">Ачысціць</string>
+    <string name="date_of_birth">Дата нараджэння</string>
+    <string name="date_of_death">Дата смерці</string>
+    <string name="no_audio">Аўдыя няма</string>
+    <string name="audio_attached">Аўдыя прымацавана</string>
+    <string name="delete">Выдаліць</string>
+    <string name="add_audio">Дадаць аўдыя</string>
+    <string name="paragraph">Абзац</string>
+    <string name="caption">Подпіс</string>
+    <string name="move_up">Перамясціць вышэй</string>
+    <string name="move_down">Перамясціць ніжэй</string>
+    <string name="biography_and_media">Біяграфія і медыя</string>
+    <string name="add_paragraph">Дадаць абзац</string>
+    <string name="add_photo">Дадаць фота</string>
+    <string name="uploading_file">Загружаем файл…</string>
+    <string name="save">Захаваць</string>
+    <string name="delete_veteran_msg">Выдаліць ветэрана? Картка знікне з праграмы</string>
+    <string name="cancel">Адмена</string>
 </resources>

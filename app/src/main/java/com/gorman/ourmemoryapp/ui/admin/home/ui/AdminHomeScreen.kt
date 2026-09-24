@@ -25,6 +25,7 @@ import com.gorman.ourmemoryapp.ui.admin.home.viewmodels.AdminHomeViewModel
 @Composable
 fun AdminHomeScreen(
     onModerationClick: () -> Unit,
+    onVeteransClick: () -> Unit,
     onFeedbackClick: () -> Unit,
     onSignedOut: () -> Unit,
     adminHomeViewModel: AdminHomeViewModel = hiltViewModel()
@@ -67,6 +68,9 @@ fun AdminHomeScreen(
                 count = state.newFeedbackCount,
                 onClick = onFeedbackClick
             )
+        }
+        item {
+            AdminSectionRow(title = stringResource(R.string.veterans), count = 0, onClick = onVeteransClick)
         }
         item {
             OutlinedButton(

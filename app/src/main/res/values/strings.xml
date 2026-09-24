@@ -150,4 +150,30 @@
         <item quantity="many">%d фото</item>
         <item quantity="other">%d фото</item>
     </plurals>
+    <string name="search_by_name">Поиск по имени</string>
+    <string name="new_veteran">Новый ветеран</string>
+    <string name="choose_portrait">Выбрать портрет</string>
+    <string name="full_name">ФИО</string>
+    <string name="years_of_life">Годы жизни</string>
+    <string name="short_info">Краткая информация</string>
+    <string name="main_text">Основной текст</string>
+    <string name="not_specified">Не указано</string>
+    <string name="clear">Очистить</string>
+    <string name="date_of_birth">Дата рождения</string>
+    <string name="date_of_death">Дата смерти</string>
+    <string name="no_audio">Аудио нет</string>
+    <string name="audio_attached">Аудио прикреплено</string>
+    <string name="delete">Удалить</string>
+    <string name="add_audio">Добавить аудио</string>
+    <string name="paragraph">Абзац</string>
+    <string name="caption">Подпись</string>
+    <string name="move_up">Переместить выше</string>
+    <string name="move_down">Переместить ниже</string>
+    <string name="biography_and_media">Биография и медиа</string>
+    <string name="add_paragraph">Добавить абзац</string>
+    <string name="add_photo">Добавить фото</string>
+    <string name="uploading_file">Загружаем файл…</string>
+    <string name="save">Сохранить</string>
+    <string name="delete_veteran_msg">Удалить ветерана? Карточка исчезнет из приложения</string>
+    <string name="cancel">Отмена</string>
 </resources>
