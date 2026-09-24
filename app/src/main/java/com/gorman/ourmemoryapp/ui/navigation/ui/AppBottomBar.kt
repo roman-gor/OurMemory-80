@@ -15,9 +15,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.gorman.ourmemoryapp.ui.navigation.models.TopLevelTab
+import kotlinx.collections.immutable.ImmutableList
 
 @Composable
 fun AppBottomBar(
+    tabs: ImmutableList<TopLevelTab>,
     selectedTab: TopLevelTab?,
     onTabClick: (TopLevelTab) -> Unit
 ) {
@@ -27,7 +29,7 @@ fun AppBottomBar(
             containerColor = MaterialTheme.colorScheme.background,
             tonalElevation = 0.dp
         ) {
-            TopLevelTab.entries.forEach { tab ->
+            tabs.forEach { tab ->
                 NavigationBarItem(
                     selected = tab == selectedTab,
                     onClick = { onTabClick(tab) },

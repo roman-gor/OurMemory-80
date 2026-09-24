@@ -5,12 +5,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.MutableData
 import com.google.firebase.database.Transaction
-import com.google.firebase.database.ValueEventListener
 import com.gorman.ourmemoryapp.data.firebase.DatabaseNodes
+import com.gorman.ourmemoryapp.data.firebase.observeValue
 import com.gorman.ourmemoryapp.di.annotation.MemoryRoot
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
@@ -20,20 +18,9 @@ class CandlesRemoteDataSourceImpl @Inject constructor(
     @param:MemoryRoot private val root: DatabaseReference
 ) : CandlesRemoteDataSource {
 
-    override fun observeCandles(veteranId: String): Flow<Long> = callbackFlow {
-        val reference = root.child(DatabaseNodes.CANDLES).child(veteranId)
-        val listener = object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                trySend(snapshot.value.toCandleCount())
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                close(error.toException())
-            }
-        }
-        reference.addValueEventListener(listener)
-        awaitClose { reference.removeEventListener(listener) }
-    }
+    override fun observeCandles(veteranId: String) = root.child(DatabaseNodes.CANDLES).child(veteranId)
+        .observeValue()
+        .map { it.value.toCandleCount() }
 
     override suspend fun lightCandle(veteranId: String) = suspendCancellableCoroutine { continuation ->
         root.child(DatabaseNodes.CANDLES).child(veteranId).runTransaction(object : Transaction.Handler {

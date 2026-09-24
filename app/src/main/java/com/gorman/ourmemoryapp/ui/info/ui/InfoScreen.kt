@@ -8,11 +8,14 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -37,7 +40,8 @@ import kotlinx.collections.immutable.toPersistentList
 @Composable
 fun InfoScreen(
     onOpenMapClick: () -> Unit,
-    onChangeLangClick: (String) -> Unit
+    onChangeLangClick: (String) -> Unit,
+    onAdminClick: () -> Unit
 ) {
     val context = LocalContext.current
     val isRussian = LocalConfiguration.current.locales[0].language == RUSSIAN_LANGUAGE
@@ -79,6 +83,11 @@ fun InfoScreen(
                 item { ContactsSection(openingHours = openingHours, phone = phone) }
             }
             item { NewsSection(news = InfoContent.news) }
+            item {
+                TextButton(onClick = onAdminClick, modifier = Modifier.fillMaxWidth()) {
+                    Text(text = stringResource(R.string.sign_in_as_admin))
+                }
+            }
             item { Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars)) }
         }
         FloatingTopBar(

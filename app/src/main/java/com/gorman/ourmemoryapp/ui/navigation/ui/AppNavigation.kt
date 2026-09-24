@@ -11,9 +11,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.util.Consumer
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -31,8 +33,10 @@ import com.gorman.ourmemoryapp.ui.info.ui.InfoScreen
 import com.gorman.ourmemoryapp.ui.intro.ui.IntroScreen
 import com.gorman.ourmemoryapp.ui.map.ui.MapScreen
 import com.gorman.ourmemoryapp.ui.navigation.models.TopLevelTab
+import com.gorman.ourmemoryapp.ui.navigation.viewmodels.SessionViewModel
 import com.gorman.ourmemoryapp.ui.submission.ui.SubmissionScreen
 import com.gorman.ourmemoryapp.ui.tours.ui.TourScreen
+import kotlinx.collections.immutable.toPersistentList
 
 @Composable
 fun AppNavigation(openedFromLink: Boolean, onChangeLangClick: (String) -> Unit) {
@@ -45,12 +49,18 @@ fun AppNavigation(openedFromLink: Boolean, onChangeLangClick: (String) -> Unit) 
         onDispose { activity?.removeOnNewIntentListener(listener) }
     }
 
+    val sessionViewModel: SessionViewModel = hiltViewModel()
+    val isAdmin by sessionViewModel.isAdmin.collectAsStateWithLifecycle()
+    val tabs = remember(isAdmin) {
+        TopLevelTab.entries.filter { it != TopLevelTab.ADMIN || isAdmin }.toPersistentList()
+    }
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentTab = TopLevelTab.entries.firstOrNull { it.screen.route == backStackEntry?.destination?.route }
     Scaffold(
         bottomBar = {
             if (currentTab != null) {
                 AppBottomBar(
+                    tabs = tabs,
                     selectedTab = currentTab,
                     onTabClick = { navController.navigateToTab(it) }
                 )
@@ -62,6 +72,7 @@ fun AppNavigation(openedFromLink: Boolean, onChangeLangClick: (String) -> Unit) 
         AppNavHost(
             navController = navController,
             openedFromLink = openedFromLink,
+            isAdmin = isAdmin,
             onChangeLangClick = onChangeLangClick,
             modifier = Modifier
                 .padding(bottomPadding)
@@ -74,6 +85,7 @@ fun AppNavigation(openedFromLink: Boolean, onChangeLangClick: (String) -> Unit) 
 private fun AppNavHost(
     navController: NavHostController,
     openedFromLink: Boolean,
+    isAdmin: Boolean,
     onChangeLangClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -105,9 +117,17 @@ private fun AppNavHost(
         composable(Screen.InfoScreen.route) {
             InfoScreen(
                 onOpenMapClick = { navController.navigateToTab(TopLevelTab.MAP) },
-                onChangeLangClick = onChangeLangClick
+                onChangeLangClick = onChangeLangClick,
+                onAdminClick = {
+                    if (isAdmin) {
+                        navController.navigateToTab(TopLevelTab.ADMIN)
+                    } else {
+                        navController.navigate(Screen.AdminLoginScreen.route)
+                    }
+                }
             )
         }
+        adminGraph(navController)
         composable(
             route = "${Screen.DetailScreen.route}/{veteranId}",
             deepLinks = listOf(navDeepLink { uriPattern = "${VeteranLink.BASE_URL}/{veteranId}" })
@@ -149,13 +169,5 @@ private fun AppNavHost(
         ) {
             SubmissionScreen(onBackClick = { navController.popBackStack() })
         }
-    }
-}
-
-private fun NavHostController.navigateToTab(tab: TopLevelTab) {
-    navigate(tab.screen.route) {
-        popUpTo(Screen.HomeScreen.route) { saveState = true }
-        launchSingleTop = true
-        restoreState = true
     }
 }

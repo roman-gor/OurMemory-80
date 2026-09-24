@@ -54,6 +54,7 @@ Package root: `app/src/main/java/com/gorman/ourmemoryapp/`:
 | `Tours` | ordered `stops` that point to a `burialId`, with `text` and `audioUrl` | read-only |
 | `Candles/{veteranId}` | a counter | incremented in a transaction |
 | `Submissions` | relatives' materials | written after anonymous auth; photos go to Storage `OurMemory/Submissions/{id}/` |
+| `Admins/{uid}` | `true` for every administrator account | read by `AuthRepository` to decide the role |
 
 Other data facts:
 - `VeteransRepositoryImpl`, `BurialsRepositoryImpl` and `ToursRepositoryImpl` load each node once per process and cache it behind a `Mutex`, so screens filter locally.
@@ -79,7 +80,8 @@ Other data facts:
 - `DetailsViewModel` uses assisted injection for `veteranId`. The other screens read route arguments from `SavedStateHandle`.
 
 **Navigation and chrome.**
-- `ui/navigation/ui/AppNavigation.kt` hosts a `Scaffold` with bottom tabs (`TopLevelTab`: veterans, map, about) that are shown only on tab roots.
+- `ui/navigation/ui/AppNavigation.kt` hosts a `Scaffold` with bottom tabs (`TopLevelTab`: veterans, map, about, admin) that are shown only on tab roots. The admin tab is shown only while `SessionViewModel.isAdmin` is true.
+- Admins sign in with e-mail and password (Firebase Auth) from the About tab. A user is an admin only when a non-anonymous account has a record in `Admins/{uid}`; `AuthRepository.signIn` signs out any other account. Admin routes live in `ui/navigation/ui/AdminGraph.kt`, admin features in `ui/admin/*`.
 - Pushed routes: `detailscreen/{veteranId}` (also the app link `https://chatroom-85fb8.web.app/veteran/{id}`), `burialmap/{burialId}`, `tour/{tourId}` and `submission/{veteranId}`.
 - When the app is opened from a link, it starts on home instead of the intro.
 - The app is edge-to-edge with an always-light scheme. Hero screens overlay `FloatingTopBar` (a circle back button and a centered title once scrolled) and toggle status bar icon color with `SystemBarIcons`.

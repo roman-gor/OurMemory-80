@@ -112,4 +112,15 @@
     <string name="failed_to_send_msg">Не удалось отправить. Проверьте подключение к интернету и попробуйте ещё раз</string>
     <string name="thank_you_material_sent_msg">Спасибо! Материал отправлен на проверку</string>
     <string name="done">Готово</string>
+    <string name="admin">Админ</string>
+    <string name="sign_in_as_admin">Вход для администратора</string>
+    <string name="email">E-mail</string>
+    <string name="password">Пароль</string>
+    <string name="sign_in">Войти</string>
+    <string name="sign_out">Выйти</string>
+    <string name="wrong_email_or_password_msg">Неверный e-mail или пароль</string>
+    <string name="no_admin_rights_msg">У этого аккаунта нет прав администратора</string>
+    <string name="failed_to_sign_in_msg">Не удалось войти. Проверьте подключение к интернету и попробуйте ещё раз</string>
+    <string name="administration">Администрирование</string>
+    <string name="signed_in_as">Вы вошли как %1$s</string>
 </resources>

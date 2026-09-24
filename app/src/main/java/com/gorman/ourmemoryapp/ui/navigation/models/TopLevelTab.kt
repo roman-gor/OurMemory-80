@@ -12,5 +12,6 @@ enum class TopLevelTab(
 ) {
     VETERANS(Screen.HomeScreen, R.drawable.person, R.string.veterans),
     MAP(Screen.MapScreen, R.drawable.map, R.string.map),
-    ABOUT(Screen.InfoScreen, R.drawable.monument, R.string.about_cemetery)
+    ABOUT(Screen.InfoScreen, R.drawable.monument, R.string.about_cemetery),
+    ADMIN(Screen.AdminHomeScreen, R.drawable.shield, R.string.admin)
 }

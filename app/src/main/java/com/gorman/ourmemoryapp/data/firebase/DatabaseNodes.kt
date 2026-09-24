@@ -7,4 +7,5 @@ object DatabaseNodes {
     const val TOURS = "Tours"
     const val CANDLES = "Candles"
     const val SUBMISSIONS = "Submissions"
+    const val ADMINS = "Admins"
 }

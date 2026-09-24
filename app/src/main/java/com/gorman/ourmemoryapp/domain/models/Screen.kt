@@ -6,6 +6,8 @@ sealed class Screen(val route: String) {
     object InfoScreen : Screen("infoscreen")
     object IntroScreen : Screen("introscreen")
     object MapScreen : Screen("mapscreen")
+    object AdminLoginScreen : Screen("adminlogin")
+    object AdminHomeScreen : Screen("adminhome")
     object BurialMapScreen : Screen("burialmap") {
         const val BURIAL_ID_ARG = "burialId"
         val pattern = "$route/{$BURIAL_ID_ARG}"
