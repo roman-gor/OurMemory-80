@@ -16,4 +16,9 @@ sealed class Screen(val route: String) {
         val pattern = "$route/{$TOUR_ID_ARG}"
         fun withTour(tourId: String) = "$route/$tourId"
     }
+    object SubmissionScreen : Screen("submission") {
+        const val VETERAN_ID_ARG = "veteranId"
+        val pattern = "$route/{$VETERAN_ID_ARG}"
+        fun forVeteran(veteranId: String) = "$route/$veteranId"
+    }
 }

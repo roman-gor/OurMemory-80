@@ -83,6 +83,8 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation (libs.firebase.database)
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.storage)
+    implementation(libs.firebase.auth)
     implementation(libs.coil.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.navigation.compose)

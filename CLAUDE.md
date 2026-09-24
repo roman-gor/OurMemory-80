@@ -28,7 +28,7 @@ python3 -m venv .venv && .venv/bin/pip install -r tools/qr/requirements.txt
 cd firebase && firebase deploy --only hosting                            # assetlinks.json + veteran web page
 ```
 
-Detekt uses `config/detekt.yml` with `maxIssues: 0`, so any new finding not in `config/baseline.xml` fails the task. There are currently no unit or instrumented tests in the repo. If you add tests, put JVM tests under `app/src/test/...` and instrumented tests under `app/src/androidTest/...` (standard AGP layout). Run `./gradlew detektAll` before finishing any change that touches Kotlin source.
+Detekt uses `config/detekt.yml` with `maxIssues: 0`, so any new finding not in `config/baseline.xml` fails the task. Unit tests live in `app/src/test/...` (fakes in `testutil/`, `MainDispatcherRule` for view models): `./gradlew testDebugUnitTest`, a single class with `./gradlew testDebugUnitTest --tests '*MapViewModelTest'`. There are no instrumented tests yet (`app/src/androidTest/...` if added). Run `./gradlew detektAll` before finishing any change that touches Kotlin source.
 
 ## Local configuration
 
@@ -38,35 +38,57 @@ Detekt uses `config/detekt.yml` with `maxIssues: 0`, so any new finding not in `
 
 ## Architecture
 
-Package root: `app/src/main/java/com/gorman/ourmemoryapp/`, split into `data/`, `domain/`, `di/`, `ui/`.
+Package root: `app/src/main/java/com/gorman/ourmemoryapp/`:
+- `data/` is split per area: `burials/`, `tours/`, `candles/`, `settings/`, `submissions/`, plus the older `datasource/` and `repository/` for veterans and audio.
+- `domain/` holds `models/` and `repository/` interfaces.
+- `di/` holds Hilt modules.
+- `ui/` holds one package per feature (`home`, `intro`, `details`, `map`, `tours`, `info`, `submission`, `navigation`), each with `models/`, `ui/` and `viewmodels/`. `ui/common` holds shared composables and UI models.
+- `reminders/` holds the yearly May 9 WorkManager job.
 
-**Data flow.** All veteran data comes from the Firebase Realtime Database node `"Veterans"`. `FirebaseDBImpl` does a one-shot `get()` wrapped in `suspendCoroutine` and deserializes each child into `domain.models.Veteran`, so `Veteran` needs default values for every field. `VeteransRepository` has no cache: both `HomeViewModel` and `DetailsViewModel` call `getAllVeterans()` and filter locally. The detail screen finds a veteran by `id` in the full list.
+**Firebase data** (Realtime Database). Every model needs defaults on all fields for deserialization.
 
-**Yandex Disk images.** `Veteran.veteransInfo` is a list of mixed strings. `DetailsViewModel` splits them up:
-- Entries containing `http` are media links, optionally written as `url|description`.
-- Everything else is a text paragraph.
+| Node | Contents | Accessed by |
+|---|---|---|
+| `Veterans` | `id`, `name`, `portrait`, `years`, `category` (`"War"` / `"Art"`), `rewards`, `veteransInfo`, `burialId`, `audioUrl`, `birthDate` / `deathDate` (`yyyy-MM-dd`) | read-only |
+| `Burials` | a grave, mass grave or monument, with coordinates and section/row/place | read-only |
+| `Tours` | ordered `stops` that point to a `burialId`, with `text` and `audioUrl` | read-only |
+| `Candles/{veteranId}` | a counter | incremented in a transaction |
+| `Submissions` | relatives' materials | written after anonymous auth; photos go to Storage `Submissions/{id}/` |
 
-Links containing `yandex` are public Yandex Disk links. They are resolved to direct download hrefs through `YandexApiService` (Retrofit, base URL `https://cloud-api.yandex.net/`, `v1/disk/public/resources/download`). If resolution fails, the original link is kept.
+Other data facts:
+- `VeteransRepositoryImpl`, `BurialsRepositoryImpl` and `ToursRepositoryImpl` load each node once per process and cache it behind a `Mutex`, so screens filter locally.
+- Offline persistence is enabled on the `FirebaseDatabase` provider.
+- `firebase/database.rules.json` and `firebase/storage.rules` are **not** wired into `firebase.json`. The project `chatroom-85fb8` may hold other apps' data, so merge them by hand in the console.
 
-**Rewards.** `Veteran.rewards` is a comma-separated string of integer IDs. The ID → name mapping (in Russian) is in `app/src/main/assets/rewards_rules.txt`.
+**Parsing veteran content.**
+- `veteransInfo` mixes paragraphs and media links. Entries containing `http` are links, optionally written as `url|description`.
+- `VeteransRepository.resolveDirectUrl` turns public Yandex Disk links into direct hrefs, and keeps the original link on failure.
+- `rewards` is a comma-separated list of IDs. `parseRewards` maps it to the `Reward` enum and groups repeated rewards into `×N`.
 
-**Audio.** `AudioRepository` (in `data/repository`, injected directly with no domain interface) wraps a single `MediaPlayer` and exposes `playbackState: StateFlow<AudioPlaybackState>`. Audio files are raw resources. `DetailsViewModel.loadAudioForVeteran` currently returns the same `R.raw.veteran_bio_10` for every veteran; it is a placeholder `when` that is meant to be extended per veteran.
+**Audio.** `AudioRepository` wraps a Media3 `ExoPlayer` and plays by URL, including `android.resource://` URIs. It is created per ViewModel, which must call `release()` in `onCleared`. A veteran's audio comes from `audioUrl`. The bundled `R.raw.veteran_bio_10` is only a fallback for veteran `"10"`.
 
-**DI.** Everything is provided as a singleton in `di/AppModule.kt`: the Firebase DB and `Veterans` reference, `FirebaseDB`, `VeteransRepository`, Retrofit, and `YandexApiService`.
+**Maps (Yandex MapKit).**
+- `rememberMapViewWithLifecycle` starts and stops `MapView` with the screen lifecycle.
+- MapKit keeps tap, cluster and location listeners as **weak references**, so always create them inside `remember`.
+- Burial markers are clustered with `ClusterizedPlacemarkCollection`. `NumberImageProvider` draws both cluster counts and tour stop numbers.
 
 **UI / state pattern** (MVI-flavored MVVM):
-- Every screen has a sealed `*UiState` (`Loading` / `Success` / `Error`) and a sealed input type in `ui/states/`: `HomeUiIntent` handled by `onUiIntent`, and `DetailsUiEvent` / `AudioAction` handled by `onUiEvent`.
-- ViewModels build `uiState` as a cold flow turned into state with `stateIn(viewModelScope, WhileSubscribed(5000), Loading)`. `HomeViewModel` `combine`s the search, War, and Art filter `MutableStateFlow`s; `Veteran.category` is `"War"` or `"Art"`.
-- Collections in UI state use `ImmutableList` / `ImmutableMap` from kotlinx-collections-immutable, which keeps them stable for Compose. Follow this for new state.
-- `DetailsViewModel` uses Hilt assisted injection (`@HiltViewModel(assistedFactory = ...)`) to receive `veteranId`. `AppNavigation` creates it with `hiltViewModel<DetailsViewModel, DetailsViewModel.Factory> { it.create(id) }`.
+- Every screen has a sealed `*UiState` and a sealed `*UiIntent` or `*UiEvent`.
+- ViewModels build state declaratively with `stateIn(viewModelScope, WhileSubscribed(5000), Loading)`. They use `@IoDispatcher` for `flowOn` so tests can substitute a dispatcher.
+- Collections in UI state use `ImmutableList` / `ImmutableMap`.
+- `DetailsViewModel` uses assisted injection for `veteranId`. The other screens read route arguments from `SavedStateHandle`.
 
-**Navigation.** `ui/AppNavigation.kt` uses a Compose `NavHost` with routes from the `Screen` sealed class (defined in `domain/models/VeteransModel.kt`): Intro → Home (Intro is popped) → `detailscreen/{veteranId}`, plus Info.
+**Navigation and chrome.**
+- `ui/navigation/ui/AppNavigation.kt` hosts a `Scaffold` with bottom tabs (`TopLevelTab`: veterans, map, about) that are shown only on tab roots.
+- Pushed routes: `detailscreen/{veteranId}` (also the app link `https://chatroom-85fb8.web.app/veteran/{id}`), `burialmap/{burialId}`, `tour/{tourId}` and `submission/{veteranId}`.
+- When the app is opened from a link, it starts on home instead of the intro.
+- The app is edge-to-edge with an always-light scheme. Hero screens overlay `FloatingTopBar` (a circle back button and a centered title once scrolled) and toggle status bar icon color with `SystemBarIcons`.
 
-**Localization.** Strings are in `values/` (default, Russian) and `values-be/` (Belarusian). The language switch on InfoScreen calls `MainActivity.updateLocale`, which updates the resources configuration and recreates the activity.
+**Localization.** Strings are in `values/` (default, Russian) and `values-be/` (Belarusian); both must be updated together. The language switch on the About tab calls `MainActivity.updateLocale`, which recreates the activity.
 
 ## Team Conventions
 
-Much of the existing code predates these rules (flat `ui/screens`, `ui/viewModel`, `ui/states` packages; several types per file; comments; inline numbers; some hardcoded strings). Apply the rules to all new and touched code; don't mass-refactor untouched code unless asked.
+Some older code still predates these rules (e.g. `data/datasource`, `IntroScreen`, `YandexImageResponse` with its `@Serializable` import). Apply the rules to all new and touched code; don't mass-refactor untouched code unless asked.
 
 ### Files
 

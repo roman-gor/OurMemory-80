@@ -18,6 +18,13 @@
         ".write": true,
         ".validate": "newData.isNumber() && newData.val() === (data.exists() ? data.val() : 0) + 1"
       }
+    },
+    "Submissions": {
+      ".read": false,
+      "$submissionId": {
+        ".write": "auth != null && !data.exists()",
+        ".validate": "newData.hasChildren(['id', 'veteranId', 'text', 'contact', 'status', 'createdAt']) && newData.child('id').val() === $submissionId && newData.child('status').val() === 'pending' && newData.child('text').isString() && newData.child('text').val().length <= 5000 && newData.child('createdAt').val() === now"
+      }
     }
   }
 }

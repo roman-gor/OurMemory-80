@@ -31,6 +31,7 @@ import com.gorman.ourmemoryapp.ui.info.ui.InfoScreen
 import com.gorman.ourmemoryapp.ui.intro.ui.IntroScreen
 import com.gorman.ourmemoryapp.ui.map.ui.MapScreen
 import com.gorman.ourmemoryapp.ui.navigation.models.TopLevelTab
+import com.gorman.ourmemoryapp.ui.submission.ui.SubmissionScreen
 import com.gorman.ourmemoryapp.ui.tours.ui.TourScreen
 
 @Composable
@@ -120,6 +121,9 @@ private fun AppNavHost(
                 onBackClick = { navController.popBackStack() },
                 onShowOnMapClick = { burialId ->
                     navController.navigate(Screen.BurialMapScreen.withBurial(burialId))
+                },
+                onAddToHistoryClick = {
+                    navController.navigate(Screen.SubmissionScreen.forVeteran(veteranId.orEmpty()))
                 }
             )
         }
@@ -138,6 +142,12 @@ private fun AppNavHost(
             arguments = listOf(navArgument(Screen.TourScreen.TOUR_ID_ARG) { type = NavType.StringType })
         ) {
             TourScreen(onBackClick = { navController.popBackStack() })
+        }
+        composable(
+            route = Screen.SubmissionScreen.pattern,
+            arguments = listOf(navArgument(Screen.SubmissionScreen.VETERAN_ID_ARG) { type = NavType.StringType })
+        ) {
+            SubmissionScreen(onBackClick = { navController.popBackStack() })
         }
     }
 }

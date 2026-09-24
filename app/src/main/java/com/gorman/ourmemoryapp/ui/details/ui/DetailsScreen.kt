@@ -7,13 +7,17 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -24,7 +28,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.domain.models.AudioPlaybackState
 import com.gorman.ourmemoryapp.domain.models.CandleState
-import com.gorman.ourmemoryapp.ui.common.models.AudioAction
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.ExpandableTextSection
 import com.gorman.ourmemoryapp.ui.common.ui.FloatingTopBar
@@ -41,7 +44,8 @@ import com.gorman.ourmemoryapp.ui.details.viewmodels.DetailsViewModel
 fun DetailsScreen(
     detailsViewModel: DetailsViewModel,
     onBackClick: () -> Unit,
-    onShowOnMapClick: (String) -> Unit
+    onShowOnMapClick: (String) -> Unit,
+    onAddToHistoryClick: () -> Unit
 ) {
     val uiState by detailsViewModel.uiState.collectAsStateWithLifecycle()
     val playbackState by detailsViewModel.playbackState.collectAsStateWithLifecycle()
@@ -71,9 +75,9 @@ fun DetailsScreen(
                 playbackState = playbackState,
                 candleState = candleState,
                 listState = listState,
-                onLightCandleClick = { detailsViewModel.onUiEvent(DetailsUiEvent.OnLightCandleClick) },
-                onAudioAction = { detailsViewModel.onUiEvent(DetailsUiEvent.OnAudioAction(it)) },
-                onShowOnMapClick = onShowOnMapClick
+                onUiEvent = detailsViewModel::onUiEvent,
+                onShowOnMapClick = onShowOnMapClick,
+                onAddToHistoryClick = onAddToHistoryClick
             )
         }
         FloatingTopBar(
@@ -91,9 +95,9 @@ private fun DetailsContent(
     playbackState: AudioPlaybackState,
     candleState: CandleState,
     listState: LazyListState,
-    onLightCandleClick: () -> Unit,
-    onAudioAction: (AudioAction) -> Unit,
-    onShowOnMapClick: (String) -> Unit
+    onUiEvent: (DetailsUiEvent) -> Unit,
+    onShowOnMapClick: (String) -> Unit,
+    onAddToHistoryClick: () -> Unit
 ) {
     LazyColumn(
         state = listState,
@@ -102,12 +106,17 @@ private fun DetailsContent(
         modifier = Modifier.fillMaxSize()
     ) {
         item { DetailsHeader(veteran = state.veteran) }
-        item { CandleCard(candleState = candleState, onLightClick = onLightCandleClick) }
+        item { CandleCard(candleState = candleState, onLightClick = { onUiEvent(DetailsUiEvent.OnLightCandleClick) }) }
         if (state.rewards.isNotEmpty()) {
             item { RewardsRow(rewards = state.rewards) }
         }
         if (state.audio != null) {
-            item { AudioPlayerCard(playbackState = playbackState, onAudioAction = onAudioAction) }
+            item {
+                AudioPlayerCard(
+                    playbackState = playbackState,
+                    onAudioAction = { onUiEvent(DetailsUiEvent.OnAudioAction(it)) }
+                )
+            }
         }
         if (state.paragraphs.isNotEmpty()) {
             item {
@@ -122,6 +131,16 @@ private fun DetailsContent(
         }
         state.burial?.let { burial ->
             item { BurialSection(burial = burial, onShowOnMapClick = onShowOnMapClick) }
+        }
+        item {
+            OutlinedButton(
+                onClick = onAddToHistoryClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                Text(text = stringResource(R.string.add_to_history))
+            }
         }
         item { Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars)) }
     }

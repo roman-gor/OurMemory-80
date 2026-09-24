@@ -98,4 +98,16 @@
     <string name="reminders">Напаміны</string>
     <string name="victory_day">9 Мая — Дзень Перамогі</string>
     <string name="remember_heroes_msg">Успомніце герояў — запаліце свечку памяці ў праграме «Наша памяць»</string>
+    <string name="add_to_history">Дапоўніць гісторыю</string>
+    <string name="share_materials_msg">Калі ў вас ёсць фотаздымкі, дакументы або ўспаміны пра гэтага чалавека, дашліце іх. Пасля праверкі мы дададзім матэрыялы ў картку ветэрана.</string>
+    <string name="memories">Успаміны</string>
+    <string name="your_name_and_contact">Ваша імя і тэлефон або e-mail</string>
+    <string name="photos_count_of_max">Фота %1$d з %2$d</string>
+    <string name="add_photos">Дадаць фота</string>
+    <string name="remove_photo">Выдаліць фота</string>
+    <string name="consent_to_contact_msg">Я згодны(ная), каб мае кантактныя даныя выкарыстоўваліся толькі для сувязі па гэтым матэрыяле</string>
+    <string name="send">Адправіць</string>
+    <string name="failed_to_send_msg">Не атрымалася адправіць. Праверце падключэнне да інтэрнэту і паспрабуйце яшчэ раз</string>
+    <string name="thank_you_material_sent_msg">Дзякуй! Матэрыял адпраўлены на праверку</string>
+    <string name="done">Гатова</string>
 </resources>
