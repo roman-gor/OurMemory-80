@@ -31,11 +31,11 @@ import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.ui.admin.burials.models.AdminBurialItemUi
 import com.gorman.ourmemoryapp.ui.admin.burials.models.AdminBurialsUiState
 import com.gorman.ourmemoryapp.ui.admin.burials.viewmodels.AdminBurialsViewModel
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminScaffold
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminTopSpacer
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.PlotNumberText
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
 
 @Composable
 fun AdminBurialsScreen(
@@ -48,7 +48,7 @@ fun AdminBurialsScreen(
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { adminBurialsViewModel.onScreenResumed() }
 
-    AdminScaffold(title = stringResource(R.string.burial_places), onBackClick = onBackClick) {
+    TopBarScaffold(title = stringResource(R.string.burial_places), onBackClick = onBackClick) {
         when (val current = state) {
             AdminBurialsUiState.Loading -> LoadingContent()
             AdminBurialsUiState.Error -> ErrorContent()
@@ -57,7 +57,7 @@ fun AdminBurialsScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                item { AdminTopSpacer() }
+                item { TopBarSpacer() }
                 items(current.items, key = { it.burial.id }) { item ->
                     AdminBurialRow(item = item, onClick = { onBurialClick(item.burial.id) })
                 }

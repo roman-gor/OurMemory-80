@@ -9,10 +9,10 @@ import com.gorman.ourmemoryapp.domain.models.Submission
 import com.gorman.ourmemoryapp.domain.models.SubmissionApproval
 import com.gorman.ourmemoryapp.domain.repository.ModerationRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
-import com.gorman.ourmemoryapp.ui.admin.common.models.toAdminDate
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.ReviewPhotoUi
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.SubmissionReviewUiIntent
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.SubmissionReviewUiState
+import com.gorman.ourmemoryapp.ui.common.models.toDisplayDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -49,6 +49,7 @@ class SubmissionReviewViewModel @Inject constructor(
     fun onUiIntent(intent: SubmissionReviewUiIntent) {
         when (intent) {
             is SubmissionReviewUiIntent.OnTextChange -> form.update { it.copy(editedText = intent.text) }
+            is SubmissionReviewUiIntent.OnReplyChange -> form.update { it.copy(reply = intent.reply) }
             is SubmissionReviewUiIntent.OnPhotoToggle -> form.update { state ->
                 val deselected = state.deselectedUrls
                 state.copy(
@@ -77,8 +78,9 @@ class SubmissionReviewViewModel @Inject constructor(
         SubmissionReviewUiState.Success(
             veteranName = loaded.veteranName,
             contact = loaded.submission.contact,
-            date = loaded.submission.createdAt.toAdminDate(),
+            date = loaded.submission.createdAt.toDisplayDate(),
             text = form.editedText ?: loaded.submission.text,
+            reply = form.reply ?: loaded.submission.reply,
             photos = loaded.photoUrls
                 .map { ReviewPhotoUi(url = it, isSelected = it !in form.deselectedUrls) }
                 .toPersistentList(),
@@ -101,14 +103,16 @@ class SubmissionReviewViewModel @Inject constructor(
                     submission = loaded.submission,
                     editedText = state.editedText ?: loaded.submission.text,
                     approvedPhotoUrls = loaded.photoUrls.filter { it !in state.deselectedUrls },
-                    photoCaption = photoCaption
+                    photoCaption = photoCaption,
+                    reply = state.reply ?: loaded.submission.reply
                 )
             )
         }
     }
 
     private fun reject() {
-        runDecision { moderationRepository.reject(submissionId) }
+        val reply = form.value.reply ?: loadedSubmission.replayCache.firstOrNull()?.getOrNull()?.submission?.reply
+        runDecision { moderationRepository.reject(submissionId, reply.orEmpty()) }
     }
 
     private fun runDecision(decision: suspend () -> Unit) {
@@ -132,6 +136,7 @@ class SubmissionReviewViewModel @Inject constructor(
 
     private data class ReviewForm(
         val editedText: String? = null,
+        val reply: String? = null,
         val deselectedUrls: Set<String> = emptySet(),
         val isProcessing: Boolean = false,
         val hasFailed: Boolean = false,

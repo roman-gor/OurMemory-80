@@ -205,4 +205,13 @@
     <string name="russian">Русский</string>
     <string name="belarusian">Беларуская</string>
     <string name="memorable_days_of_favorites">Памятные дни избранных</string>
+    <string name="comment_for_author">Комментарий для автора (необязательно)</string>
+    <string name="your_reply">Ваш ответ: %1$s</string>
+    <string name="reply">Ответ</string>
+    <string name="send_reply">Отправить ответ</string>
+    <string name="my_requests">Мои обращения</string>
+    <string name="added_to_card">Добавлено в карточку</string>
+    <string name="materials_for_card">Материалы для карточки</string>
+    <string name="reply_from_cemetery">Ответ: %1$s</string>
+    <string name="no_requests_yet_msg">Здесь появятся ваши сообщения и материалы, когда вы их отправите</string>
 </resources>

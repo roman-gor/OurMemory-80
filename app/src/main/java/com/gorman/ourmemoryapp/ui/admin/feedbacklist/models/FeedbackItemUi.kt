@@ -2,7 +2,7 @@ package com.gorman.ourmemoryapp.ui.admin.feedbacklist.models
 
 import com.gorman.ourmemoryapp.domain.models.Feedback
 import com.gorman.ourmemoryapp.domain.models.FeedbackType
-import com.gorman.ourmemoryapp.ui.admin.common.models.toAdminDate
+import com.gorman.ourmemoryapp.ui.common.models.toDisplayDate
 
 data class FeedbackItemUi(
     val id: String,
@@ -12,7 +12,8 @@ data class FeedbackItemUi(
     val veteranId: String,
     val veteranName: String,
     val isReviewed: Boolean,
-    val date: String
+    val date: String,
+    val reply: String
 )
 
 fun Feedback.toUi(veteranName: String) = FeedbackItemUi(
@@ -23,5 +24,6 @@ fun Feedback.toUi(veteranName: String) = FeedbackItemUi(
     veteranId = veteranId,
     veteranName = veteranName,
     isReviewed = isReviewed,
-    date = createdAt.toAdminDate()
+    date = createdAt.toDisplayDate(),
+    reply = reply
 )

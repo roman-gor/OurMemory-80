@@ -27,6 +27,7 @@ import com.gorman.ourmemoryapp.ui.info.ui.InfoScreen
 import com.gorman.ourmemoryapp.ui.intro.ui.IntroScreen
 import com.gorman.ourmemoryapp.ui.map.ui.MapScreen
 import com.gorman.ourmemoryapp.ui.more.ui.MoreScreen
+import com.gorman.ourmemoryapp.ui.myrequests.ui.MyRequestsScreen
 import com.gorman.ourmemoryapp.ui.navigation.models.TopLevelTab
 import com.gorman.ourmemoryapp.ui.navigation.viewmodels.SessionViewModel
 import com.gorman.ourmemoryapp.ui.tours.ui.TourScreen
@@ -112,6 +113,7 @@ private fun AppNavHost(
             MoreScreen(
                 onLanguageChange = onChangeLangClick,
                 onWriteToUsClick = { navController.navigate(Screen.FeedbackScreen.route) },
+                onMyRequestsClick = { navController.navigate(Screen.MyRequestsScreen.route) },
                 onAdminClick = {
                     if (isAdmin) {
                         navController.navigateToTab(TopLevelTab.ADMIN)
@@ -136,6 +138,9 @@ private fun AppNavHost(
             arguments = listOf(navArgument(Screen.TourScreen.TOUR_ID_ARG) { type = NavType.StringType })
         ) {
             TourScreen(onBackClick = { navController.popBackStack() })
+        }
+        composable(Screen.MyRequestsScreen.route) {
+            MyRequestsScreen(onBackClick = { navController.popBackStack() })
         }
         veteranGraph(navController)
         adminGraph(navController)

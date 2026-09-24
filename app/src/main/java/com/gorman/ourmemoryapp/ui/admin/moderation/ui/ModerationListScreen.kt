@@ -16,12 +16,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminScaffold
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminTopSpacer
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.ModerationListUiState
 import com.gorman.ourmemoryapp.ui.admin.moderation.viewmodels.ModerationListViewModel
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
 
 @Composable
 fun ModerationListScreen(
@@ -31,7 +31,7 @@ fun ModerationListScreen(
 ) {
     val state by moderationListViewModel.uiState.collectAsStateWithLifecycle()
 
-    AdminScaffold(title = stringResource(R.string.moderation), onBackClick = onBackClick) {
+    TopBarScaffold(title = stringResource(R.string.moderation), onBackClick = onBackClick) {
         when (val current = state) {
             ModerationListUiState.Loading -> LoadingContent()
             ModerationListUiState.Error -> ErrorContent()
@@ -40,7 +40,7 @@ fun ModerationListScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                item { AdminTopSpacer() }
+                item { TopBarSpacer() }
                 if (current.items.isEmpty()) {
                     item {
                         Text(

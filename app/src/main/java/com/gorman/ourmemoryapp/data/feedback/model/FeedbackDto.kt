@@ -7,5 +7,8 @@ data class FeedbackDto(
     val contact: String = "",
     val veteranId: String = "",
     val status: String = "",
-    val createdAt: Long = 0L
+    val createdAt: Long = 0L,
+    val authorUid: String = "",
+    val reply: String = "",
+    val reviewedAt: Long = 0L
 )

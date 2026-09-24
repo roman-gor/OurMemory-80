@@ -18,4 +18,6 @@ class FeedbackRepositoryImpl @Inject constructor(
     }
 
     override suspend fun markReviewed(feedbackId: String) = remoteDataSource.markReviewed(feedbackId)
+
+    override suspend fun reply(feedbackId: String, text: String) = remoteDataSource.reply(feedbackId, text)
 }

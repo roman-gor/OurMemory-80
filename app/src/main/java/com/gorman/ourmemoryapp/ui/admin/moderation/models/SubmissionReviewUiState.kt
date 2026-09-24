@@ -11,6 +11,7 @@ sealed interface SubmissionReviewUiState {
         val contact: String,
         val date: String,
         val text: String,
+        val reply: String,
         val photos: ImmutableList<ReviewPhotoUi>,
         val status: ModerationStatus,
         val isProcessing: Boolean,

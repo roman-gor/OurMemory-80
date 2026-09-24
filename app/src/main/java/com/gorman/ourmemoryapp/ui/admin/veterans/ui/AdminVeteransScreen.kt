@@ -35,14 +35,14 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminScaffold
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminTopSpacer
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.AdminVeteranItemUi
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.AdminVeteransUiEvent
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.AdminVeteransUiState
 import com.gorman.ourmemoryapp.ui.admin.veterans.viewmodels.AdminVeteransViewModel
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
 
 @Composable
 fun AdminVeteransScreen(
@@ -57,7 +57,7 @@ fun AdminVeteransScreen(
         adminVeteransViewModel.onUiEvent(AdminVeteransUiEvent.OnScreenResumed)
     }
 
-    AdminScaffold(title = stringResource(R.string.veterans), onBackClick = onBackClick) {
+    TopBarScaffold(title = stringResource(R.string.veterans), onBackClick = onBackClick) {
         when (val current = state) {
             AdminVeteransUiState.Loading -> LoadingContent()
             AdminVeteransUiState.Error -> ErrorContent()
@@ -66,7 +66,7 @@ fun AdminVeteransScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                item { AdminTopSpacer() }
+                item { TopBarSpacer() }
                 item {
                     OutlinedTextField(
                         value = current.search,

@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gorman.ourmemoryapp.domain.repository.ModerationRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
-import com.gorman.ourmemoryapp.ui.admin.common.models.observeVeteranNames
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.ModerationListUiState
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.toItemUi
+import com.gorman.ourmemoryapp.ui.common.models.observeVeteranNames
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.SharingStarted

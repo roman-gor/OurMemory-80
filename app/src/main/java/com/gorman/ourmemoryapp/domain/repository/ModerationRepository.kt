@@ -8,5 +8,5 @@ interface ModerationRepository {
     fun observeSubmissions(): Flow<List<Submission>>
     suspend fun resolvePhotoUrls(photoPaths: List<String>): List<String>
     suspend fun approve(approval: SubmissionApproval)
-    suspend fun reject(submissionId: String)
+    suspend fun reject(submissionId: String, reply: String)
 }

@@ -2,7 +2,7 @@ package com.gorman.ourmemoryapp.ui.admin.moderation.models
 
 import com.gorman.ourmemoryapp.domain.models.ModerationStatus
 import com.gorman.ourmemoryapp.domain.models.Submission
-import com.gorman.ourmemoryapp.ui.admin.common.models.toAdminDate
+import com.gorman.ourmemoryapp.ui.common.models.toDisplayDate
 
 data class SubmissionItemUi(
     val id: String,
@@ -19,5 +19,5 @@ fun Submission.toItemUi(veteranName: String) = SubmissionItemUi(
     text = text,
     photoCount = photoPaths.size,
     status = status,
-    date = createdAt.toAdminDate()
+    date = createdAt.toDisplayDate()
 )

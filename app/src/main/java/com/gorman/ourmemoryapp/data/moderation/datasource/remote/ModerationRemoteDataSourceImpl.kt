@@ -45,12 +45,13 @@ class ModerationRemoteDataSourceImpl @Inject constructor(
         root.updateChildren(updates).await()
     }
 
-    override suspend fun reject(submissionId: String) {
+    override suspend fun reject(submissionId: String, reply: String) {
         submissionsReference.child(submissionId).updateChildren(
             mapOf(
                 "status" to SubmissionStatusValues.REJECTED,
                 "reviewedBy" to auth.currentUser?.email.orEmpty(),
-                "reviewedAt" to ServerValue.TIMESTAMP
+                "reviewedAt" to ServerValue.TIMESTAMP,
+                "reply" to reply.trim()
             )
         ).await()
     }

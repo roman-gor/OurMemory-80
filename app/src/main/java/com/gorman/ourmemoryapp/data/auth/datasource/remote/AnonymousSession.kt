@@ -7,7 +7,8 @@ import javax.inject.Inject
 class AnonymousSession @Inject constructor(
     private val auth: FirebaseAuth
 ) {
-    suspend fun ensureSignedIn() {
-        if (auth.currentUser == null) auth.signInAnonymously().await()
+    suspend fun ensureSignedIn(): String {
+        val user = auth.currentUser ?: requireNotNull(auth.signInAnonymously().await().user)
+        return user.uid
     }
 }

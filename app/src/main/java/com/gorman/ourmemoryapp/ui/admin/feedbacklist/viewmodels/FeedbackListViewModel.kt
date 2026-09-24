@@ -5,10 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gorman.ourmemoryapp.domain.repository.FeedbackRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
-import com.gorman.ourmemoryapp.ui.admin.common.models.observeVeteranNames
 import com.gorman.ourmemoryapp.ui.admin.feedbacklist.models.FeedbackListUiEvent
 import com.gorman.ourmemoryapp.ui.admin.feedbacklist.models.FeedbackListUiState
 import com.gorman.ourmemoryapp.ui.admin.feedbacklist.models.toUi
+import com.gorman.ourmemoryapp.ui.common.models.observeVeteranNames
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.Flow
@@ -34,6 +34,7 @@ class FeedbackListViewModel @Inject constructor(
     fun onUiEvent(event: FeedbackListUiEvent) {
         when (event) {
             is FeedbackListUiEvent.OnMarkReviewedClick -> markReviewed(event.feedbackId)
+            is FeedbackListUiEvent.OnReplyClick -> reply(event.feedbackId, event.reply)
         }
     }
 
@@ -51,6 +52,14 @@ class FeedbackListViewModel @Inject constructor(
         viewModelScope.launch {
             runCatching { feedbackRepository.markReviewed(feedbackId) }
                 .onFailure { Log.e(LOG_TAG, "Failed to mark $feedbackId as reviewed", it) }
+        }
+    }
+
+    private fun reply(feedbackId: String, reply: String) {
+        if (reply.isBlank()) return
+        viewModelScope.launch {
+            runCatching { feedbackRepository.reply(feedbackId, reply.trim()) }
+                .onFailure { Log.e(LOG_TAG, "Failed to reply to $feedbackId", it) }
         }
     }
 

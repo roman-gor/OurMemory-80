@@ -4,5 +4,6 @@ data class SubmissionApproval(
     val submission: Submission,
     val editedText: String,
     val approvedPhotoUrls: List<String>,
-    val photoCaption: String
+    val photoCaption: String,
+    val reply: String = ""
 )

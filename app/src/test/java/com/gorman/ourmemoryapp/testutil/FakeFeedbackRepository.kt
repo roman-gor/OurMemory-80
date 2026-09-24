@@ -22,4 +22,10 @@ class FakeFeedbackRepository(
     override suspend fun markReviewed(feedbackId: String) {
         feedback.value = feedback.value.map { if (it.id == feedbackId) it.copy(isReviewed = true) else it }
     }
+
+    override suspend fun reply(feedbackId: String, text: String) {
+        feedback.value = feedback.value.map {
+            if (it.id == feedbackId) it.copy(isReviewed = true, reply = text) else it
+        }
+    }
 }

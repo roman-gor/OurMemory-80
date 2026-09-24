@@ -22,11 +22,12 @@ class FeedbackRemoteDataSourceImpl @Inject constructor(
     private val feedbackReference = root.child(DatabaseNodes.FEEDBACK)
 
     override suspend fun send(draft: FeedbackDraft) {
-        anonymousSession.ensureSignedIn()
+        val authorUid = anonymousSession.ensureSignedIn()
         val reference = feedbackReference.push()
         reference.setValue(
             mapOf(
                 "id" to reference.key,
+                "authorUid" to authorUid,
                 "type" to draft.type.name,
                 "text" to draft.text,
                 "contact" to draft.contact,
@@ -40,6 +41,18 @@ class FeedbackRemoteDataSourceImpl @Inject constructor(
     override fun observeFeedback() = feedbackReference.observeValue().map { it.childrenAs<FeedbackDto>() }
 
     override suspend fun markReviewed(feedbackId: String) {
-        feedbackReference.child(feedbackId).child("status").setValue(FeedbackStatus.DONE).await()
+        feedbackReference.child(feedbackId).updateChildren(
+            mapOf("status" to FeedbackStatus.DONE, "reviewedAt" to ServerValue.TIMESTAMP)
+        ).await()
+    }
+
+    override suspend fun reply(feedbackId: String, text: String) {
+        feedbackReference.child(feedbackId).updateChildren(
+            mapOf(
+                "status" to FeedbackStatus.DONE,
+                "reply" to text,
+                "reviewedAt" to ServerValue.TIMESTAMP
+            )
+        ).await()
     }
 }

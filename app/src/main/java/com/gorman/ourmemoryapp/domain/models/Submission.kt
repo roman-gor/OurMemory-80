@@ -7,5 +7,7 @@ data class Submission(
     val contact: String,
     val photoPaths: List<String>,
     val status: ModerationStatus,
-    val createdAt: Long
+    val createdAt: Long,
+    val reply: String = "",
+    val reviewedAt: Long = 0L
 )

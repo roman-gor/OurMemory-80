@@ -60,9 +60,10 @@ Package root: `app/src/main/java/com/gorman/ourmemoryapp/`:
 Other data facts:
 - `VeteransRepositoryImpl`, `BurialsRepositoryImpl` and `ToursRepositoryImpl` load each node once per process and cache it behind a `Mutex`, so screens filter locally. `invalidate()` drops the cache; `ContentEditorRepositoryImpl` calls it after every admin write.
 - Offline persistence is enabled on the `FirebaseDatabase` provider.
+- Submissions and feedback carry `authorUid`, and admins may add `reply` and `reviewedAt`; visitors see them under More → «Мои обращения» (`MyRequestsRepository`). The anonymous uid lives until the app is reinstalled.
 - Live listeners go through `DatabaseReference.observeValue()` (`data/firebase/DatabaseReferenceFlows.kt`) so errors reach the flow instead of the main thread. Visitor writes call `AnonymousSession.ensureSignedIn()` first. Parse lists with `DataSnapshot.childrenAs<T>()`, which skips malformed children, and build veteran keys with `VeteranKeys.forId`.
 - `firebase/database.rules.json` and `firebase/storage.rules` cover only `OurMemory` and are **not** wired into `firebase.json`. Deploying them would replace the rules of the other apps, so merge them by hand in the console.
-- Rules: everyone reads `Veterans`, `Burials`, `Tours`; only uids listed in `Admins` write them and read `Submissions` / `Feedback`; visitors may only create new submissions and feedback. Storage rules cannot read the database, so admin uids are listed in `isAdmin()` in `firebase/storage.rules` (replace `ADMIN_UID`). `OurMemory/Media/**` is public for reading.
+- Rules: everyone reads `Veterans`, `Burials`, `Tours`; only uids listed in `Admins` write them and read `Submissions` / `Feedback`; visitors may only create new submissions and feedback (with `authorUid` equal to their uid) and read their own through an `orderByChild("authorUid").equalTo(uid)` query. Storage rules cannot read the database, so admin uids are listed in `isAdmin()` in `firebase/storage.rules` (replace `ADMIN_UID`). `OurMemory/Media/**` is public for reading.
 - Setting up an admin: enable Email/Password in Firebase Authentication, create the user, add `OurMemory/Admins/{uid}: true` in the console and put the uid into `storage.rules`.
 
 **Parsing veteran content.**

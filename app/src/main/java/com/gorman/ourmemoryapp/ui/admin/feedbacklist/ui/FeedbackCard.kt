@@ -6,13 +6,19 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,7 +32,8 @@ import com.gorman.ourmemoryapp.ui.feedback.models.labelRes
 fun FeedbackCard(
     item: FeedbackItemUi,
     onVeteranClick: (String) -> Unit,
-    onMarkReviewedClick: () -> Unit
+    onMarkReviewedClick: () -> Unit,
+    onReplyClick: (String) -> Unit
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -69,7 +76,32 @@ fun FeedbackCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
+            FeedbackReply(item = item, onReplyClick = onReplyClick)
             FeedbackCardActions(item = item, onVeteranClick = onVeteranClick, onMarkReviewedClick = onMarkReviewedClick)
+        }
+    }
+}
+
+@Composable
+private fun FeedbackReply(item: FeedbackItemUi, onReplyClick: (String) -> Unit) {
+    if (item.reply.isNotBlank()) {
+        Text(
+            text = stringResource(R.string.your_reply, item.reply),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.primary
+        )
+        return
+    }
+    var reply by rememberSaveable(item.id) { mutableStateOf("") }
+    OutlinedTextField(
+        value = reply,
+        onValueChange = { reply = it },
+        label = { Text(text = stringResource(R.string.reply)) },
+        modifier = Modifier.fillMaxWidth()
+    )
+    if (reply.isNotBlank()) {
+        Button(onClick = { onReplyClick(reply) }, modifier = Modifier.fillMaxWidth()) {
+            Text(text = stringResource(R.string.send_reply))
         }
     }
 }

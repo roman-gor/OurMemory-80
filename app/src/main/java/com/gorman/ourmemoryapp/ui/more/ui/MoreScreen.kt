@@ -33,6 +33,7 @@ import com.gorman.ourmemoryapp.ui.more.viewmodels.MoreViewModel
 fun MoreScreen(
     onLanguageChange: (String) -> Unit,
     onWriteToUsClick: () -> Unit,
+    onMyRequestsClick: () -> Unit,
     onAdminClick: () -> Unit,
     moreViewModel: MoreViewModel = hiltViewModel()
 ) {
@@ -57,6 +58,13 @@ fun MoreScreen(
             .statusBarsPadding()
     ) {
         item { MoreTitle(text = stringResource(R.string.more)) }
+        item {
+            LinkRow(
+                title = stringResource(R.string.my_requests),
+                onClick = onMyRequestsClick,
+                count = state.unseenRequestsCount
+            )
+        }
         item { LinkRow(title = stringResource(R.string.write_to_us), onClick = onWriteToUsClick) }
         item { MoreSectionTitle(text = stringResource(R.string.appearance)) }
         item {

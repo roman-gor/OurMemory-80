@@ -12,5 +12,7 @@ fun FeedbackDto.toDomain() = Feedback(
     contact = contact,
     veteranId = veteranId,
     isReviewed = status == FeedbackStatus.DONE,
-    createdAt = createdAt
+    createdAt = createdAt,
+    reply = reply,
+    reviewedAt = reviewedAt
 )

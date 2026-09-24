@@ -14,4 +14,6 @@ class FakeFeedbackRemoteDataSource(
     override fun observeFeedback() = flowOf(items)
 
     override suspend fun markReviewed(feedbackId: String) = Unit
+
+    override suspend fun reply(feedbackId: String, text: String) = Unit
 }

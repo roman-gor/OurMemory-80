@@ -2,13 +2,14 @@ package com.gorman.ourmemoryapp.ui.more.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gorman.ourmemoryapp.domain.repository.MyRequestsRepository
 import com.gorman.ourmemoryapp.domain.repository.ReminderScheduler
 import com.gorman.ourmemoryapp.domain.repository.SettingsRepository
 import com.gorman.ourmemoryapp.ui.more.models.MoreUiIntent
 import com.gorman.ourmemoryapp.ui.more.models.MoreUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,11 +17,14 @@ import javax.inject.Inject
 @HiltViewModel
 class MoreViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
-    private val reminderScheduler: ReminderScheduler
+    private val reminderScheduler: ReminderScheduler,
+    myRequestsRepository: MyRequestsRepository
 ) : ViewModel() {
 
-    val uiState = settingsRepository.observeSettings()
-        .map { MoreUiState(settings = it) }
+    val uiState = combine(
+        settingsRepository.observeSettings(),
+        myRequestsRepository.observeUnseenCount()
+    ) { settings, unseenCount -> MoreUiState(settings = settings, unseenRequestsCount = unseenCount) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),

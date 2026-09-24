@@ -27,18 +27,24 @@
         }
       },
       "Submissions": {
-        ".read": "auth != null && root.child('OurMemory/Admins/' + auth.uid).exists()",
+        ".read": "auth != null && (root.child('OurMemory/Admins/' + auth.uid).exists() || (query.orderByChild === 'authorUid' && query.equalTo === auth.uid))",
         "$submissionId": {
           ".write": "auth != null && (!data.exists() || root.child('OurMemory/Admins/' + auth.uid).exists())",
-          ".validate": "newData.hasChildren(['id', 'veteranId', 'text', 'contact', 'status', 'createdAt']) && newData.child('id').val() === $submissionId && (root.child('OurMemory/Admins/' + auth.uid).exists() || (newData.child('status').val() === 'pending' && newData.child('text').isString() && newData.child('text').val().length <= 5000 && newData.child('createdAt').val() === now))"
-        }
+          ".validate": "newData.hasChildren(['id', 'veteranId', 'text', 'contact', 'status', 'createdAt']) && newData.child('id').val() === $submissionId && (root.child('OurMemory/Admins/' + auth.uid).exists() || (newData.child('authorUid').val() === auth.uid && newData.child('status').val() === 'pending' && newData.child('text').isString() && newData.child('text').val().length <= 5000 && newData.child('createdAt').val() === now))"
+        },
+        ".indexOn": [
+          "authorUid"
+        ]
       },
       "Feedback": {
-        ".read": "auth != null && root.child('OurMemory/Admins/' + auth.uid).exists()",
+        ".read": "auth != null && (root.child('OurMemory/Admins/' + auth.uid).exists() || (query.orderByChild === 'authorUid' && query.equalTo === auth.uid))",
         "$feedbackId": {
           ".write": "auth != null && (!data.exists() || root.child('OurMemory/Admins/' + auth.uid).exists())",
-          ".validate": "newData.hasChildren(['id', 'type', 'text', 'status', 'createdAt']) && newData.child('id').val() === $feedbackId && (root.child('OurMemory/Admins/' + auth.uid).exists() || (newData.child('status').val() === 'new' && newData.child('text').isString() && newData.child('text').val().length <= 3000 && newData.child('createdAt').val() === now))"
-        }
+          ".validate": "newData.hasChildren(['id', 'type', 'text', 'status', 'createdAt']) && newData.child('id').val() === $feedbackId && (root.child('OurMemory/Admins/' + auth.uid).exists() || (newData.child('authorUid').val() === auth.uid && newData.child('status').val() === 'new' && newData.child('text').isString() && newData.child('text').val().length <= 3000 && newData.child('createdAt').val() === now))"
+        },
+        ".indexOn": [
+          "authorUid"
+        ]
       }
     }
   }

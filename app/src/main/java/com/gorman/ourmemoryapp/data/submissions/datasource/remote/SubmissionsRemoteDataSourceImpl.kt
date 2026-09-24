@@ -25,7 +25,7 @@ class SubmissionsRemoteDataSourceImpl @Inject constructor(
 ) : SubmissionsRemoteDataSource {
 
     override suspend fun submit(draft: SubmissionDraft) {
-        anonymousSession.ensureSignedIn()
+        val authorUid = anonymousSession.ensureSignedIn()
         val reference = root.child(DatabaseNodes.SUBMISSIONS).push()
         val submissionId = requireNotNull(reference.key)
         val metadata = storageMetadata { contentType = JPEG_TYPE }
@@ -38,6 +38,7 @@ class SubmissionsRemoteDataSourceImpl @Inject constructor(
         reference.setValue(
             mapOf(
                 "id" to submissionId,
+                "authorUid" to authorUid,
                 "veteranId" to draft.veteranId,
                 "text" to draft.text,
                 "contact" to draft.contact,

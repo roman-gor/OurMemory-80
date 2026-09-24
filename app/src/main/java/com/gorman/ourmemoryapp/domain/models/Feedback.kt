@@ -7,5 +7,7 @@ data class Feedback(
     val contact: String,
     val veteranId: String,
     val isReviewed: Boolean,
-    val createdAt: Long
+    val createdAt: Long,
+    val reply: String = "",
+    val reviewedAt: Long = 0L
 )

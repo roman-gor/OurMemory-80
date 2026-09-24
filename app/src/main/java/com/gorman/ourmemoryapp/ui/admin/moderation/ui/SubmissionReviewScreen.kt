@@ -24,14 +24,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminScaffold
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminTopSpacer
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.SubmissionReviewUiIntent
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.SubmissionReviewUiState
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.labelRes
 import com.gorman.ourmemoryapp.ui.admin.moderation.viewmodels.SubmissionReviewViewModel
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
 
 @Composable
 fun SubmissionReviewScreen(
@@ -44,7 +44,7 @@ fun SubmissionReviewScreen(
         if ((state as? SubmissionReviewUiState.Success)?.isFinished == true) onBackClick()
     }
 
-    AdminScaffold(title = stringResource(R.string.moderation), onBackClick = onBackClick) {
+    TopBarScaffold(title = stringResource(R.string.moderation), onBackClick = onBackClick) {
         when (val current = state) {
             SubmissionReviewUiState.Loading -> LoadingContent()
             SubmissionReviewUiState.Error -> ErrorContent()
@@ -68,7 +68,7 @@ private fun SubmissionReviewContent(
             .fillMaxSize()
             .imePadding()
     ) {
-        item { AdminTopSpacer() }
+        item { TopBarSpacer() }
         item { SubmissionHeader(state = state) }
         item {
             OutlinedTextField(
@@ -77,6 +77,17 @@ private fun SubmissionReviewContent(
                 label = { Text(text = stringResource(R.string.memories)) },
                 enabled = state.isEditable,
                 minLines = TEXT_MIN_LINES,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            )
+        }
+        item {
+            OutlinedTextField(
+                value = state.reply,
+                onValueChange = { onUiIntent(SubmissionReviewUiIntent.OnReplyChange(it)) },
+                label = { Text(text = stringResource(R.string.comment_for_author)) },
+                enabled = state.isEditable,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)

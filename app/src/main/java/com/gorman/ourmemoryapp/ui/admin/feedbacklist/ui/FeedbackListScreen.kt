@@ -16,13 +16,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminScaffold
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminTopSpacer
 import com.gorman.ourmemoryapp.ui.admin.feedbacklist.models.FeedbackListUiEvent
 import com.gorman.ourmemoryapp.ui.admin.feedbacklist.models.FeedbackListUiState
 import com.gorman.ourmemoryapp.ui.admin.feedbacklist.viewmodels.FeedbackListViewModel
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
 
 @Composable
 fun FeedbackListScreen(
@@ -32,7 +32,7 @@ fun FeedbackListScreen(
 ) {
     val state by feedbackListViewModel.uiState.collectAsStateWithLifecycle()
 
-    AdminScaffold(title = stringResource(R.string.feedback), onBackClick = onBackClick) {
+    TopBarScaffold(title = stringResource(R.string.feedback), onBackClick = onBackClick) {
         when (val current = state) {
             FeedbackListUiState.Loading -> LoadingContent()
             FeedbackListUiState.Error -> ErrorContent()
@@ -41,7 +41,7 @@ fun FeedbackListScreen(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                item { AdminTopSpacer() }
+                item { TopBarSpacer() }
                 if (current.items.isEmpty()) {
                     item {
                         Text(
@@ -58,6 +58,9 @@ fun FeedbackListScreen(
                         onVeteranClick = onVeteranClick,
                         onMarkReviewedClick = {
                             feedbackListViewModel.onUiEvent(FeedbackListUiEvent.OnMarkReviewedClick(item.id))
+                        },
+                        onReplyClick = { reply ->
+                            feedbackListViewModel.onUiEvent(FeedbackListUiEvent.OnReplyClick(item.id, reply))
                         }
                     )
                 }

@@ -23,7 +23,7 @@ class FakeModerationRepository(
         approvals += approval
     }
 
-    override suspend fun reject(submissionId: String) {
+    override suspend fun reject(submissionId: String, reply: String) {
         error?.let { throw it }
         rejections += submissionId
     }

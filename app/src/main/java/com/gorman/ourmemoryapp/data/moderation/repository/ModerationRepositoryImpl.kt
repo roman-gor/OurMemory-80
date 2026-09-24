@@ -32,5 +32,5 @@ class ModerationRepositoryImpl @Inject constructor(
         veteransRepository.invalidate()
     }
 
-    override suspend fun reject(submissionId: String) = remoteDataSource.reject(submissionId)
+    override suspend fun reject(submissionId: String, reply: String) = remoteDataSource.reject(submissionId, reply)
 }

@@ -40,11 +40,11 @@ import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.ui.admin.burials.models.BurialEditorUiIntent
 import com.gorman.ourmemoryapp.ui.admin.burials.models.BurialEditorUiState
 import com.gorman.ourmemoryapp.ui.admin.burials.viewmodels.BurialEditorViewModel
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminScaffold
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminTopSpacer
 import com.gorman.ourmemoryapp.ui.common.models.BurialType
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
 
 @Composable
 fun BurialEditorScreen(
@@ -60,7 +60,7 @@ fun BurialEditorScreen(
 
     val isNew = (current as? BurialEditorUiState.Editing)?.isNew == true
     val title = stringResource(if (isNew) R.string.new_burial_place else R.string.burial_place)
-    AdminScaffold(title = title, onBackClick = onBackClick) {
+    TopBarScaffold(title = title, onBackClick = onBackClick) {
         when (current) {
             BurialEditorUiState.Loading -> LoadingContent()
             BurialEditorUiState.Error -> ErrorContent()
@@ -86,7 +86,7 @@ private fun BurialEditorContent(
             .verticalScroll(rememberScrollState())
             .padding(start = 16.dp, end = 16.dp, bottom = 32.dp)
     ) {
-        AdminTopSpacer()
+        TopBarSpacer()
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             BurialType.entries.forEach { type ->
                 FilterChip(

@@ -8,4 +8,5 @@ interface FeedbackRepository {
     suspend fun send(draft: FeedbackDraft)
     fun observeFeedback(): Flow<List<Feedback>>
     suspend fun markReviewed(feedbackId: String)
+    suspend fun reply(feedbackId: String, text: String)
 }

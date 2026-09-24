@@ -8,5 +8,5 @@ interface ModerationRemoteDataSource {
     fun observeSubmissions(): Flow<List<SubmissionDto>>
     suspend fun resolvePhotoUrl(photoPath: String): String
     suspend fun approve(approval: SubmissionApproval)
-    suspend fun reject(submissionId: String)
+    suspend fun reject(submissionId: String, reply: String)
 }

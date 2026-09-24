@@ -8,4 +8,5 @@ interface FeedbackRemoteDataSource {
     suspend fun send(draft: FeedbackDraft)
     fun observeFeedback(): Flow<List<FeedbackDto>>
     suspend fun markReviewed(feedbackId: String)
+    suspend fun reply(feedbackId: String, text: String)
 }

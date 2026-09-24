@@ -19,6 +19,7 @@ fun SubmissionApproval.toUpdates(
         "${DatabaseNodes.VETERANS}/${VeteranKeys.forId(submission.veteranId)}/veteransInfo" to newInfo,
         "$submissionPath/status" to SubmissionStatusValues.APPROVED,
         "$submissionPath/reviewedBy" to reviewer,
-        "$submissionPath/reviewedAt" to reviewedAt
+        "$submissionPath/reviewedAt" to reviewedAt,
+        "$submissionPath/reply" to reply.trim()
     )
 }

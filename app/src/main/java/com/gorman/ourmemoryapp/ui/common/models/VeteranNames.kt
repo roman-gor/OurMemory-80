@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp.ui.admin.common.models
+package com.gorman.ourmemoryapp.ui.common.models
 
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
 import kotlinx.coroutines.flow.flow

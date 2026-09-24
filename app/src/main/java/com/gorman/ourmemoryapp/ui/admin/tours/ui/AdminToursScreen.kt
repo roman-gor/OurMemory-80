@@ -29,13 +29,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminScaffold
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminTopSpacer
 import com.gorman.ourmemoryapp.ui.admin.tours.models.AdminTourItemUi
 import com.gorman.ourmemoryapp.ui.admin.tours.models.AdminToursUiState
 import com.gorman.ourmemoryapp.ui.admin.tours.viewmodels.AdminToursViewModel
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
 
 @Composable
 fun AdminToursScreen(
@@ -48,7 +48,7 @@ fun AdminToursScreen(
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { adminToursViewModel.onScreenResumed() }
 
-    AdminScaffold(title = stringResource(R.string.tours), onBackClick = onBackClick) {
+    TopBarScaffold(title = stringResource(R.string.tours), onBackClick = onBackClick) {
         when (val current = state) {
             AdminToursUiState.Loading -> LoadingContent()
             AdminToursUiState.Error -> ErrorContent()
@@ -57,7 +57,7 @@ fun AdminToursScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.fillMaxSize()
             ) {
-                item { AdminTopSpacer() }
+                item { TopBarSpacer() }
                 items(current.items, key = { it.id }) { item ->
                     AdminTourRow(item = item, onClick = { onTourClick(item.id) })
                 }

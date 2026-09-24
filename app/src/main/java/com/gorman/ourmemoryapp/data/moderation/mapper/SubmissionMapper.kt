@@ -16,5 +16,7 @@ fun SubmissionDto.toDomain() = Submission(
         SubmissionStatusValues.REJECTED -> ModerationStatus.REJECTED
         else -> ModerationStatus.PENDING
     },
-    createdAt = createdAt
+    createdAt = createdAt,
+    reply = reply,
+    reviewedAt = reviewedAt
 )

@@ -19,5 +19,5 @@ class FakeModerationRemoteDataSource(
         approvals += approval
     }
 
-    override suspend fun reject(submissionId: String) = Unit
+    override suspend fun reject(submissionId: String, reply: String) = Unit
 }

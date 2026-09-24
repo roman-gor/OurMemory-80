@@ -33,14 +33,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminScaffold
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminTopSpacer
 import com.gorman.ourmemoryapp.ui.admin.tours.models.TourEditorUiIntent
 import com.gorman.ourmemoryapp.ui.admin.tours.models.TourEditorUiState
 import com.gorman.ourmemoryapp.ui.admin.tours.viewmodels.TourEditorViewModel
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.SectionTitle
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
 import com.gorman.ourmemoryapp.ui.tours.ui.TourMap
 
 @Composable
@@ -56,7 +56,10 @@ fun TourEditorScreen(
     }
 
     val isNew = (current as? TourEditorUiState.Editing)?.isNew == true
-    AdminScaffold(title = stringResource(if (isNew) R.string.new_tour else R.string.tours), onBackClick = onBackClick) {
+    TopBarScaffold(
+        title = stringResource(if (isNew) R.string.new_tour else R.string.tours),
+        onBackClick = onBackClick
+    ) {
         when (current) {
             TourEditorUiState.Loading -> LoadingContent()
             TourEditorUiState.Error -> ErrorContent()
@@ -83,7 +86,7 @@ private fun TourEditorContent(
             .fillMaxSize()
             .imePadding()
     ) {
-        item { AdminTopSpacer() }
+        item { TopBarSpacer() }
         item { TourMainFields(state = state, onUiIntent = onUiIntent) }
         if (state.previewStops.isNotEmpty()) {
             item {

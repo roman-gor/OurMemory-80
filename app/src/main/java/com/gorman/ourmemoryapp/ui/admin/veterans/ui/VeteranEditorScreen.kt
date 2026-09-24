@@ -35,14 +35,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminScaffold
-import com.gorman.ourmemoryapp.ui.admin.common.ui.AdminTopSpacer
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.VeteranEditorUiIntent
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.VeteranEditorUiState
 import com.gorman.ourmemoryapp.ui.admin.veterans.viewmodels.VeteranEditorViewModel
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.SectionTitle
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
+import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
 
 @Composable
 fun VeteranEditorScreen(
@@ -61,7 +61,7 @@ fun VeteranEditorScreen(
         current is VeteranEditorUiState.Editing -> current.form.name
         else -> ""
     }
-    AdminScaffold(title = title, onBackClick = onBackClick) {
+    TopBarScaffold(title = title, onBackClick = onBackClick) {
         when (current) {
             VeteranEditorUiState.Loading -> LoadingContent()
             VeteranEditorUiState.Error -> ErrorContent()
@@ -85,7 +85,7 @@ private fun VeteranEditorContent(
             .fillMaxSize()
             .imePadding()
     ) {
-        item { AdminTopSpacer() }
+        item { TopBarSpacer() }
         item { VeteranMainFields(form = state.form, isEnabled = !state.isBusy, onUiIntent = onUiIntent) }
         item { VeteranDatesAndPlace(state = state, onUiIntent = onUiIntent) }
         item { SectionTitle(text = stringResource(R.string.awards)) }
