@@ -8,6 +8,7 @@ sealed class Screen(val route: String) {
     object MapScreen : Screen("mapscreen")
     object AdminLoginScreen : Screen("adminlogin")
     object AdminHomeScreen : Screen("adminhome")
+    object AdminFeedbackScreen : Screen("adminfeedback")
     object BurialMapScreen : Screen("burialmap") {
         const val BURIAL_ID_ARG = "burialId"
         val pattern = "$route/{$BURIAL_ID_ARG}"
@@ -22,5 +23,10 @@ sealed class Screen(val route: String) {
         const val VETERAN_ID_ARG = "veteranId"
         val pattern = "$route/{$VETERAN_ID_ARG}"
         fun forVeteran(veteranId: String) = "$route/$veteranId"
+    }
+    object FeedbackScreen : Screen("feedback") {
+        const val VETERAN_ID_ARG = "veteranId"
+        val pattern = "$route?$VETERAN_ID_ARG={$VETERAN_ID_ARG}"
+        fun forVeteran(veteranId: String) = "$route?$VETERAN_ID_ARG=$veteranId"
     }
 }

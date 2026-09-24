@@ -8,4 +8,5 @@ object DatabaseNodes {
     const val CANDLES = "Candles"
     const val SUBMISSIONS = "Submissions"
     const val ADMINS = "Admins"
+    const val FEEDBACK = "Feedback"
 }

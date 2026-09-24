@@ -10,10 +10,12 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -41,6 +43,7 @@ import kotlinx.collections.immutable.toPersistentList
 fun InfoScreen(
     onOpenMapClick: () -> Unit,
     onChangeLangClick: (String) -> Unit,
+    onWriteToUsClick: () -> Unit,
     onAdminClick: () -> Unit
 ) {
     val context = LocalContext.current
@@ -83,6 +86,16 @@ fun InfoScreen(
                 item { ContactsSection(openingHours = openingHours, phone = phone) }
             }
             item { NewsSection(news = InfoContent.news) }
+            item {
+                OutlinedButton(
+                    onClick = onWriteToUsClick,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                ) {
+                    Text(text = stringResource(R.string.write_to_us))
+                }
+            }
             item {
                 TextButton(onClick = onAdminClick, modifier = Modifier.fillMaxWidth()) {
                     Text(text = stringResource(R.string.sign_in_as_admin))

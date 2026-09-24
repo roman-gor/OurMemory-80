@@ -7,17 +7,13 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -45,7 +41,8 @@ fun DetailsScreen(
     detailsViewModel: DetailsViewModel,
     onBackClick: () -> Unit,
     onShowOnMapClick: (String) -> Unit,
-    onAddToHistoryClick: () -> Unit
+    onAddToHistoryClick: () -> Unit,
+    onReportErrorClick: () -> Unit
 ) {
     val uiState by detailsViewModel.uiState.collectAsStateWithLifecycle()
     val playbackState by detailsViewModel.playbackState.collectAsStateWithLifecycle()
@@ -77,7 +74,12 @@ fun DetailsScreen(
                 listState = listState,
                 onUiEvent = detailsViewModel::onUiEvent,
                 onShowOnMapClick = onShowOnMapClick,
-                onAddToHistoryClick = onAddToHistoryClick
+                contributeSection = {
+                    ContributeSection(
+                        onAddToHistoryClick = onAddToHistoryClick,
+                        onReportErrorClick = onReportErrorClick
+                    )
+                }
             )
         }
         FloatingTopBar(
@@ -97,7 +99,7 @@ private fun DetailsContent(
     listState: LazyListState,
     onUiEvent: (DetailsUiEvent) -> Unit,
     onShowOnMapClick: (String) -> Unit,
-    onAddToHistoryClick: () -> Unit
+    contributeSection: @Composable () -> Unit
 ) {
     LazyColumn(
         state = listState,
@@ -132,16 +134,7 @@ private fun DetailsContent(
         state.burial?.let { burial ->
             item { BurialSection(burial = burial, onShowOnMapClick = onShowOnMapClick) }
         }
-        item {
-            OutlinedButton(
-                onClick = onAddToHistoryClick,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            ) {
-                Text(text = stringResource(R.string.add_to_history))
-            }
-        }
+        item { contributeSection() }
         item { Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars)) }
     }
 }

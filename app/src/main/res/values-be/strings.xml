@@ -121,4 +121,16 @@
     <string name="failed_to_sign_in_msg">Не ўдалося ўвайсці. Праверце падключэнне да інтэрнэту і паспрабуйце яшчэ раз</string>
     <string name="administration">Адміністраванне</string>
     <string name="signed_in_as">Вы ўвайшлі як %1$s</string>
+    <string name="write_to_us">Напісаць нам</string>
+    <string name="report_an_error">Паведаміць пра памылку</string>
+    <string name="data_error">Памылка ў даных</string>
+    <string name="suggestion">Прапанова</string>
+    <string name="other">Іншае</string>
+    <string name="message">Паведамленне</string>
+    <string name="contact_for_reply">Як з вамі звязацца (неабавязкова)</string>
+    <string name="thank_you_message_sent_msg">Дзякуй! Паведамленне адпраўлена</string>
+    <string name="feedback">Зваротная сувязь</string>
+    <string name="reviewed">Разгледжана</string>
+    <string name="mark_as_reviewed">Адзначыць разгледжаным</string>
+    <string name="nothing_here_yet">Тут пакуль нічога няма</string>
 </resources>

@@ -123,4 +123,16 @@
     <string name="failed_to_sign_in_msg">Не удалось войти. Проверьте подключение к интернету и попробуйте ещё раз</string>
     <string name="administration">Администрирование</string>
     <string name="signed_in_as">Вы вошли как %1$s</string>
+    <string name="write_to_us">Написать нам</string>
+    <string name="report_an_error">Сообщить об ошибке</string>
+    <string name="data_error">Ошибка в данных</string>
+    <string name="suggestion">Предложение</string>
+    <string name="other">Другое</string>
+    <string name="message">Сообщение</string>
+    <string name="contact_for_reply">Как с вами связаться (необязательно)</string>
+    <string name="thank_you_message_sent_msg">Спасибо! Сообщение отправлено</string>
+    <string name="feedback">Обратная связь</string>
+    <string name="reviewed">Рассмотрено</string>
+    <string name="mark_as_reviewed">Отметить рассмотренным</string>
+    <string name="nothing_here_yet">Здесь пока ничего нет</string>
 </resources>

@@ -23,18 +23,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.navigation.navDeepLink
 import com.gorman.ourmemoryapp.domain.models.Screen
-import com.gorman.ourmemoryapp.ui.common.models.VeteranLink
-import com.gorman.ourmemoryapp.ui.details.ui.DetailsScreen
-import com.gorman.ourmemoryapp.ui.details.viewmodels.DetailsViewModel
 import com.gorman.ourmemoryapp.ui.home.ui.MainScreen
 import com.gorman.ourmemoryapp.ui.info.ui.InfoScreen
 import com.gorman.ourmemoryapp.ui.intro.ui.IntroScreen
 import com.gorman.ourmemoryapp.ui.map.ui.MapScreen
 import com.gorman.ourmemoryapp.ui.navigation.models.TopLevelTab
 import com.gorman.ourmemoryapp.ui.navigation.viewmodels.SessionViewModel
-import com.gorman.ourmemoryapp.ui.submission.ui.SubmissionScreen
 import com.gorman.ourmemoryapp.ui.tours.ui.TourScreen
 import kotlinx.collections.immutable.toPersistentList
 
@@ -118,32 +113,13 @@ private fun AppNavHost(
             InfoScreen(
                 onOpenMapClick = { navController.navigateToTab(TopLevelTab.MAP) },
                 onChangeLangClick = onChangeLangClick,
+                onWriteToUsClick = { navController.navigate(Screen.FeedbackScreen.route) },
                 onAdminClick = {
                     if (isAdmin) {
                         navController.navigateToTab(TopLevelTab.ADMIN)
                     } else {
                         navController.navigate(Screen.AdminLoginScreen.route)
                     }
-                }
-            )
-        }
-        adminGraph(navController)
-        composable(
-            route = "${Screen.DetailScreen.route}/{veteranId}",
-            deepLinks = listOf(navDeepLink { uriPattern = "${VeteranLink.BASE_URL}/{veteranId}" })
-        ) {
-            val veteranId = it.arguments?.getString("veteranId")
-            val detailsViewModel = hiltViewModel<DetailsViewModel, DetailsViewModel.Factory>(
-                creationCallback = { factory -> factory.create(veteranId.orEmpty()) }
-            )
-            DetailsScreen(
-                detailsViewModel = detailsViewModel,
-                onBackClick = { navController.popBackStack() },
-                onShowOnMapClick = { burialId ->
-                    navController.navigate(Screen.BurialMapScreen.withBurial(burialId))
-                },
-                onAddToHistoryClick = {
-                    navController.navigate(Screen.SubmissionScreen.forVeteran(veteranId.orEmpty()))
                 }
             )
         }
@@ -163,11 +139,7 @@ private fun AppNavHost(
         ) {
             TourScreen(onBackClick = { navController.popBackStack() })
         }
-        composable(
-            route = Screen.SubmissionScreen.pattern,
-            arguments = listOf(navArgument(Screen.SubmissionScreen.VETERAN_ID_ARG) { type = NavType.StringType })
-        ) {
-            SubmissionScreen(onBackClick = { navController.popBackStack() })
-        }
+        veteranGraph(navController)
+        adminGraph(navController)
     }
 }

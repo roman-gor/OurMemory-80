@@ -1,11 +1,11 @@
 package com.gorman.ourmemoryapp.data.submissions.datasource.remote
 
 import androidx.core.net.toUri
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ServerValue
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storageMetadata
+import com.gorman.ourmemoryapp.data.auth.datasource.remote.AnonymousSession
 import com.gorman.ourmemoryapp.data.firebase.DatabaseNodes
 import com.gorman.ourmemoryapp.data.submissions.datasource.local.PhotoCompressor
 import com.gorman.ourmemoryapp.di.annotation.IoDispatcher
@@ -18,14 +18,14 @@ import javax.inject.Inject
 
 class SubmissionsRemoteDataSourceImpl @Inject constructor(
     private val photoCompressor: PhotoCompressor,
-    private val auth: FirebaseAuth,
+    private val anonymousSession: AnonymousSession,
     private val storage: FirebaseStorage,
     @param:MemoryRoot private val root: DatabaseReference,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : SubmissionsRemoteDataSource {
 
     override suspend fun submit(draft: SubmissionDraft) {
-        if (auth.currentUser == null) auth.signInAnonymously().await()
+        anonymousSession.ensureSignedIn()
         val reference = root.child(DatabaseNodes.SUBMISSIONS).push()
         val submissionId = requireNotNull(reference.key)
         val metadata = storageMetadata { contentType = JPEG_TYPE }
