@@ -18,12 +18,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.domain.models.AudioPlaybackState
 import com.gorman.ourmemoryapp.domain.models.CandleState
+import com.gorman.ourmemoryapp.ui.common.ui.CircleIconButton
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.ExpandableTextSection
 import com.gorman.ourmemoryapp.ui.common.ui.FloatingTopBar
@@ -48,6 +50,7 @@ fun DetailsScreen(
     val playbackState by detailsViewModel.playbackState.collectAsStateWithLifecycle()
     val candleState by detailsViewModel.candleState.collectAsStateWithLifecycle()
     val shouldAskNotifications by detailsViewModel.shouldAskNotifications.collectAsStateWithLifecycle()
+    val isFavorite by detailsViewModel.isFavorite.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
     val isHeroScrolledAway by rememberIsHeroScrolledAway(listState)
     val state = uiState
@@ -86,7 +89,19 @@ fun DetailsScreen(
             title = (state as? DetailsUiState.Success)?.veteran?.name.orEmpty(),
             isCollapsed = isCollapsed,
             onBackClick = onBackClick,
-            modifier = Modifier.align(Alignment.TopCenter)
+            modifier = Modifier.align(Alignment.TopCenter),
+            actions = {
+                if (state is DetailsUiState.Success) {
+                    CircleIconButton(
+                        painter = painterResource(if (isFavorite) R.drawable.favorite else R.drawable.favorite_border),
+                        contentDescription = stringResource(
+                            if (isFavorite) R.string.remove_from_favorites else R.string.add_to_favorites
+                        ),
+                        onClick = { detailsViewModel.onUiEvent(DetailsUiEvent.OnFavoriteClick) },
+                        contentColor = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
         )
     }
 }

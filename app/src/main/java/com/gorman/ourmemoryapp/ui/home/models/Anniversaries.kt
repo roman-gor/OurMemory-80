@@ -1,23 +1,18 @@
 package com.gorman.ourmemoryapp.ui.home.models
 
+import com.gorman.ourmemoryapp.domain.models.AnniversaryKind
 import com.gorman.ourmemoryapp.domain.models.Veteran
+import com.gorman.ourmemoryapp.domain.models.anniversariesOn
 import java.time.LocalDate
 
 fun List<Veteran>.anniversariesOn(today: LocalDate): List<AnniversaryUi> = flatMap { veteran ->
-    listOfNotNull(
-        veteran.anniversaryOf(veteran.birthDate, today, isBirthday = true),
-        veteran.anniversaryOf(veteran.deathDate, today, isBirthday = false)
-    )
-}
-
-private fun Veteran.anniversaryOf(date: String, today: LocalDate, isBirthday: Boolean): AnniversaryUi? {
-    val parsed = runCatching { LocalDate.parse(date) }.getOrNull() ?: return null
-    if (parsed.month != today.month || parsed.dayOfMonth != today.dayOfMonth) return null
-    return AnniversaryUi(
-        veteranId = id,
-        name = name,
-        portrait = portrait,
-        isBirthday = isBirthday,
-        year = parsed.year
-    )
+    veteran.anniversariesOn(today).map { anniversary ->
+        AnniversaryUi(
+            veteranId = veteran.id,
+            name = veteran.name,
+            portrait = veteran.portrait,
+            isBirthday = anniversary.kind == AnniversaryKind.BIRTHDAY,
+            year = anniversary.year
+        )
+    }
 }

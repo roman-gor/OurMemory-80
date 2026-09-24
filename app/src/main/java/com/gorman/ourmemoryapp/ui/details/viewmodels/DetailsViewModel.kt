@@ -16,6 +16,7 @@ import com.gorman.ourmemoryapp.domain.models.VeteranInfoFormat.DESCRIPTION_SEPAR
 import com.gorman.ourmemoryapp.domain.models.VeteranInfoFormat.LINK_MARKER
 import com.gorman.ourmemoryapp.domain.repository.BurialsRepository
 import com.gorman.ourmemoryapp.domain.repository.CandlesRepository
+import com.gorman.ourmemoryapp.domain.repository.FavoritesRepository
 import com.gorman.ourmemoryapp.domain.repository.SettingsRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
 import com.gorman.ourmemoryapp.ui.common.models.AudioAction
@@ -53,6 +54,7 @@ class DetailsViewModel @AssistedInject constructor(
     private val audioRepository: AudioRepository,
     private val candlesRepository: CandlesRepository,
     private val settingsRepository: SettingsRepository,
+    private val favoritesRepository: FavoritesRepository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -93,6 +95,14 @@ class DetailsViewModel @AssistedInject constructor(
             initialValue = CandleState()
         )
 
+    val isFavorite = favoritesRepository.observeFavorites()
+        .map { veteranId in it }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),
+            initialValue = false
+        )
+
     val shouldAskNotifications = settingsRepository.observeNotificationsAsked()
         .map { asked -> !asked }
         .stateIn(
@@ -106,6 +116,7 @@ class DetailsViewModel @AssistedInject constructor(
             is DetailsUiEvent.OnAudioAction -> onAudioAction(event.action)
             DetailsUiEvent.OnLightCandleClick -> lightCandle()
             DetailsUiEvent.OnNotificationsAsked -> viewModelScope.launch { settingsRepository.markNotificationsAsked() }
+            DetailsUiEvent.OnFavoriteClick -> viewModelScope.launch { favoritesRepository.toggle(veteranId) }
         }
     }
 

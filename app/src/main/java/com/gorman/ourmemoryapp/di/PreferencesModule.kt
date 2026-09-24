@@ -9,9 +9,11 @@ import com.google.firebase.database.DatabaseReference
 import com.gorman.ourmemoryapp.data.candles.datasource.local.CandlesLocalDataSourceImpl
 import com.gorman.ourmemoryapp.data.candles.datasource.remote.CandlesRemoteDataSourceImpl
 import com.gorman.ourmemoryapp.data.candles.repository.CandlesRepositoryImpl
+import com.gorman.ourmemoryapp.data.favorites.repository.FavoritesRepositoryImpl
 import com.gorman.ourmemoryapp.data.settings.repository.SettingsRepositoryImpl
 import com.gorman.ourmemoryapp.di.annotation.MemoryRoot
 import com.gorman.ourmemoryapp.domain.repository.CandlesRepository
+import com.gorman.ourmemoryapp.domain.repository.FavoritesRepository
 import com.gorman.ourmemoryapp.domain.repository.ReminderScheduler
 import com.gorman.ourmemoryapp.domain.repository.SettingsRepository
 import com.gorman.ourmemoryapp.reminders.ReminderSchedulerImpl
@@ -59,4 +61,9 @@ object PreferencesModule {
     @Singleton
     fun provideReminderScheduler(@ApplicationContext context: Context, clock: Clock): ReminderScheduler =
         ReminderSchedulerImpl(context, clock)
+
+    @Provides
+    @Singleton
+    fun provideFavoritesRepository(dataStore: DataStore<Preferences>): FavoritesRepository =
+        FavoritesRepositoryImpl(dataStore)
 }

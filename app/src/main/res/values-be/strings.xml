@@ -212,4 +212,8 @@
     <string name="materials_for_card">Матэрыялы для карткі</string>
     <string name="reply_from_cemetery">Адказ: %1$s</string>
     <string name="no_requests_yet_msg">Тут з\'явяцца вашы паведамленні і матэрыялы, калі вы іх адправіце</string>
+    <string name="favorites">Абранае</string>
+    <string name="add_to_favorites">Дадаць у абранае</string>
+    <string name="remove_from_favorites">Прыбраць з абранага</string>
+    <string name="no_favorites_yet_msg">Націсніце на сэрца на картцы ветэрана, каб дадаць яго сюды</string>
 </resources>

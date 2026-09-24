@@ -6,4 +6,5 @@ sealed interface DetailsUiEvent {
     data class OnAudioAction(val action: AudioAction) : DetailsUiEvent
     data object OnLightCandleClick : DetailsUiEvent
     data object OnNotificationsAsked : DetailsUiEvent
+    data object OnFavoriteClick : DetailsUiEvent
 }

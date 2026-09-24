@@ -22,6 +22,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.gorman.ourmemoryapp.domain.models.Screen
+import com.gorman.ourmemoryapp.ui.favorites.ui.FavoritesScreen
 import com.gorman.ourmemoryapp.ui.home.ui.MainScreen
 import com.gorman.ourmemoryapp.ui.info.ui.InfoScreen
 import com.gorman.ourmemoryapp.ui.intro.ui.IntroScreen
@@ -114,6 +115,7 @@ private fun AppNavHost(
                 onLanguageChange = onChangeLangClick,
                 onWriteToUsClick = { navController.navigate(Screen.FeedbackScreen.route) },
                 onMyRequestsClick = { navController.navigate(Screen.MyRequestsScreen.route) },
+                onFavoritesClick = { navController.navigate(Screen.FavoritesScreen.route) },
                 onAdminClick = {
                     if (isAdmin) {
                         navController.navigateToTab(TopLevelTab.ADMIN)
@@ -141,6 +143,9 @@ private fun AppNavHost(
         }
         composable(Screen.MyRequestsScreen.route) {
             MyRequestsScreen(onBackClick = { navController.popBackStack() })
+        }
+        composable(Screen.FavoritesScreen.route) {
+            FavoritesScreen(onBackClick = { navController.popBackStack() }, onVeteranClick = openVeteran)
         }
         veteranGraph(navController)
         adminGraph(navController)

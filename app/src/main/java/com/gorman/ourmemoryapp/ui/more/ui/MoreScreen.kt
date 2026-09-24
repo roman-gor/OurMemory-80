@@ -34,6 +34,7 @@ fun MoreScreen(
     onLanguageChange: (String) -> Unit,
     onWriteToUsClick: () -> Unit,
     onMyRequestsClick: () -> Unit,
+    onFavoritesClick: () -> Unit,
     onAdminClick: () -> Unit,
     moreViewModel: MoreViewModel = hiltViewModel()
 ) {
@@ -65,6 +66,7 @@ fun MoreScreen(
                 count = state.unseenRequestsCount
             )
         }
+        item { LinkRow(title = stringResource(R.string.favorites), onClick = onFavoritesClick) }
         item { LinkRow(title = stringResource(R.string.write_to_us), onClick = onWriteToUsClick) }
         item { MoreSectionTitle(text = stringResource(R.string.appearance)) }
         item {

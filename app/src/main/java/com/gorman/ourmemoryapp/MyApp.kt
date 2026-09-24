@@ -2,6 +2,7 @@ package com.gorman.ourmemoryapp
 
 import android.app.Application
 import com.gorman.ourmemoryapp.domain.repository.SettingsRepository
+import com.gorman.ourmemoryapp.reminders.FavoriteAnniversaryScheduler
 import com.gorman.ourmemoryapp.reminders.VictoryDayReminderScheduler
 import com.yandex.mapkit.MapKitFactory
 import dagger.hilt.android.HiltAndroidApp
@@ -25,6 +26,7 @@ class MyApp : Application() {
         super.onCreate()
         MapKitFactory.setApiKey(BuildConfig.MAPKIT_API_KEY)
         MapKitFactory.initialize(this)
+        FavoriteAnniversaryScheduler.schedule(this, Clock.systemDefaultZone())
         appScope.launch {
             if (settingsRepository.observeSettings().first().victoryDayReminder) {
                 VictoryDayReminderScheduler.schedule(this@MyApp, Clock.systemDefaultZone())
