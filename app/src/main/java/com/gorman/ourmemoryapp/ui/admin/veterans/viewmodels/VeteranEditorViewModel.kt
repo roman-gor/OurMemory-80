@@ -9,11 +9,11 @@ import com.gorman.ourmemoryapp.domain.repository.BurialsRepository
 import com.gorman.ourmemoryapp.domain.repository.ContentEditorRepository
 import com.gorman.ourmemoryapp.domain.repository.MediaRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
+import com.gorman.ourmemoryapp.ui.admin.common.models.moved
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.InfoBlock
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.VeteranEditorUiIntent
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.VeteranEditorUiState
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.VeteranForm
-import com.gorman.ourmemoryapp.ui.admin.veterans.models.moved
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.nextVeteranId
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.toForm
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.toVeteran

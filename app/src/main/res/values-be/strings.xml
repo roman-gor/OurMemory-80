@@ -183,4 +183,10 @@
     <string name="latitude">Шырата</string>
     <string name="longitude">Даўгата</string>
     <string name="tap_map_to_move_marker_msg">Націсніце на карту, каб перастаўляць метку</string>
+    <string name="new_tour">Новая экскурсія</string>
+    <string name="add_stop">Дадаць прыпынак</string>
+    <string name="stops">Прыпынкі</string>
+    <string name="stop_text">Тэкст прыпынку</string>
+    <string name="title">Назва</string>
+    <string name="delete_tour_msg">Выдаліць экскурсію? Яна знікне з праграмы</string>
 </resources>

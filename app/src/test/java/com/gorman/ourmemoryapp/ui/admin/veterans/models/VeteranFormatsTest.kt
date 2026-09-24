@@ -1,6 +1,7 @@
 package com.gorman.ourmemoryapp.ui.admin.veterans.models
 
 import com.gorman.ourmemoryapp.domain.models.Veteran
+import com.gorman.ourmemoryapp.ui.admin.common.models.moved
 import com.gorman.ourmemoryapp.ui.details.models.Reward
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

@@ -185,4 +185,10 @@
     <string name="latitude">Широта</string>
     <string name="longitude">Долгота</string>
     <string name="tap_map_to_move_marker_msg">Нажмите на карту, чтобы переставить метку</string>
+    <string name="new_tour">Новая экскурсия</string>
+    <string name="add_stop">Добавить остановку</string>
+    <string name="stops">Остановки</string>
+    <string name="stop_text">Текст остановки</string>
+    <string name="title">Название</string>
+    <string name="delete_tour_msg">Удалить экскурсию? Она исчезнет из приложения</string>
 </resources>

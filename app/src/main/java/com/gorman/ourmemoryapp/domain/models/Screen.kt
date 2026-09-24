@@ -12,6 +12,12 @@ sealed class Screen(val route: String) {
     object AdminModerationScreen : Screen("adminmoderation")
     object AdminVeteransScreen : Screen("adminveterans")
     object AdminBurialsScreen : Screen("adminburials")
+    object AdminToursScreen : Screen("admintours")
+    object AdminTourEditorScreen : Screen("admintour") {
+        const val TOUR_ID_ARG = "tourId"
+        val pattern = "$route?$TOUR_ID_ARG={$TOUR_ID_ARG}"
+        fun forTour(tourId: String) = "$route?$TOUR_ID_ARG=$tourId"
+    }
     object AdminBurialEditorScreen : Screen("adminburial") {
         const val BURIAL_ID_ARG = "burialId"
         val pattern = "$route?$BURIAL_ID_ARG={$BURIAL_ID_ARG}"

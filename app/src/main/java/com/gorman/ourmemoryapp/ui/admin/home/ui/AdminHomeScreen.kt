@@ -27,6 +27,7 @@ fun AdminHomeScreen(
     onModerationClick: () -> Unit,
     onVeteransClick: () -> Unit,
     onBurialsClick: () -> Unit,
+    onToursClick: () -> Unit,
     onFeedbackClick: () -> Unit,
     onSignedOut: () -> Unit,
     adminHomeViewModel: AdminHomeViewModel = hiltViewModel()
@@ -75,6 +76,9 @@ fun AdminHomeScreen(
         }
         item {
             AdminSectionRow(title = stringResource(R.string.burial_places), count = 0, onClick = onBurialsClick)
+        }
+        item {
+            AdminSectionRow(title = stringResource(R.string.tours), count = 0, onClick = onToursClick)
         }
         item {
             OutlinedButton(
