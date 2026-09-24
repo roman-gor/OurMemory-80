@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp.ui.screens
+package com.gorman.ourmemoryapp.ui.home.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,9 +42,9 @@ import com.gorman.ourmemoryapp.domain.models.Veteran
 import com.gorman.ourmemoryapp.ui.common.ui.CategoryFilterChips
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
-import com.gorman.ourmemoryapp.ui.states.HomeUiIntent
-import com.gorman.ourmemoryapp.ui.states.HomeUiState
-import com.gorman.ourmemoryapp.ui.viewModel.HomeViewModel
+import com.gorman.ourmemoryapp.ui.home.models.HomeUiIntent
+import com.gorman.ourmemoryapp.ui.home.models.HomeUiState
+import com.gorman.ourmemoryapp.ui.home.viewmodels.HomeViewModel
 
 @Composable
 fun MainScreen(

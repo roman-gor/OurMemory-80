@@ -26,11 +26,11 @@ import com.gorman.ourmemoryapp.domain.models.Screen
 import com.gorman.ourmemoryapp.ui.common.models.VeteranLink
 import com.gorman.ourmemoryapp.ui.details.ui.DetailsScreen
 import com.gorman.ourmemoryapp.ui.details.viewmodels.DetailsViewModel
+import com.gorman.ourmemoryapp.ui.home.ui.MainScreen
 import com.gorman.ourmemoryapp.ui.info.ui.InfoScreen
+import com.gorman.ourmemoryapp.ui.intro.ui.IntroScreen
 import com.gorman.ourmemoryapp.ui.map.ui.MapScreen
 import com.gorman.ourmemoryapp.ui.navigation.models.TopLevelTab
-import com.gorman.ourmemoryapp.ui.screens.IntroScreen
-import com.gorman.ourmemoryapp.ui.screens.MainScreen
 
 @Composable
 fun AppNavigation(openedFromLink: Boolean, onChangeLangClick: (String) -> Unit) {

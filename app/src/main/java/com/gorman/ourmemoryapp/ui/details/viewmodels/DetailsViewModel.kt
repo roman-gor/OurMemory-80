@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.data.repository.AudioRepository
+import com.gorman.ourmemoryapp.di.annotation.IoDispatcher
 import com.gorman.ourmemoryapp.domain.models.AudioItem
 import com.gorman.ourmemoryapp.domain.models.AudioPlaybackState
 import com.gorman.ourmemoryapp.domain.models.Burial
@@ -15,14 +16,13 @@ import com.gorman.ourmemoryapp.ui.common.models.toExternalModel
 import com.gorman.ourmemoryapp.ui.details.models.AudioAction
 import com.gorman.ourmemoryapp.ui.details.models.DetailsUiEvent
 import com.gorman.ourmemoryapp.ui.details.models.DetailsUiState
-import com.gorman.ourmemoryapp.ui.details.models.Reward
-import com.gorman.ourmemoryapp.ui.details.models.RewardUi
+import com.gorman.ourmemoryapp.ui.details.models.parseRewards
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -42,7 +42,8 @@ class DetailsViewModel @AssistedInject constructor(
     @Assisted private val veteranId: String,
     private val veteranRepository: VeteransRepository,
     private val burialsRepository: BurialsRepository,
-    private val audioRepository: AudioRepository
+    private val audioRepository: AudioRepository,
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     @AssistedFactory
@@ -104,7 +105,7 @@ class DetailsViewModel @AssistedInject constructor(
             )
         )
     }.flowOn(
-        Dispatchers.IO
+        ioDispatcher
     ).catch { error ->
         Log.e(LOG_TAG, "Failed to load veteran $veteranId", error)
         emit(DetailsUiState.Error)
@@ -114,15 +115,6 @@ class DetailsViewModel @AssistedInject constructor(
         return runCatching { burialsRepository.getAllBurials() }
             .onFailure { Log.e(LOG_TAG, "Failed to load burials", it) }
             .getOrDefault(emptyList())
-    }
-
-    private fun parseRewards(rewards: String): List<RewardUi> {
-        return rewards
-            .split(REWARDS_SEPARATOR)
-            .mapNotNull { it.trim().toIntOrNull()?.let(Reward::fromId) }
-            .groupingBy { it }
-            .eachCount()
-            .map { (reward, count) -> RewardUi(reward = reward, count = count) }
     }
 
     private suspend fun resolveMedia(links: List<String>): List<MediaUi> = coroutineScope {
@@ -161,7 +153,6 @@ class DetailsViewModel @AssistedInject constructor(
         private const val LOG_TAG = "DetailsViewModel"
         private const val LINK_MARKER = "http"
         private const val DESCRIPTION_SEPARATOR = "|"
-        private const val REWARDS_SEPARATOR = ","
         private const val BIOGRAPHY_AUDIO_ID = 10
         private const val BIOGRAPHY_AUDIO_FILE_NAME = "veteran_bio_10.mp3"
     }

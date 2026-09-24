@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp.ui.states
+package com.gorman.ourmemoryapp.ui.home.models
 
 sealed interface HomeUiIntent {
     data class OnSearchChange(val text: String) : HomeUiIntent

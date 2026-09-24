@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp.ui.screens
+package com.gorman.ourmemoryapp.ui.intro.ui
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.Image

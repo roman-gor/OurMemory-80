@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gorman.ourmemoryapp.di.annotation.IoDispatcher
 import com.gorman.ourmemoryapp.domain.models.Burial
 import com.gorman.ourmemoryapp.domain.models.Screen
 import com.gorman.ourmemoryapp.domain.models.Veteran
@@ -18,7 +19,7 @@ import com.gorman.ourmemoryapp.ui.map.models.MapUiState
 import com.gorman.ourmemoryapp.ui.map.models.toShortUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -35,7 +36,8 @@ import javax.inject.Inject
 class MapViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val burialsRepository: BurialsRepository,
-    private val veteransRepository: VeteransRepository
+    private val veteransRepository: VeteransRepository,
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val focusedBurialId: String? = savedStateHandle[Screen.BurialMapScreen.BURIAL_ID_ARG]
@@ -73,7 +75,7 @@ class MapViewModel @Inject constructor(
             checkedArt = art
         ) as MapUiState
     }.flowOn(
-        Dispatchers.IO
+        ioDispatcher
     ).catch { error ->
         Log.e(LOG_TAG, "Failed to load cemetery map", error)
         emit(MapUiState.Error)

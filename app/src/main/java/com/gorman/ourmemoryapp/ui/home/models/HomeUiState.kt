@@ -1,4 +1,4 @@
-package com.gorman.ourmemoryapp.ui.states
+package com.gorman.ourmemoryapp.ui.home.models
 
 import com.gorman.ourmemoryapp.domain.models.Veteran
 import kotlinx.collections.immutable.ImmutableList

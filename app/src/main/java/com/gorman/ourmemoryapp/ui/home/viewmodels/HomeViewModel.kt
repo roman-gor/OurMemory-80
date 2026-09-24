@@ -1,10 +1,10 @@
-package com.gorman.ourmemoryapp.ui.viewModel
+package com.gorman.ourmemoryapp.ui.home.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
-import com.gorman.ourmemoryapp.ui.states.HomeUiIntent
-import com.gorman.ourmemoryapp.ui.states.HomeUiState
+import com.gorman.ourmemoryapp.ui.home.models.HomeUiIntent
+import com.gorman.ourmemoryapp.ui.home.models.HomeUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableStateFlow
