@@ -1,14 +1,19 @@
 package com.gorman.ourmemoryapp.data.repository
 
+import android.content.ComponentName
 import android.content.Context
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
-import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.session.MediaController
+import androidx.media3.session.SessionToken
 import com.gorman.ourmemoryapp.domain.models.AudioItem
 import com.gorman.ourmemoryapp.domain.models.AudioPlaybackState
+import com.gorman.ourmemoryapp.playback.PlaybackService
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -23,71 +28,113 @@ class AudioRepository @Inject constructor(
     private val _playbackState = MutableStateFlow(AudioPlaybackState())
     val playbackState = _playbackState.asStateFlow()
 
-    private val player = ExoPlayer.Builder(context).build().apply {
-        addListener(object : Player.Listener {
-            override fun onIsPlayingChanged(isPlaying: Boolean) {
-                if (_playbackState.value.currentAudio != null) {
-                    _playbackState.value = _playbackState.value.copy(isPlaying = isPlaying)
-                }
-            }
+    private var controller: MediaController? = null
+    private val pendingCommands = mutableListOf<(MediaController) -> Unit>()
 
-            override fun onPlaybackStateChanged(playbackState: Int) {
-                when (playbackState) {
-                    Player.STATE_READY -> if (duration != C.TIME_UNSET) {
-                        _playbackState.value = _playbackState.value.copy(duration = duration.toInt())
-                    }
-                    Player.STATE_ENDED -> stopAudio()
-                    else -> Unit
-                }
+    private val playerListener = object : Player.Listener {
+        override fun onEvents(player: Player, events: Player.Events) {
+            val currentAudio = _playbackState.value.currentAudio ?: return
+            val isOurItem = player.currentMediaItem?.mediaId == currentAudio.id
+            if (!isOurItem || player.playbackState == Player.STATE_ENDED) {
+                if (isOurItem || player.currentMediaItem != null) _playbackState.value = AudioPlaybackState()
+                return
             }
+            _playbackState.value = _playbackState.value.copy(
+                isPlaying = player.isPlaying,
+                duration = player.duration.takeIf { it != C.TIME_UNSET }?.toInt() ?: _playbackState.value.duration
+            )
+        }
 
-            override fun onPlayerError(error: PlaybackException) {
-                Log.e(LOG_TAG, "Error playing audio", error)
-                stopAudio()
-            }
-        })
+        override fun onPlayerError(error: PlaybackException) {
+            Log.e(LOG_TAG, "Error playing audio", error)
+            _playbackState.value = AudioPlaybackState()
+        }
     }
 
-    fun playAudio(audioItem: AudioItem) {
-        player.setMediaItem(MediaItem.fromUri(audioItem.url))
-        player.prepare()
-        player.play()
-        _playbackState.value = AudioPlaybackState(isPlaying = true, currentAudio = audioItem)
-    }
-
-    fun pauseAudio() {
-        player.pause()
-        _playbackState.value = _playbackState.value.copy(
-            isPlaying = false,
-            currentPosition = player.currentPosition.toInt()
+    private val controllerFuture = MediaController.Builder(
+        context,
+        SessionToken(context, ComponentName(context, PlaybackService::class.java))
+    ).buildAsync().also { future ->
+        future.addListener(
+            {
+                runCatching { future.get() }
+                    .onSuccess(::onControllerConnected)
+                    .onFailure { Log.e(LOG_TAG, "Failed to connect to playback service", it) }
+            },
+            ContextCompat.getMainExecutor(context)
         )
     }
 
+    fun playAudio(audioItem: AudioItem) {
+        _playbackState.value = AudioPlaybackState(isPlaying = true, currentAudio = audioItem)
+        withController {
+            it.setMediaItem(audioItem.toMediaItem())
+            it.prepare()
+            it.play()
+        }
+    }
+
+    fun pauseAudio() {
+        _playbackState.value = _playbackState.value.copy(
+            isPlaying = false,
+            currentPosition = controller?.currentPosition?.toInt() ?: _playbackState.value.currentPosition
+        )
+        withController { it.pause() }
+    }
+
     fun resumeAudio() {
-        player.play()
+        withController { it.play() }
     }
 
     fun stopAudio() {
-        player.stop()
-        player.clearMediaItems()
+        withController {
+            it.stop()
+            it.clearMediaItems()
+        }
         _playbackState.value = AudioPlaybackState()
     }
 
     fun seekTo(position: Int) {
-        player.seekTo(position.toLong())
         _playbackState.value = _playbackState.value.copy(currentPosition = position)
+        withController { it.seekTo(position.toLong()) }
     }
 
     fun observePosition(): Flow<Int> = flow {
         while (true) {
-            emit(player.currentPosition.toInt())
+            emit(controller?.currentPosition?.toInt() ?: 0)
             delay(POSITION_UPDATE_MILLIS)
         }
     }
 
     fun release() {
-        player.release()
+        val ownsPlayback = controller?.currentMediaItem?.mediaId == _playbackState.value.currentAudio?.id
+        if (ownsPlayback) stopAudio()
+        controller?.removeListener(playerListener)
+        pendingCommands.clear()
+        MediaController.releaseFuture(controllerFuture)
     }
+
+    private fun onControllerConnected(connected: MediaController) {
+        controller = connected
+        connected.addListener(playerListener)
+        pendingCommands.forEach { it(connected) }
+        pendingCommands.clear()
+    }
+
+    private fun withController(command: (MediaController) -> Unit) {
+        controller?.let(command) ?: pendingCommands.add(command)
+    }
+
+    private fun AudioItem.toMediaItem() = MediaItem.Builder()
+        .setMediaId(id)
+        .setUri(url)
+        .setMediaMetadata(
+            MediaMetadata.Builder()
+                .setTitle(title)
+                .setArtist(subtitle)
+                .build()
+        )
+        .build()
 
     companion object {
         private const val LOG_TAG = "AudioRepository"

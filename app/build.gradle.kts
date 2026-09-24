@@ -104,6 +104,7 @@ dependencies {
     ksp(libs.dagger.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.media3.exoplayer)
+    implementation(libs.media3.session)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.work.runtime.ktx)
     testImplementation(libs.junit)

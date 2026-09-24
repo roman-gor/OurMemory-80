@@ -108,15 +108,23 @@ class TourViewModel @Inject constructor(
             .mapNotNull { stop -> burialsById[stop.burialId]?.let { burial -> stop to burial } }
             .filter { (_, burial) -> burial.latitude != 0.0 || burial.longitude != 0.0 }
             .mapIndexed { index, (stop, burial) ->
+                val title = veteransByBurial[burial.id].orEmpty().joinToString(NAMES_SEPARATOR) { it.name }
                 TourStopUi(
                     number = index + 1,
-                    title = veteransByBurial[burial.id].orEmpty().joinToString(NAMES_SEPARATOR) { it.name },
+                    title = title,
                     type = BurialType.fromValue(burial.type),
                     burial = burial.toExternalModel(),
                     text = stop.text,
                     audio = stop.audioUrl
                         .takeIf { it.isNotBlank() }
-                        ?.let { url -> AudioItem(id = "${tourId}_$index", url = url) }
+                        ?.let { url ->
+                            AudioItem(
+                                id = "${tourId}_$index",
+                                url = url,
+                                title = title.ifBlank { tour.title },
+                                subtitle = tour.title
+                            )
+                        }
                 )
             }
         LoadedTour(title = tour.title, description = tour.description, stops = stops.toPersistentList())

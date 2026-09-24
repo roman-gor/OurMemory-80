@@ -164,10 +164,11 @@ class DetailsViewModel @AssistedInject constructor(
     }
 
     private fun audioFor(veteran: Veteran): AudioItem? = when {
-        veteran.audioUrl.isNotBlank() -> AudioItem(id = veteran.id, url = veteran.audioUrl)
+        veteran.audioUrl.isNotBlank() -> AudioItem(id = veteran.id, url = veteran.audioUrl, title = veteran.name)
         veteran.id == BUNDLED_BIOGRAPHY_VETERAN_ID -> AudioItem(
             id = veteran.id,
-            url = "$ANDROID_RESOURCE_SCHEME${BuildConfig.APPLICATION_ID}/${R.raw.veteran_bio_10}"
+            url = "$ANDROID_RESOURCE_SCHEME${BuildConfig.APPLICATION_ID}/${R.raw.veteran_bio_10}",
+            title = veteran.name
         )
         else -> null
     }
