@@ -126,7 +126,7 @@ fun Content(onStartClick: () -> Unit) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    "Начать",
+                    stringResource(R.string.start),
                     modifier = Modifier.padding(start = 8.dp),
                     style = TextStyle(
                         fontFamily = mulishFont(),

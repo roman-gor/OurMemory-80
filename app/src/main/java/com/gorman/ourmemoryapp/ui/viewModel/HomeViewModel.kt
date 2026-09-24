@@ -62,11 +62,11 @@ class HomeViewModel @Inject constructor(
             checkedArt = art
         ) as HomeUiState
     }.catch { error ->
-        HomeUiState.Error(error)
+        emit(HomeUiState.Error(error))
     }.stateIn(
         scope = viewModelScope,
         initialValue = HomeUiState.Loading,
-        started = SharingStarted.WhileSubscribed(5000L)
+        started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS)
     )
 
     fun onUiIntent(intent: HomeUiIntent) {
@@ -75,5 +75,9 @@ class HomeViewModel @Inject constructor(
             is HomeUiIntent.OnCheckedWarChange -> checkedWarState.value = intent.value
             is HomeUiIntent.OnSearchChange -> searchState.value = intent.text
         }
+    }
+
+    companion object {
+        private const val STOP_TIMEOUT_MILLIS = 5000L
     }
 }

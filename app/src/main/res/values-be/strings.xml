@@ -39,18 +39,18 @@
     <string name="idea">Пазнавайце біяграфіі, слухайце аудиоэкскурсии, вывучайце творчасць вялікіх людзей!</string>
     <string name="expand">Разгарнуць</string>
     <string name="rollup">Згарнуць</string>
-    <string name="red_znamya">Орден Красного Знамени</string>
-    <string name="suvorov_1">Орден Суворова I степени</string>
-    <string name="suvorov_2">Орден Суворова II степени</string>
-    <string name="lenin">Орден Ленина</string>
-    <string name="geroj_sssr">Герой Советского Союза</string>
-    <string name="partizan">Медаль "Партизану Великой Отечественной войны" II степени</string>
-    <string name="za_pobedu_germany">Медаль "За победу над Германией в ВОВ 1941–1045 гг."</string>
-    <string name="otech_war">Орден Отечественной войны</string>
-    <string name="red_star">Орден Красной Звезды</string>
-    <string name="orden_znak_pocheta">Орден "Знак Почета"</string>
-    <string name="za_otvagu">Медаль "За отвагу"</string>
-    <string name="narodny_artist">Медаль "За отвагу"</string>
+    <string name="red_znamya">Ордэн Чырвонага Сцяга</string>
+    <string name="suvorov_1">Ордэн Суворава I ступені</string>
+    <string name="suvorov_2">Ордэн Суворава II ступені</string>
+    <string name="lenin">Ордэн Леніна</string>
+    <string name="geroj_sssr">Герой Савецкага Саюза</string>
+    <string name="partizan">Медаль «Партызану Айчыннай вайны» II ступені</string>
+    <string name="za_pobedu_germany">Медаль «За перамогу над Германіяй у Вялікай Айчыннай вайне 1941–1945 гг.»</string>
+    <string name="otech_war">Ордэн Айчыннай вайны</string>
+    <string name="red_star">Ордэн Чырвонай Зоркі</string>
+    <string name="orden_znak_pocheta">Ордэн «Знак Пашаны»</string>
+    <string name="za_otvagu">Медаль «За адвагу»</string>
+    <string name="narodny_artist">Народны артыст СССР</string>
     <string name="awards">Узнагароды</string>
     <string name="listen_to_biography">Паслухаць біяграфію</string>
     <string name="burial_place">Месца пахавання</string>
@@ -76,4 +76,5 @@
     <string name="veterans">Ветэраны</string>
     <string name="map">Карта</string>
     <string name="about_cemetery">Пра могілкі</string>
+    <string name="start">Пачаць</string>
 </resources>
