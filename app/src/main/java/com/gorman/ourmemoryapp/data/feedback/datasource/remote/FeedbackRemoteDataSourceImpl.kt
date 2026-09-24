@@ -6,6 +6,7 @@ import com.gorman.ourmemoryapp.data.auth.datasource.remote.AnonymousSession
 import com.gorman.ourmemoryapp.data.feedback.model.FeedbackDto
 import com.gorman.ourmemoryapp.data.feedback.model.FeedbackStatus
 import com.gorman.ourmemoryapp.data.firebase.DatabaseNodes
+import com.gorman.ourmemoryapp.data.firebase.childrenAs
 import com.gorman.ourmemoryapp.data.firebase.observeValue
 import com.gorman.ourmemoryapp.di.annotation.MemoryRoot
 import com.gorman.ourmemoryapp.domain.models.FeedbackDraft
@@ -36,9 +37,7 @@ class FeedbackRemoteDataSourceImpl @Inject constructor(
         ).await()
     }
 
-    override fun observeFeedback() = feedbackReference.observeValue().map { snapshot ->
-        snapshot.children.mapNotNull { it.getValue(FeedbackDto::class.java) }
-    }
+    override fun observeFeedback() = feedbackReference.observeValue().map { it.childrenAs<FeedbackDto>() }
 
     override suspend fun markReviewed(feedbackId: String) {
         feedbackReference.child(feedbackId).child("status").setValue(FeedbackStatus.DONE).await()

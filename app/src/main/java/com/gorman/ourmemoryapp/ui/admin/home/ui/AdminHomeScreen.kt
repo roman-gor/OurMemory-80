@@ -24,6 +24,7 @@ import com.gorman.ourmemoryapp.ui.admin.home.viewmodels.AdminHomeViewModel
 
 @Composable
 fun AdminHomeScreen(
+    onModerationClick: () -> Unit,
     onFeedbackClick: () -> Unit,
     onSignedOut: () -> Unit,
     adminHomeViewModel: AdminHomeViewModel = hiltViewModel()
@@ -51,6 +52,13 @@ fun AdminHomeScreen(
                 text = stringResource(R.string.signed_in_as, state.email),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        item {
+            AdminSectionRow(
+                title = stringResource(R.string.moderation),
+                count = state.pendingSubmissionsCount,
+                onClick = onModerationClick
             )
         }
         item {

@@ -9,6 +9,8 @@ class FakeVeteransRepository(
     private val error: Throwable? = null
 ) : VeteransRepository {
 
+    var invalidations = 0
+
     override suspend fun getAllVeterans(): List<Veteran> {
         error?.let { throw it }
         return veterans
@@ -17,4 +19,8 @@ class FakeVeteransRepository(
     override suspend fun getHrefFromLink(publicKey: String) = YandexImage(href = publicKey)
 
     override suspend fun resolveDirectUrl(url: String) = url
+
+    override suspend fun invalidate() {
+        invalidations++
+    }
 }

@@ -133,4 +133,19 @@
     <string name="reviewed">Разгледжана</string>
     <string name="mark_as_reviewed">Адзначыць разгледжаным</string>
     <string name="nothing_here_yet">Тут пакуль нічога няма</string>
+    <string name="moderation">Мадэрацыя</string>
+    <string name="awaiting_review">На праверцы</string>
+    <string name="approved">Ухвалена</string>
+    <string name="rejected">Адхілена</string>
+    <string name="approve">Ухваліць</string>
+    <string name="reject">Адхіліць</string>
+    <string name="add_to_card">Дадаць у картку</string>
+    <string name="from_family_archive">З сямейнага архіва</string>
+    <string name="failed_to_save_msg">Не ўдалося захаваць. Праверце падключэнне да інтэрнэту і паспрабуйце яшчэ раз</string>
+    <plurals name="photos_count">
+        <item quantity="one">%d фота</item>
+        <item quantity="few">%d фота</item>
+        <item quantity="many">%d фота</item>
+        <item quantity="other">%d фота</item>
+    </plurals>
 </resources>

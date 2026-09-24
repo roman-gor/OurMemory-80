@@ -22,6 +22,10 @@ class VeteransRepositoryImpl @Inject constructor(
         cachedVeterans ?: firebaseDB.getAllVeterans().also { cachedVeterans = it }
     }
 
+    override suspend fun invalidate() = mutex.withLock {
+        cachedVeterans = null
+    }
+
     override suspend fun getHrefFromLink(publicKey: String): YandexImage {
         return apiService.getHrefFromLink(publicKey = publicKey).toDomain()
     }

@@ -135,4 +135,19 @@
     <string name="reviewed">Рассмотрено</string>
     <string name="mark_as_reviewed">Отметить рассмотренным</string>
     <string name="nothing_here_yet">Здесь пока ничего нет</string>
+    <string name="moderation">Модерация</string>
+    <string name="awaiting_review">На проверке</string>
+    <string name="approved">Одобрено</string>
+    <string name="rejected">Отклонено</string>
+    <string name="approve">Одобрить</string>
+    <string name="reject">Отклонить</string>
+    <string name="add_to_card">Добавить в карточку</string>
+    <string name="from_family_archive">Из семейного архива</string>
+    <string name="failed_to_save_msg">Не удалось сохранить. Проверьте подключение к интернету и попробуйте ещё раз</string>
+    <plurals name="photos_count">
+        <item quantity="one">%d фото</item>
+        <item quantity="few">%d фото</item>
+        <item quantity="many">%d фото</item>
+        <item quantity="other">%d фото</item>
+    </plurals>
 </resources>

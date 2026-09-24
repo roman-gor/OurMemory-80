@@ -7,4 +7,5 @@ interface VeteransRepository {
     suspend fun getAllVeterans(): List<Veteran>
     suspend fun getHrefFromLink(publicKey: String): YandexImage
     suspend fun resolveDirectUrl(url: String): String
+    suspend fun invalidate()
 }
