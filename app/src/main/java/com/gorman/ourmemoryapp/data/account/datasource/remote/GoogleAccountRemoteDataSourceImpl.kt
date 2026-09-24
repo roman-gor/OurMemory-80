@@ -7,7 +7,10 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.gorman.ourmemoryapp.data.auth.datasource.remote.observeCurrentUser
 import com.gorman.ourmemoryapp.domain.models.VisitorAccount
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -15,35 +18,39 @@ class GoogleAccountRemoteDataSourceImpl @Inject constructor(
     private val auth: FirebaseAuth
 ) : GoogleAccountRemoteDataSource {
 
-    override fun observeAccount() = auth.observeCurrentUser().map { it?.toVisitorAccount() }
+    private val accountVersion = MutableStateFlow(0)
+
+    override fun observeAccount() = combine(auth.observeCurrentUser(), accountVersion) { user, _ ->
+        user?.toVisitorAccount()
+    }.distinctUntilChanged()
 
     override suspend fun signInWithGoogle(idToken: String): VisitorAccount? {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         val current = auth.currentUser
-        return try {
-            val result = if (current != null && current.isAnonymous) {
-                current.linkWithCredential(credential).await()
+        val user = try {
+            if (current != null && current.isAnonymous) {
+                current.linkWithCredential(credential).await().user
             } else {
-                auth.signInWithCredential(credential).await()
+                auth.signInWithCredential(credential).await().user
             }
-            result.user?.toVisitorAccount()
         } catch (collision: FirebaseAuthUserCollisionException) {
-            auth.signInWithCredential(collision.updatedCredential ?: credential).await().user?.toVisitorAccount()
+            auth.signInWithCredential(collision.updatedCredential ?: credential).await().user
         } catch (_: FirebaseException) {
             null
         }
+        accountVersion.update { it + 1 }
+        return user?.toVisitorAccount()
     }
 
     override fun signOut() = auth.signOut()
 
     private fun FirebaseUser.toVisitorAccount(): VisitorAccount? {
-        val isGoogleAccount = !isAnonymous && providerData.any { it.providerId == GoogleAuthProvider.PROVIDER_ID }
-        if (!isGoogleAccount) return null
+        val google = providerData.firstOrNull { it.providerId == GoogleAuthProvider.PROVIDER_ID } ?: return null
         return VisitorAccount(
             uid = uid,
-            name = displayName.orEmpty(),
-            email = email.orEmpty(),
-            photoUrl = photoUrl?.toString().orEmpty()
+            name = displayName.orEmpty().ifBlank { google.displayName.orEmpty() },
+            email = email.orEmpty().ifBlank { google.email.orEmpty() },
+            photoUrl = (photoUrl ?: google.photoUrl)?.toString().orEmpty()
         )
     }
 }

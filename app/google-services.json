@@ -103,6 +103,14 @@
           }
         },
         {
+          "client_id": "395397163961-ah547k9slk1itldr2g9dqed3f4qfrq15.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gorman.ourmemoryapp",
+            "certificate_hash": "21f00dacbff8179ad68e82d6412b5685c29e34c9"
+          }
+        },
+        {
           "client_id": "395397163961-uli2q31l9u7qe6sn3nm427j0kdjtbn87.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
