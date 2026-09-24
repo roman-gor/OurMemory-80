@@ -51,6 +51,6 @@ class CandlesRemoteDataSourceImpl @Inject constructor(
     }
 
     companion object {
-        private const val CANDLES_PATH = "Candles"
+        private const val CANDLES_PATH = "Veterans/Candles"
     }
 }
