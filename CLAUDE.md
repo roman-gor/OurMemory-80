@@ -33,9 +33,9 @@ Detekt uses `config/detekt.yml` with `maxIssues: 0`, so any new finding not in `
 ## Local configuration
 
 - `local.properties` must define `MAPKIT_API_KEY`. The root `build.gradle.kts` reads it into `extra["mapkitApiKey"]`, the app exposes it as `BuildConfig.MAPKIT_API_KEY`, and `MyApp` passes it to `MapKitFactory` on startup.
-- `local.properties` may define `GOOGLE_WEB_CLIENT_ID` (the Web client ID of the Google provider in Firebase Authentication). It becomes `BuildConfig.GOOGLE_WEB_CLIENT_ID`; while it is empty, «Войти через Google» on the More tab shows a "not configured" message. Google sign-in also needs the debug and release SHA-1 in the Firebase project settings.
+- Google sign-in takes the Web client ID from `R.string.default_web_client_id`, which the `google-services` plugin generates from `app/google-services.json`. Every signing key (debug and release) needs its SHA-1 in the Firebase project settings, followed by a fresh `google-services.json`.
 - `app/google-services.json` configures Firebase.
-- Release signing reads an optional root `keystore.properties` (`storeFile`, `storePassword`, `keyAlias`, `keyPassword`).
+- Release signing reads an optional root `keystore.properties` (`storeFile`, `storePassword`, `keyAlias`, `keyPassword`); the key lives in `release.jks` at the repo root. Both are git-ignored and must be backed up. `app/proguard-rules.pro` keeps the Firebase models (`domain/models` Veteran, Burial, Tour, TourStop and `data/**/model`) and the Gson `data/models`: any new class read or written with `getValue` / `setValue` needs a keep rule too.
 
 ## Architecture
 

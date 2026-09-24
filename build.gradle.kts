@@ -86,4 +86,3 @@ fun getLocalProperty(name: String): String {
 }
 
 extra["mapkitApiKey"] = getLocalProperty("MAPKIT_API_KEY")
-extra["googleWebClientId"] = getLocalProperty("GOOGLE_WEB_CLIENT_ID")

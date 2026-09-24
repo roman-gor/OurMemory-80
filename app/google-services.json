@@ -13,7 +13,20 @@
           "package_name": "com.gorman.chatroom"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "395397163961-g47fmdu6ocg27ik60f0f9fbu0igofie3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gorman.chatroom",
+            "certificate_hash": "8ecea201e981d0e300e2d3cc54bce1116e5c4c80"
+          }
+        },
+        {
+          "client_id": "395397163961-j84cp4brk7j6sbnh5e5q5cjufl3esk4d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDoLu1DS1xr4N6te8C0yXmQEWY7nZa9bxM"
@@ -21,7 +34,55 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "395397163961-j84cp4brk7j6sbnh5e5q5cjufl3esk4d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "395397163961-ev4li9t1p6b1s93343954k7u0sm2c6jc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.smartcity.greenpassport"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:395397163961:android:da6b41e7d40bd0ec18e468",
+        "android_client_info": {
+          "package_name": "com.gorman.fitnessapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "395397163961-j84cp4brk7j6sbnh5e5q5cjufl3esk4d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoLu1DS1xr4N6te8C0yXmQEWY7nZa9bxM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "395397163961-j84cp4brk7j6sbnh5e5q5cjufl3esk4d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "395397163961-ev4li9t1p6b1s93343954k7u0sm2c6jc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.smartcity.greenpassport"
+              }
+            }
+          ]
         }
       }
     },
@@ -32,7 +93,28 @@
           "package_name": "com.gorman.ourmemoryapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "395397163961-711nm137h3g05shiq8abbo2dser8i0sq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gorman.ourmemoryapp",
+            "certificate_hash": "8ecea201e981d0e300e2d3cc54bce1116e5c4c80"
+          }
+        },
+        {
+          "client_id": "395397163961-uli2q31l9u7qe6sn3nm427j0kdjtbn87.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gorman.ourmemoryapp",
+            "certificate_hash": "c60c57ccbbd192040e6473ea99bf1954d6bcd1c2"
+          }
+        },
+        {
+          "client_id": "395397163961-j84cp4brk7j6sbnh5e5q5cjufl3esk4d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDoLu1DS1xr4N6te8C0yXmQEWY7nZa9bxM"
@@ -40,7 +122,55 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "395397163961-j84cp4brk7j6sbnh5e5q5cjufl3esk4d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "395397163961-ev4li9t1p6b1s93343954k7u0sm2c6jc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.smartcity.greenpassport"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:395397163961:android:90fbd71662aa0b9818e468",
+        "android_client_info": {
+          "package_name": "com.smartcity.greenpassport"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "395397163961-j84cp4brk7j6sbnh5e5q5cjufl3esk4d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoLu1DS1xr4N6te8C0yXmQEWY7nZa9bxM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "395397163961-j84cp4brk7j6sbnh5e5q5cjufl3esk4d.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "395397163961-ev4li9t1p6b1s93343954k7u0sm2c6jc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.smartcity.greenpassport"
+              }
+            }
+          ]
         }
       }
     }

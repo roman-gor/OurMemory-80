@@ -164,7 +164,6 @@ private fun SignedInContent(account: VisitorAccount, onSignOutClick: () -> Unit)
 private val SignInStatus.errorRes
     get() = when (this) {
         SignInStatus.FAILED -> R.string.could_not_sign_in_msg
-        SignInStatus.NOT_CONFIGURED -> R.string.google_sign_in_not_configured_msg
         SignInStatus.IDLE, SignInStatus.IN_PROGRESS -> null
     }
 

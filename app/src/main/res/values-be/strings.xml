@@ -232,7 +232,6 @@
     <string name="sign_in_with_google">Увайсці праз Google</string>
     <string name="favorites_and_requests_are_saved_msg">Абранае і звароты захоўваюцца ў акаўнце</string>
     <string name="could_not_sign_in_msg">Не атрымалася ўвайсці. Праверце інтэрнэт і паспрабуйце яшчэ раз</string>
-    <string name="google_sign_in_not_configured_msg">Уваход праз Google пакуль не наладжаны</string>
     <string name="editor_guide">Памятка рэдактара</string>
     <string name="how_to_add_and_edit_content_msg">Як дадаваць ветэранаў, месцы і экскурсіі</string>
     <string name="veteran">Ветэран</string>

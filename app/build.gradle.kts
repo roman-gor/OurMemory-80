@@ -24,14 +24,12 @@ android {
 
     defaultConfig {
         val mapkitApiKey = rootProject.extra["mapkitApiKey"] as String
-        val googleWebClientId = rootProject.extra["googleWebClientId"] as String
         applicationId = "com.gorman.ourmemoryapp"
         minSdk = 28
         targetSdk = 37
         versionCode = 1
         versionName = "1.0"
         buildConfigField("String", "MAPKIT_API_KEY", "\"$mapkitApiKey\"")
-        buildConfigField("String", "GOOGLE_WEB_CLIENT_ID", "\"$googleWebClientId\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

@@ -234,7 +234,6 @@
     <string name="sign_in_with_google">Войти через Google</string>
     <string name="favorites_and_requests_are_saved_msg">Избранное и обращения сохраняются в аккаунте</string>
     <string name="could_not_sign_in_msg">Не удалось войти. Проверьте интернет и попробуйте ещё раз</string>
-    <string name="google_sign_in_not_configured_msg">Вход через Google пока не настроен</string>
     <string name="editor_guide">Памятка редактора</string>
     <string name="how_to_add_and_edit_content_msg">Как добавлять ветеранов, места и экскурсии</string>
     <string name="veteran">Ветеран</string>

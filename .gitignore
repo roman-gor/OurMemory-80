@@ -39,3 +39,8 @@ replay_pid*
 
 # QR sheet output
 qr_sheet.pdf
+
+# ===== Release signing =====
+keystore.properties
+*.jks
+*.keystore
