@@ -9,12 +9,6 @@ data class Veteran(
     val years: String = "",
     val category: String = "",
     val rewards: String = "",
-    val veteransInfo: List<String> = emptyList()
+    val veteransInfo: List<String> = emptyList(),
+    val burialId: String = ""
 )
-
-sealed class Screen(val route: String) {
-    object HomeScreen : Screen("homescreen")
-    object DetailScreen : Screen("detailscreen")
-    object InfoScreen : Screen("infoscreen")
-    object IntroScreen : Screen("introscreen")
-}

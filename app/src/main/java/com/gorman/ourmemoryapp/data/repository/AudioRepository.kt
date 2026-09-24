@@ -6,8 +6,11 @@ import android.util.Log
 import com.gorman.ourmemoryapp.domain.models.AudioItem
 import com.gorman.ourmemoryapp.domain.models.AudioPlaybackState
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class AudioRepository @Inject constructor(
@@ -63,5 +66,17 @@ class AudioRepository @Inject constructor(
 
     fun seekTo(position: Int) {
         mediaPlayer?.seekTo(position)
+        _playbackState.value = _playbackState.value.copy(currentPosition = position)
+    }
+
+    fun observePosition(): Flow<Int> = flow {
+        while (true) {
+            emit(mediaPlayer?.currentPosition ?: 0)
+            delay(POSITION_UPDATE_MILLIS)
+        }
+    }
+
+    companion object {
+        private const val POSITION_UPDATE_MILLIS = 500L
     }
 }

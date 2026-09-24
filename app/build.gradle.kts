@@ -93,7 +93,6 @@ dependencies {
     implementation(libs.kotlinx.immutable)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.play.services)
-    implementation(libs.lottie.compose)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.hilt.android)

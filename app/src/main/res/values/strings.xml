@@ -40,7 +40,7 @@
     <string name="rollup">Свернуть</string>
     <string name="red_znamya">Орден Красного Знамени</string>
     <string name="suvorov_1">Орден Суворова I степени</string>
-    <string name="suvorov_2">Орден Суворова II степен</string>
+    <string name="suvorov_2">Орден Суворова II степени</string>
     <string name="lenin">Орден Ленина</string>
     <string name="geroj_sssr">Герой Советского Союза</string>
     <string name="partizan">Медаль "Партизану Великой Отечественной войны" II степени</string>
@@ -50,4 +50,12 @@
     <string name="orden_znak_pocheta">Орден "Знак Почета"</string>
     <string name="za_otvagu">Медаль "За отвагу"</string>
     <string name="narodny_artist">Медаль "За отвагу"</string>
+    <string name="awards">Награды</string>
+    <string name="listen_to_biography">Послушать биографию</string>
+    <string name="burial_place">Место захоронения</string>
+    <string name="section_row_place_msg">Участок %1$s · ряд %2$s · место %3$s</string>
+    <string name="failed_to_load_data_msg">Не удалось загрузить данные. Проверьте подключение к интернету</string>
+    <string name="play">Воспроизвести</string>
+    <string name="pause">Пауза</string>
+    <string name="back">Назад</string>
 </resources>

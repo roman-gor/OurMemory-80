@@ -56,7 +56,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -66,12 +65,8 @@ import com.gorman.ourmemoryapp.domain.models.Image
 import com.gorman.ourmemoryapp.domain.models.News
 import com.gorman.ourmemoryapp.domain.models.imagesList
 import com.gorman.ourmemoryapp.domain.models.newsList
+import com.gorman.ourmemoryapp.ui.common.ui.MapPreview
 import com.gorman.ourmemoryapp.ui.fonts.mulishFont
-import com.yandex.mapkit.MapKitFactory
-import com.yandex.mapkit.geometry.Point
-import com.yandex.mapkit.map.CameraPosition
-import com.yandex.mapkit.mapview.MapView
-import com.yandex.runtime.image.ImageProvider
 import java.util.Locale
 
 @Composable
@@ -312,34 +307,13 @@ fun Header(navigateToBack: () -> Unit, onChangeLangClick: (String) -> Unit) {
 
 @Composable
 fun YandexMapView() {
-    val context = LocalContext.current
-    val mapView = remember { MapView(context) }
-    DisposableEffect(Unit) {
-        mapView.onStart()
-        MapKitFactory.getInstance().onStart()
-
-        onDispose {
-            mapView.onStop()
-            MapKitFactory.getInstance().onStop()
-        }
-    }
-    val locationPoint = Point(53.908775, 27.586246)
-    mapView.mapWindow.map.move(
-        CameraPosition(
-        locationPoint,
-        15.0f,
-        0.0f,
-        0.0f
-    )
-    )
-    val imageProvider = ImageProvider.fromResource(context, R.drawable.ic_marker)
-    mapView.mapWindow.map.mapObjects.addPlacemark().apply {
-        geometry = locationPoint
-        setIcon(imageProvider)
-    }
-    AndroidView(
-        factory = { mapView },
-        modifier = Modifier.fillMaxWidth()
+    MapPreview(
+        latitude = CEMETERY_LATITUDE,
+        longitude = CEMETERY_LONGITUDE,
+        zoom = CEMETERY_ZOOM,
+        interactive = true,
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 8.dp)
             .height(200.dp)
             .clip(RoundedCornerShape(16.dp))
@@ -385,3 +359,7 @@ fun ImageItem(image: Image, onClick: () -> Unit) {
         )
     }
 }
+
+private const val CEMETERY_LATITUDE = 53.908775
+private const val CEMETERY_LONGITUDE = 27.586246
+private const val CEMETERY_ZOOM = 15f

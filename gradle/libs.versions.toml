@@ -19,7 +19,6 @@ kotlinxCoroutines = "1.11.0"
 lifecycleRuntimeKtx = "2.11.0"
 activityCompose = "1.13.0"
 composeBom = "2026.08.00"
-lottieCompose = "6.7.1"
 mapsMobile = "4.19.0-navikit"
 navigationCompose = "2.10.0"
 retrofit = "3.0.0"
@@ -55,7 +54,6 @@ firebase-database = { module = "com.google.firebase:firebase-database" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "hiltAndroidGradlePlugin" }
-lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 maps-mobile = { module = "com.yandex.android:maps.mobile", version.ref = "mapsMobile" }
 detekt-formatting-plugin = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detektVersion" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }

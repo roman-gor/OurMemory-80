@@ -6,11 +6,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.gorman.ourmemoryapp.domain.models.Screen
-import com.gorman.ourmemoryapp.ui.screens.DetailsScreen
+import com.gorman.ourmemoryapp.ui.details.ui.DetailsScreen
+import com.gorman.ourmemoryapp.ui.details.viewmodels.DetailsViewModel
 import com.gorman.ourmemoryapp.ui.screens.InfoScreen
 import com.gorman.ourmemoryapp.ui.screens.IntroScreen
 import com.gorman.ourmemoryapp.ui.screens.MainScreen
-import com.gorman.ourmemoryapp.ui.viewModel.DetailsViewModel
 
 @Composable
 fun AppNavigation(onChangeLangClick: (String) -> Unit) {
@@ -30,7 +30,10 @@ fun AppNavigation(onChangeLangClick: (String) -> Unit) {
                 creationCallback = { factory -> factory.create(veteranId.orEmpty()) }
             )
 
-            DetailsScreen(detailsViewModel = detailsViewModel)
+            DetailsScreen(
+                detailsViewModel = detailsViewModel,
+                onBackClick = { navController.popBackStack() }
+            )
         }
         composable(Screen.InfoScreen.route) {
             InfoScreen(

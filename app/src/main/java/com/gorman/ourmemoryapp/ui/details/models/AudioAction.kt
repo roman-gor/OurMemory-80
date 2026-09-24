@@ -1,8 +1,4 @@
-package com.gorman.ourmemoryapp.ui.states
-
-sealed interface DetailsUiEvent {
-    data class OnAudioAction(val action: AudioAction) : DetailsUiEvent
-}
+package com.gorman.ourmemoryapp.ui.details.models
 
 sealed interface AudioAction {
     object Play : AudioAction
