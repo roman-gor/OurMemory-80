@@ -1,17 +1,23 @@
 {
   "rules": {
     "OurMemory": {
+      "Admins": {
+        "$uid": {
+          ".read": "auth != null && auth.uid === $uid",
+          ".write": false
+        }
+      },
       "Veterans": {
         ".read": true,
-        ".write": false
+        ".write": "auth != null && root.child('OurMemory/Admins/' + auth.uid).exists()"
       },
       "Burials": {
         ".read": true,
-        ".write": false
+        ".write": "auth != null && root.child('OurMemory/Admins/' + auth.uid).exists()"
       },
       "Tours": {
         ".read": true,
-        ".write": false
+        ".write": "auth != null && root.child('OurMemory/Admins/' + auth.uid).exists()"
       },
       "Candles": {
         ".read": true,
@@ -21,10 +27,17 @@
         }
       },
       "Submissions": {
-        ".read": false,
+        ".read": "auth != null && root.child('OurMemory/Admins/' + auth.uid).exists()",
         "$submissionId": {
-          ".write": "auth != null && !data.exists()",
-          ".validate": "newData.hasChildren(['id', 'veteranId', 'text', 'contact', 'status', 'createdAt']) && newData.child('id').val() === $submissionId && newData.child('status').val() === 'pending' && newData.child('text').isString() && newData.child('text').val().length <= 5000 && newData.child('createdAt').val() === now"
+          ".write": "auth != null && (!data.exists() || root.child('OurMemory/Admins/' + auth.uid).exists())",
+          ".validate": "newData.hasChildren(['id', 'veteranId', 'text', 'contact', 'status', 'createdAt']) && newData.child('id').val() === $submissionId && (root.child('OurMemory/Admins/' + auth.uid).exists() || (newData.child('status').val() === 'pending' && newData.child('text').isString() && newData.child('text').val().length <= 5000 && newData.child('createdAt').val() === now))"
+        }
+      },
+      "Feedback": {
+        ".read": "auth != null && root.child('OurMemory/Admins/' + auth.uid).exists()",
+        "$feedbackId": {
+          ".write": "auth != null && (!data.exists() || root.child('OurMemory/Admins/' + auth.uid).exists())",
+          ".validate": "newData.hasChildren(['id', 'type', 'text', 'status', 'createdAt']) && newData.child('id').val() === $feedbackId && (root.child('OurMemory/Admins/' + auth.uid).exists() || (newData.child('status').val() === 'new' && newData.child('text').isString() && newData.child('text').val().length <= 3000 && newData.child('createdAt').val() === now))"
         }
       }
     }

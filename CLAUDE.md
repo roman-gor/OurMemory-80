@@ -62,6 +62,8 @@ Other data facts:
 - Offline persistence is enabled on the `FirebaseDatabase` provider.
 - Live listeners go through `DatabaseReference.observeValue()` (`data/firebase/DatabaseReferenceFlows.kt`) so errors reach the flow instead of the main thread. Visitor writes call `AnonymousSession.ensureSignedIn()` first. Parse lists with `DataSnapshot.childrenAs<T>()`, which skips malformed children, and build veteran keys with `VeteranKeys.forId`.
 - `firebase/database.rules.json` and `firebase/storage.rules` cover only `OurMemory` and are **not** wired into `firebase.json`. Deploying them would replace the rules of the other apps, so merge them by hand in the console.
+- Rules: everyone reads `Veterans`, `Burials`, `Tours`; only uids listed in `Admins` write them and read `Submissions` / `Feedback`; visitors may only create new submissions and feedback. Storage rules cannot read the database, so admin uids are listed in `isAdmin()` in `firebase/storage.rules` (replace `ADMIN_UID`). `OurMemory/Media/**` is public for reading.
+- Setting up an admin: enable Email/Password in Firebase Authentication, create the user, add `OurMemory/Admins/{uid}: true` in the console and put the uid into `storage.rules`.
 
 **Parsing veteran content.**
 - `veteransInfo` mixes paragraphs and media links. Entries containing `http` are links, optionally written as `url|description`.
