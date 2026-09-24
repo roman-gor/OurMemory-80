@@ -98,7 +98,7 @@
     <string name="birthday_in_year">День рождения · %1$d</string>
     <string name="day_of_memory_in_year">День памяти · %1$d</string>
     <string name="reminders">Напоминания</string>
-    <string name="victory_day">9 Мая — День Победы</string>
+    <string name="victory_day">День Победы</string>
     <string name="remember_heroes_msg">Вспомните героев — зажгите свечу памяти в приложении «Наша память»</string>
     <string name="add_to_history">Дополнить историю</string>
     <string name="share_materials_msg">Если у вас есть фотографии, документы или воспоминания об этом человеке, пришлите их. После проверки мы добавим материалы в карточку ветерана.</string>
@@ -204,7 +204,7 @@
     <string name="language">Язык</string>
     <string name="russian">Русский</string>
     <string name="belarusian">Беларуская</string>
-    <string name="memorable_days_of_favorites">Памятные дни избранных</string>
+    <string name="memorable_dates_of_favorites">Памятные даты избранных</string>
     <string name="comment_for_author">Комментарий для автора (необязательно)</string>
     <string name="your_reply">Ваш ответ: %1$s</string>
     <string name="reply">Ответ</string>
@@ -224,4 +224,9 @@
     <string name="scan_qr_code">Сканировать QR-код</string>
     <string name="not_our_qr_code_msg">Это не QR-код нашего кладбища</string>
     <string name="failed_to_open_scanner_msg">Не удалось открыть сканер. Попробуйте навести обычную камеру на QR-код</string>
+    <string name="never_forgotten_msg">Никто не забыт, ничто не забыто</string>
+    <string name="thank_you_for_keeping_memory_msg">Спасибо, что храните память вместе с нами</string>
+    <string name="mine">Моё</string>
+    <string name="in_the_morning_of_may_9_msg">Утром 9 мая напомним почтить память</string>
+    <string name="on_birthdays_and_memorial_days_msg">В дни рождения и памяти ветеранов из избранного</string>
 </resources>
