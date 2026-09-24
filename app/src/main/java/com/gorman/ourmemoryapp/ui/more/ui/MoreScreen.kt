@@ -24,6 +24,7 @@ import com.gorman.ourmemoryapp.domain.models.TextScale
 import com.gorman.ourmemoryapp.domain.models.ThemeMode
 import com.gorman.ourmemoryapp.ui.common.ui.LinkRow
 import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
+import com.gorman.ourmemoryapp.ui.common.ui.rememberQrScanAction
 import com.gorman.ourmemoryapp.ui.more.models.AppLanguage
 import com.gorman.ourmemoryapp.ui.more.models.MoreUiIntent
 import com.gorman.ourmemoryapp.ui.more.models.labelRes
@@ -35,6 +36,7 @@ fun MoreScreen(
     onWriteToUsClick: () -> Unit,
     onMyRequestsClick: () -> Unit,
     onFavoritesClick: () -> Unit,
+    onVeteranScanned: (String) -> Unit,
     onAdminClick: () -> Unit,
     moreViewModel: MoreViewModel = hiltViewModel()
 ) {
@@ -44,6 +46,7 @@ fun MoreScreen(
         it.tag == LocalConfiguration.current.locales[0].language
     } ?: AppLanguage.RUSSIAN
     val onUiIntent = moreViewModel::onUiIntent
+    val scanQr = rememberQrScanAction(onVeteranScanned = onVeteranScanned)
 
     LazyColumn(
         contentPadding = PaddingValues(
@@ -67,6 +70,7 @@ fun MoreScreen(
             )
         }
         item { LinkRow(title = stringResource(R.string.favorites), onClick = onFavoritesClick) }
+        item { LinkRow(title = stringResource(R.string.scan_qr_code), onClick = scanQr) }
         item { LinkRow(title = stringResource(R.string.write_to_us), onClick = onWriteToUsClick) }
         item { MoreSectionTitle(text = stringResource(R.string.appearance)) }
         item {

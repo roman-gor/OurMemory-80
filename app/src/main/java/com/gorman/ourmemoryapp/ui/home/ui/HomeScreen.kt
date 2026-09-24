@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -43,6 +44,7 @@ import com.gorman.ourmemoryapp.ui.common.ui.CategoryFilterChips
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
+import com.gorman.ourmemoryapp.ui.common.ui.rememberQrScanAction
 import com.gorman.ourmemoryapp.ui.home.models.HomeUiIntent
 import com.gorman.ourmemoryapp.ui.home.models.HomeUiState
 import com.gorman.ourmemoryapp.ui.home.viewmodels.HomeViewModel
@@ -54,6 +56,7 @@ fun MainScreen(
 ) {
     val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
     val onUiIntent = homeViewModel::onUiIntent
+    val scanQr = rememberQrScanAction(onVeteranScanned = onItemClick)
 
     Box(
         modifier = Modifier
@@ -67,6 +70,7 @@ fun MainScreen(
             is HomeUiState.Success -> OurMemoryScreen(
                 state = state,
                 onItemClick = onItemClick,
+                onScanClick = scanQr,
                 onUiIntent = onUiIntent
             )
         }
@@ -77,11 +81,13 @@ fun MainScreen(
 private fun OurMemoryScreen(
     state: HomeUiState.Success,
     onItemClick: (String) -> Unit,
+    onScanClick: () -> Unit,
     onUiIntent: (HomeUiIntent) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         HomeHeader(
             state = state,
+            onScanClick = onScanClick,
             onUiIntent = onUiIntent
         )
         if (state.veterans.isNotEmpty()) {
@@ -120,16 +126,28 @@ private fun OurMemoryScreen(
 @Composable
 private fun HomeHeader(
     state: HomeUiState.Success,
+    onScanClick: () -> Unit,
     onUiIntent: (HomeUiIntent) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        Text(
-            text = stringResource(R.string.app_name),
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 12.dp)
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = stringResource(R.string.app_name),
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 12.dp)
+            )
+            IconButton(onClick = onScanClick, modifier = Modifier.padding(end = 8.dp)) {
+                Icon(
+                    painter = painterResource(R.drawable.qr_code_scanner),
+                    contentDescription = stringResource(R.string.scan_qr_code),
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+        }
         SearchField(
             search = state.search,
             onSearchTextChange = { onUiIntent(HomeUiIntent.OnSearchChange(it)) },

@@ -221,4 +221,7 @@
     <string name="visited">Пройдено</string>
     <string name="visited_of_total">Пройдено %1$d из %2$d</string>
     <string name="start_over">Начать заново</string>
+    <string name="scan_qr_code">Сканировать QR-код</string>
+    <string name="not_our_qr_code_msg">Это не QR-код нашего кладбища</string>
+    <string name="failed_to_open_scanner_msg">Не удалось открыть сканер. Попробуйте навести обычную камеру на QR-код</string>
 </resources>

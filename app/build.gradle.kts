@@ -107,6 +107,7 @@ dependencies {
     implementation(libs.media3.session)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.play.services.code.scanner)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
 }

@@ -116,6 +116,7 @@ private fun AppNavHost(
                 onWriteToUsClick = { navController.navigate(Screen.FeedbackScreen.route) },
                 onMyRequestsClick = { navController.navigate(Screen.MyRequestsScreen.route) },
                 onFavoritesClick = { navController.navigate(Screen.FavoritesScreen.route) },
+                onVeteranScanned = openVeteran,
                 onAdminClick = {
                     if (isAdmin) {
                         navController.navigateToTab(TopLevelTab.ADMIN)
