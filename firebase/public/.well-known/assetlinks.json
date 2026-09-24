@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.gorman.ourmemoryapp",
+      "sha256_cert_fingerprints": [
+        "A6:5C:9B:1A:6B:07:68:10:C5:D2:38:D8:D3:79:FD:97:61:7C:36:97:93:4A:E9:D3:66:0E:E6:7F:BB:C9:84:0D"
+      ]
+    }
+  }
+]

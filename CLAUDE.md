@@ -20,6 +20,14 @@ Use the Gradle wrapper (`./gradlew`) for everything — do not invoke a system-i
 ./gradlew detektGenerateBaseline # regenerate config/baseline.xml
 ```
 
+QR codes and app links (not part of the Gradle build):
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r tools/qr/requirements.txt
+.venv/bin/python tools/qr/generate_qr_sheet.py --output qr_sheet.pdf   # printable QR cards from the live database
+cd firebase && firebase deploy --only hosting                            # assetlinks.json + veteran web page
+```
+
 Detekt uses `config/detekt.yml` with `maxIssues: 0`, so any new finding not in `config/baseline.xml` fails the task. There are currently no unit or instrumented tests in the repo. If you add tests, put JVM tests under `app/src/test/...` and instrumented tests under `app/src/androidTest/...` (standard AGP layout). Run `./gradlew detektAll` before finishing any change that touches Kotlin source.
 
 ## Local configuration

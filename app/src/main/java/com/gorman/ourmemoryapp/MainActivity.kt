@@ -25,15 +25,17 @@ class MainActivity : ComponentActivity() {
             statusBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.light(Color.TRANSPARENT, Color.TRANSPARENT)
         )
+        val openedFromLink = intent?.data != null
         setContent {
             OurMemoryAppTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AppNavigation(onChangeLangClick = { locale ->
-                        updateLocale(locale)
-                    })
+                    AppNavigation(
+                        openedFromLink = openedFromLink,
+                        onChangeLangClick = { locale -> updateLocale(locale) }
+                    )
                 }
             }
         }

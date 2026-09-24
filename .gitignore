@@ -36,3 +36,6 @@ local.properties
 # virtual machine crash logs
 hs_err_pid*
 replay_pid*
+
+# QR sheet output
+qr_sheet.pdf
