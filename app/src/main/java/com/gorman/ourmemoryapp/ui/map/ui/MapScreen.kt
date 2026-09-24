@@ -7,10 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
@@ -125,27 +123,25 @@ private fun MapContent(
                 checkedArt = state.checkedArt,
                 onCheckedWarChange = { onUiIntent(MapUiIntent.OnCheckedWarChange(it)) },
                 onCheckedArtChange = { onUiIntent(MapUiIntent.OnCheckedArtChange(it)) },
-                modifier = Modifier.weight(1f),
-                trailingContent = {
-                    if (state.tours.isNotEmpty()) {
-                        AssistChip(
-                            onClick = { showTours = true },
-                            label = { Text(text = stringResource(R.string.tours)) },
-                            leadingIcon = {
-                                Icon(
-                                    painter = painterResource(R.drawable.directions_walk),
-                                    contentDescription = null,
-                                    modifier = Modifier.size(AssistChipDefaults.IconSize)
-                                )
-                            },
-                            colors = AssistChipDefaults.assistChipColors(
-                                containerColor = MaterialTheme.colorScheme.surface,
-                                leadingIconContentColor = MaterialTheme.colorScheme.primary
-                            ),
-                            elevation = AssistChipDefaults.assistChipElevation(elevation = 2.dp)
-                        )
-                    }
-                }
+                modifier = Modifier.weight(1f)
+            )
+        }
+        if (state.tours.isNotEmpty()) {
+            ExtendedFloatingActionButton(
+                onClick = { showTours = true },
+                text = { Text(text = stringResource(R.string.tours)) },
+                icon = {
+                    Icon(
+                        painter = painterResource(R.drawable.directions_walk),
+                        contentDescription = null
+                    )
+                },
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .navigationBarsPadding()
+                    .padding(16.dp)
             )
         }
         MapControls(
