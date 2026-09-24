@@ -1,0 +1,23 @@
+{
+  "rules": {
+    "Veterans": {
+      ".read": true,
+      ".write": false
+    },
+    "Burials": {
+      ".read": true,
+      ".write": false
+    },
+    "Tours": {
+      ".read": true,
+      ".write": false
+    },
+    "Candles": {
+      ".read": true,
+      "$veteranId": {
+        ".write": true,
+        ".validate": "newData.isNumber() && newData.val() === (data.exists() ? data.val() : 0) + 1"
+      }
+    }
+  }
+}

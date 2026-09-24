@@ -10,8 +10,11 @@ import com.gorman.ourmemoryapp.di.annotation.IoDispatcher
 import com.gorman.ourmemoryapp.domain.models.AudioItem
 import com.gorman.ourmemoryapp.domain.models.AudioPlaybackState
 import com.gorman.ourmemoryapp.domain.models.Burial
+import com.gorman.ourmemoryapp.domain.models.CandleState
 import com.gorman.ourmemoryapp.domain.models.Veteran
 import com.gorman.ourmemoryapp.domain.repository.BurialsRepository
+import com.gorman.ourmemoryapp.domain.repository.CandlesRepository
+import com.gorman.ourmemoryapp.domain.repository.SettingsRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
 import com.gorman.ourmemoryapp.ui.common.models.AudioAction
 import com.gorman.ourmemoryapp.ui.common.models.MediaUi
@@ -38,6 +41,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
 @HiltViewModel(assistedFactory = DetailsViewModel.Factory::class)
 class DetailsViewModel @AssistedInject constructor(
@@ -45,6 +49,8 @@ class DetailsViewModel @AssistedInject constructor(
     private val veteranRepository: VeteransRepository,
     private val burialsRepository: BurialsRepository,
     private val audioRepository: AudioRepository,
+    private val candlesRepository: CandlesRepository,
+    private val settingsRepository: SettingsRepository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -74,9 +80,37 @@ class DetailsViewModel @AssistedInject constructor(
             initialValue = AudioPlaybackState()
         )
 
+    val candleState = candlesRepository.observeCandleState(veteranId)
+        .catch { error ->
+            Log.e(LOG_TAG, "Failed to observe candles for $veteranId", error)
+            emit(CandleState())
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),
+            initialValue = CandleState()
+        )
+
+    val shouldAskNotifications = settingsRepository.observeNotificationsAsked()
+        .map { asked -> !asked }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS),
+            initialValue = false
+        )
+
     fun onUiEvent(event: DetailsUiEvent) {
         when (event) {
             is DetailsUiEvent.OnAudioAction -> onAudioAction(event.action)
+            DetailsUiEvent.OnLightCandleClick -> lightCandle()
+            DetailsUiEvent.OnNotificationsAsked -> viewModelScope.launch { settingsRepository.markNotificationsAsked() }
+        }
+    }
+
+    private fun lightCandle() {
+        viewModelScope.launch {
+            runCatching { candlesRepository.lightCandle(veteranId) }
+                .onFailure { Log.e(LOG_TAG, "Failed to light a candle for $veteranId", it) }
         }
     }
 

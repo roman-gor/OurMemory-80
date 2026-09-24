@@ -11,5 +11,7 @@ data class Veteran(
     val rewards: String = "",
     val veteransInfo: List<String> = emptyList(),
     val burialId: String = "",
-    val audioUrl: String = ""
+    val audioUrl: String = "",
+    val birthDate: String = "",
+    val deathDate: String = ""
 )

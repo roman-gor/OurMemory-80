@@ -88,6 +88,15 @@ private fun OurMemoryScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(top = 4.dp, bottom = 16.dp)
             ) {
+                if (state.anniversaries.isNotEmpty()) {
+                    item {
+                        AnniversariesRow(
+                            anniversaries = state.anniversaries,
+                            onVeteranClick = onItemClick,
+                            modifier = Modifier.padding(bottom = 8.dp)
+                        )
+                    }
+                }
                 items(state.veterans, key = { it.id }) { veteran ->
                     VeteranItem(
                         veteran = veteran,

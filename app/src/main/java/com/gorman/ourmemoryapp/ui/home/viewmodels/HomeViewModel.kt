@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
 import com.gorman.ourmemoryapp.ui.home.models.HomeUiIntent
 import com.gorman.ourmemoryapp.ui.home.models.HomeUiState
+import com.gorman.ourmemoryapp.ui.home.models.anniversariesOn
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -13,11 +15,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
+import java.time.Clock
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val repository: VeteransRepository
+    private val repository: VeteransRepository,
+    private val clock: Clock
 ) : ViewModel() {
 
     private val searchState = MutableStateFlow("")
@@ -59,7 +64,12 @@ class HomeViewModel @Inject constructor(
             veterans = filteredVeterans.toPersistentList(),
             search = search,
             checkedWar = war,
-            checkedArt = art
+            checkedArt = art,
+            anniversaries = if (search.isBlank()) {
+                veteransList.anniversariesOn(LocalDate.now(clock)).toPersistentList()
+            } else {
+                persistentListOf()
+            }
         ) as HomeUiState
     }.catch { error ->
         emit(HomeUiState.Error(error))

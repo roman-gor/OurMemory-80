@@ -23,12 +23,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.domain.models.AudioPlaybackState
+import com.gorman.ourmemoryapp.domain.models.CandleState
 import com.gorman.ourmemoryapp.ui.common.models.AudioAction
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.ExpandableTextSection
 import com.gorman.ourmemoryapp.ui.common.ui.FloatingTopBar
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.MediaGallery
+import com.gorman.ourmemoryapp.ui.common.ui.NotificationPermissionRequest
 import com.gorman.ourmemoryapp.ui.common.ui.SystemBarIcons
 import com.gorman.ourmemoryapp.ui.common.ui.rememberIsHeroScrolledAway
 import com.gorman.ourmemoryapp.ui.details.models.DetailsUiEvent
@@ -43,12 +45,18 @@ fun DetailsScreen(
 ) {
     val uiState by detailsViewModel.uiState.collectAsStateWithLifecycle()
     val playbackState by detailsViewModel.playbackState.collectAsStateWithLifecycle()
+    val candleState by detailsViewModel.candleState.collectAsStateWithLifecycle()
+    val shouldAskNotifications by detailsViewModel.shouldAskNotifications.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
     val isHeroScrolledAway by rememberIsHeroScrolledAway(listState)
     val state = uiState
     val isCollapsed = state is DetailsUiState.Success && isHeroScrolledAway
 
     SystemBarIcons(darkIcons = state !is DetailsUiState.Success || isHeroScrolledAway)
+    NotificationPermissionRequest(
+        shouldAsk = shouldAskNotifications && state is DetailsUiState.Success,
+        onAsked = { detailsViewModel.onUiEvent(DetailsUiEvent.OnNotificationsAsked) }
+    )
 
     Box(
         modifier = Modifier
@@ -61,7 +69,9 @@ fun DetailsScreen(
             is DetailsUiState.Success -> DetailsContent(
                 state = state,
                 playbackState = playbackState,
+                candleState = candleState,
                 listState = listState,
+                onLightCandleClick = { detailsViewModel.onUiEvent(DetailsUiEvent.OnLightCandleClick) },
                 onAudioAction = { detailsViewModel.onUiEvent(DetailsUiEvent.OnAudioAction(it)) },
                 onShowOnMapClick = onShowOnMapClick
             )
@@ -79,7 +89,9 @@ fun DetailsScreen(
 private fun DetailsContent(
     state: DetailsUiState.Success,
     playbackState: AudioPlaybackState,
+    candleState: CandleState,
     listState: LazyListState,
+    onLightCandleClick: () -> Unit,
     onAudioAction: (AudioAction) -> Unit,
     onShowOnMapClick: (String) -> Unit
 ) {
@@ -90,6 +102,7 @@ private fun DetailsContent(
         modifier = Modifier.fillMaxSize()
     ) {
         item { DetailsHeader(veteran = state.veteran) }
+        item { CandleCard(candleState = candleState, onLightClick = onLightCandleClick) }
         if (state.rewards.isNotEmpty()) {
             item { RewardsRow(rewards = state.rewards) }
         }

@@ -84,4 +84,18 @@
         <item quantity="many">%d прыпынкаў</item>
         <item quantity="other">%d прыпынку</item>
     </plurals>
+    <string name="light_a_candle">Запаліць свечку памяці</string>
+    <string name="candle_is_lit">Свечка запалена</string>
+    <plurals name="candles_count">
+        <item quantity="one">Запалена %d свечка</item>
+        <item quantity="few">Запалена %d свечкі</item>
+        <item quantity="many">Запалена %d свечак</item>
+        <item quantity="other">Запалена %d свечкі</item>
+    </plurals>
+    <string name="on_this_day">У гэты дзень</string>
+    <string name="birthday_in_year">Дзень нараджэння · %1$d</string>
+    <string name="day_of_memory_in_year">Дзень памяці · %1$d</string>
+    <string name="reminders">Напаміны</string>
+    <string name="victory_day">9 Мая — Дзень Перамогі</string>
+    <string name="remember_heroes_msg">Успомніце герояў — запаліце свечку памяці ў праграме «Наша памяць»</string>
 </resources>

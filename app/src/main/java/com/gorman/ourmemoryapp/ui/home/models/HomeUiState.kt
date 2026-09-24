@@ -10,7 +10,8 @@ sealed interface HomeUiState {
         val veterans: ImmutableList<Veteran> = persistentListOf(),
         val search: String = "",
         val checkedWar: Boolean = false,
-        val checkedArt: Boolean = false
+        val checkedArt: Boolean = false,
+        val anniversaries: ImmutableList<AnniversaryUi> = persistentListOf()
     ) : HomeUiState
     data class Error(val throwable: Throwable) : HomeUiState
 }

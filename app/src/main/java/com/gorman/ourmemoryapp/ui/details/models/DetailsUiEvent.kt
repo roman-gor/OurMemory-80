@@ -4,4 +4,6 @@ import com.gorman.ourmemoryapp.ui.common.models.AudioAction
 
 sealed interface DetailsUiEvent {
     data class OnAudioAction(val action: AudioAction) : DetailsUiEvent
+    data object OnLightCandleClick : DetailsUiEvent
+    data object OnNotificationsAsked : DetailsUiEvent
 }

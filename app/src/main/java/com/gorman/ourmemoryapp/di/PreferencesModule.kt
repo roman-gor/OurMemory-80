@@ -1,0 +1,54 @@
+package com.gorman.ourmemoryapp.di
+
+import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
+import com.google.firebase.database.FirebaseDatabase
+import com.gorman.ourmemoryapp.data.candles.datasource.local.CandlesLocalDataSourceImpl
+import com.gorman.ourmemoryapp.data.candles.datasource.remote.CandlesRemoteDataSourceImpl
+import com.gorman.ourmemoryapp.data.candles.repository.CandlesRepositoryImpl
+import com.gorman.ourmemoryapp.data.settings.repository.SettingsRepositoryImpl
+import com.gorman.ourmemoryapp.domain.repository.CandlesRepository
+import com.gorman.ourmemoryapp.domain.repository.SettingsRepository
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import java.time.Clock
+import javax.inject.Singleton
+
+private const val PREFERENCES_FILE_NAME = "memory_preferences"
+
+@Module
+@InstallIn(SingletonComponent::class)
+object PreferencesModule {
+
+    @Provides
+    @Singleton
+    fun provideClock(): Clock = Clock.systemDefaultZone()
+
+    @Provides
+    @Singleton
+    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
+        PreferenceDataStoreFactory.create { context.preferencesDataStoreFile(PREFERENCES_FILE_NAME) }
+
+    @Provides
+    @Singleton
+    fun provideCandlesRepository(
+        database: FirebaseDatabase,
+        dataStore: DataStore<Preferences>,
+        clock: Clock
+    ): CandlesRepository = CandlesRepositoryImpl(
+        remoteDataSource = CandlesRemoteDataSourceImpl(database),
+        localDataSource = CandlesLocalDataSourceImpl(dataStore),
+        clock = clock
+    )
+
+    @Provides
+    @Singleton
+    fun provideSettingsRepository(dataStore: DataStore<Preferences>): SettingsRepository =
+        SettingsRepositoryImpl(dataStore)
+}
