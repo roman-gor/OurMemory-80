@@ -11,7 +11,7 @@ from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 
-DATABASE_URL = "https://chatroom-85fb8-default-rtdb.firebaseio.com"
+DATABASE_URL = "https://chatroom-85fb8-default-rtdb.firebaseio.com/OurMemory"
 LINK_BASE = "https://chatroom-85fb8.web.app/veteran"
 FONT_DIR = Path(__file__).resolve().parents[2] / "app" / "src" / "main" / "res" / "font"
 REGULAR_FONT = "Mulish"

@@ -2,12 +2,13 @@ package com.gorman.ourmemoryapp.di
 
 import android.content.Context
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.storage.FirebaseStorage
 import com.gorman.ourmemoryapp.data.submissions.datasource.local.PhotoCompressor
 import com.gorman.ourmemoryapp.data.submissions.datasource.remote.SubmissionsRemoteDataSourceImpl
 import com.gorman.ourmemoryapp.data.submissions.repository.SubmissionsRepositoryImpl
 import com.gorman.ourmemoryapp.di.annotation.IoDispatcher
+import com.gorman.ourmemoryapp.di.annotation.MemoryRoot
 import com.gorman.ourmemoryapp.domain.repository.SubmissionsRepository
 import dagger.Module
 import dagger.Provides
@@ -35,9 +36,9 @@ object SubmissionsModule {
         @ApplicationContext context: Context,
         auth: FirebaseAuth,
         storage: FirebaseStorage,
-        database: FirebaseDatabase,
+        @MemoryRoot root: DatabaseReference,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
     ): SubmissionsRepository = SubmissionsRepositoryImpl(
-        SubmissionsRemoteDataSourceImpl(PhotoCompressor(context), auth, storage, database, ioDispatcher)
+        SubmissionsRemoteDataSourceImpl(PhotoCompressor(context), auth, storage, root, ioDispatcher)
     )
 }

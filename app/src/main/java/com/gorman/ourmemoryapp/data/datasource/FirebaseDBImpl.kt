@@ -8,10 +8,10 @@ import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class FirebaseDBImpl @Inject constructor(
-    private val _dbRef: DatabaseReference
+    private val veteransReference: DatabaseReference
 ) : FirebaseDB {
     override suspend fun getAllVeterans(): List<Veteran> = suspendCoroutine { continuation ->
-        _dbRef.get()
+        veteransReference.get()
             .addOnSuccessListener { snapshot ->
                 val veteran = snapshot.children.mapNotNull { it.getValue(Veteran::class.java) }
                 continuation.resume(veteran)

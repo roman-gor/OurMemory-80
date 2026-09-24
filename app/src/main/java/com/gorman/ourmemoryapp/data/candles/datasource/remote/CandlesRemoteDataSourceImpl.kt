@@ -2,10 +2,12 @@ package com.gorman.ourmemoryapp.data.candles.datasource.remote
 
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.MutableData
 import com.google.firebase.database.Transaction
 import com.google.firebase.database.ValueEventListener
+import com.gorman.ourmemoryapp.data.firebase.DatabaseNodes
+import com.gorman.ourmemoryapp.di.annotation.MemoryRoot
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -15,11 +17,11 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 class CandlesRemoteDataSourceImpl @Inject constructor(
-    private val database: FirebaseDatabase
+    @param:MemoryRoot private val root: DatabaseReference
 ) : CandlesRemoteDataSource {
 
     override fun observeCandles(veteranId: String): Flow<Long> = callbackFlow {
-        val reference = database.getReference(CANDLES_PATH).child(veteranId)
+        val reference = root.child(DatabaseNodes.CANDLES).child(veteranId)
         val listener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 trySend(snapshot.getValue(Long::class.java) ?: 0L)
@@ -34,7 +36,7 @@ class CandlesRemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun lightCandle(veteranId: String) = suspendCancellableCoroutine { continuation ->
-        database.getReference(CANDLES_PATH).child(veteranId).runTransaction(object : Transaction.Handler {
+        root.child(DatabaseNodes.CANDLES).child(veteranId).runTransaction(object : Transaction.Handler {
             override fun doTransaction(currentData: MutableData): Transaction.Result {
                 currentData.value = (currentData.getValue(Long::class.java) ?: 0L) + 1
                 return Transaction.success(currentData)
@@ -48,9 +50,5 @@ class CandlesRemoteDataSourceImpl @Inject constructor(
                 }
             }
         })
-    }
-
-    companion object {
-        private const val CANDLES_PATH = "Veterans/Candles"
     }
 }

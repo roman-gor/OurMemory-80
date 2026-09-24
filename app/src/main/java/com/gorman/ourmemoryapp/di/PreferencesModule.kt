@@ -5,11 +5,12 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
 import com.gorman.ourmemoryapp.data.candles.datasource.local.CandlesLocalDataSourceImpl
 import com.gorman.ourmemoryapp.data.candles.datasource.remote.CandlesRemoteDataSourceImpl
 import com.gorman.ourmemoryapp.data.candles.repository.CandlesRepositoryImpl
 import com.gorman.ourmemoryapp.data.settings.repository.SettingsRepositoryImpl
+import com.gorman.ourmemoryapp.di.annotation.MemoryRoot
 import com.gorman.ourmemoryapp.domain.repository.CandlesRepository
 import com.gorman.ourmemoryapp.domain.repository.SettingsRepository
 import dagger.Module
@@ -38,11 +39,11 @@ object PreferencesModule {
     @Provides
     @Singleton
     fun provideCandlesRepository(
-        database: FirebaseDatabase,
+        @MemoryRoot root: DatabaseReference,
         dataStore: DataStore<Preferences>,
         clock: Clock
     ): CandlesRepository = CandlesRepositoryImpl(
-        remoteDataSource = CandlesRemoteDataSourceImpl(database),
+        remoteDataSource = CandlesRemoteDataSourceImpl(root),
         localDataSource = CandlesLocalDataSourceImpl(dataStore),
         clock = clock
     )

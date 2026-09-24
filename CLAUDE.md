@@ -45,20 +45,20 @@ Package root: `app/src/main/java/com/gorman/ourmemoryapp/`:
 - `ui/` holds one package per feature (`home`, `intro`, `details`, `map`, `tours`, `info`, `submission`, `navigation`), each with `models/`, `ui/` and `viewmodels/`. `ui/common` holds shared composables and UI models.
 - `reminders/` holds the yearly May 9 WorkManager job.
 
-**Firebase data** (Realtime Database). Every model needs defaults on all fields for deserialization.
+**Firebase data** (Realtime Database). The database is shared with other apps (`ChatRoom`, `FitnessApp`), so everything this app uses lives under one node, `OurMemory`. The node names are in `data/firebase/DatabaseNodes.kt`. Data sources receive the `@MemoryRoot DatabaseReference` and call `root.child(...)`. Every model needs defaults on all fields for deserialization.
 
-| Node | Contents | Accessed by |
+| Node under `OurMemory/` | Contents | Accessed by |
 |---|---|---|
 | `Veterans` | `id`, `name`, `portrait`, `years`, `category` (`"War"` / `"Art"`), `rewards`, `veteransInfo`, `burialId`, `audioUrl`, `birthDate` / `deathDate` (`yyyy-MM-dd`) | read-only |
 | `Burials` | a grave, mass grave or monument, with coordinates and section/row/place | read-only |
 | `Tours` | ordered `stops` that point to a `burialId`, with `text` and `audioUrl` | read-only |
 | `Candles/{veteranId}` | a counter | incremented in a transaction |
-| `Submissions` | relatives' materials | written after anonymous auth; photos go to Storage `Submissions/{id}/` |
+| `Submissions` | relatives' materials | written after anonymous auth; photos go to Storage `OurMemory/Submissions/{id}/` |
 
 Other data facts:
 - `VeteransRepositoryImpl`, `BurialsRepositoryImpl` and `ToursRepositoryImpl` load each node once per process and cache it behind a `Mutex`, so screens filter locally.
 - Offline persistence is enabled on the `FirebaseDatabase` provider.
-- `firebase/database.rules.json` and `firebase/storage.rules` are **not** wired into `firebase.json`. The project `chatroom-85fb8` may hold other apps' data, so merge them by hand in the console.
+- `firebase/database.rules.json` and `firebase/storage.rules` cover only `OurMemory` and are **not** wired into `firebase.json`. Deploying them would replace the rules of the other apps, so merge them by hand in the console.
 
 **Parsing veteran content.**
 - `veteransInfo` mixes paragraphs and media links. Entries containing `http` are links, optionally written as `url|description`.

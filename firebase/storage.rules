@@ -1,7 +1,7 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
-    match /Submissions/{submissionId}/{file} {
+    match /OurMemory/Submissions/{submissionId}/{file} {
       allow read: if false;
       allow create: if request.auth != null
         && request.resource.size < 10 * 1024 * 1024

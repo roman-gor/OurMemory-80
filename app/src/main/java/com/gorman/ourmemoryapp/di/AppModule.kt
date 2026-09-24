@@ -8,11 +8,13 @@ import com.gorman.ourmemoryapp.data.burials.repository.BurialsRepositoryImpl
 import com.gorman.ourmemoryapp.data.datasource.FirebaseDB
 import com.gorman.ourmemoryapp.data.datasource.FirebaseDBImpl
 import com.gorman.ourmemoryapp.data.datasource.YandexApiService
+import com.gorman.ourmemoryapp.data.firebase.DatabaseNodes
 import com.gorman.ourmemoryapp.data.repository.VeteransRepositoryImpl
 import com.gorman.ourmemoryapp.data.tours.datasource.remote.ToursRemoteDataSource
 import com.gorman.ourmemoryapp.data.tours.datasource.remote.ToursRemoteDataSourceImpl
 import com.gorman.ourmemoryapp.data.tours.repository.ToursRepositoryImpl
 import com.gorman.ourmemoryapp.di.annotation.IoDispatcher
+import com.gorman.ourmemoryapp.di.annotation.MemoryRoot
 import com.gorman.ourmemoryapp.domain.repository.BurialsRepository
 import com.gorman.ourmemoryapp.domain.repository.ToursRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
@@ -44,14 +46,15 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideDatabaseReference(database: FirebaseDatabase): DatabaseReference {
-        return database.getReference("Veterans")
+    @MemoryRoot
+    fun provideMemoryRoot(database: FirebaseDatabase): DatabaseReference {
+        return database.getReference(DatabaseNodes.ROOT)
     }
 
     @Provides
     @Singleton
-    fun provideFirebaseDBImpl(databaseReference: DatabaseReference): FirebaseDB =
-        FirebaseDBImpl(databaseReference)
+    fun provideFirebaseDBImpl(@MemoryRoot root: DatabaseReference): FirebaseDB =
+        FirebaseDBImpl(root.child(DatabaseNodes.VETERANS))
 
     @Provides
     @Singleton
@@ -61,8 +64,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBurialsRemoteDataSource(database: FirebaseDatabase): BurialsRemoteDataSource =
-        BurialsRemoteDataSourceImpl(database)
+    fun provideBurialsRemoteDataSource(@MemoryRoot root: DatabaseReference): BurialsRemoteDataSource =
+        BurialsRemoteDataSourceImpl(root)
 
     @Provides
     @Singleton
@@ -71,8 +74,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideToursRemoteDataSource(database: FirebaseDatabase): ToursRemoteDataSource =
-        ToursRemoteDataSourceImpl(database)
+    fun provideToursRemoteDataSource(@MemoryRoot root: DatabaseReference): ToursRemoteDataSource =
+        ToursRemoteDataSourceImpl(root)
 
     @Provides
     @Singleton
