@@ -33,6 +33,7 @@ import com.gorman.ourmemoryapp.ui.common.ui.CategoryFilterChips
 import com.gorman.ourmemoryapp.ui.common.ui.CircleIconButton
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
+import com.gorman.ourmemoryapp.ui.common.ui.LocalBottomBarInset
 import com.gorman.ourmemoryapp.ui.common.ui.SystemBarIcons
 import com.gorman.ourmemoryapp.ui.common.ui.rememberMapViewWithLifecycle
 import com.gorman.ourmemoryapp.ui.map.models.MapUiIntent
@@ -76,6 +77,7 @@ fun MapScreen(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .navigationBarsPadding()
+                .padding(bottom = LocalBottomBarInset.current)
         )
     }
 }
@@ -141,6 +143,7 @@ private fun MapContent(
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .navigationBarsPadding()
+                    .padding(bottom = LocalBottomBarInset.current)
                     .padding(16.dp)
             )
         }
@@ -151,6 +154,7 @@ private fun MapContent(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .navigationBarsPadding()
+                .padding(bottom = LocalBottomBarInset.current)
                 .padding(16.dp)
         )
     }

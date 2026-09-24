@@ -21,6 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.ui.admin.home.models.AdminHomeUiEvent
 import com.gorman.ourmemoryapp.ui.admin.home.viewmodels.AdminHomeViewModel
+import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 
 @Composable
 fun AdminHomeScreen(
@@ -35,7 +36,12 @@ fun AdminHomeScreen(
     val state by adminHomeViewModel.uiState.collectAsStateWithLifecycle()
 
     LazyColumn(
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(
+            start = 16.dp,
+            top = 16.dp,
+            end = 16.dp,
+            bottom = 16.dp + bottomBarContentPadding()
+        ),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         modifier = Modifier
             .fillMaxSize()

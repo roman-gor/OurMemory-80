@@ -3,15 +3,13 @@ package com.gorman.ourmemoryapp.ui.navigation.ui
 import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.consumeWindowInsets
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.util.Consumer
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -51,28 +49,22 @@ fun AppNavigation(openedFromLink: Boolean, onChangeLangClick: (String) -> Unit) 
     }
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentTab = TopLevelTab.entries.firstOrNull { it.screen.route == backStackEntry?.destination?.route }
-    Scaffold(
-        bottomBar = {
-            if (currentTab != null) {
-                AppBottomBar(
-                    tabs = tabs,
-                    selectedTab = currentTab,
-                    onTabClick = { navController.navigateToTab(it) }
-                )
-            }
-        },
-        contentWindowInsets = WindowInsets(0)
-    ) { padding ->
-        val bottomPadding = PaddingValues(bottom = padding.calculateBottomPadding())
+    Box(modifier = Modifier.fillMaxSize()) {
         AppNavHost(
             navController = navController,
             openedFromLink = openedFromLink,
             isAdmin = isAdmin,
             onChangeLangClick = onChangeLangClick,
-            modifier = Modifier
-                .padding(bottomPadding)
-                .consumeWindowInsets(bottomPadding)
+            modifier = Modifier.fillMaxSize()
         )
+        if (currentTab != null) {
+            AppBottomBar(
+                tabs = tabs,
+                selectedTab = currentTab,
+                onTabClick = { navController.navigateToTab(it) },
+                modifier = Modifier.align(Alignment.BottomCenter)
+            )
+        }
     }
 }
 
@@ -103,13 +95,13 @@ private fun AppNavHost(
                 }
             }
         }
-        composable(Screen.HomeScreen.route) {
+        tabComposable(Screen.HomeScreen.route) {
             MainScreen(onItemClick = openVeteran)
         }
-        composable(Screen.MapScreen.route) {
+        tabComposable(Screen.MapScreen.route) {
             MapScreen(onBackClick = null, onVeteranClick = openVeteran, onTourClick = openTour)
         }
-        composable(Screen.InfoScreen.route) {
+        tabComposable(Screen.InfoScreen.route) {
             InfoScreen(
                 onOpenMapClick = { navController.navigateToTab(TopLevelTab.MAP) },
                 onChangeLangClick = onChangeLangClick,

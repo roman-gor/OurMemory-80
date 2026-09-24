@@ -42,6 +42,7 @@ import com.gorman.ourmemoryapp.domain.models.Veteran
 import com.gorman.ourmemoryapp.ui.common.ui.CategoryFilterChips
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
+import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 import com.gorman.ourmemoryapp.ui.home.models.HomeUiIntent
 import com.gorman.ourmemoryapp.ui.home.models.HomeUiState
 import com.gorman.ourmemoryapp.ui.home.viewmodels.HomeViewModel
@@ -86,7 +87,7 @@ private fun OurMemoryScreen(
         if (state.veterans.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(top = 4.dp, bottom = 16.dp)
+                contentPadding = PaddingValues(top = 4.dp, bottom = 16.dp + bottomBarContentPadding())
             ) {
                 if (state.anniversaries.isNotEmpty()) {
                     item {

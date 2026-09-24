@@ -6,12 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
@@ -35,6 +33,7 @@ import com.gorman.ourmemoryapp.ui.common.ui.FloatingTopBar
 import com.gorman.ourmemoryapp.ui.common.ui.MediaGallery
 import com.gorman.ourmemoryapp.ui.common.ui.PillButton
 import com.gorman.ourmemoryapp.ui.common.ui.SystemBarIcons
+import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 import com.gorman.ourmemoryapp.ui.common.ui.rememberIsHeroScrolledAway
 import com.gorman.ourmemoryapp.ui.info.models.InfoContent
 import kotlinx.collections.immutable.toPersistentList
@@ -101,7 +100,7 @@ fun InfoScreen(
                     Text(text = stringResource(R.string.sign_in_as_admin))
                 }
             }
-            item { Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars)) }
+            item { Spacer(modifier = Modifier.height(bottomBarContentPadding())) }
         }
         FloatingTopBar(
             title = stringResource(R.string.warHeader),
