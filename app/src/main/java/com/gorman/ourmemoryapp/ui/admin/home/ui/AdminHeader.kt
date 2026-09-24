@@ -52,9 +52,11 @@ fun AdminHeader(
             )
             Text(
                 text = stringResource(R.string.administration),
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier
                     .weight(1f)
                     .padding(start = TITLE_ICON_SPACING)
@@ -89,8 +91,9 @@ fun AdminHeader(
                 text = stringResource(R.string.signed_in_as, email),
                 style = MaterialTheme.typography.bodyMedium,
                 color = Color.White.copy(alpha = SUBTITLE_ALPHA),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f)
             )
         }
     }

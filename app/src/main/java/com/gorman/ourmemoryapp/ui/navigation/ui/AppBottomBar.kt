@@ -10,6 +10,7 @@ import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -57,9 +58,11 @@ fun AppBottomBar(
             .height(BAR_HEIGHT)
     ) {
         Row(
-            horizontalArrangement = Arrangement.SpaceAround,
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(horizontal = BAR_INNER_PADDING)
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(BAR_INNER_PADDING)
         ) {
             tabs.forEach { tab ->
                 val isSelected = tab == selectedTab
@@ -93,11 +96,12 @@ private fun FloatingTabItem(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
+            .fillMaxHeight()
             .clip(RoundedCornerShape(percent = 50))
             .background(containerColor)
             .selectable(selected = isSelected, role = Role.Tab, onClick = onClick)
             .semantics { contentDescription = label }
-            .padding(horizontal = ITEM_HORIZONTAL_PADDING, vertical = ITEM_VERTICAL_PADDING)
+            .padding(horizontal = ITEM_HORIZONTAL_PADDING)
             .animateContentSize()
     ) {
         Icon(
@@ -127,9 +131,8 @@ private fun FloatingTabItem(
 val BAR_HEIGHT = 64.dp
 val BAR_VERTICAL_PADDING = 8.dp
 private val BAR_HORIZONTAL_PADDING = 16.dp
-private val BAR_INNER_PADDING = 6.dp
-private val ITEM_HORIZONTAL_PADDING = 10.dp
-private val ITEM_VERTICAL_PADDING = 6.dp
+private val BAR_INNER_PADDING = 4.dp
+private val ITEM_HORIZONTAL_PADDING = 12.dp
 private val LABEL_START_PADDING = 6.dp
 private val ICON_SIZE = 22.dp
 private const val BAR_ALPHA = 0.96f

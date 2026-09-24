@@ -120,7 +120,7 @@
     <string name="no_admin_rights_msg">У гэтага акаўнта няма правоў адміністратара</string>
     <string name="failed_to_sign_in_msg">Не ўдалося ўвайсці. Праверце падключэнне да інтэрнэту і паспрабуйце яшчэ раз</string>
     <string name="administration">Адміністраванне</string>
-    <string name="signed_in_as">Вы ўвайшлі як %1$s</string>
+    <string name="signed_in_as">Вы ўвайшлі як\n%1$s</string>
     <string name="write_to_us">Напісаць нам</string>
     <string name="report_an_error">Паведаміць пра памылку</string>
     <string name="data_error">Памылка ў даных</string>
