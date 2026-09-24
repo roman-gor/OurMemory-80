@@ -1,7 +1,7 @@
 package com.gorman.ourmemoryapp.ui.admin.veterans.models
 
-private const val LINK_MARKER = "http"
-private const val DESCRIPTION_SEPARATOR = "|"
+import com.gorman.ourmemoryapp.domain.models.VeteranInfoFormat.DESCRIPTION_SEPARATOR
+import com.gorman.ourmemoryapp.domain.models.VeteranInfoFormat.LINK_MARKER
 
 fun List<String>.toInfoBlocks(): List<InfoBlock> = map { entry ->
     if (entry.contains(LINK_MARKER)) {

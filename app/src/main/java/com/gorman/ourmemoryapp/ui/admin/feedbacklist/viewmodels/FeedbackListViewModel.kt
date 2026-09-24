@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gorman.ourmemoryapp.domain.repository.FeedbackRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
+import com.gorman.ourmemoryapp.ui.admin.common.models.observeVeteranNames
 import com.gorman.ourmemoryapp.ui.admin.feedbacklist.models.FeedbackListUiEvent
 import com.gorman.ourmemoryapp.ui.admin.feedbacklist.models.FeedbackListUiState
 import com.gorman.ourmemoryapp.ui.admin.feedbacklist.models.toUi
@@ -14,7 +15,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,7 +38,7 @@ class FeedbackListViewModel @Inject constructor(
     }
 
     private fun observeFeedbackListUiState(): Flow<FeedbackListUiState> =
-        combine(feedbackRepository.observeFeedback(), observeVeteranNames()) { items, names ->
+        combine(feedbackRepository.observeFeedback(), veteransRepository.observeVeteranNames()) { items, names ->
             FeedbackListUiState.Success(
                 items.map { it.toUi(veteranName = names[it.veteranId].orEmpty()) }.toPersistentList()
             )
@@ -46,13 +46,6 @@ class FeedbackListViewModel @Inject constructor(
             Log.e(LOG_TAG, "Failed to load feedback", error)
             emit(FeedbackListUiState.Error)
         }
-
-    private fun observeVeteranNames() = flow {
-        emit(emptyMap())
-        val names = runCatching { veteransRepository.getAllVeterans().associate { it.id to it.name } }
-            .getOrDefault(emptyMap())
-        emit(names)
-    }
 
     private fun markReviewed(feedbackId: String) {
         viewModelScope.launch {

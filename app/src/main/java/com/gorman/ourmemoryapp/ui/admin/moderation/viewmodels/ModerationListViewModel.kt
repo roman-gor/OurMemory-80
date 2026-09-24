@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gorman.ourmemoryapp.domain.repository.ModerationRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
+import com.gorman.ourmemoryapp.ui.admin.common.models.observeVeteranNames
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.ModerationListUiState
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.toItemUi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,7 +13,6 @@ import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -29,7 +29,10 @@ class ModerationListViewModel @Inject constructor(
     )
 
     private fun observeModerationListUiState() =
-        combine(moderationRepository.observeSubmissions(), observeVeteranNames()) { submissions, names ->
+        combine(
+            moderationRepository.observeSubmissions(),
+            veteransRepository.observeVeteranNames()
+        ) { submissions, names ->
             ModerationListUiState.Success(
                 submissions.map { it.toItemUi(veteranName = names[it.veteranId].orEmpty()) }.toPersistentList()
             )
@@ -37,13 +40,6 @@ class ModerationListViewModel @Inject constructor(
             Log.e(LOG_TAG, "Failed to load submissions", error)
             emit(ModerationListUiState.Error)
         }
-
-    private fun observeVeteranNames() = flow {
-        emit(emptyMap())
-        val names = runCatching { veteransRepository.getAllVeterans().associate { it.id to it.name } }
-            .getOrDefault(emptyMap())
-        emit(names)
-    }
 
     companion object {
         private const val STOP_TIMEOUT_MILLIS = 5000L

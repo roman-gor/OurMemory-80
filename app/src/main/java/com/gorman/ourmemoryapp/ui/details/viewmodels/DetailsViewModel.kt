@@ -12,6 +12,8 @@ import com.gorman.ourmemoryapp.domain.models.AudioPlaybackState
 import com.gorman.ourmemoryapp.domain.models.Burial
 import com.gorman.ourmemoryapp.domain.models.CandleState
 import com.gorman.ourmemoryapp.domain.models.Veteran
+import com.gorman.ourmemoryapp.domain.models.VeteranInfoFormat.DESCRIPTION_SEPARATOR
+import com.gorman.ourmemoryapp.domain.models.VeteranInfoFormat.LINK_MARKER
 import com.gorman.ourmemoryapp.domain.repository.BurialsRepository
 import com.gorman.ourmemoryapp.domain.repository.CandlesRepository
 import com.gorman.ourmemoryapp.domain.repository.SettingsRepository
@@ -190,8 +192,6 @@ class DetailsViewModel @AssistedInject constructor(
     companion object {
         private const val STOP_TIMEOUT_MILLIS = 5000L
         private const val LOG_TAG = "DetailsViewModel"
-        private const val LINK_MARKER = "http"
-        private const val DESCRIPTION_SEPARATOR = "|"
         private const val BUNDLED_BIOGRAPHY_VETERAN_ID = "10"
         private const val ANDROID_RESOURCE_SCHEME = "android.resource://"
     }

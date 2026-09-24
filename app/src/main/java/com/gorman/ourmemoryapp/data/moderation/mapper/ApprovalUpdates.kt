@@ -4,8 +4,7 @@ import com.gorman.ourmemoryapp.data.firebase.DatabaseNodes
 import com.gorman.ourmemoryapp.data.firebase.VeteranKeys
 import com.gorman.ourmemoryapp.data.moderation.model.SubmissionStatusValues
 import com.gorman.ourmemoryapp.domain.models.SubmissionApproval
-
-private const val DESCRIPTION_SEPARATOR = "|"
+import com.gorman.ourmemoryapp.domain.models.VeteranInfoFormat.DESCRIPTION_SEPARATOR
 
 fun SubmissionApproval.toUpdates(
     currentInfo: List<String>,
