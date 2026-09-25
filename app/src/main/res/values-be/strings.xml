@@ -221,6 +221,8 @@
     <string name="add_to_favorites">Дадаць у абранае</string>
     <string name="share">Падзяліцца</string>
     <string name="remember_veteran_msg">%1$s — памятаем. Картка ветэрана: %2$s</string>
+    <string name="removed_from_favorites">Выдалена з абранага</string>
+    <string name="undo">Адмяніць</string>
     <string name="remove_from_favorites">Прыбраць з абранага</string>
     <string name="no_favorites_yet_msg">Націсніце на сэрца на картцы ветэрана, каб дадаць яго сюды</string>
     <string name="visited">Пройдзена</string>

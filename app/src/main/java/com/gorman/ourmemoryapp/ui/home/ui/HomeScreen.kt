@@ -16,12 +16,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshDefaults
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -43,7 +47,6 @@ import com.gorman.ourmemoryapp.domain.models.Veteran
 import com.gorman.ourmemoryapp.ui.common.ui.CategoryFilterChips
 import com.gorman.ourmemoryapp.ui.common.ui.EmptyContent
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
-import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 import com.gorman.ourmemoryapp.ui.common.ui.rememberQrScanAction
 import com.gorman.ourmemoryapp.ui.common.ui.statusBarContentPadding
@@ -67,7 +70,7 @@ fun MainScreen(
     ) {
         when (val state = uiState) {
             is HomeUiState.Error -> ErrorContent(modifier = Modifier.statusBarsPadding())
-            HomeUiState.Loading -> LoadingContent(modifier = Modifier.statusBarsPadding())
+            HomeUiState.Loading -> HomeLoadingContent()
             is HomeUiState.Success -> OurMemoryScreen(
                 state = state,
                 onItemClick = onItemClick,
@@ -78,6 +81,7 @@ fun MainScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun OurMemoryScreen(
     state: HomeUiState.Success,
@@ -85,49 +89,66 @@ private fun OurMemoryScreen(
     onScanClick: () -> Unit,
     onUiIntent: (HomeUiIntent) -> Unit
 ) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(
-            top = statusBarContentPadding(),
-            bottom = 16.dp + bottomBarContentPadding()
-        )
-    ) {
-        item {
-            HomeHeader(
-                state = state,
-                onScanClick = onScanClick,
-                onUiIntent = onUiIntent
+    val refreshState = rememberPullToRefreshState()
+    PullToRefreshBox(
+        isRefreshing = state.isRefreshing,
+        onRefresh = { onUiIntent(HomeUiIntent.OnRefresh) },
+        state = refreshState,
+        indicator = {
+            PullToRefreshDefaults.Indicator(
+                state = refreshState,
+                isRefreshing = state.isRefreshing,
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .statusBarsPadding()
             )
-        }
-        if (state.veterans.isEmpty()) {
+        },
+        modifier = Modifier.fillMaxSize()
+    ) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(
+                top = statusBarContentPadding(),
+                bottom = 16.dp + bottomBarContentPadding()
+            )
+        ) {
             item {
-                if (state.checkedWar || state.checkedArt) {
-                    EmptyContent(
-                        iconRes = R.drawable.search_icon,
-                        message = stringResource(R.string.nothing_found_msg, state.search)
-                    )
-                } else {
-                    EmptyContent(
-                        iconRes = R.drawable.star,
-                        message = stringResource(R.string.chooseCategory)
+                HomeHeader(
+                    state = state,
+                    onScanClick = onScanClick,
+                    onUiIntent = onUiIntent
+                )
+            }
+            if (state.veterans.isEmpty()) {
+                item {
+                    if (state.checkedWar || state.checkedArt) {
+                        EmptyContent(
+                            iconRes = R.drawable.search_icon,
+                            message = stringResource(R.string.nothing_found_msg, state.search)
+                        )
+                    } else {
+                        EmptyContent(
+                            iconRes = R.drawable.star,
+                            message = stringResource(R.string.chooseCategory)
+                        )
+                    }
+                }
+            }
+            if (state.veterans.isNotEmpty() && state.anniversaries.isNotEmpty()) {
+                item {
+                    AnniversariesRow(
+                        anniversaries = state.anniversaries,
+                        onVeteranClick = onItemClick,
+                        modifier = Modifier.padding(top = 4.dp, bottom = 8.dp)
                     )
                 }
             }
-        }
-        if (state.veterans.isNotEmpty() && state.anniversaries.isNotEmpty()) {
-            item {
-                AnniversariesRow(
-                    anniversaries = state.anniversaries,
-                    onVeteranClick = onItemClick,
-                    modifier = Modifier.padding(top = 4.dp, bottom = 8.dp)
+            items(state.veterans, key = { it.id }) { veteran ->
+                VeteranItem(
+                    veteran = veteran,
+                    onClick = { onItemClick(veteran.id) }
                 )
             }
-        }
-        items(state.veterans, key = { it.id }) { veteran ->
-            VeteranItem(
-                veteran = veteran,
-                onClick = { onItemClick(veteran.id) }
-            )
         }
     }
 }

@@ -11,7 +11,8 @@ sealed interface HomeUiState {
         val search: String = "",
         val checkedWar: Boolean = false,
         val checkedArt: Boolean = false,
-        val anniversaries: ImmutableList<AnniversaryUi> = persistentListOf()
+        val anniversaries: ImmutableList<AnniversaryUi> = persistentListOf(),
+        val isRefreshing: Boolean = false
     ) : HomeUiState
     data class Error(val throwable: Throwable) : HomeUiState
 }

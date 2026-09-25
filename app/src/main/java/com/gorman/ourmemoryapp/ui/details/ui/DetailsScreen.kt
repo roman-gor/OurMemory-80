@@ -29,7 +29,6 @@ import com.gorman.ourmemoryapp.ui.common.ui.CircleIconButton
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.ExpandableTextSection
 import com.gorman.ourmemoryapp.ui.common.ui.FloatingTopBar
-import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.MediaGallery
 import com.gorman.ourmemoryapp.ui.common.ui.NotificationPermissionRequest
 import com.gorman.ourmemoryapp.ui.common.ui.SystemBarIcons
@@ -68,7 +67,7 @@ fun DetailsScreen(
             .background(MaterialTheme.colorScheme.background)
     ) {
         when (state) {
-            DetailsUiState.Loading -> LoadingContent(modifier = Modifier.statusBarsPadding())
+            DetailsUiState.Loading -> DetailsLoadingContent()
             DetailsUiState.Error -> ErrorContent(modifier = Modifier.statusBarsPadding())
             is DetailsUiState.Success -> DetailsContent(
                 state = state,

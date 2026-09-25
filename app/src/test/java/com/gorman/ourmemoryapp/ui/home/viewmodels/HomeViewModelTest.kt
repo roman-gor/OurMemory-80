@@ -66,4 +66,18 @@ class HomeViewModelTest {
 
         assertTrue(state.anniversaries.isEmpty())
     }
+
+    @Test
+    fun refreshInvalidatesCacheAndReloadsVeterans() = runTest {
+        val repository = FakeVeteransRepository(veterans)
+        val viewModel = HomeViewModel(repository, clock)
+        viewModel.uiState.first { it is HomeUiState.Success }
+
+        viewModel.onUiIntent(HomeUiIntent.OnRefresh)
+
+        val state = viewModel.uiState.first {
+            it is HomeUiState.Success && !it.isRefreshing && repository.invalidations == 1
+        } as HomeUiState.Success
+        assertEquals(listOf("1", "2"), state.veterans.map { it.id })
+    }
 }
