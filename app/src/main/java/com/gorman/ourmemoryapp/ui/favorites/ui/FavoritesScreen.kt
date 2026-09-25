@@ -29,6 +29,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.gorman.ourmemoryapp.R
+import com.gorman.ourmemoryapp.ui.common.ui.EmptyContent
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
@@ -58,11 +59,9 @@ fun FavoritesScreen(
                 item { TopBarSpacer() }
                 if (current.items.isEmpty()) {
                     item {
-                        Text(
-                            text = stringResource(R.string.no_favorites_yet_msg),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(top = 16.dp)
+                        EmptyContent(
+                            iconRes = R.drawable.favorite_border,
+                            message = stringResource(R.string.no_favorites_yet_msg)
                         )
                     }
                 }

@@ -30,6 +30,7 @@
     <string name="galleryHeader">Галерэя</string>
     <string name="locationHeader">Размяшчэнне</string>
     <string name="chooseCategory">Выберыце катэгорыю</string>
+    <string name="nothing_found_msg">Па запыце «%1$s» нікога не знайшлі. Праверце напісанне прозвішча</string>
     <string name="search">Пошук</string>
     <string name="biography">Бiяграфiя</string>
     <string name="docs">Дакументы i фатаздымкi</string>
@@ -215,7 +216,6 @@
     <string name="my_requests">Мае звароты</string>
     <string name="added_to_card">Дададзена ў картку</string>
     <string name="materials_for_card">Матэрыялы для карткі</string>
-    <string name="reply_from_cemetery">Адказ: %1$s</string>
     <string name="no_requests_yet_msg">Тут з\'явяцца вашы паведамленні і матэрыялы, калі вы іх адправіце</string>
     <string name="favorites">Абранае</string>
     <string name="add_to_favorites">Дадаць у абранае</string>

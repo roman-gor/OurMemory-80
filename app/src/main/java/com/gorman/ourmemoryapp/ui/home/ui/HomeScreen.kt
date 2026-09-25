@@ -41,6 +41,7 @@ import coil.compose.AsyncImage
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.domain.models.Veteran
 import com.gorman.ourmemoryapp.ui.common.ui.CategoryFilterChips
+import com.gorman.ourmemoryapp.ui.common.ui.EmptyContent
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
@@ -100,16 +101,15 @@ private fun OurMemoryScreen(
         }
         if (state.veterans.isEmpty()) {
             item {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .fillParentMaxWidth()
-                        .padding(vertical = EMPTY_MESSAGE_PADDING)
-                ) {
-                    Text(
-                        text = stringResource(R.string.chooseCategory),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                if (state.checkedWar || state.checkedArt) {
+                    EmptyContent(
+                        iconRes = R.drawable.search_icon,
+                        message = stringResource(R.string.nothing_found_msg, state.search)
+                    )
+                } else {
+                    EmptyContent(
+                        iconRes = R.drawable.star,
+                        message = stringResource(R.string.chooseCategory)
                     )
                 }
             }
@@ -257,7 +257,6 @@ private fun VeteranItem(
     }
 }
 
-private val EMPTY_MESSAGE_PADDING = 64.dp
 private const val PORTRAIT_WEIGHT = 1f
 private const val TEXT_WEIGHT = 2f
 private const val PORTRAIT_ASPECT_RATIO = 0.8f

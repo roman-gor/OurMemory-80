@@ -29,6 +29,7 @@
     <string name="galleryHeader">Галерея</string>
     <string name="locationHeader">Расположение</string>
     <string name="chooseCategory">Выберите категорию</string>
+    <string name="nothing_found_msg">По запросу «%1$s» никого не нашли. Проверьте написание фамилии</string>
     <string name="search">Поиск</string>
     <string name="biography">Биография</string>
     <string name="docs">Документы и фотографии</string>
@@ -217,7 +218,6 @@
     <string name="my_requests">Мои обращения</string>
     <string name="added_to_card">Добавлено в карточку</string>
     <string name="materials_for_card">Материалы для карточки</string>
-    <string name="reply_from_cemetery">Ответ: %1$s</string>
     <string name="no_requests_yet_msg">Здесь появятся ваши сообщения и материалы, когда вы их отправите</string>
     <string name="favorites">Избранное</string>
     <string name="add_to_favorites">Добавить в избранное</string>

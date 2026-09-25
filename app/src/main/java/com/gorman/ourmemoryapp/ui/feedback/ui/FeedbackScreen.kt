@@ -32,13 +32,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.domain.models.FeedbackType
 import com.gorman.ourmemoryapp.ui.common.ui.FloatingTopBar
+import com.gorman.ourmemoryapp.ui.common.ui.SentContent
 import com.gorman.ourmemoryapp.ui.common.ui.offensiveWordsHint
 import com.gorman.ourmemoryapp.ui.feedback.models.FeedbackFormStatus
 import com.gorman.ourmemoryapp.ui.feedback.models.FeedbackUiIntent
@@ -59,7 +59,10 @@ fun FeedbackScreen(
             .background(MaterialTheme.colorScheme.background)
     ) {
         if (state.status == FeedbackFormStatus.SENT) {
-            FeedbackSentContent(onDoneClick = onBackClick)
+            SentContent(
+                message = stringResource(R.string.thank_you_message_sent_msg),
+                onDoneClick = onBackClick
+            )
         } else {
             FeedbackForm(state = state, onUiIntent = feedbackViewModel::onUiIntent)
         }
@@ -195,28 +198,6 @@ private fun FeedbackSendButton(state: FeedbackUiState, onClick: () -> Unit) {
             )
         } else {
             Text(text = stringResource(R.string.send))
-        }
-    }
-}
-
-@Composable
-private fun FeedbackSentContent(onDoneClick: () -> Unit) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(32.dp)
-    ) {
-        Text(
-            text = stringResource(R.string.thank_you_message_sent_msg),
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurface,
-            textAlign = TextAlign.Center
-        )
-        Button(onClick = onDoneClick, modifier = Modifier.padding(top = 24.dp)) {
-            Text(text = stringResource(R.string.done))
         }
     }
 }

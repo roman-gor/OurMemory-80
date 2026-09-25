@@ -1,22 +1,24 @@
 package com.gorman.ourmemoryapp.ui.myrequests.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.gorman.ourmemoryapp.R
-import com.gorman.ourmemoryapp.domain.models.RequestStatus
 import com.gorman.ourmemoryapp.ui.myrequests.models.MyRequestItemUi
 import com.gorman.ourmemoryapp.ui.myrequests.models.labelRes
 
@@ -56,24 +58,36 @@ fun MyRequestCard(item: MyRequestItemUi) {
                 maxLines = TEXT_MAX_LINES,
                 overflow = TextOverflow.Ellipsis
             )
-            Text(
-                text = stringResource(item.status.labelRes),
-                style = MaterialTheme.typography.labelLarge,
-                fontWeight = FontWeight.Bold,
-                color = if (item.status == RequestStatus.REJECTED) {
-                    MaterialTheme.colorScheme.error
-                } else {
-                    MaterialTheme.colorScheme.primary
-                }
-            )
+            RequestStatusLabel(status = item.status)
             if (item.reply.isNotBlank()) {
-                Text(
-                    text = stringResource(R.string.reply_from_cemetery, item.reply),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                ReplyBlock(reply = item.reply)
             }
         }
+    }
+}
+
+@Composable
+private fun ReplyBlock(reply: String) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(2.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 4.dp)
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .padding(12.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.reply),
+            style = MaterialTheme.typography.labelMedium,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary
+        )
+        Text(
+            text = reply,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface
+        )
     }
 }
 
