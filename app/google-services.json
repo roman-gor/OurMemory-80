@@ -95,6 +95,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "395397163961-3isqogrl97ak2eo8e3c55gvmkuqssrqi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gorman.ourmemory",
+            "certificate_hash": "21f00dacbff8179ad68e82d6412b5685c29e34c9"
+          }
+        },
+        {
+          "client_id": "395397163961-5rjggn8s3qsd973eec4j7as3t17lgvb3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gorman.ourmemory",
+            "certificate_hash": "c60c57ccbbd192040e6473ea99bf1954d6bcd1c2"
+          }
+        },
+        {
           "client_id": "395397163961-j84cp4brk7j6sbnh5e5q5cjufl3esk4d.apps.googleusercontent.com",
           "client_type": 3
         }
