@@ -1,5 +1,7 @@
 package com.gorman.ourmemoryapp.ui.common.ui
 
+import android.content.Context
+import android.view.LayoutInflater
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -8,6 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.ui.theme.LocalDarkTheme
 import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.mapview.MapView
@@ -16,7 +19,7 @@ import com.yandex.mapkit.mapview.MapView
 fun rememberMapViewWithLifecycle(): MapView {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
-    val mapView = remember { MapView(context) }
+    val mapView = remember { context.inflateMovableMapView() }
     val isDarkTheme = LocalDarkTheme.current
     LaunchedEffect(mapView, isDarkTheme) {
         mapView.mapWindow.map.isNightModeEnabled = isDarkTheme
@@ -37,6 +40,9 @@ fun rememberMapViewWithLifecycle(): MapView {
     }
     return mapView
 }
+
+private fun Context.inflateMovableMapView() =
+    LayoutInflater.from(this).inflate(R.layout.movable_map_view, null, false) as MapView
 
 private fun MapView.start() {
     onStart()
