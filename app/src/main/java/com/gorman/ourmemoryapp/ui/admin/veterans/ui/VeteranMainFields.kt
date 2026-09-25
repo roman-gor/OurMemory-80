@@ -107,7 +107,11 @@ fun VeteranMainFields(
 }
 
 private fun originalPlaceholder(form: VeteranForm, original: String): (@Composable () -> Unit)? =
-    if (form.language == null || original.isBlank()) null else { { Text(text = original, maxLines = PLACEHOLDER_MAX_LINES) } }
+    if (form.language == null || original.isBlank()) {
+        null
+    } else {
+        { Text(text = original, maxLines = PLACEHOLDER_MAX_LINES) }
+    }
 
 private val PORTRAIT_SIZE = 88.dp
 private const val PLACEHOLDER_MAX_LINES = 3

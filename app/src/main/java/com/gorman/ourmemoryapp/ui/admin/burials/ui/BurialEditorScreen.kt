@@ -40,6 +40,7 @@ import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.ui.admin.burials.models.BurialEditorUiIntent
 import com.gorman.ourmemoryapp.ui.admin.burials.models.BurialEditorUiState
 import com.gorman.ourmemoryapp.ui.admin.burials.viewmodels.BurialEditorViewModel
+import com.gorman.ourmemoryapp.ui.admin.common.ui.ContentLanguageSelector
 import com.gorman.ourmemoryapp.ui.common.models.BurialType
 import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
@@ -88,6 +89,10 @@ private fun BurialEditorContent(
             .padding(start = 16.dp, end = 16.dp, bottom = 32.dp + bottomBarContentPadding())
     ) {
         TopBarSpacer()
+        ContentLanguageSelector(
+            selected = form.language,
+            onSelect = { onUiIntent(BurialEditorUiIntent.OnLanguageChange(it)) }
+        )
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             BurialType.entries.forEach { type ->
                 FilterChip(
@@ -99,9 +104,14 @@ private fun BurialEditorContent(
         }
         PlotFields(state = state, onUiIntent = onUiIntent)
         OutlinedTextField(
-            value = form.description,
+            value = form.descriptionText,
             onValueChange = { onUiIntent(BurialEditorUiIntent.OnDescriptionChange(it)) },
             label = { Text(text = stringResource(R.string.description)) },
+            placeholder = if (form.language == null || form.description.isBlank()) {
+                null
+            } else {
+                { Text(text = form.description, maxLines = PLACEHOLDER_MAX_LINES) }
+            },
             minLines = DESCRIPTION_MIN_LINES,
             modifier = Modifier.fillMaxWidth()
         )
@@ -241,3 +251,4 @@ private fun BurialEditorFooter(state: BurialEditorUiState.Editing, onSaveClick: 
 
 private val PHOTO_HEIGHT = 180.dp
 private const val DESCRIPTION_MIN_LINES = 2
+private const val PLACEHOLDER_MAX_LINES = 3

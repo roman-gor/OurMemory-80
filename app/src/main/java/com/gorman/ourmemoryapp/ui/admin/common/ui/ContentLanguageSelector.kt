@@ -3,7 +3,6 @@ package com.gorman.ourmemoryapp.ui.admin.common.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -25,7 +24,7 @@ fun ContentLanguageSelector(
     onSelect: (ContentLanguage?) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(verticalArrangement = Arrangement.spacedBy(SELECTOR_SPACING), modifier = modifier.padding(horizontal = 16.dp)) {
+    Column(verticalArrangement = Arrangement.spacedBy(SELECTOR_SPACING), modifier = modifier) {
         Text(
             text = stringResource(R.string.content_language),
             style = MaterialTheme.typography.labelLarge,
@@ -37,7 +36,13 @@ fun ContentLanguageSelector(
                     selected = language == selected,
                     onClick = { onSelect(language) },
                     shape = SegmentedButtonDefaults.itemShape(index = index, count = editableContentLanguages.size),
-                    label = { Text(text = stringResource(language.labelRes), maxLines = 1, overflow = TextOverflow.Ellipsis) }
+                    label = {
+                        Text(
+                            text = stringResource(language.labelRes),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
                 )
             }
         }

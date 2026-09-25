@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gorman.ourmemoryapp.domain.models.ContentLanguage
 import com.gorman.ourmemoryapp.domain.models.Screen
+import com.gorman.ourmemoryapp.domain.models.TourStopTranslation
 import com.gorman.ourmemoryapp.domain.repository.BurialsRepository
 import com.gorman.ourmemoryapp.domain.repository.ContentEditorRepository
 import com.gorman.ourmemoryapp.domain.repository.MediaRepository
@@ -20,6 +22,7 @@ import com.gorman.ourmemoryapp.ui.admin.tours.models.TourStopForm
 import com.gorman.ourmemoryapp.ui.admin.tours.models.toForm
 import com.gorman.ourmemoryapp.ui.admin.tours.models.toPreviewStops
 import com.gorman.ourmemoryapp.ui.admin.tours.models.toTour
+import com.gorman.ourmemoryapp.ui.admin.tours.models.withText
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
@@ -60,12 +63,17 @@ class TourEditorViewModel @Inject constructor(
 
     fun onUiIntent(intent: TourEditorUiIntent) {
         when (intent) {
-            is TourEditorUiIntent.OnTitleChange -> updateForm { it.copy(title = intent.title) }
-            is TourEditorUiIntent.OnDescriptionChange -> updateForm { it.copy(description = intent.description) }
+            is TourEditorUiIntent.OnLanguageChange -> updateForm { it.copy(language = intent.language) }
+            is TourEditorUiIntent.OnTitleChange -> updateForm { form ->
+                form.withText { it.copy(title = intent.title) }
+            }
+            is TourEditorUiIntent.OnDescriptionChange -> updateForm { form ->
+                form.withText { it.copy(description = intent.description) }
+            }
             is TourEditorUiIntent.OnAddStop -> updateStops { it + TourStopForm(burialId = intent.burialId) }
-            is TourEditorUiIntent.OnStopTextChange -> updateStop(intent.index) { it.copy(text = intent.text) }
+            is TourEditorUiIntent.OnStopTextChange -> updateStopText(intent.index) { it.copy(text = intent.text) }
             is TourEditorUiIntent.OnStopAudioPicked -> uploadStopAudio(intent.index, intent.uri)
-            is TourEditorUiIntent.OnStopAudioRemove -> updateStop(intent.index) { it.copy(audioUrl = "") }
+            is TourEditorUiIntent.OnStopAudioRemove -> updateStopText(intent.index) { it.copy(audioUrl = "") }
             is TourEditorUiIntent.OnStopMove -> updateStops { it.moved(intent.index, intent.offset) }
             is TourEditorUiIntent.OnStopRemove -> updateStops { stops ->
                 stops.filterIndexed { index, _ -> index != intent.index }
@@ -124,12 +132,21 @@ class TourEditorViewModel @Inject constructor(
         }
     }
 
+    private fun updateStopText(
+        index: Int,
+        language: ContentLanguage? = currentForm()?.language,
+        transform: (TourStopTranslation) -> TourStopTranslation
+    ) {
+        updateStop(index) { it.withText(language, transform) }
+    }
+
     private fun uploadStopAudio(index: Int, uri: String) {
         val form = currentForm() ?: return
+        val language = form.language
         status.update { it.copy(uploads = it.uploads + 1, hasFailed = false) }
         viewModelScope.launch {
             runCatching { mediaRepository.uploadAudio(uri, "$MEDIA_FOLDER/${form.id}") }
-                .onSuccess { url -> updateStop(index) { it.copy(audioUrl = url) } }
+                .onSuccess { url -> updateStopText(index, language) { it.copy(audioUrl = url) } }
                 .onFailure { error ->
                     Log.e(LOG_TAG, "Failed to upload audio for ${form.id}", error)
                     status.update { it.copy(hasFailed = true) }

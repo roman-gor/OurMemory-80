@@ -23,6 +23,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.gorman.ourmemoryapp.R
+import com.gorman.ourmemoryapp.domain.models.ContentLanguage
 import com.gorman.ourmemoryapp.ui.admin.tours.models.TourEditorUiIntent
 import com.gorman.ourmemoryapp.ui.admin.tours.models.TourStopForm
 
@@ -32,9 +33,11 @@ fun TourStopEditor(
     lastIndex: Int,
     title: String,
     stop: TourStopForm,
+    language: ContentLanguage?,
     isEnabled: Boolean,
     onUiIntent: (TourEditorUiIntent) -> Unit
 ) {
+    val text = stop.textIn(language)
     val pickAudio = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
         uri?.let { onUiIntent(TourEditorUiIntent.OnStopAudioPicked(index, it.toString())) }
     }
@@ -53,19 +56,24 @@ fun TourStopEditor(
                 color = MaterialTheme.colorScheme.primary
             )
             OutlinedTextField(
-                value = stop.text,
+                value = text.text,
                 onValueChange = { onUiIntent(TourEditorUiIntent.OnStopTextChange(index, it)) },
                 label = { Text(text = stringResource(R.string.stop_text)) },
+                placeholder = if (language == null || stop.text.isBlank()) {
+                    null
+                } else {
+                    { Text(text = stop.text, maxLines = PLACEHOLDER_MAX_LINES) }
+                },
                 minLines = TEXT_MIN_LINES,
                 modifier = Modifier.fillMaxWidth()
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = stringResource(if (stop.audioUrl.isBlank()) R.string.no_audio else R.string.audio_attached),
+                    text = stringResource(if (text.audioUrl.isBlank()) R.string.no_audio else R.string.audio_attached),
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.weight(1f)
                 )
-                if (stop.audioUrl.isNotBlank()) {
+                if (text.audioUrl.isNotBlank()) {
                     TextButton(
                         onClick = { onUiIntent(TourEditorUiIntent.OnStopAudioRemove(index)) },
                         enabled = isEnabled
@@ -108,4 +116,5 @@ fun TourStopEditor(
 }
 
 private const val TEXT_MIN_LINES = 2
+private const val PLACEHOLDER_MAX_LINES = 3
 private const val AUDIO_MIME_TYPE = "audio/*"

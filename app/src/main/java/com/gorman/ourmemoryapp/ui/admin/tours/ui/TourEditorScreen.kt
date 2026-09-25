@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
+import com.gorman.ourmemoryapp.ui.admin.common.ui.ContentLanguageSelector
 import com.gorman.ourmemoryapp.ui.admin.tours.models.TourEditorUiIntent
 import com.gorman.ourmemoryapp.ui.admin.tours.models.TourEditorUiState
 import com.gorman.ourmemoryapp.ui.admin.tours.viewmodels.TourEditorViewModel
@@ -88,6 +89,13 @@ private fun TourEditorContent(
             .imePadding()
     ) {
         item { TopBarSpacer() }
+        item {
+            ContentLanguageSelector(
+                selected = state.form.language,
+                onSelect = { onUiIntent(TourEditorUiIntent.OnLanguageChange(it)) },
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+        }
         item { TourMainFields(state = state, onUiIntent = onUiIntent) }
         if (state.previewStops.isNotEmpty()) {
             item {
@@ -110,6 +118,7 @@ private fun TourEditorContent(
                 lastIndex = state.form.stops.lastIndex,
                 title = titles[stop.burialId] ?: stop.burialId,
                 stop = stop,
+                language = state.form.language,
                 isEnabled = !state.isBusy,
                 onUiIntent = onUiIntent
             )
@@ -142,19 +151,22 @@ private fun TourEditorContent(
 
 @Composable
 private fun TourMainFields(state: TourEditorUiState.Editing, onUiIntent: (TourEditorUiIntent) -> Unit) {
+    val form = state.form
     Column(verticalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.padding(horizontal = 16.dp)) {
         OutlinedTextField(
-            value = state.form.title,
+            value = form.text.title,
             onValueChange = { onUiIntent(TourEditorUiIntent.OnTitleChange(it)) },
             label = { Text(text = stringResource(R.string.title)) },
-            isError = state.form.title.isBlank(),
+            placeholder = originalPlaceholder(form.language != null, form.title),
+            isError = form.language == null && form.title.isBlank(),
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
-            value = state.form.description,
+            value = form.text.description,
             onValueChange = { onUiIntent(TourEditorUiIntent.OnDescriptionChange(it)) },
             label = { Text(text = stringResource(R.string.description)) },
+            placeholder = originalPlaceholder(form.language != null, form.description),
             minLines = DESCRIPTION_MIN_LINES,
             modifier = Modifier.fillMaxWidth()
         )
@@ -231,5 +243,9 @@ private fun TourEditorFooter(state: TourEditorUiState.Editing, onUiIntent: (Tour
     }
 }
 
+private fun originalPlaceholder(isTranslation: Boolean, original: String): (@Composable () -> Unit)? =
+    if (!isTranslation || original.isBlank()) null else { { Text(text = original, maxLines = PLACEHOLDER_MAX_LINES) } }
+
 private val PREVIEW_HEIGHT = 240.dp
+private const val PLACEHOLDER_MAX_LINES = 3
 private const val DESCRIPTION_MIN_LINES = 2

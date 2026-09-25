@@ -91,7 +91,8 @@ private fun VeteranEditorContent(
         item {
             ContentLanguageSelector(
                 selected = state.form.language,
-                onSelect = { onUiIntent(VeteranEditorUiIntent.OnLanguageChange(it)) }
+                onSelect = { onUiIntent(VeteranEditorUiIntent.OnLanguageChange(it)) },
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
         }
         item { VeteranMainFields(form = state.form, isEnabled = !state.isBusy, onUiIntent = onUiIntent) }

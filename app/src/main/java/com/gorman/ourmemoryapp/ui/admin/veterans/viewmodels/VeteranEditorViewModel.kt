@@ -14,7 +14,6 @@ import com.gorman.ourmemoryapp.ui.admin.veterans.models.InfoBlock
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.VeteranEditorUiIntent
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.VeteranEditorUiState
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.VeteranForm
-import com.gorman.ourmemoryapp.ui.admin.veterans.models.VeteranTextForm
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.nextVeteranId
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.toForm
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.toVeteran
@@ -81,11 +80,17 @@ class VeteranEditorViewModel @Inject constructor(
     private fun onFieldIntent(intent: VeteranEditorUiIntent) {
         when (intent) {
             is VeteranEditorUiIntent.OnLanguageChange -> updateForm { it.copy(language = intent.language) }
-            is VeteranEditorUiIntent.OnNameChange -> updateText { it.copy(name = intent.name) }
+            is VeteranEditorUiIntent.OnNameChange -> updateForm { form ->
+                form.withText { it.copy(name = intent.name) }
+            }
             is VeteranEditorUiIntent.OnYearsChange -> updateForm { it.copy(years = intent.years) }
             is VeteranEditorUiIntent.OnCategoryChange -> updateForm { it.copy(category = intent.category) }
-            is VeteranEditorUiIntent.OnBaseInfoChange -> updateText { it.copy(baseInfo = intent.text) }
-            is VeteranEditorUiIntent.OnAllInfoChange -> updateText { it.copy(allInfo = intent.text) }
+            is VeteranEditorUiIntent.OnBaseInfoChange -> updateForm { form ->
+                form.withText { it.copy(baseInfo = intent.text) }
+            }
+            is VeteranEditorUiIntent.OnAllInfoChange -> updateForm { form ->
+                form.withText { it.copy(allInfo = intent.text) }
+            }
             is VeteranEditorUiIntent.OnRewardCountChange -> changeRewardCount(intent.reward, intent.delta)
             is VeteranEditorUiIntent.OnBirthDateChange -> updateForm { it.copy(birthDate = intent.date) }
             is VeteranEditorUiIntent.OnDeathDateChange -> updateForm { it.copy(deathDate = intent.date) }
@@ -104,7 +109,9 @@ class VeteranEditorViewModel @Inject constructor(
             }
             VeteranEditorUiIntent.OnAudioRemove -> updateForm { it.copy(audioUrl = "") }
             is VeteranEditorUiIntent.OnMediaPicked -> upload({ uploadPhoto(intent.uri, it) }) { form, url ->
-                form.withText { it.copy(blocks = (it.blocks + InfoBlock.Media(url = url, caption = "")).toPersistentList()) }
+                form.withText { text ->
+                    text.copy(blocks = (text.blocks + InfoBlock.Media(url = url, caption = "")).toPersistentList())
+                }
             }
             else -> Unit
         }
@@ -164,12 +171,8 @@ class VeteranEditorViewModel @Inject constructor(
         editedForm.value = transform(form)
     }
 
-    private fun updateText(transform: (VeteranTextForm) -> VeteranTextForm) {
-        updateForm { it.withText(transform) }
-    }
-
     private fun updateBlocks(transform: (List<InfoBlock>) -> List<InfoBlock>) {
-        updateText { it.copy(blocks = transform(it.blocks).toPersistentList()) }
+        updateForm { form -> form.withText { it.copy(blocks = transform(it.blocks).toPersistentList()) } }
     }
 
     private fun changeRewardCount(reward: Reward, delta: Int) {

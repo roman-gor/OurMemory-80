@@ -1,8 +1,10 @@
 package com.gorman.ourmemoryapp.ui.admin.burials.models
 
+import com.gorman.ourmemoryapp.domain.models.ContentLanguage
 import com.gorman.ourmemoryapp.ui.common.models.BurialType
 
 sealed interface BurialEditorUiIntent {
+    data class OnLanguageChange(val language: ContentLanguage?) : BurialEditorUiIntent
     data class OnTypeChange(val type: BurialType) : BurialEditorUiIntent
     data class OnSectionChange(val section: String) : BurialEditorUiIntent
     data class OnRowChange(val row: String) : BurialEditorUiIntent

@@ -1,6 +1,9 @@
 package com.gorman.ourmemoryapp.ui.admin.tours.models
 
+import com.gorman.ourmemoryapp.domain.models.ContentLanguage
+
 sealed interface TourEditorUiIntent {
+    data class OnLanguageChange(val language: ContentLanguage?) : TourEditorUiIntent
     data class OnTitleChange(val title: String) : TourEditorUiIntent
     data class OnDescriptionChange(val description: String) : TourEditorUiIntent
     data class OnAddStop(val burialId: String) : TourEditorUiIntent

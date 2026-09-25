@@ -14,6 +14,7 @@ import com.gorman.ourmemoryapp.ui.admin.burials.models.BurialForm
 import com.gorman.ourmemoryapp.ui.admin.burials.models.toBurial
 import com.gorman.ourmemoryapp.ui.admin.burials.models.toCoordinateText
 import com.gorman.ourmemoryapp.ui.admin.burials.models.toForm
+import com.gorman.ourmemoryapp.ui.admin.burials.models.withDescription
 import com.gorman.ourmemoryapp.ui.common.models.CemeteryLocation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -51,11 +52,12 @@ class BurialEditorViewModel @Inject constructor(
 
     fun onUiIntent(intent: BurialEditorUiIntent) {
         when (intent) {
+            is BurialEditorUiIntent.OnLanguageChange -> updateForm { it.copy(language = intent.language) }
             is BurialEditorUiIntent.OnTypeChange -> updateForm { it.copy(type = intent.type) }
             is BurialEditorUiIntent.OnSectionChange -> updateForm { it.copy(section = intent.section) }
             is BurialEditorUiIntent.OnRowChange -> updateForm { it.copy(row = intent.row) }
             is BurialEditorUiIntent.OnPlaceChange -> updateForm { it.copy(place = intent.place) }
-            is BurialEditorUiIntent.OnDescriptionChange -> updateForm { it.copy(description = intent.description) }
+            is BurialEditorUiIntent.OnDescriptionChange -> updateForm { it.withDescription(intent.description) }
             is BurialEditorUiIntent.OnLatitudeChange -> updateForm { it.copy(latitude = intent.latitude) }
             is BurialEditorUiIntent.OnLongitudeChange -> updateForm { it.copy(longitude = intent.longitude) }
             is BurialEditorUiIntent.OnPointPicked -> updateForm {
