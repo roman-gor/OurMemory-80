@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
+import com.gorman.ourmemoryapp.ui.admin.common.ui.ContentLanguageSelector
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.VeteranEditorUiIntent
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.VeteranEditorUiState
 import com.gorman.ourmemoryapp.ui.admin.veterans.viewmodels.VeteranEditorViewModel
@@ -87,6 +88,12 @@ private fun VeteranEditorContent(
             .imePadding()
     ) {
         item { TopBarSpacer() }
+        item {
+            ContentLanguageSelector(
+                selected = state.form.language,
+                onSelect = { onUiIntent(VeteranEditorUiIntent.OnLanguageChange(it)) }
+            )
+        }
         item { VeteranMainFields(form = state.form, isEnabled = !state.isBusy, onUiIntent = onUiIntent) }
         item { VeteranDatesAndPlace(state = state, onUiIntent = onUiIntent) }
         item { SectionTitle(text = stringResource(R.string.awards)) }
@@ -111,6 +118,19 @@ private fun VeteranEditorContent(
         }
         item { SectionTitle(text = stringResource(R.string.biography_and_media)) }
         infoBlocks(state = state, onUiIntent = onUiIntent)
+        if (state.form.language != null && state.form.text.blocks.isEmpty() && state.form.blocks.isNotEmpty()) {
+            item {
+                OutlinedButton(
+                    onClick = { onUiIntent(VeteranEditorUiIntent.OnCopyBlocksFromOriginal) },
+                    enabled = !state.isBusy,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                ) {
+                    Text(text = stringResource(R.string.copy_paragraphs_from_russian))
+                }
+            }
+        }
         item { AddBlockButtons(isEnabled = !state.isBusy, onUiIntent = onUiIntent) }
         item { EditorFooter(state = state, onUiIntent = onUiIntent) }
     }
@@ -147,7 +167,7 @@ private fun LazyListScope.infoBlocks(
     state: VeteranEditorUiState.Editing,
     onUiIntent: (VeteranEditorUiIntent) -> Unit
 ) {
-    val blocks = state.form.blocks
+    val blocks = state.form.text.blocks
     itemsIndexed(blocks) { index, block ->
         InfoBlockEditor(
             block = block,

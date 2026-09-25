@@ -1,8 +1,11 @@
 package com.gorman.ourmemoryapp.ui.admin.veterans.models
 
+import com.gorman.ourmemoryapp.domain.models.ContentLanguage
 import com.gorman.ourmemoryapp.ui.details.models.Reward
 
 sealed interface VeteranEditorUiIntent {
+    data class OnLanguageChange(val language: ContentLanguage?) : VeteranEditorUiIntent
+    data object OnCopyBlocksFromOriginal : VeteranEditorUiIntent
     data class OnNameChange(val name: String) : VeteranEditorUiIntent
     data class OnYearsChange(val years: String) : VeteranEditorUiIntent
     data class OnCategoryChange(val category: VeteranCategory) : VeteranEditorUiIntent

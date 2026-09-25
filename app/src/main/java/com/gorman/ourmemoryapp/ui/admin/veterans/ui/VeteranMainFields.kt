@@ -63,10 +63,11 @@ fun VeteranMainFields(
             }
         }
         OutlinedTextField(
-            value = form.name,
+            value = form.text.name,
             onValueChange = { onUiIntent(VeteranEditorUiIntent.OnNameChange(it)) },
             label = { Text(text = stringResource(R.string.full_name)) },
-            isError = !form.isNameValid,
+            placeholder = originalPlaceholder(form, form.original.name),
+            isError = form.language == null && !form.isNameValid,
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
@@ -87,22 +88,28 @@ fun VeteranMainFields(
             }
         }
         OutlinedTextField(
-            value = form.baseInfo,
+            value = form.text.baseInfo,
             onValueChange = { onUiIntent(VeteranEditorUiIntent.OnBaseInfoChange(it)) },
             label = { Text(text = stringResource(R.string.short_info)) },
+            placeholder = originalPlaceholder(form, form.original.baseInfo),
             minLines = SHORT_TEXT_MIN_LINES,
             modifier = Modifier.fillMaxWidth()
         )
         OutlinedTextField(
-            value = form.allInfo,
+            value = form.text.allInfo,
             onValueChange = { onUiIntent(VeteranEditorUiIntent.OnAllInfoChange(it)) },
             label = { Text(text = stringResource(R.string.main_text)) },
+            placeholder = originalPlaceholder(form, form.original.allInfo),
             minLines = LONG_TEXT_MIN_LINES,
             modifier = Modifier.fillMaxWidth()
         )
     }
 }
 
+private fun originalPlaceholder(form: VeteranForm, original: String): (@Composable () -> Unit)? =
+    if (form.language == null || original.isBlank()) null else { { Text(text = original, maxLines = PLACEHOLDER_MAX_LINES) } }
+
 private val PORTRAIT_SIZE = 88.dp
+private const val PLACEHOLDER_MAX_LINES = 3
 private const val SHORT_TEXT_MIN_LINES = 2
 private const val LONG_TEXT_MIN_LINES = 4

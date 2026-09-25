@@ -14,9 +14,11 @@ import com.gorman.ourmemoryapp.ui.admin.veterans.models.InfoBlock
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.VeteranEditorUiIntent
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.VeteranEditorUiState
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.VeteranForm
+import com.gorman.ourmemoryapp.ui.admin.veterans.models.VeteranTextForm
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.nextVeteranId
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.toForm
 import com.gorman.ourmemoryapp.ui.admin.veterans.models.toVeteran
+import com.gorman.ourmemoryapp.ui.admin.veterans.models.withText
 import com.gorman.ourmemoryapp.ui.common.models.BurialUi
 import com.gorman.ourmemoryapp.ui.common.models.toExternalModel
 import com.gorman.ourmemoryapp.ui.details.models.Reward
@@ -66,6 +68,7 @@ class VeteranEditorViewModel @Inject constructor(
             VeteranEditorUiIntent.OnAudioRemove,
             is VeteranEditorUiIntent.OnMediaPicked -> onMediaIntent(intent)
             VeteranEditorUiIntent.OnAddParagraph,
+            VeteranEditorUiIntent.OnCopyBlocksFromOriginal,
             is VeteranEditorUiIntent.OnBlockChange,
             is VeteranEditorUiIntent.OnBlockMove,
             is VeteranEditorUiIntent.OnBlockRemove -> onBlockIntent(intent)
@@ -77,11 +80,12 @@ class VeteranEditorViewModel @Inject constructor(
 
     private fun onFieldIntent(intent: VeteranEditorUiIntent) {
         when (intent) {
-            is VeteranEditorUiIntent.OnNameChange -> updateForm { it.copy(name = intent.name) }
+            is VeteranEditorUiIntent.OnLanguageChange -> updateForm { it.copy(language = intent.language) }
+            is VeteranEditorUiIntent.OnNameChange -> updateText { it.copy(name = intent.name) }
             is VeteranEditorUiIntent.OnYearsChange -> updateForm { it.copy(years = intent.years) }
             is VeteranEditorUiIntent.OnCategoryChange -> updateForm { it.copy(category = intent.category) }
-            is VeteranEditorUiIntent.OnBaseInfoChange -> updateForm { it.copy(baseInfo = intent.text) }
-            is VeteranEditorUiIntent.OnAllInfoChange -> updateForm { it.copy(allInfo = intent.text) }
+            is VeteranEditorUiIntent.OnBaseInfoChange -> updateText { it.copy(baseInfo = intent.text) }
+            is VeteranEditorUiIntent.OnAllInfoChange -> updateText { it.copy(allInfo = intent.text) }
             is VeteranEditorUiIntent.OnRewardCountChange -> changeRewardCount(intent.reward, intent.delta)
             is VeteranEditorUiIntent.OnBirthDateChange -> updateForm { it.copy(birthDate = intent.date) }
             is VeteranEditorUiIntent.OnDeathDateChange -> updateForm { it.copy(deathDate = intent.date) }
@@ -100,7 +104,7 @@ class VeteranEditorViewModel @Inject constructor(
             }
             VeteranEditorUiIntent.OnAudioRemove -> updateForm { it.copy(audioUrl = "") }
             is VeteranEditorUiIntent.OnMediaPicked -> upload({ uploadPhoto(intent.uri, it) }) { form, url ->
-                form.copy(blocks = (form.blocks + InfoBlock.Media(url = url, caption = "")).toPersistentList())
+                form.withText { it.copy(blocks = (it.blocks + InfoBlock.Media(url = url, caption = "")).toPersistentList()) }
             }
             else -> Unit
         }
@@ -109,6 +113,9 @@ class VeteranEditorViewModel @Inject constructor(
     private fun onBlockIntent(intent: VeteranEditorUiIntent) {
         when (intent) {
             VeteranEditorUiIntent.OnAddParagraph -> updateBlocks { it + InfoBlock.Paragraph("") }
+            VeteranEditorUiIntent.OnCopyBlocksFromOriginal -> updateForm { form ->
+                form.withText { it.copy(blocks = form.blocks) }
+            }
             is VeteranEditorUiIntent.OnBlockChange -> updateBlocks { blocks ->
                 blocks.mapIndexed { index, block -> if (index == intent.index) intent.block else block }
             }
@@ -157,8 +164,12 @@ class VeteranEditorViewModel @Inject constructor(
         editedForm.value = transform(form)
     }
 
+    private fun updateText(transform: (VeteranTextForm) -> VeteranTextForm) {
+        updateForm { it.withText(transform) }
+    }
+
     private fun updateBlocks(transform: (List<InfoBlock>) -> List<InfoBlock>) {
-        updateForm { it.copy(blocks = transform(it.blocks).toPersistentList()) }
+        updateText { it.copy(blocks = transform(it.blocks).toPersistentList()) }
     }
 
     private fun changeRewardCount(reward: Reward, delta: Int) {
