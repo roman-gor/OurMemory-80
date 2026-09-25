@@ -88,36 +88,12 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:395397163961:android:63fd748909b6958518e468",
+        "mobilesdk_app_id": "1:395397163961:android:87497fdadb8c265e18e468",
         "android_client_info": {
-          "package_name": "com.gorman.ourmemoryapp"
+          "package_name": "com.gorman.ourmemory"
         }
       },
       "oauth_client": [
-        {
-          "client_id": "395397163961-711nm137h3g05shiq8abbo2dser8i0sq.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.gorman.ourmemoryapp",
-            "certificate_hash": "8ecea201e981d0e300e2d3cc54bce1116e5c4c80"
-          }
-        },
-        {
-          "client_id": "395397163961-ah547k9slk1itldr2g9dqed3f4qfrq15.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.gorman.ourmemoryapp",
-            "certificate_hash": "21f00dacbff8179ad68e82d6412b5685c29e34c9"
-          }
-        },
-        {
-          "client_id": "395397163961-uli2q31l9u7qe6sn3nm427j0kdjtbn87.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.gorman.ourmemoryapp",
-            "certificate_hash": "c60c57ccbbd192040e6473ea99bf1954d6bcd1c2"
-          }
-        },
         {
           "client_id": "395397163961-j84cp4brk7j6sbnh5e5q5cjufl3esk4d.apps.googleusercontent.com",
           "client_type": 3

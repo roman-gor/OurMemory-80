@@ -24,7 +24,7 @@ android {
 
     defaultConfig {
         val mapkitApiKey = rootProject.extra["mapkitApiKey"] as String
-        applicationId = "com.gorman.ourmemoryapp"
+        applicationId = "com.gorman.ourmemory"
         minSdk = 28
         targetSdk = 37
         versionCode = 1
