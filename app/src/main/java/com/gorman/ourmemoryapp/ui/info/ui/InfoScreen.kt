@@ -26,11 +26,11 @@ import com.gorman.ourmemoryapp.ui.common.models.MediaUi
 import com.gorman.ourmemoryapp.ui.common.ui.ExpandableTextSection
 import com.gorman.ourmemoryapp.ui.common.ui.FloatingTopBar
 import com.gorman.ourmemoryapp.ui.common.ui.MediaGallery
-import com.gorman.ourmemoryapp.ui.common.ui.PillButton
 import com.gorman.ourmemoryapp.ui.common.ui.SystemBarIcons
 import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 import com.gorman.ourmemoryapp.ui.common.ui.rememberIsHeroScrolledAway
 import com.gorman.ourmemoryapp.ui.info.models.InfoContent
+import com.gorman.ourmemoryapp.ui.more.models.AppLanguage
 import kotlinx.collections.immutable.toPersistentList
 
 @Composable
@@ -39,7 +39,7 @@ fun InfoScreen(
     onChangeLangClick: (String) -> Unit
 ) {
     val context = LocalContext.current
-    val isRussian = LocalConfiguration.current.locales[0].language == RUSSIAN_LANGUAGE
+    val currentLanguage = AppLanguage.fromLanguage(LocalConfiguration.current.locales[0].language)
     val history = stringResource(R.string.information)
     val openingHours = stringResource(R.string.cemetery_opening_hours)
     val phone = stringResource(R.string.cemetery_phone)
@@ -86,10 +86,7 @@ fun InfoScreen(
             onBackClick = null,
             modifier = Modifier.align(Alignment.TopCenter),
             actions = {
-                PillButton(
-                    text = stringResource(if (isRussian) R.string.bel else R.string.rus),
-                    onClick = { onChangeLangClick(if (isRussian) BELARUSIAN_LANGUAGE else RUSSIAN_LANGUAGE) }
-                )
+                LanguageMenuButton(currentLanguage = currentLanguage, onLanguageChange = onChangeLangClick)
             }
         )
     }
@@ -97,7 +94,5 @@ fun InfoScreen(
 
 private fun Context.drawableUri(resId: Int) = "$ANDROID_RESOURCE_SCHEME$packageName/$resId"
 
-private const val RUSSIAN_LANGUAGE = "ru"
-private const val BELARUSIAN_LANGUAGE = "be"
 private const val PARAGRAPH_SEPARATOR = "\n\n"
 private const val ANDROID_RESOURCE_SCHEME = "android.resource://"

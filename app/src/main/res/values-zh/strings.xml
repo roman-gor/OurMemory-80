@@ -1,0 +1,322 @@
+<resources>
+    <string name="app_name">我们的记忆</string>
+    <string name="information">\t明斯克军人公墓位于科兹洛夫街，是白俄罗斯首都最古老、最重要的纪念地之一。
+        公墓建于19世纪末，大约在1870至1880年代，最初用于安葬因公殉职的军人以及历次战争的老兵。\n\n
+        这里安息着1877—1878年俄土战争、第一次世界大战、国内战争和伟大卫国战争的参加者。
+        这里还安葬着游击队员、军官、苏联英雄以及苏联时代的知名人士。
+        明斯克军人公墓已成为白俄罗斯军事历史的一部编年史，记录了不同历史时期保卫祖国的人们的命运与功绩。\n\n
+        伟大卫国战争中牺牲的苏军战士合葬墓尤其引人注目。
+        纪念碑、方尖碑和带有军事标志的整齐墓碑赋予公墓庄严肃穆的气氛。
+        这里经常举行纪念活动，特别是在胜利日和其他军人荣誉日。\n\n
+        从建筑上看，公墓是一片整洁的园区，有林荫道、针叶树和古老的墓碑，其中许多可追溯到革命前。
+        一些墓碑上仍保留着旧式俄语正字法的铭文，使这里具有独特的历史氛围。\n\n
+        尽管靠近市中心和繁华的街道，这里却一片寂静，令人肃然起敬。
+        科兹洛夫街上的明斯克军人公墓不仅是一处墓地，更是一座重要的历史文化古迹，
+        提醒人们和平的代价以及守护和平者的英勇。</string>
+    <string name="warHeader">军人公墓</string>
+    <string name="address">明斯克，科兹洛夫街11号</string>
+    <string name="historyInfoHeader">历史简介</string>
+    <string name="news">新闻</string>
+    <string name="galleryHeader">图库</string>
+    <string name="locationHeader">位置</string>
+    <string name="chooseCategory">选择类别</string>
+    <string name="nothing_found_msg">未找到“%1$s”。请检查姓氏的拼写</string>
+    <string name="search">搜索</string>
+    <string name="biography">生平</string>
+    <string name="docs">文件和照片</string>
+    <string name="heroUSSR">苏联英雄</string>
+    <string name="art">艺术家</string>
+    <string name="slogan">纪念那些为我们赢得和平天空、为白俄罗斯艺术增光的人</string>
+    <string name="idea">了解生平，收听语音导览，探索伟人的作品！</string>
+    <string name="expand">展开</string>
+    <string name="rollup">收起</string>
+    <string name="red_znamya">红旗勋章</string>
+    <string name="suvorov_1">一级苏沃洛夫勋章</string>
+    <string name="suvorov_2">二级苏沃洛夫勋章</string>
+    <string name="lenin">列宁勋章</string>
+    <string name="geroj_sssr">苏联英雄</string>
+    <string name="partizan">二级“卫国战争游击队员”奖章</string>
+    <string name="za_pobedu_germany">“1941—1945年伟大卫国战争战胜德国”奖章</string>
+    <string name="otech_war">卫国战争勋章</string>
+    <string name="red_star">红星勋章</string>
+    <string name="orden_znak_pocheta">荣誉徽章勋章</string>
+    <string name="za_otvagu">“英勇”奖章</string>
+    <string name="narodny_artist">苏联人民艺术家</string>
+    <string name="awards">荣誉</string>
+    <string name="listen_to_biography">收听生平</string>
+    <string name="burial_place">安葬地点</string>
+    <string name="section_row_place_msg">%1$s 区 · %2$s 排 · %3$s 号</string>
+    <string name="failed_to_load_data_msg">无法加载数据。请检查网络连接</string>
+    <string name="play">播放</string>
+    <string name="pause">暂停</string>
+    <string name="back">返回</string>
+    <string name="times_count">×%1$d</string>
+    <string name="cemetery_map">公墓地图</string>
+    <string name="show_on_map">在地图上显示</string>
+    <string name="my_location">我的位置</string>
+    <string name="satellite">卫星</string>
+    <string name="scheme">地图</string>
+    <string name="grave">墓</string>
+    <string name="mass_grave">合葬墓</string>
+    <string name="monument">纪念碑</string>
+    <string name="allow_location_access_msg">允许访问位置，即可在地图上看到自己</string>
+    <string name="get_directions">规划路线</string>
+    <string name="opening_hours">开放时间</string>
+    <string name="phone">电话</string>
+    <string name="cemetery_opening_hours"></string>
+    <string name="veterans">老兵</string>
+    <string name="map">地图</string>
+    <string name="about_cemetery">关于公墓</string>
+    <string name="start">开始</string>
+    <string name="tours">导览</string>
+    <plurals name="stops_count">
+        <item quantity="other">%d 个站点</item>
+    </plurals>
+    <string name="light_a_candle">点亮纪念蜡烛</string>
+    <string name="candle_is_lit">蜡烛已点亮</string>
+    <plurals name="candles_count">
+        <item quantity="other">已点亮 %d 支蜡烛</item>
+    </plurals>
+    <string name="on_this_day">历史上的今天</string>
+    <string name="birthday_in_year">生日 · %1$d</string>
+    <string name="day_of_memory_in_year">纪念日 · %1$d</string>
+    <string name="reminders">提醒</string>
+    <string name="victory_day">胜利日</string>
+    <string name="remember_heroes_msg">缅怀英雄——在“我们的记忆”中点亮纪念蜡烛</string>
+    <string name="add_to_history">补充故事</string>
+    <string name="share_materials_msg">如果您有关于此人的照片、文件或回忆，请发送给我们。审核后我们会将其添加到老兵的卡片中。</string>
+    <string name="memories">回忆</string>
+    <string name="your_name_and_contact">您的姓名和电话或电子邮件</string>
+    <string name="photos_count_of_max">照片 %1$d / %2$d</string>
+    <string name="add_photos">添加照片</string>
+    <string name="remove_photo">删除照片</string>
+    <string name="consent_to_contact_msg">我同意我的联系方式仅用于就此材料与我联系</string>
+    <string name="send">发送</string>
+    <string name="failed_to_send_msg">发送失败。请检查网络连接后重试</string>
+    <string name="remove_offensive_words_msg">请删除粗俗和冒犯性的言语——此类消息不会被发送</string>
+    <string name="photo_did_not_pass_check_msg">照片未通过自动检查，不会被发送</string>
+    <string name="could_not_open_photo_msg">无法打开照片。请选择其他照片</string>
+    <string name="checking_photo">正在检查照片</string>
+    <string name="thank_you_material_sent_msg">谢谢！材料已提交审核</string>
+    <string name="done">完成</string>
+    <string name="admin">管理</string>
+    <string name="sign_in_as_admin">管理员登录</string>
+    <string name="email">电子邮件</string>
+    <string name="password">密码</string>
+    <string name="sign_in">登录</string>
+    <string name="sign_out">退出登录</string>
+    <string name="wrong_email_or_password_msg">电子邮件或密码错误</string>
+    <string name="no_admin_rights_msg">此账户没有管理员权限</string>
+    <string name="failed_to_sign_in_msg">登录失败。请检查网络连接后重试</string>
+    <string name="administration">管理</string>
+    <string name="signed_in_as">当前登录账户\n%1$s</string>
+    <string name="write_to_us">联系我们</string>
+    <string name="report_an_error">报告错误</string>
+    <string name="data_error">数据错误</string>
+    <string name="suggestion">建议</string>
+    <string name="other">其他</string>
+    <string name="message">消息</string>
+    <string name="contact_for_reply">联系方式（可选）</string>
+    <string name="thank_you_message_sent_msg">谢谢！消息已发送</string>
+    <string name="feedback">反馈</string>
+    <string name="reviewed">已处理</string>
+    <string name="mark_as_reviewed">标记为已处理</string>
+    <string name="nothing_here_yet">这里还没有内容</string>
+    <string name="moderation">审核</string>
+    <string name="awaiting_review">待审核</string>
+    <string name="approved">已通过</string>
+    <string name="rejected">已拒绝</string>
+    <string name="approve">通过</string>
+    <string name="reject">拒绝</string>
+    <string name="add_to_card">添加到卡片</string>
+    <string name="from_family_archive">来自家庭档案</string>
+    <string name="failed_to_save_msg">保存失败。请检查网络连接后重试</string>
+    <string name="no_permission_to_change_request_msg">没有修改申请的权限。请确认您的 UID 在 OurMemory/Admins 中，且数据库规则已发布</string>
+    <plurals name="photos_count">
+        <item quantity="other">%d 张照片</item>
+    </plurals>
+    <string name="search_by_name">按姓名搜索</string>
+    <string name="new_veteran">新老兵</string>
+    <string name="choose_portrait">选择肖像</string>
+    <string name="full_name">姓名</string>
+    <string name="years_of_life">生卒年</string>
+    <string name="short_info">简介</string>
+    <string name="main_text">正文</string>
+    <string name="not_specified">未指定</string>
+    <string name="clear">清除</string>
+    <string name="date_of_birth">出生日期</string>
+    <string name="date_of_death">逝世日期</string>
+    <string name="no_audio">无音频</string>
+    <string name="audio_attached">已附加音频</string>
+    <string name="delete">删除</string>
+    <string name="add_audio">添加音频</string>
+    <string name="paragraph">段落</string>
+    <string name="caption">说明</string>
+    <string name="move_up">上移</string>
+    <string name="move_down">下移</string>
+    <string name="biography_and_media">生平和媒体</string>
+    <string name="add_paragraph">添加段落</string>
+    <string name="add_photo">添加照片</string>
+    <string name="uploading_file">正在上传文件…</string>
+    <string name="save">保存</string>
+    <string name="delete_veteran_msg">删除这位老兵？卡片将从应用中消失</string>
+    <string name="cancel">取消</string>
+    <string name="burial_places">安葬地点</string>
+    <string name="new_burial_place">新地点</string>
+    <string name="description">描述</string>
+    <string name="section">区</string>
+    <string name="row">排</string>
+    <string name="place">号</string>
+    <string name="latitude">纬度</string>
+    <string name="longitude">经度</string>
+    <string name="tap_map_to_move_marker_msg">点击地图以移动标记</string>
+    <string name="new_tour">新导览</string>
+    <string name="add_stop">添加站点</string>
+    <string name="stops">站点</string>
+    <string name="stop_text">站点文字</string>
+    <string name="title">标题</string>
+    <string name="delete_tour_msg">删除此导览？它将从应用中消失</string>
+    <string name="more">更多</string>
+    <string name="appearance">外观</string>
+    <string name="theme">主题</string>
+    <string name="as_in_system">跟随系统</string>
+    <string name="light">浅色</string>
+    <string name="dark">深色</string>
+    <string name="text_size">文字大小</string>
+    <string name="normal">标准</string>
+    <string name="large">大</string>
+    <string name="extra_large">特大</string>
+    <string name="language">语言</string>
+    <string name="memorable_dates_of_favorites">收藏老兵的纪念日</string>
+    <string name="comment_for_author">给作者的备注（可选）</string>
+    <string name="your_reply">您的回复：%1$s</string>
+    <string name="reply">回复</string>
+    <string name="send_reply">发送回复</string>
+    <string name="my_requests">我的申请</string>
+    <string name="added_to_card">已添加到卡片</string>
+    <string name="materials_for_card">卡片材料</string>
+    <string name="no_requests_yet_msg">您发送的消息和材料会显示在这里</string>
+    <string name="favorites">收藏</string>
+    <string name="add_to_favorites">添加到收藏</string>
+    <string name="share">分享</string>
+    <string name="remember_veteran_msg">%1$s——我们铭记。老兵卡片：%2$s</string>
+    <string name="removed_from_favorites">已从收藏中移除</string>
+    <string name="undo">撤销</string>
+    <string name="remove_from_favorites">从收藏中移除</string>
+    <string name="no_favorites_yet_msg">点击老兵卡片上的爱心即可添加到这里</string>
+    <string name="visited">已参观</string>
+    <string name="visited_of_total">已参观 %1$d / %2$d</string>
+    <string name="start_over">重新开始</string>
+    <string name="scan_qr_code">扫描二维码</string>
+    <string name="not_our_qr_code_msg">这不是本公墓的二维码</string>
+    <string name="failed_to_open_scanner_msg">无法打开扫描器。请尝试用相机直接对准二维码</string>
+    <string name="never_forgotten_msg">没有人被遗忘，没有事被遗忘</string>
+    <string name="thank_you_for_keeping_memory_msg">感谢您与我们一起守护记忆</string>
+    <string name="mine">我的</string>
+    <string name="in_the_morning_of_may_9_msg">5月9日早上提醒您缅怀英烈</string>
+    <string name="on_birthdays_and_memorial_days_msg">在收藏老兵的生日和纪念日提醒</string>
+    <string name="keep_your_memory_safe">保存您的记忆</string>
+    <string name="sign_in_to_keep_favorites_msg">使用 Google 登录，重新安装后收藏和申请也不会丢失</string>
+    <string name="sign_in_with_google">使用 Google 登录</string>
+    <string name="favorites_and_requests_are_saved_msg">收藏和申请保存在账户中</string>
+    <string name="could_not_sign_in_msg">登录失败。请检查网络后重试</string>
+    <string name="editor_guide">编辑指南</string>
+    <string name="how_to_add_and_edit_content_msg">如何添加老兵、地点和导览</string>
+    <string name="veteran">老兵</string>
+    <string name="tour">导览</string>
+    <string name="voice_over">配音</string>
+    <string name="requests_and_messages">申请和消息</string>
+    <string name="if_something_is_wrong">遇到问题时</string>
+    <string name="add_administrator">添加管理员</string>
+    <string name="super_administrator">超级管理员</string>
+    <string name="administrator_added_msg">已添加管理员。重启应用后，对方将看到“管理”标签页</string>
+    <string name="account_not_found_msg">未找到使用此电子邮件的账户。请让对方先登录应用</string>
+    <string name="already_administrator_msg">此账户已是管理员</string>
+    <string name="remove_administrator_msg">撤销管理员权限？</string>
+    <string name="copy_uid">复制 UID</string>
+    <string name="add_uid_to_storage_rules_msg">要让管理员能上传照片和音频，请将其 UID 添加到 Storage 规则的 isAdmin() 函数中</string>
+    <string name="add_and_remove_administrators_msg">添加和移除管理员</string>
+    <string name="administrators">管理员</string>
+    <string name="do_not_publish_whole_rules_file_msg">不要整体发布项目中的规则文件：数据库与其他应用共用，它们的规则会被清除。只修改 OurMemory 节点。</string>
+    <string name="add_burials_first_msg">请先添加安葬地点：老兵和导览都会引用它们</string>
+    <string name="how_to_add_a_veteran">如何添加老兵？</string>
+    <string name="how_to_add_a_burial_place">如何添加安葬地点？</string>
+    <string name="how_to_build_a_tour">如何创建导览？</string>
+    <string name="add_veteran">添加老兵</string>
+    <string name="add_burial_place">添加地点</string>
+    <string name="add_tour">添加导览</string>
+    <string name="requires_attention">需要处理</string>
+    <string name="content">内容</string>
+    <string name="new_requests">新消息</string>
+    <string name="pending_submissions">待审核的申请</string>
+    <string name="everything_is_reviewed_msg">已全部处理</string>
+    <string name="check_new_marker_msg">在“地图”标签页检查结果：新标记应位于正确的位置。</string>
+    <string name="save_button_disabled_msg">如果“保存”按钮不可用，说明姓名为空或日期无效：此类字段会以红色标出。</string>
+    <string name="stop_order_sets_route_msg">地图上的编号和路线按站点顺序生成，编辑器中可直接预览。</string>
+    <string name="check_stresses_before_msg">录音前请检查文本：姓氏的重音、年份用文字写出、缩写完整展开。</string>
+    <string name="reply_shown_to_author_msg">作者将在“更多 → 我的申请”中看到您的回复。</string>
+    <string name="deleted_items_cannot_be_restored_msg">删除的内容只能手动恢复，因此删除前请确认打开的是正确的卡片。</string>
+    <string-array name="burial_place_steps">
+        <item>管理 → 安葬地点 → “添加地点”。</item>
+        <item>选择类型：墓、合葬墓或纪念碑。</item>
+        <item>填写公墓标牌上的区、排和号。这比 GPS 更准确，访客也是按这些编号查找的。</item>
+        <item>站在墓旁点击“我的位置”。如果标记不准确，请点击地图上的正确位置。</item>
+        <item>如有照片和简短描述，请添加后点击“保存”。</item>
+    </string-array>
+    <string-array name="veteran_steps">
+        <item>管理 → 老兵 → “添加老兵”。卡片编号由应用自动分配。</item>
+        <item>按标牌填写完整姓名和生卒年，例如“1905–1966”。</item>
+        <item>类别决定列表和地图中的筛选：“苏联英雄”或“艺术家”。</item>
+        <item>在日历中选择出生和逝世日期：“历史上的今天”和收藏提醒依赖这些日期。</item>
+        <item>从预先创建的地点列表中选择安葬地点。</item>
+        <item>添加肖像：脸部居中，应用会自动压缩照片。</item>
+        <item>荣誉用加号和减号设置：两枚红星勋章即在该勋章旁填“2”。</item>
+        <item>用段落和带说明的照片组成生平。箭头调整顺序，叉号删除内容块。</item>
+        <item>用表单顶部的语言切换填写翻译：空字段显示俄语原文。</item>
+    </string-array>
+    <string-array name="tour_steps">
+        <item>管理 → 导览 → “添加导览”。</item>
+        <item>填写标题和简短描述，例如“苏联英雄，40分钟”。</item>
+        <item>点击“添加站点”，按姓氏、区号或类型查找地点。</item>
+        <item>为每个站点撰写访客在墓前阅读的文字，并附上语音导览。</item>
+        <item>用箭头设置站点顺序。</item>
+    </string-array>
+    <string-array name="voice_over_steps">
+        <item>生平时长1–3分钟，导览站点30–90秒。</item>
+        <item>格式为 mp3 或 m4a，文件不超过 50 MB。</item>
+        <item>可使用 ElevenLabs 或 Yandex SpeechKit 进行语音合成。在安静的房间用录音机录制的真人声音往往效果更好。</item>
+        <item>将文件发送到手机，然后在老兵卡片或站点中通过“添加音频”上传。</item>
+    </string-array>
+    <string-array name="requests_steps">
+        <item>“审核”中是亲属提交的材料。修改文字、删除多余照片后点击“通过”：所有内容会立即添加到卡片，并标注“来自家庭档案”。</item>
+        <item>“反馈”中是访客的消息和错误报告。将其标记为已处理，如有需要可撰写回复。</item>
+        <item>应用会在发送前拦截粗俗文字和不雅照片，但此检查可被绕过，因此通过前请逐一查看。</item>
+    </string-array>
+    <string-array name="add_administrator_steps">
+        <item>新管理员先登录一次应用：在“更多”中使用 Google，或通过“管理员登录”使用自己的电子邮件。</item>
+        <item>超级管理员打开 管理 → “管理员”，按电子邮件添加。</item>
+        <item>Storage → Rules：将新管理员的 UID（可在“管理员”页面复制）添加到 isAdmin() 函数列表中，然后点击“Publish”。否则对方无法上传照片和音频。</item>
+        <item>重启应用后，新管理员会看到“管理”标签页。</item>
+        <item>要撤销权限，请在“管理员”页面移除该管理员，并从 Storage 规则中删除其 UID。</item>
+        <item>超级管理员只能在 Firebase Console 中指定：在 OurMemory/SuperAdmins 节点下添加 UID 键，值为 true（并在 OurMemory/Admins 中添加同一 UID）。</item>
+    </string-array>
+    <string-array name="troubleshooting_steps">
+        <item>照片或音频无法上传——请检查网络和文件大小。如果错误重复出现，请让开发者将您的 UID 添加到 Storage 规则中。</item>
+        <item>登录时提示“没有管理员权限”——数据库中 OurMemory/Admins 下没有您的 UID。请按“管理员”部分的步骤操作。</item>
+        <item>访客看不到更改——应用每次启动只加载一次数据，重启后才会显示新内容。</item>
+        <item>在访客手机上登录管理员会使其 Google 登录失效。请使用自己的手机操作。</item>
+    </string-array>
+    <plurals name="veteran_cards_count">
+        <item quantity="other">%d 张卡片</item>
+    </plurals>
+    <plurals name="burial_places_count">
+        <item quantity="other">%d 个地点</item>
+    </plurals>
+    <plurals name="routes_count">
+        <item quantity="other">%d 条路线</item>
+    </plurals>
+    <string name="for_cemetery_editors_msg">供纪念馆编辑使用：老兵、安葬地点、导览和访客申请</string>
+    <string name="content_language">内容语言</string>
+    <string name="copy_paragraphs_from_russian">从俄语复制段落</string>
+    <string name="translation_is_optional_msg">翻译为可选项：空字段显示俄语原文</string>
+</resources>

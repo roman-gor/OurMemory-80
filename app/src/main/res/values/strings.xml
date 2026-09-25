@@ -69,8 +69,6 @@
     <string name="mass_grave">Братская могила</string>
     <string name="monument">Памятник</string>
     <string name="allow_location_access_msg">Разрешите доступ к геолокации, чтобы увидеть себя на карте</string>
-    <string name="bel" translatable="false">БЕЛ</string>
-    <string name="rus" translatable="false">РУС</string>
     <string name="get_directions">Проложить маршрут</string>
     <string name="opening_hours">Часы работы</string>
     <string name="phone">Телефон</string>
@@ -208,8 +206,10 @@
     <string name="large">Крупный</string>
     <string name="extra_large">Очень крупный</string>
     <string name="language">Язык</string>
-    <string name="russian">Русский</string>
-    <string name="belarusian">Беларуская</string>
+    <string name="russian" translatable="false">Русский</string>
+    <string name="belarusian" translatable="false">Беларуская</string>
+    <string name="english" translatable="false">English</string>
+    <string name="chinese" translatable="false">中文</string>
     <string name="memorable_dates_of_favorites">Памятные даты избранных</string>
     <string name="comment_for_author">Комментарий для автора (необязательно)</string>
     <string name="your_reply">Ваш ответ: %1$s</string>
@@ -295,6 +295,7 @@
         <item>Добавьте портрет: лицо по центру, приложение само сожмёт фото.</item>
         <item>Награды ставятся плюсом и минусом: два ордена Красной Звезды — «2» напротив ордена.</item>
         <item>Биографию соберите из абзацев и фото с подписями. Стрелки меняют порядок, крестик удаляет блок.</item>
+        <item>Используйте переключатель языка вверху формы, чтобы заполнить переводы: пустые поля показываются на русском.</item>
     </string-array>
     <string-array name="tour_steps">
         <item>Админ → Экскурсии → «Добавить экскурсию».</item>
@@ -347,4 +348,7 @@
         <item quantity="other">%d маршрута</item>
     </plurals>
     <string name="for_cemetery_editors_msg">Для редакторов мемориала: ветераны, места захоронения, экскурсии и заявки посетителей</string>
+    <string name="content_language">Язык контента</string>
+    <string name="copy_paragraphs_from_russian">Скопировать абзацы из русского</string>
+    <string name="translation_is_optional_msg">Перевод необязателен: пустые поля показываются на русском</string>
 </resources>

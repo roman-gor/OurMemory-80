@@ -1,0 +1,334 @@
+<resources>
+    <string name="app_name">Our Memory</string>
+    <string name="information">\tThe Minsk Military Cemetery on Kozlova Street is one of the oldest and most
+        significant memorial sites in the capital of Belarus. It was founded at the end of the 19th century,
+        roughly in the 1870s–1880s, and was originally intended for servicemen who died on duty and for
+        veterans of various wars.\n\n
+        Participants of the Russo-Turkish War of 1877–1878, the First World War, the Civil War and the Great
+        Patriotic War rest here. Partisans, officers, Heroes of the Soviet Union and well-known figures of the
+        Soviet era are also buried here. The Minsk Military Cemetery has become a kind of chronicle of the
+        military history of Belarus, reflecting the fates and deeds of people who defended their homeland in
+        different historical periods.\n\n
+        The mass grave of Soviet soldiers who fell during the Great Patriotic War draws particular attention.
+        Memorials, obelisks and neat headstones with military symbols give the cemetery a solemn and austere
+        feel. It often becomes the center of commemorative events, especially on Victory Day and other days of
+        military glory.\n\n
+        Architecturally, the cemetery is a well-kept area with alleys, conifers and old headstones, many of
+        which date back to before the revolution. Some slabs still bear inscriptions in pre-reform Russian
+        spelling, which gives the place a special historical atmosphere.\n\n
+        Despite being close to the city center and busy streets, it is quiet and respectfully calm here. The
+        Minsk Military Cemetery on Kozlova is not just a burial ground but an important cultural and historical
+        monument, a reminder of the price of peace and the courage of those who defended it.</string>
+    <string name="warHeader">Military Cemetery</string>
+    <string name="address">11 Kozlova St, Minsk</string>
+    <string name="historyInfoHeader">Historical background</string>
+    <string name="news">News</string>
+    <string name="galleryHeader">Gallery</string>
+    <string name="locationHeader">Location</string>
+    <string name="chooseCategory">Choose a category</string>
+    <string name="nothing_found_msg">No one found for “%1$s”. Check the spelling of the surname</string>
+    <string name="search">Search</string>
+    <string name="biography">Biography</string>
+    <string name="docs">Documents and photos</string>
+    <string name="heroUSSR">Heroes of the Soviet Union</string>
+    <string name="art">Artists</string>
+    <string name="slogan">In memory of those who gave us a peaceful sky and glorified Belarusian art</string>
+    <string name="idea">Discover biographies, listen to audio tours and explore the work of great people!</string>
+    <string name="expand">Expand</string>
+    <string name="rollup">Collapse</string>
+    <string name="red_znamya">Order of the Red Banner</string>
+    <string name="suvorov_1">Order of Suvorov, 1st class</string>
+    <string name="suvorov_2">Order of Suvorov, 2nd class</string>
+    <string name="lenin">Order of Lenin</string>
+    <string name="geroj_sssr">Hero of the Soviet Union</string>
+    <string name="partizan">Medal “To a Partisan of the Patriotic War”, 2nd class</string>
+    <string name="za_pobedu_germany">Medal “For the Victory over Germany in the Great Patriotic War 1941–1945”</string>
+    <string name="otech_war">Order of the Patriotic War</string>
+    <string name="red_star">Order of the Red Star</string>
+    <string name="orden_znak_pocheta">Order of the Badge of Honour</string>
+    <string name="za_otvagu">Medal “For Courage”</string>
+    <string name="narodny_artist">People\'s Artist of the USSR</string>
+    <string name="awards">Awards</string>
+    <string name="listen_to_biography">Listen to the biography</string>
+    <string name="burial_place">Burial place</string>
+    <string name="section_row_place_msg">Section %1$s · row %2$s · plot %3$s</string>
+    <string name="failed_to_load_data_msg">Couldn\'t load data. Check your internet connection</string>
+    <string name="play">Play</string>
+    <string name="pause">Pause</string>
+    <string name="back">Back</string>
+    <string name="times_count">×%1$d</string>
+    <string name="cemetery_map">Cemetery map</string>
+    <string name="show_on_map">Show on map</string>
+    <string name="my_location">My location</string>
+    <string name="satellite">Satellite</string>
+    <string name="scheme">Map</string>
+    <string name="grave">Grave</string>
+    <string name="mass_grave">Mass grave</string>
+    <string name="monument">Monument</string>
+    <string name="allow_location_access_msg">Allow location access to see yourself on the map</string>
+    <string name="get_directions">Get directions</string>
+    <string name="opening_hours">Opening hours</string>
+    <string name="phone">Phone</string>
+    <string name="cemetery_opening_hours"></string>
+    <string name="veterans">Veterans</string>
+    <string name="map">Map</string>
+    <string name="about_cemetery">About</string>
+    <string name="start">Get started</string>
+    <string name="tours">Tours</string>
+    <plurals name="stops_count">
+        <item quantity="one">%d stop</item>
+        <item quantity="other">%d stops</item>
+    </plurals>
+    <string name="light_a_candle">Light a memorial candle</string>
+    <string name="candle_is_lit">Candle is lit</string>
+    <plurals name="candles_count">
+        <item quantity="one">%d candle lit</item>
+        <item quantity="other">%d candles lit</item>
+    </plurals>
+    <string name="on_this_day">On this day</string>
+    <string name="birthday_in_year">Birthday · %1$d</string>
+    <string name="day_of_memory_in_year">Day of remembrance · %1$d</string>
+    <string name="reminders">Reminders</string>
+    <string name="victory_day">Victory Day</string>
+    <string name="remember_heroes_msg">Remember the heroes — light a memorial candle in Our Memory</string>
+    <string name="add_to_history">Add to the story</string>
+    <string name="share_materials_msg">If you have photos, documents or memories of this person, please send them. After review we will add them to the veteran\'s card.</string>
+    <string name="memories">Memories</string>
+    <string name="your_name_and_contact">Your name and phone or e-mail</string>
+    <string name="photos_count_of_max">Photo %1$d of %2$d</string>
+    <string name="add_photos">Add photos</string>
+    <string name="remove_photo">Remove photo</string>
+    <string name="consent_to_contact_msg">I agree that my contact details will be used only to contact me about this material</string>
+    <string name="send">Send</string>
+    <string name="failed_to_send_msg">Couldn\'t send. Check your internet connection and try again</string>
+    <string name="remove_offensive_words_msg">Remove obscene and offensive language — such a message will not be sent</string>
+    <string name="photo_did_not_pass_check_msg">The photo didn\'t pass the automatic check and will not be sent</string>
+    <string name="could_not_open_photo_msg">Couldn\'t open the photo. Choose another one</string>
+    <string name="checking_photo">Checking photo</string>
+    <string name="thank_you_material_sent_msg">Thank you! The material has been sent for review</string>
+    <string name="done">Done</string>
+    <string name="admin">Admin</string>
+    <string name="sign_in_as_admin">Administrator sign-in</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_out">Sign out</string>
+    <string name="wrong_email_or_password_msg">Wrong e-mail or password</string>
+    <string name="no_admin_rights_msg">This account has no administrator rights</string>
+    <string name="failed_to_sign_in_msg">Couldn\'t sign in. Check your internet connection and try again</string>
+    <string name="administration">Administration</string>
+    <string name="signed_in_as">Signed in as\n%1$s</string>
+    <string name="write_to_us">Contact us</string>
+    <string name="report_an_error">Report an error</string>
+    <string name="data_error">Data error</string>
+    <string name="suggestion">Suggestion</string>
+    <string name="other">Other</string>
+    <string name="message">Message</string>
+    <string name="contact_for_reply">How to reach you (optional)</string>
+    <string name="thank_you_message_sent_msg">Thank you! Your message has been sent</string>
+    <string name="feedback">Feedback</string>
+    <string name="reviewed">Reviewed</string>
+    <string name="mark_as_reviewed">Mark as reviewed</string>
+    <string name="nothing_here_yet">Nothing here yet</string>
+    <string name="moderation">Moderation</string>
+    <string name="awaiting_review">Awaiting review</string>
+    <string name="approved">Approved</string>
+    <string name="rejected">Rejected</string>
+    <string name="approve">Approve</string>
+    <string name="reject">Reject</string>
+    <string name="add_to_card">Add to card</string>
+    <string name="from_family_archive">From the family archive</string>
+    <string name="failed_to_save_msg">Couldn\'t save. Check your internet connection and try again</string>
+    <string name="no_permission_to_change_request_msg">No permission to change the request. Make sure your UID is in OurMemory/Admins and the database rules are published</string>
+    <plurals name="photos_count">
+        <item quantity="one">%d photo</item>
+        <item quantity="other">%d photos</item>
+    </plurals>
+    <string name="search_by_name">Search by name</string>
+    <string name="new_veteran">New veteran</string>
+    <string name="choose_portrait">Choose portrait</string>
+    <string name="full_name">Full name</string>
+    <string name="years_of_life">Years of life</string>
+    <string name="short_info">Short description</string>
+    <string name="main_text">Main text</string>
+    <string name="not_specified">Not specified</string>
+    <string name="clear">Clear</string>
+    <string name="date_of_birth">Date of birth</string>
+    <string name="date_of_death">Date of death</string>
+    <string name="no_audio">No audio</string>
+    <string name="audio_attached">Audio attached</string>
+    <string name="delete">Delete</string>
+    <string name="add_audio">Add audio</string>
+    <string name="paragraph">Paragraph</string>
+    <string name="caption">Caption</string>
+    <string name="move_up">Move up</string>
+    <string name="move_down">Move down</string>
+    <string name="biography_and_media">Biography and media</string>
+    <string name="add_paragraph">Add paragraph</string>
+    <string name="add_photo">Add photo</string>
+    <string name="uploading_file">Uploading file…</string>
+    <string name="save">Save</string>
+    <string name="delete_veteran_msg">Delete this veteran? The card will disappear from the app</string>
+    <string name="cancel">Cancel</string>
+    <string name="burial_places">Burial places</string>
+    <string name="new_burial_place">New place</string>
+    <string name="description">Description</string>
+    <string name="section">Section</string>
+    <string name="row">Row</string>
+    <string name="place">Plot</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
+    <string name="tap_map_to_move_marker_msg">Tap the map to move the marker</string>
+    <string name="new_tour">New tour</string>
+    <string name="add_stop">Add stop</string>
+    <string name="stops">Stops</string>
+    <string name="stop_text">Stop text</string>
+    <string name="title">Title</string>
+    <string name="delete_tour_msg">Delete this tour? It will disappear from the app</string>
+    <string name="more">More</string>
+    <string name="appearance">Appearance</string>
+    <string name="theme">Theme</string>
+    <string name="as_in_system">System</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="text_size">Text size</string>
+    <string name="normal">Normal</string>
+    <string name="large">Large</string>
+    <string name="extra_large">Extra large</string>
+    <string name="language">Language</string>
+    <string name="memorable_dates_of_favorites">Memorable dates of favorites</string>
+    <string name="comment_for_author">Comment for the author (optional)</string>
+    <string name="your_reply">Your reply: %1$s</string>
+    <string name="reply">Reply</string>
+    <string name="send_reply">Send reply</string>
+    <string name="my_requests">My requests</string>
+    <string name="added_to_card">Added to card</string>
+    <string name="materials_for_card">Materials for the card</string>
+    <string name="no_requests_yet_msg">Your messages and materials will appear here once you send them</string>
+    <string name="favorites">Favorites</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="share">Share</string>
+    <string name="remember_veteran_msg">%1$s — we remember. Veteran\'s card: %2$s</string>
+    <string name="removed_from_favorites">Removed from favorites</string>
+    <string name="undo">Undo</string>
+    <string name="remove_from_favorites">Remove from favorites</string>
+    <string name="no_favorites_yet_msg">Tap the heart on a veteran\'s card to add it here</string>
+    <string name="visited">Visited</string>
+    <string name="visited_of_total">Visited %1$d of %2$d</string>
+    <string name="start_over">Start over</string>
+    <string name="scan_qr_code">Scan QR code</string>
+    <string name="not_our_qr_code_msg">This is not a QR code of our cemetery</string>
+    <string name="failed_to_open_scanner_msg">Couldn\'t open the scanner. Try pointing the regular camera at the QR code</string>
+    <string name="never_forgotten_msg">No one is forgotten, nothing is forgotten</string>
+    <string name="thank_you_for_keeping_memory_msg">Thank you for keeping the memory with us</string>
+    <string name="mine">Mine</string>
+    <string name="in_the_morning_of_may_9_msg">On the morning of May 9 we\'ll remind you to honor the memory</string>
+    <string name="on_birthdays_and_memorial_days_msg">On birthdays and memorial days of your favorite veterans</string>
+    <string name="keep_your_memory_safe">Keep your memory safe</string>
+    <string name="sign_in_to_keep_favorites_msg">Sign in with Google to keep your favorites and requests even after reinstalling</string>
+    <string name="sign_in_with_google">Sign in with Google</string>
+    <string name="favorites_and_requests_are_saved_msg">Favorites and requests are saved to your account</string>
+    <string name="could_not_sign_in_msg">Couldn\'t sign in. Check your internet connection and try again</string>
+    <string name="editor_guide">Editor\'s guide</string>
+    <string name="how_to_add_and_edit_content_msg">How to add veterans, places and tours</string>
+    <string name="veteran">Veteran</string>
+    <string name="tour">Tour</string>
+    <string name="voice_over">Voice-over</string>
+    <string name="requests_and_messages">Submissions and messages</string>
+    <string name="if_something_is_wrong">If something goes wrong</string>
+    <string name="add_administrator">Add administrator</string>
+    <string name="super_administrator">Super administrator</string>
+    <string name="administrator_added_msg">Administrator added. The Admin tab will appear for them after restarting the app</string>
+    <string name="account_not_found_msg">No account with this e-mail was found. Ask the person to sign in to the app first</string>
+    <string name="already_administrator_msg">This account is already an administrator</string>
+    <string name="remove_administrator_msg">Revoke administrator rights?</string>
+    <string name="copy_uid">Copy UID</string>
+    <string name="add_uid_to_storage_rules_msg">To let the administrator upload photos and audio, add their UID to the isAdmin() function of the Storage rules</string>
+    <string name="add_and_remove_administrators_msg">Add and remove administrators</string>
+    <string name="administrators">Administrators</string>
+    <string name="do_not_publish_whole_rules_file_msg">Don\'t publish the rules files from the project as a whole: the database is shared with other apps, and their rules would be erased. Edit only the OurMemory node.</string>
+    <string name="add_burials_first_msg">Start with burial places: veterans and tours refer to them</string>
+    <string name="how_to_add_a_veteran">How to add a veteran?</string>
+    <string name="how_to_add_a_burial_place">How to add a burial place?</string>
+    <string name="how_to_build_a_tour">How to build a tour?</string>
+    <string name="add_veteran">Add veteran</string>
+    <string name="add_burial_place">Add place</string>
+    <string name="add_tour">Add tour</string>
+    <string name="requires_attention">Needs attention</string>
+    <string name="content">Content</string>
+    <string name="new_requests">New messages</string>
+    <string name="pending_submissions">Submissions awaiting moderation</string>
+    <string name="everything_is_reviewed_msg">All reviewed</string>
+    <string name="check_new_marker_msg">Check the result on the Map tab: the new marker should be in its place.</string>
+    <string name="save_button_disabled_msg">If the Save button is disabled, the full name is empty or a date is invalid: such a field is highlighted in red.</string>
+    <string name="stop_order_sets_route_msg">The numbers on the map and the route line follow the order of the stops; the preview is shown right in the editor.</string>
+    <string name="check_stresses_before_msg">Check the text before recording: stresses in surnames, years written out in words, abbreviations spelled out in full.</string>
+    <string name="reply_shown_to_author_msg">The author will see your reply under More → My requests.</string>
+    <string name="deleted_items_cannot_be_restored_msg">Deleted items can only be restored by hand, so make sure the right card is open before deleting.</string>
+    <string-array name="burial_place_steps">
+        <item>Admin → Burial places → “Add place”.</item>
+        <item>Choose the type: grave, mass grave or monument.</item>
+        <item>Enter the section, row and plot from the cemetery plate. This is more accurate than GPS, and visitors search by these numbers.</item>
+        <item>Stand by the grave and tap “My location”. If the marker is off, tap the map at the right point.</item>
+        <item>Add a photo and a short description if you have them, and tap “Save”.</item>
+    </string-array>
+    <string-array name="veteran_steps">
+        <item>Admin → Veterans → “Add veteran”. The app assigns the card number itself.</item>
+        <item>Full name and years of life as on the plate, for example “1905–1966”.</item>
+        <item>The category sets the filter in the list and on the map: “Heroes of the Soviet Union” or “Artists”.</item>
+        <item>Pick the dates of birth and death in the calendar: the “On this day” section and favorite reminders rely on them.</item>
+        <item>Choose the burial place from the list of places created in advance.</item>
+        <item>Add a portrait: the face in the center, the app compresses the photo itself.</item>
+        <item>Awards are set with plus and minus: two Orders of the Red Star means “2” next to the order.</item>
+        <item>Build the biography from paragraphs and captioned photos. Arrows change the order, the cross removes a block.</item>
+        <item>Use the language switch at the top of the form to fill in translations: empty fields show the Russian text.</item>
+    </string-array>
+    <string-array name="tour_steps">
+        <item>Admin → Tours → “Add tour”.</item>
+        <item>Give it a title and a short description, for example “Heroes of the Soviet Union, 40 minutes”.</item>
+        <item>Tap “Add stop” and find the place by surname, section number or type.</item>
+        <item>For each stop write the text the visitor reads at the grave and attach an audio guide.</item>
+        <item>Set the order of the stops with the arrows.</item>
+    </string-array>
+    <string-array name="voice_over_steps">
+        <item>A biography lasts 1–3 minutes, a tour stop 30–90 seconds.</item>
+        <item>mp3 or m4a format, file size up to 50 MB.</item>
+        <item>ElevenLabs or Yandex SpeechKit work for speech synthesis. A live voice recorded in a quiet room often sounds better.</item>
+        <item>Send the file to your phone and upload it with “Add audio” in the veteran\'s card or in the stop.</item>
+    </string-array>
+    <string-array name="requests_steps">
+        <item>“Moderation” holds materials from relatives. Fix the text, remove extra photos and tap “Approve”: everything goes to the card at once, captioned “From the family archive”.</item>
+        <item>“Feedback” holds visitors\' messages and error reports. Mark a message as reviewed and write a reply if you like.</item>
+        <item>The app filters obscene texts and indecent photos before sending, but this check can be bypassed, so review everything before approving.</item>
+    </string-array>
+    <string-array name="add_administrator_steps">
+        <item>The new administrator signs in to the app once: with Google in More or via “Administrator sign-in” with their e-mail.</item>
+        <item>A super administrator opens Admin → “Administrators” and adds them by e-mail.</item>
+        <item>Storage → Rules: add the new administrator\'s UID (it can be copied on the Administrators screen) to the isAdmin() function list and tap “Publish”. Without this they cannot upload photos and audio.</item>
+        <item>After restarting the app, the new administrator gets the Admin tab.</item>
+        <item>To revoke rights, remove the administrator on the Administrators screen and delete their UID from the Storage rules.</item>
+        <item>Super administrators are assigned only in the Firebase Console: the OurMemory/SuperAdmins node, the UID key with the value true (and the same UID in OurMemory/Admins).</item>
+    </string-array>
+    <string-array name="troubleshooting_steps">
+        <item>A photo or audio doesn\'t upload — check the internet and the file size. If the error repeats, ask the developer to add your UID to the Storage rules.</item>
+        <item>“No administrator rights” on sign-in — the database has no record with your UID in OurMemory/Admins. Follow the steps in the Administrators section.</item>
+        <item>A visitor doesn\'t see the changes — the app loads data once per launch, new content appears after a restart.</item>
+        <item>An administrator sign-in on a visitor\'s phone resets their Google sign-in. Work from your own phone.</item>
+    </string-array>
+    <plurals name="veteran_cards_count">
+        <item quantity="one">%d card</item>
+        <item quantity="other">%d cards</item>
+    </plurals>
+    <plurals name="burial_places_count">
+        <item quantity="one">%d place</item>
+        <item quantity="other">%d places</item>
+    </plurals>
+    <plurals name="routes_count">
+        <item quantity="one">%d route</item>
+        <item quantity="other">%d routes</item>
+    </plurals>
+    <string name="for_cemetery_editors_msg">For memorial editors: veterans, burial places, tours and visitor submissions</string>
+    <string name="content_language">Content language</string>
+    <string name="copy_paragraphs_from_russian">Copy paragraphs from Russian</string>
+    <string name="translation_is_optional_msg">Translation is optional: empty fields show the Russian text</string>
+</resources>

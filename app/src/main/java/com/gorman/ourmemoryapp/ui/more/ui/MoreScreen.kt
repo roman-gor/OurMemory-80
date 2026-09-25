@@ -50,9 +50,7 @@ fun MoreScreen(
     moreViewModel: MoreViewModel = hiltViewModel()
 ) {
     val state by moreViewModel.uiState.collectAsStateWithLifecycle()
-    val currentLanguage = AppLanguage.entries.firstOrNull {
-        it.tag == LocalConfiguration.current.locales[0].language
-    } ?: AppLanguage.RUSSIAN
+    val currentLanguage = AppLanguage.fromLanguage(LocalConfiguration.current.locales[0].language)
     val onUiIntent = moreViewModel::onUiIntent
     val scanQr = rememberQrScanAction(onVeteranScanned = onVeteranScanned)
     val signInWithGoogle = rememberGoogleSignInAction(onUiIntent = onUiIntent)

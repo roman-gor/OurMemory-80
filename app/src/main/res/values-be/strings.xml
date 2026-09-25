@@ -206,8 +206,6 @@
     <string name="large">Буйны</string>
     <string name="extra_large">Вельмі буйны</string>
     <string name="language">Мова</string>
-    <string name="russian">Русский</string>
-    <string name="belarusian">Беларуская</string>
     <string name="memorable_dates_of_favorites">Памятныя даты абраных</string>
     <string name="comment_for_author">Каментар для аўтара (неабавязкова)</string>
     <string name="your_reply">Ваш адказ: %1$s</string>
@@ -293,6 +291,7 @@
         <item>Дадайце партрэт: твар па цэнтры, праграма сама сцісне фота.</item>
         <item>Узнагароды ставяцца плюсам і мінусам: два ордэны Чырвонай Зоркі — «2» насупраць ордэна.</item>
         <item>Біяграфію збярыце з абзацаў і фота з подпісамі. Стрэлкі мяняюць парадак, крыжык выдаляе блок.</item>
+        <item>Выкарыстоўвайце пераключальнік мовы ўверсе формы, каб запоўніць пераклады: пустыя палі паказваюцца па-руску.</item>
     </string-array>
     <string-array name="tour_steps">
         <item>Адмін → Экскурсіі → «Дадаць экскурсію».</item>
@@ -345,4 +344,7 @@
         <item quantity="other">%d маршруту</item>
     </plurals>
     <string name="for_cemetery_editors_msg">Для рэдактараў мемарыяла: ветэраны, месцы пахавання, экскурсіі і заяўкі наведвальнікаў</string>
+    <string name="content_language">Мова кантэнту</string>
+    <string name="copy_paragraphs_from_russian">Скапіраваць абзацы з рускай</string>
+    <string name="translation_is_optional_msg">Пераклад неабавязковы: пустыя палі паказваюцца па-руску</string>
 </resources>
