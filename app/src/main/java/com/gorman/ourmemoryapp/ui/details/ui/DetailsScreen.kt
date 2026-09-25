@@ -92,13 +92,19 @@ fun DetailsScreen(
             modifier = Modifier.align(Alignment.TopCenter),
             actions = {
                 if (state is DetailsUiState.Success) {
+                    val onShareClick = rememberShareVeteranAction(
+                        veteranId = state.veteran.id,
+                        veteranName = state.veteran.name
+                    )
                     CircleIconButton(
-                        painter = painterResource(if (isFavorite) R.drawable.favorite else R.drawable.favorite_border),
-                        contentDescription = stringResource(
-                            if (isFavorite) R.string.remove_from_favorites else R.string.add_to_favorites
-                        ),
-                        onClick = { detailsViewModel.onUiEvent(DetailsUiEvent.OnFavoriteClick) },
+                        painter = painterResource(R.drawable.share),
+                        contentDescription = stringResource(R.string.share),
+                        onClick = onShareClick,
                         contentColor = MaterialTheme.colorScheme.primary
+                    )
+                    FavoriteButton(
+                        isFavorite = isFavorite,
+                        onClick = { detailsViewModel.onUiEvent(DetailsUiEvent.OnFavoriteClick) }
                     )
                 }
             }

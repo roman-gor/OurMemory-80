@@ -6,6 +6,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,16 +20,22 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import com.gorman.ourmemoryapp.R
 
 @Composable
@@ -51,6 +58,8 @@ fun FloatingTopBar(
         targetValue = if (isCollapsed) 1f else 0f,
         label = "topBarTitle"
     )
+    var actionsWidthPx by remember { mutableIntStateOf(0) }
+    val titleInset = max(TITLE_MIN_INSET, with(LocalDensity.current) { actionsWidthPx.toDp() } + TITLE_ACTIONS_GAP)
 
     Column(
         modifier = modifier
@@ -82,11 +91,14 @@ fun FloatingTopBar(
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .align(Alignment.Center)
-                    .padding(horizontal = 60.dp)
+                    .padding(horizontal = titleInset)
                     .graphicsLayer { alpha = titleAlpha }
             )
             Row(
-                modifier = Modifier.align(Alignment.CenterEnd),
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .onSizeChanged { actionsWidthPx = it.width },
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 content = actions
             )
@@ -98,3 +110,5 @@ fun FloatingTopBar(
 }
 
 private const val COLLAPSED_ALPHA = 0.97f
+private val TITLE_MIN_INSET = 60.dp
+private val TITLE_ACTIONS_GAP = 12.dp

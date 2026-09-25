@@ -1,23 +1,26 @@
 package com.gorman.ourmemoryapp.ui.details.ui
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -32,6 +35,7 @@ fun CandleCard(
     modifier: Modifier = Modifier
 ) {
     val isLit = candleState.isLitToday
+    val haptics = LocalHapticFeedback.current
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
@@ -39,24 +43,13 @@ fun CandleCard(
             .padding(horizontal = 16.dp)
             .clip(RoundedCornerShape(20.dp))
             .background(MaterialTheme.colorScheme.surfaceContainer)
-            .clickable(enabled = !isLit, onClick = onLightClick)
+            .clickable(enabled = !isLit) {
+                haptics.performHapticFeedback(HapticFeedbackType.Confirm)
+                onLightClick()
+            }
             .padding(16.dp)
     ) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .size(52.dp)
-                .clip(CircleShape)
-                .background(
-                    if (isLit) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primaryContainer
-                )
-        ) {
-            Icon(
-                painter = painterResource(R.drawable.flame),
-                contentDescription = null,
-                tint = if (isLit) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.primary
-            )
-        }
+        CandleFlame(isLit = isLit)
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -68,15 +61,21 @@ fun CandleCard(
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface
             )
-            Text(
-                text = pluralStringResource(
-                    R.plurals.candles_count,
-                    candleState.count.coerceAtMost(Int.MAX_VALUE.toLong()).toInt(),
-                    candleState.count
-                ),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            AnimatedContent(
+                targetState = candleState.count,
+                transitionSpec = {
+                    (slideInVertically { it } + fadeIn()) togetherWith (slideOutVertically { -it } + fadeOut())
+                },
+                label = "candlesCount"
+            ) { count ->
+                Text(
+                    text = pluralStringResource(R.plurals.candles_count, count.toPluralQuantity(), count),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
         }
     }
 }
+
+private fun Long.toPluralQuantity() = coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
