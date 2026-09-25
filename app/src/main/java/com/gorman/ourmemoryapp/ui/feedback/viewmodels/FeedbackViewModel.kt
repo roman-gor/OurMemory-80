@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.gorman.ourmemoryapp.domain.models.FeedbackDraft
 import com.gorman.ourmemoryapp.domain.models.FeedbackType
 import com.gorman.ourmemoryapp.domain.models.Screen
+import com.gorman.ourmemoryapp.domain.repository.ContentCheckRepository
 import com.gorman.ourmemoryapp.domain.repository.FeedbackRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
 import com.gorman.ourmemoryapp.ui.feedback.models.FeedbackFormStatus
@@ -26,7 +27,8 @@ import javax.inject.Inject
 class FeedbackViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val feedbackRepository: FeedbackRepository,
-    private val veteransRepository: VeteransRepository
+    private val veteransRepository: VeteransRepository,
+    private val contentCheckRepository: ContentCheckRepository
 ) : ViewModel() {
 
     private val veteranId = savedStateHandle.get<String>(Screen.FeedbackScreen.VETERAN_ID_ARG).orEmpty()
@@ -47,8 +49,12 @@ class FeedbackViewModel @Inject constructor(
     fun onUiIntent(intent: FeedbackUiIntent) {
         when (intent) {
             is FeedbackUiIntent.OnTypeChange -> formState.update { it.copy(type = intent.type) }
-            is FeedbackUiIntent.OnTextChange -> formState.update { it.copy(text = intent.text.take(MAX_TEXT_LENGTH)) }
-            is FeedbackUiIntent.OnContactChange -> formState.update { it.copy(contact = intent.contact) }
+            is FeedbackUiIntent.OnTextChange -> formState.update {
+                it.copy(text = intent.text.take(MAX_TEXT_LENGTH), hasTextProfanity = false)
+            }
+            is FeedbackUiIntent.OnContactChange -> formState.update {
+                it.copy(contact = intent.contact, hasContactProfanity = false)
+            }
             FeedbackUiIntent.OnSendClick -> send()
         }
     }
@@ -64,6 +70,14 @@ class FeedbackViewModel @Inject constructor(
     private fun send() {
         val state = formState.value
         if (!state.canSend) return
+        val hasTextProfanity = contentCheckRepository.containsProfanity(state.text)
+        val hasContactProfanity = contentCheckRepository.containsProfanity(state.contact)
+        if (hasTextProfanity || hasContactProfanity) {
+            formState.update {
+                it.copy(hasTextProfanity = hasTextProfanity, hasContactProfanity = hasContactProfanity)
+            }
+            return
+        }
         formState.update { it.copy(status = FeedbackFormStatus.SENDING) }
         viewModelScope.launch {
             runCatching {

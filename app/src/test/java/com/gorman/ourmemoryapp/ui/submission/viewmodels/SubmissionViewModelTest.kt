@@ -3,6 +3,7 @@ package com.gorman.ourmemoryapp.ui.submission.viewmodels
 import androidx.lifecycle.SavedStateHandle
 import com.gorman.ourmemoryapp.domain.models.Screen
 import com.gorman.ourmemoryapp.domain.models.Veteran
+import com.gorman.ourmemoryapp.testutil.FakeContentCheckRepository
 import com.gorman.ourmemoryapp.testutil.FakeSubmissionsRepository
 import com.gorman.ourmemoryapp.testutil.FakeVeteransRepository
 import com.gorman.ourmemoryapp.testutil.MainDispatcherRule
@@ -25,7 +26,8 @@ class SubmissionViewModelTest {
     private fun viewModel(repository: FakeSubmissionsRepository = FakeSubmissionsRepository()) = SubmissionViewModel(
         savedStateHandle = SavedStateHandle(mapOf(Screen.SubmissionScreen.VETERAN_ID_ARG to VETERAN_ID)),
         submissionsRepository = repository,
-        veteransRepository = FakeVeteransRepository(listOf(Veteran(id = VETERAN_ID, name = "Иванов Иван")))
+        veteransRepository = FakeVeteransRepository(listOf(Veteran(id = VETERAN_ID, name = "Иванов Иван"))),
+        contentCheckRepository = FakeContentCheckRepository()
     )
 
     private suspend fun SubmissionViewModel.awaitState(predicate: (SubmissionUiState) -> Boolean) =

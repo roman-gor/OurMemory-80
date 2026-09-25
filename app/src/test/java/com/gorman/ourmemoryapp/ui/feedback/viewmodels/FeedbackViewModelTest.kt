@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.gorman.ourmemoryapp.domain.models.FeedbackType
 import com.gorman.ourmemoryapp.domain.models.Screen
 import com.gorman.ourmemoryapp.domain.models.Veteran
+import com.gorman.ourmemoryapp.testutil.FakeContentCheckRepository
 import com.gorman.ourmemoryapp.testutil.FakeFeedbackRepository
 import com.gorman.ourmemoryapp.testutil.FakeVeteransRepository
 import com.gorman.ourmemoryapp.testutil.MainDispatcherRule
@@ -31,7 +32,8 @@ class FeedbackViewModelTest {
             veteranId?.let { mapOf(Screen.FeedbackScreen.VETERAN_ID_ARG to it) }.orEmpty()
         ),
         feedbackRepository = repository,
-        veteransRepository = FakeVeteransRepository(listOf(Veteran(id = VETERAN_ID, name = "Иванов Иван")))
+        veteransRepository = FakeVeteransRepository(listOf(Veteran(id = VETERAN_ID, name = "Иванов Иван"))),
+        contentCheckRepository = FakeContentCheckRepository()
     )
 
     private suspend fun FeedbackViewModel.awaitState(predicate: (FeedbackUiState) -> Boolean) =

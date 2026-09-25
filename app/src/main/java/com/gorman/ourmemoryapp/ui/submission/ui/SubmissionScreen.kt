@@ -40,9 +40,11 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.ui.common.ui.FloatingTopBar
+import com.gorman.ourmemoryapp.ui.common.ui.offensiveWordsHint
 import com.gorman.ourmemoryapp.ui.submission.models.SubmissionStatus
 import com.gorman.ourmemoryapp.ui.submission.models.SubmissionUiIntent
 import com.gorman.ourmemoryapp.ui.submission.models.SubmissionUiState
+import com.gorman.ourmemoryapp.ui.submission.models.messageRes
 import com.gorman.ourmemoryapp.ui.submission.viewmodels.SubmissionViewModel
 
 @Composable
@@ -157,6 +159,8 @@ private fun SubmissionFields(
             onValueChange = { onUiIntent(SubmissionUiIntent.OnTextChange(it)) },
             label = { Text(text = stringResource(R.string.memories)) },
             enabled = isEditable,
+            isError = state.hasTextProfanity,
+            supportingText = offensiveWordsHint(state.hasTextProfanity),
             minLines = MEMORIES_MIN_LINES,
             modifier = Modifier.fillMaxWidth()
         )
@@ -165,6 +169,8 @@ private fun SubmissionFields(
             onValueChange = { onUiIntent(SubmissionUiIntent.OnContactChange(it)) },
             label = { Text(text = stringResource(R.string.your_name_and_contact)) },
             enabled = isEditable,
+            isError = state.hasContactProfanity,
+            supportingText = offensiveWordsHint(state.hasContactProfanity),
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )
@@ -190,10 +196,19 @@ private fun PhotosSection(
         )
         PhotoPickerRow(
             photoUris = state.photoUris,
+            checkingPhotosCount = state.checkingPhotosCount,
             canAddPhotos = state.canAddPhotos,
             onAddClick = onAddClick,
             onRemoveClick = onRemoveClick
         )
+        state.photoRejection?.let { rejection ->
+            Text(
+                text = stringResource(rejection.messageRes),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+            )
+        }
     }
 }
 

@@ -65,6 +65,9 @@ android {
         compose = true
         buildConfig = true
     }
+    androidResources {
+        noCompress += "tflite"
+    }
     testOptions {
         unitTests.isReturnDefaultValues = true
     }
@@ -111,6 +114,7 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.play.services.code.scanner)
+    implementation(libs.litert)
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
 }

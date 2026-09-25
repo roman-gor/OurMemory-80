@@ -39,6 +39,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.domain.models.FeedbackType
 import com.gorman.ourmemoryapp.ui.common.ui.FloatingTopBar
+import com.gorman.ourmemoryapp.ui.common.ui.offensiveWordsHint
 import com.gorman.ourmemoryapp.ui.feedback.models.FeedbackFormStatus
 import com.gorman.ourmemoryapp.ui.feedback.models.FeedbackUiIntent
 import com.gorman.ourmemoryapp.ui.feedback.models.FeedbackUiState
@@ -158,6 +159,8 @@ private fun FeedbackFields(
             onValueChange = { onUiIntent(FeedbackUiIntent.OnTextChange(it)) },
             label = { Text(text = stringResource(R.string.message)) },
             enabled = isEditable,
+            isError = state.hasTextProfanity,
+            supportingText = offensiveWordsHint(state.hasTextProfanity),
             minLines = MESSAGE_MIN_LINES,
             modifier = Modifier.fillMaxWidth()
         )
@@ -166,6 +169,8 @@ private fun FeedbackFields(
             onValueChange = { onUiIntent(FeedbackUiIntent.OnContactChange(it)) },
             label = { Text(text = stringResource(R.string.contact_for_reply)) },
             enabled = isEditable,
+            isError = state.hasContactProfanity,
+            supportingText = offensiveWordsHint(state.hasContactProfanity),
             singleLine = true,
             modifier = Modifier.fillMaxWidth()
         )

@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,6 +24,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -32,6 +36,7 @@ import kotlinx.collections.immutable.ImmutableList
 @Composable
 fun PhotoPickerRow(
     photoUris: ImmutableList<String>,
+    checkingPhotosCount: Int,
     canAddPhotos: Boolean,
     onAddClick: () -> Unit,
     onRemoveClick: (Int) -> Unit,
@@ -64,6 +69,9 @@ fun PhotoPickerRow(
                 )
             }
         }
+        items(checkingPhotosCount) {
+            CheckingPhotoTile()
+        }
         if (canAddPhotos) {
             item {
                 Box(
@@ -92,6 +100,21 @@ fun PhotoPickerRow(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun CheckingPhotoTile() {
+    val checkingPhoto = stringResource(R.string.checking_photo)
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .size(PHOTO_SIZE)
+            .clip(RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.surfaceContainer)
+            .semantics { contentDescription = checkingPhoto }
+    ) {
+        CircularProgressIndicator(strokeWidth = 2.dp, modifier = Modifier.size(24.dp))
     }
 }
 

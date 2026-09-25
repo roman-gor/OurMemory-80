@@ -8,6 +8,8 @@ data class FeedbackUiState(
     val type: FeedbackType = FeedbackType.OTHER,
     val text: String = "",
     val contact: String = "",
+    val hasTextProfanity: Boolean = false,
+    val hasContactProfanity: Boolean = false,
     val status: FeedbackFormStatus = FeedbackFormStatus.EDITING
 ) {
     val canSend = text.isNotBlank() && status != FeedbackFormStatus.SENDING
