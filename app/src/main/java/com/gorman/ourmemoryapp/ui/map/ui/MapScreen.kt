@@ -1,26 +1,39 @@
 package com.gorman.ourmemoryapp.ui.map.ui
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -36,10 +49,14 @@ import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.LocalBottomBarInset
 import com.gorman.ourmemoryapp.ui.common.ui.SystemBarIcons
 import com.gorman.ourmemoryapp.ui.common.ui.rememberMapViewWithLifecycle
+import com.gorman.ourmemoryapp.ui.map.models.BurialDetailsUi
 import com.gorman.ourmemoryapp.ui.map.models.MapUiIntent
 import com.gorman.ourmemoryapp.ui.map.models.MapUiState
 import com.gorman.ourmemoryapp.ui.map.viewmodels.MapViewModel
 import com.gorman.ourmemoryapp.ui.tours.ui.ToursSheet
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 @Composable
@@ -82,6 +99,7 @@ fun MapScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun MapContent(
     state: MapUiState.Success,
@@ -103,60 +121,64 @@ private fun MapContent(
         onPermissionDenied = { scope.launch { snackbarHostState.showSnackbar(permissionDeniedMessage) } }
     )
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        BurialsMap(
-            mapView = mapView,
-            markers = state.markers,
-            focusedBurialId = state.focusedBurialId,
-            isSatellite = isSatellite,
-            onMarkerClick = { onUiIntent(MapUiIntent.OnMarkerClick(it)) },
-            modifier = Modifier.fillMaxSize()
-        )
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .fillMaxWidth()
-                .statusBarsPadding()
-                .padding(top = 8.dp)
-        ) {
-            onBackClick?.let { BackButton(onClick = it) }
-            CategoryFilterChips(
-                checkedWar = state.checkedWar,
-                checkedArt = state.checkedArt,
-                onCheckedWarChange = { onUiIntent(MapUiIntent.OnCheckedWarChange(it)) },
-                onCheckedArtChange = { onUiIntent(MapUiIntent.OnCheckedArtChange(it)) },
-                modifier = Modifier.weight(1f)
-            )
+    val selectedBurial = state.selectedBurial
+    val sheetState = rememberStandardBottomSheetState(
+        initialValue = SheetValue.Hidden,
+        skipHiddenState = false
+    )
+    val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = sheetState)
+    val sheetDetails = rememberBurialSheetDetails(
+        selectedBurial = selectedBurial,
+        sheetState = sheetState,
+        onDismiss = { onUiIntent(MapUiIntent.OnSheetDismiss) }
+    )
+    val bottomInset = LocalBottomBarInset.current
+    val navigationBarsPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
+
+    BottomSheetScaffold(
+        scaffoldState = scaffoldState,
+        sheetPeekHeight = SHEET_PEEK_HEIGHT + bottomInset + navigationBarsPadding,
+        sheetContent = {
+            sheetDetails?.let { details ->
+                BurialSheetContent(
+                    details = details,
+                    bottomInset = bottomInset,
+                    onVeteranClick = onVeteranClick
+                )
+            }
         }
-        if (state.tours.isNotEmpty()) {
-            ExtendedFloatingActionButton(
-                onClick = { showTours = true },
-                text = { Text(text = stringResource(R.string.tours)) },
-                icon = {
-                    Icon(
-                        painter = painterResource(R.drawable.directions_walk),
-                        contentDescription = null
-                    )
-                },
-                containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.primary,
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            BurialsMap(
+                mapView = mapView,
+                markers = state.markers,
+                focusedBurialId = state.focusedBurialId,
+                isSatellite = isSatellite,
+                onMarkerClick = { onUiIntent(MapUiIntent.OnMarkerClick(it)) },
+                modifier = Modifier.fillMaxSize()
+            )
+            MapTopControls(state = state, onUiIntent = onUiIntent, onBackClick = onBackClick)
+            if (state.tours.isNotEmpty()) {
+                ToursButton(
+                    onClick = { showTours = true },
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .navigationBarsPadding()
+                        .padding(bottom = LocalBottomBarInset.current)
+                        .padding(16.dp)
+                )
+            }
+            MapControls(
+                isSatellite = isSatellite,
+                onMapTypeClick = { isSatellite = !isSatellite },
+                onMyLocationClick = onMyLocationClick,
                 modifier = Modifier
-                    .align(Alignment.BottomStart)
+                    .align(Alignment.BottomEnd)
                     .navigationBarsPadding()
                     .padding(bottom = LocalBottomBarInset.current)
                     .padding(16.dp)
             )
         }
-        MapControls(
-            isSatellite = isSatellite,
-            onMapTypeClick = { isSatellite = !isSatellite },
-            onMyLocationClick = onMyLocationClick,
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .navigationBarsPadding()
-                .padding(bottom = LocalBottomBarInset.current)
-                .padding(16.dp)
-        )
     }
 
     if (showTours) {
@@ -169,14 +191,73 @@ private fun MapContent(
             onDismiss = { showTours = false }
         )
     }
+}
 
-    state.selectedBurial?.let { details ->
-        BurialBottomSheet(
-            details = details,
-            onVeteranClick = onVeteranClick,
-            onDismiss = { onUiIntent(MapUiIntent.OnSheetDismiss) }
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun rememberBurialSheetDetails(
+    selectedBurial: BurialDetailsUi?,
+    sheetState: SheetState,
+    onDismiss: () -> Unit
+): BurialDetailsUi? {
+    var sheetDetails by remember { mutableStateOf(selectedBurial) }
+    val currentOnDismiss by rememberUpdatedState(onDismiss)
+    LaunchedEffect(selectedBurial) {
+        if (selectedBurial != null) sheetDetails = selectedBurial
+    }
+    LaunchedEffect(selectedBurial?.burial?.id) {
+        if (selectedBurial != null) sheetState.partialExpand() else sheetState.hide()
+    }
+    LaunchedEffect(sheetState) {
+        snapshotFlow { sheetState.currentValue }
+            .distinctUntilChanged()
+            .drop(1)
+            .filter { it == SheetValue.Hidden }
+            .collect { currentOnDismiss() }
+    }
+    BackHandler(enabled = selectedBurial != null) { currentOnDismiss() }
+    return sheetDetails
+}
+
+@Composable
+private fun MapTopControls(
+    state: MapUiState.Success,
+    onUiIntent: (MapUiIntent) -> Unit,
+    onBackClick: (() -> Unit)?
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .statusBarsPadding()
+            .padding(top = 8.dp)
+    ) {
+        onBackClick?.let { BackButton(onClick = it) }
+        CategoryFilterChips(
+            checkedWar = state.checkedWar,
+            checkedArt = state.checkedArt,
+            onCheckedWarChange = { onUiIntent(MapUiIntent.OnCheckedWarChange(it)) },
+            onCheckedArtChange = { onUiIntent(MapUiIntent.OnCheckedArtChange(it)) },
+            modifier = Modifier.weight(1f)
         )
     }
+}
+
+@Composable
+private fun ToursButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
+    ExtendedFloatingActionButton(
+        onClick = onClick,
+        text = { Text(text = stringResource(R.string.tours)) },
+        icon = {
+            Icon(
+                painter = painterResource(R.drawable.directions_walk),
+                contentDescription = null
+            )
+        },
+        containerColor = MaterialTheme.colorScheme.surface,
+        contentColor = MaterialTheme.colorScheme.primary,
+        modifier = modifier
+    )
 }
 
 @Composable
@@ -188,3 +269,5 @@ private fun BackButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
         modifier = modifier.padding(start = 12.dp)
     )
 }
+
+private val SHEET_PEEK_HEIGHT = 300.dp
