@@ -79,7 +79,6 @@ private fun Context.openRouteToCemetery() {
     try {
         startActivity(Intent(Intent.ACTION_VIEW, uri))
     } catch (_: ActivityNotFoundException) {
-        Unit
     }
 }
 

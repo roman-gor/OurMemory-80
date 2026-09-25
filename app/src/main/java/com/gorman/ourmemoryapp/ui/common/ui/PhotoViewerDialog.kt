@@ -93,7 +93,7 @@ fun PhotoViewerDialog(
 private fun ZoomableImage(item: MediaUi) {
     var scale by remember { mutableFloatStateOf(MIN_ZOOM) }
     var offset by remember { mutableStateOf(Offset.Zero) }
-    val transformableState = rememberTransformableState { zoomChange, panChange, _ ->
+    val transformableState = rememberTransformableState { _, zoomChange, panChange, _ ->
         scale = (scale * zoomChange).coerceIn(MIN_ZOOM, MAX_ZOOM)
         offset = if (scale > MIN_ZOOM) offset + panChange else Offset.Zero
     }

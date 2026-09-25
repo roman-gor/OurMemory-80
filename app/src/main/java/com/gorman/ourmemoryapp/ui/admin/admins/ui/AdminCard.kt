@@ -1,5 +1,6 @@
 package com.gorman.ourmemoryapp.ui.admin.admins.ui
 
+import android.content.ClipData
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,20 +17,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.toClipEntry
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.ui.admin.admins.models.AdminItemUi
+import kotlinx.coroutines.launch
 
 @Composable
 fun AdminCard(item: AdminItemUi, onRemoveConfirm: () -> Unit) {
-    val clipboard = LocalClipboardManager.current
+    val clipboard = LocalClipboard.current
+    val scope = rememberCoroutineScope()
     var isRemoveDialogOpen by remember { mutableStateOf(false) }
 
     Card(
@@ -57,7 +61,13 @@ fun AdminCard(item: AdminItemUi, onRemoveConfirm: () -> Unit) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Row(verticalAlignment = Alignment.CenterVertically) {
-                TextButton(onClick = { clipboard.setText(AnnotatedString(item.uid)) }) {
+                TextButton(
+                    onClick = {
+                        scope.launch {
+                            clipboard.setClipEntry(ClipData.newPlainText(UID_CLIP_LABEL, item.uid).toClipEntry())
+                        }
+                    }
+                ) {
                     Text(text = stringResource(R.string.copy_uid))
                 }
                 if (item.canRemove) {
@@ -94,3 +104,4 @@ fun AdminCard(item: AdminItemUi, onRemoveConfirm: () -> Unit) {
 private val CARD_CORNER_RADIUS = 20.dp
 private val CARD_PADDING = 12.dp
 private val CONTENT_SPACING = 4.dp
+private const val UID_CLIP_LABEL = "uid"

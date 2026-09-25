@@ -49,7 +49,6 @@ fun NewsSection(news: ImmutableList<NewsUi>, modifier: Modifier = Modifier) {
                         try {
                             context.startActivity(Intent(Intent.ACTION_VIEW, item.url.toUri()))
                         } catch (_: ActivityNotFoundException) {
-                            Unit
                         }
                     }
                 )

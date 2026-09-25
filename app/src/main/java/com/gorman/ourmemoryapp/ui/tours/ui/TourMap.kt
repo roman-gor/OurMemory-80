@@ -19,6 +19,7 @@ import com.yandex.mapkit.geometry.Geometry
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.geometry.Polyline
 import com.yandex.mapkit.map.CameraPosition
+import com.yandex.mapkit.map.LineStyle
 import com.yandex.mapkit.map.MapObjectTapListener
 import kotlinx.collections.immutable.ImmutableList
 
@@ -47,7 +48,7 @@ fun TourMap(
         if (points.size > 1) {
             collection.addPolyline(Polyline(points)).apply {
                 setStrokeColor(MemoryRed.toArgb())
-                strokeWidth = ROUTE_STROKE_WIDTH
+                style = LineStyle().setStrokeWidth(ROUTE_STROKE_WIDTH)
             }
         }
         points.forEachIndexed { index, point ->
