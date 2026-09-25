@@ -3,7 +3,6 @@ package com.gorman.ourmemoryapp.ui.admin.guide.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -20,6 +19,7 @@ import com.gorman.ourmemoryapp.ui.admin.guide.models.EditorGuideUiEvent
 import com.gorman.ourmemoryapp.ui.admin.guide.viewmodels.EditorGuideViewModel
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
+import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 
 @Composable
 fun EditorGuideScreen(
@@ -30,11 +30,13 @@ fun EditorGuideScreen(
 
     TopBarScaffold(title = stringResource(R.string.editor_guide), onBackClick = onBackClick) {
         LazyColumn(
-            contentPadding = PaddingValues(start = SCREEN_PADDING, end = SCREEN_PADDING, bottom = SCREEN_PADDING),
+            contentPadding = PaddingValues(
+                start = SCREEN_PADDING,
+                end = SCREEN_PADDING,
+                bottom = SCREEN_PADDING + bottomBarContentPadding()
+            ),
             verticalArrangement = Arrangement.spacedBy(ITEM_SPACING),
-            modifier = Modifier
-                .fillMaxSize()
-                .navigationBarsPadding()
+            modifier = Modifier.fillMaxSize()
         ) {
             item { TopBarSpacer() }
             item {

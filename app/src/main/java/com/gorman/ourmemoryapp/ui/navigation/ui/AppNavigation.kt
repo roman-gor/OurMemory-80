@@ -98,7 +98,7 @@ private fun AppNavHost(
                 }
             }
         }
-        tabComposable(Screen.HomeScreen.route) {
+        tabComposable(Screen.HomeScreen.route, hasStatusBarScrim = true) {
             MainScreen(onItemClick = openVeteran)
         }
         tabComposable(Screen.MapScreen.route) {
@@ -110,7 +110,7 @@ private fun AppNavHost(
                 onChangeLangClick = onChangeLangClick
             )
         }
-        tabComposable(Screen.MoreScreen.route) {
+        tabComposable(Screen.MoreScreen.route, hasStatusBarScrim = true) {
             MoreScreen(
                 onLanguageChange = onChangeLangClick,
                 onWriteToUsClick = { navController.navigate(Screen.FeedbackScreen.route) },

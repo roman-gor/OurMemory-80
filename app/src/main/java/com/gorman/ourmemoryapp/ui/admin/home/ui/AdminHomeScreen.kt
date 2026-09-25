@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -24,6 +23,7 @@ import com.gorman.ourmemoryapp.ui.admin.home.models.AdminHomeUiEvent
 import com.gorman.ourmemoryapp.ui.admin.home.viewmodels.AdminHomeViewModel
 import com.gorman.ourmemoryapp.ui.common.ui.GroupTitle
 import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
+import com.gorman.ourmemoryapp.ui.common.ui.statusBarContentPadding
 
 @Composable
 fun AdminHomeScreen(
@@ -42,7 +42,7 @@ fun AdminHomeScreen(
     LazyColumn(
         contentPadding = PaddingValues(
             start = SCREEN_PADDING,
-            top = SCREEN_PADDING,
+            top = SCREEN_PADDING + statusBarContentPadding(),
             end = SCREEN_PADDING,
             bottom = SCREEN_PADDING + bottomBarContentPadding()
         ),
@@ -50,7 +50,6 @@ fun AdminHomeScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .statusBarsPadding()
     ) {
         item {
             AdminHeader(

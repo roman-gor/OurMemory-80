@@ -24,7 +24,7 @@ fun NavGraphBuilder.adminGraph(navController: NavHostController) {
             }
         )
     }
-    tabComposable(Screen.AdminHomeScreen.route) {
+    tabComposable(Screen.AdminHomeScreen.route, hasStatusBarScrim = true) {
         AdminHomeScreen(
             onModerationClick = { navController.navigate(Screen.AdminModerationScreen.route) },
             onVeteransClick = { navController.navigate(Screen.AdminVeteransScreen.route) },

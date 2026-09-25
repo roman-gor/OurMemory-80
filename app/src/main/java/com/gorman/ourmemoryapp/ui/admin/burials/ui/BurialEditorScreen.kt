@@ -45,6 +45,7 @@ import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
+import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 
 @Composable
 fun BurialEditorScreen(
@@ -84,7 +85,7 @@ private fun BurialEditorContent(
             .fillMaxSize()
             .imePadding()
             .verticalScroll(rememberScrollState())
-            .padding(start = 16.dp, end = 16.dp, bottom = 32.dp)
+            .padding(start = 16.dp, end = 16.dp, bottom = 32.dp + bottomBarContentPadding())
     ) {
         TopBarSpacer()
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {

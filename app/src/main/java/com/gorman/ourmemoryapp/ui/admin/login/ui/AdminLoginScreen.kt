@@ -46,6 +46,7 @@ import com.gorman.ourmemoryapp.ui.admin.login.models.AdminLoginUiIntent
 import com.gorman.ourmemoryapp.ui.admin.login.models.AdminLoginUiState
 import com.gorman.ourmemoryapp.ui.admin.login.viewmodels.AdminLoginViewModel
 import com.gorman.ourmemoryapp.ui.common.ui.FloatingTopBar
+import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 
 @Composable
 fun AdminLoginScreen(
@@ -118,6 +119,7 @@ private fun AdminLoginForm(
                 Text(text = stringResource(R.string.sign_in))
             }
         }
+        Spacer(modifier = Modifier.height(bottomBarContentPadding()))
     }
 }
 

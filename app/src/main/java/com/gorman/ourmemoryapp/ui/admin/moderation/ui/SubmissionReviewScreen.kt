@@ -32,6 +32,7 @@ import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
+import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 
 @Composable
 fun SubmissionReviewScreen(
@@ -62,7 +63,7 @@ private fun SubmissionReviewContent(
     onUiIntent: (SubmissionReviewUiIntent) -> Unit
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(bottom = 24.dp),
+        contentPadding = PaddingValues(bottom = 24.dp + bottomBarContentPadding()),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier
             .fillMaxSize()

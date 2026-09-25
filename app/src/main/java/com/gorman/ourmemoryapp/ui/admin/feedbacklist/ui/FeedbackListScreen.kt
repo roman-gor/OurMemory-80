@@ -23,6 +23,7 @@ import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
+import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 
 @Composable
 fun FeedbackListScreen(
@@ -37,7 +38,7 @@ fun FeedbackListScreen(
             FeedbackListUiState.Loading -> LoadingContent()
             FeedbackListUiState.Error -> ErrorContent()
             is FeedbackListUiState.Success -> LazyColumn(
-                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp),
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp + bottomBarContentPadding()),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier.fillMaxSize()
             ) {

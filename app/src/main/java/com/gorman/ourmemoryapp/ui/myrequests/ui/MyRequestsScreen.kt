@@ -22,6 +22,7 @@ import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
+import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 import com.gorman.ourmemoryapp.ui.myrequests.models.MyRequestsUiState
 import com.gorman.ourmemoryapp.ui.myrequests.viewmodels.MyRequestsViewModel
 
@@ -39,7 +40,7 @@ fun MyRequestsScreen(
             MyRequestsUiState.Loading -> LoadingContent()
             MyRequestsUiState.Error -> ErrorContent()
             is MyRequestsUiState.Success -> LazyColumn(
-                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp),
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 24.dp + bottomBarContentPadding()),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier.fillMaxSize()
             ) {

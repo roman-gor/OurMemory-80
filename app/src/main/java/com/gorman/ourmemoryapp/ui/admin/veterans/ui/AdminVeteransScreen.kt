@@ -43,6 +43,7 @@ import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
+import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 
 @Composable
 fun AdminVeteransScreen(
@@ -63,7 +64,7 @@ fun AdminVeteransScreen(
             AdminVeteransUiState.Loading -> LoadingContent()
             AdminVeteransUiState.Error -> ErrorContent()
             is AdminVeteransUiState.Success -> LazyColumn(
-                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 96.dp),
+                contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 96.dp + bottomBarContentPadding()),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
                 modifier = Modifier.fillMaxSize()
             ) {

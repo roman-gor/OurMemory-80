@@ -43,6 +43,7 @@ import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.SectionTitle
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
+import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 
 @Composable
 fun VeteranEditorScreen(
@@ -79,7 +80,7 @@ private fun VeteranEditorContent(
     onUiIntent: (VeteranEditorUiIntent) -> Unit
 ) {
     LazyColumn(
-        contentPadding = PaddingValues(bottom = 32.dp),
+        contentPadding = PaddingValues(bottom = 32.dp + bottomBarContentPadding()),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier
             .fillMaxSize()

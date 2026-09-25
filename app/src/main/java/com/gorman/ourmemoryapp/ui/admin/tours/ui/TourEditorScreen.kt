@@ -41,6 +41,7 @@ import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.SectionTitle
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarScaffold
 import com.gorman.ourmemoryapp.ui.common.ui.TopBarSpacer
+import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 import com.gorman.ourmemoryapp.ui.tours.ui.TourMap
 
 @Composable
@@ -80,7 +81,7 @@ private fun TourEditorContent(
     val titles = state.burials.associate { it.burial.id to it.veteranNames.ifBlank { it.burial.id } }
 
     LazyColumn(
-        contentPadding = PaddingValues(bottom = 32.dp),
+        contentPadding = PaddingValues(bottom = 32.dp + bottomBarContentPadding()),
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier
             .fillMaxSize()

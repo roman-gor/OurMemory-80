@@ -45,6 +45,7 @@ import com.gorman.ourmemoryapp.ui.common.ui.ErrorContent
 import com.gorman.ourmemoryapp.ui.common.ui.LoadingContent
 import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 import com.gorman.ourmemoryapp.ui.common.ui.rememberQrScanAction
+import com.gorman.ourmemoryapp.ui.common.ui.statusBarContentPadding
 import com.gorman.ourmemoryapp.ui.home.models.HomeUiIntent
 import com.gorman.ourmemoryapp.ui.home.models.HomeUiState
 import com.gorman.ourmemoryapp.ui.home.viewmodels.HomeViewModel
@@ -62,11 +63,10 @@ fun MainScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .statusBarsPadding()
     ) {
         when (val state = uiState) {
-            is HomeUiState.Error -> ErrorContent()
-            HomeUiState.Loading -> LoadingContent()
+            is HomeUiState.Error -> ErrorContent(modifier = Modifier.statusBarsPadding())
+            HomeUiState.Loading -> LoadingContent(modifier = Modifier.statusBarsPadding())
             is HomeUiState.Success -> OurMemoryScreen(
                 state = state,
                 onItemClick = onItemClick,
@@ -84,41 +84,50 @@ private fun OurMemoryScreen(
     onScanClick: () -> Unit,
     onUiIntent: (HomeUiIntent) -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        HomeHeader(
-            state = state,
-            onScanClick = onScanClick,
-            onUiIntent = onUiIntent
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(
+            top = statusBarContentPadding(),
+            bottom = 16.dp + bottomBarContentPadding()
         )
-        if (state.veterans.isNotEmpty()) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(top = 4.dp, bottom = 16.dp + bottomBarContentPadding())
-            ) {
-                if (state.anniversaries.isNotEmpty()) {
-                    item {
-                        AnniversariesRow(
-                            anniversaries = state.anniversaries,
-                            onVeteranClick = onItemClick,
-                            modifier = Modifier.padding(bottom = 8.dp)
-                        )
-                    }
-                }
-                items(state.veterans, key = { it.id }) { veteran ->
-                    VeteranItem(
-                        veteran = veteran,
-                        onClick = { onItemClick(veteran.id) }
+    ) {
+        item {
+            HomeHeader(
+                state = state,
+                onScanClick = onScanClick,
+                onUiIntent = onUiIntent
+            )
+        }
+        if (state.veterans.isEmpty()) {
+            item {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier
+                        .fillParentMaxWidth()
+                        .padding(vertical = EMPTY_MESSAGE_PADDING)
+                ) {
+                    Text(
+                        text = stringResource(R.string.chooseCategory),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
-        } else {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(
-                    text = stringResource(R.string.chooseCategory),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+        }
+        if (state.veterans.isNotEmpty() && state.anniversaries.isNotEmpty()) {
+            item {
+                AnniversariesRow(
+                    anniversaries = state.anniversaries,
+                    onVeteranClick = onItemClick,
+                    modifier = Modifier.padding(top = 4.dp, bottom = 8.dp)
                 )
             }
+        }
+        items(state.veterans, key = { it.id }) { veteran ->
+            VeteranItem(
+                veteran = veteran,
+                onClick = { onItemClick(veteran.id) }
+            )
         }
     }
 }
@@ -248,6 +257,7 @@ private fun VeteranItem(
     }
 }
 
+private val EMPTY_MESSAGE_PADDING = 64.dp
 private const val PORTRAIT_WEIGHT = 1f
 private const val TEXT_WEIGHT = 2f
 private const val PORTRAIT_ASPECT_RATIO = 0.8f

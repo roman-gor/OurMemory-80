@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Icon
@@ -33,6 +32,7 @@ import com.gorman.ourmemoryapp.ui.common.ui.SettingsDivider
 import com.gorman.ourmemoryapp.ui.common.ui.SettingsGroup
 import com.gorman.ourmemoryapp.ui.common.ui.bottomBarContentPadding
 import com.gorman.ourmemoryapp.ui.common.ui.rememberQrScanAction
+import com.gorman.ourmemoryapp.ui.common.ui.statusBarContentPadding
 import com.gorman.ourmemoryapp.ui.more.models.AppLanguage
 import com.gorman.ourmemoryapp.ui.more.models.MoreUiIntent
 import com.gorman.ourmemoryapp.ui.more.models.labelRes
@@ -60,7 +60,7 @@ fun MoreScreen(
     LazyColumn(
         contentPadding = PaddingValues(
             start = SCREEN_PADDING,
-            top = SCREEN_PADDING,
+            top = SCREEN_PADDING + statusBarContentPadding(),
             end = SCREEN_PADDING,
             bottom = SCREEN_PADDING + bottomBarContentPadding()
         ),
@@ -68,7 +68,6 @@ fun MoreScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
-            .statusBarsPadding()
     ) {
         item {
             Text(
