@@ -4,11 +4,13 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gorman.ourmemoryapp.domain.models.ModerationDeniedException
 import com.gorman.ourmemoryapp.domain.models.Screen
 import com.gorman.ourmemoryapp.domain.models.Submission
 import com.gorman.ourmemoryapp.domain.models.SubmissionApproval
 import com.gorman.ourmemoryapp.domain.repository.ModerationRepository
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
+import com.gorman.ourmemoryapp.ui.admin.moderation.models.ReviewFailure
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.ReviewPhotoUi
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.SubmissionReviewUiIntent
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.SubmissionReviewUiState
@@ -86,7 +88,7 @@ class SubmissionReviewViewModel @Inject constructor(
                 .toPersistentList(),
             status = loaded.submission.status,
             isProcessing = form.isProcessing,
-            hasFailed = form.hasFailed,
+            failure = form.failure,
             isFinished = form.isFinished
         )
     }.catch<SubmissionReviewUiState> { error ->
@@ -117,13 +119,18 @@ class SubmissionReviewViewModel @Inject constructor(
 
     private fun runDecision(decision: suspend () -> Unit) {
         if (form.value.isProcessing) return
-        form.update { it.copy(isProcessing = true, hasFailed = false) }
+        form.update { it.copy(isProcessing = true, failure = null) }
         viewModelScope.launch {
             runCatching { decision() }
                 .onSuccess { form.update { it.copy(isProcessing = false, isFinished = true) } }
                 .onFailure { error ->
                     Log.e(LOG_TAG, "Failed to moderate submission $submissionId", error)
-                    form.update { it.copy(isProcessing = false, hasFailed = true) }
+                    val failure = if (error is ModerationDeniedException) {
+                        ReviewFailure.NO_PERMISSION
+                    } else {
+                        ReviewFailure.NETWORK
+                    }
+                    form.update { it.copy(isProcessing = false, failure = failure) }
                 }
         }
     }
@@ -139,7 +146,7 @@ class SubmissionReviewViewModel @Inject constructor(
         val reply: String? = null,
         val deselectedUrls: Set<String> = emptySet(),
         val isProcessing: Boolean = false,
-        val hasFailed: Boolean = false,
+        val failure: ReviewFailure? = null,
         val isFinished: Boolean = false
     )
 

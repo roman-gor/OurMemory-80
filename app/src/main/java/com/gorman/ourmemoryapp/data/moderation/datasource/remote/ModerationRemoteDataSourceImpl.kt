@@ -1,6 +1,7 @@
 package com.gorman.ourmemoryapp.data.moderation.datasource.remote
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ServerValue
 import com.google.firebase.storage.FirebaseStorage
@@ -12,10 +13,14 @@ import com.gorman.ourmemoryapp.data.moderation.mapper.toUpdates
 import com.gorman.ourmemoryapp.data.moderation.model.SubmissionDto
 import com.gorman.ourmemoryapp.data.moderation.model.SubmissionStatusValues
 import com.gorman.ourmemoryapp.di.annotation.MemoryRoot
+import com.gorman.ourmemoryapp.domain.models.ModerationDeniedException
 import com.gorman.ourmemoryapp.domain.models.SubmissionApproval
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 class ModerationRemoteDataSourceImpl @Inject constructor(
     private val auth: FirebaseAuth,
@@ -42,19 +47,31 @@ class ModerationRemoteDataSourceImpl @Inject constructor(
             reviewer = auth.currentUser?.email.orEmpty(),
             reviewedAt = ServerValue.TIMESTAMP
         )
-        root.updateChildren(updates).await()
+        root.updateOrThrow(updates)
     }
 
     override suspend fun reject(submissionId: String, reply: String) {
-        submissionsReference.child(submissionId).updateChildren(
+        submissionsReference.child(submissionId).updateOrThrow(
             mapOf(
                 "status" to SubmissionStatusValues.REJECTED,
                 "reviewedBy" to auth.currentUser?.email.orEmpty(),
                 "reviewedAt" to ServerValue.TIMESTAMP,
                 "reply" to reply.trim()
             )
-        ).await()
+        )
     }
+
+    private suspend fun DatabaseReference.updateOrThrow(updates: Map<String, Any>) =
+        suspendCancellableCoroutine { continuation ->
+            updateChildren(updates) { error, _ ->
+                when {
+                    error == null -> continuation.resume(Unit)
+                    error.code == DatabaseError.PERMISSION_DENIED ->
+                        continuation.resumeWithException(ModerationDeniedException())
+                    else -> continuation.resumeWithException(error.toException())
+                }
+            }
+        }
 
     companion object {
         private const val VETERANS_INFO = "veteransInfo"

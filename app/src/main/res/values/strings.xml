@@ -110,7 +110,7 @@
     <string name="consent_to_contact_msg">Я согласен(на), чтобы мои контактные данные использовались только для связи по этому материалу</string>
     <string name="send">Отправить</string>
     <string name="failed_to_send_msg">Не удалось отправить. Проверьте подключение к интернету и попробуйте ещё раз</string>
-    <string name="remove_offensive_words_msg">Уберите нецензурные выражения — такое сообщение не будет отправлено</string>
+    <string name="remove_offensive_words_msg">Уберите нецензурные и оскорбительные выражения — такое сообщение не будет отправлено</string>
     <string name="photo_did_not_pass_check_msg">Фото не прошло автоматическую проверку и не будет отправлено</string>
     <string name="could_not_open_photo_msg">Не удалось открыть фото. Выберите другое</string>
     <string name="checking_photo">Проверяем фото</string>
@@ -148,6 +148,7 @@
     <string name="add_to_card">Добавить в карточку</string>
     <string name="from_family_archive">Из семейного архива</string>
     <string name="failed_to_save_msg">Не удалось сохранить. Проверьте подключение к интернету и попробуйте ещё раз</string>
+    <string name="no_permission_to_change_request_msg">Нет прав на изменение заявки. Проверьте, что ваш UID есть в OurMemory/Admins и правила базы опубликованы</string>
     <plurals name="photos_count">
         <item quantity="one">%d фото</item>
         <item quantity="few">%d фото</item>
@@ -245,6 +246,8 @@
     <string name="voice_over">Озвучка</string>
     <string name="requests_and_messages">Заявки и обращения</string>
     <string name="if_something_is_wrong">Если что-то не так</string>
+    <string name="administrators">Администраторы</string>
+    <string name="do_not_publish_whole_rules_file_msg">Не публикуйте файлы правил из проекта целиком: база общая с другими приложениями, и их правила сотрутся. Правьте только узел OurMemory.</string>
     <string name="add_burials_first_msg">Начните с мест захоронения: ветераны и экскурсии ссылаются на них</string>
     <string name="how_to_add_a_veteran">Как добавить ветерана?</string>
     <string name="how_to_add_a_burial_place">Как добавить место захоронения?</string>
@@ -298,9 +301,17 @@
         <item>«Обратная связь» — сообщения и отчёты об ошибках посетителей. Отметьте обращение просмотренным и при желании напишите ответ.</item>
         <item>Нецензурные тексты и непристойные фото приложение отсекает само ещё до отправки, но эту проверку можно обойти, поэтому просматривайте всё перед одобрением.</item>
     </string-array>
+    <string-array name="add_administrator_steps">
+        <item>Firebase Console → Authentication → Users → «Add user»: укажите e-mail и пароль нового администратора.</item>
+        <item>Скопируйте из списка пользователей его User UID.</item>
+        <item>Realtime Database → OurMemory → Admins: добавьте ключ с этим UID и значением true.</item>
+        <item>Storage → Rules: допишите UID в список функции isAdmin(), например [\'uid1\', \'uid2\'], и нажмите «Publish». Без этого новый администратор не сможет загружать фото и аудио.</item>
+        <item>Новый администратор входит через «Ещё → Вход для администратора», после чего у него появляется вкладка «Админ».</item>
+        <item>Чтобы снять права, удалите ключ из OurMemory/Admins и UID из правил Storage.</item>
+    </string-array>
     <string-array name="troubleshooting_steps">
         <item>Фото или аудио не загружается — проверьте интернет и размер файла. Если ошибка повторяется, попросите разработчика добавить ваш UID в правила Storage.</item>
-        <item>«Нет прав администратора» при входе — в базе нет записи с вашим UID в OurMemory/Admins.</item>
+        <item>«Нет прав администратора» при входе — в базе нет записи с вашим UID в OurMemory/Admins. Пройдите шаги раздела «Администраторы».</item>
         <item>Посетитель не видит изменения — приложение загружает данные один раз за запуск, новое появится после перезапуска.</item>
         <item>Вход администратора на телефоне посетителя сбрасывает его вход через Google. Работайте со своего телефона.</item>
     </string-array>

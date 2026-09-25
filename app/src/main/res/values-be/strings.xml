@@ -108,7 +108,7 @@
     <string name="consent_to_contact_msg">Я згодны(ная), каб мае кантактныя даныя выкарыстоўваліся толькі для сувязі па гэтым матэрыяле</string>
     <string name="send">Адправіць</string>
     <string name="failed_to_send_msg">Не атрымалася адправіць. Праверце падключэнне да інтэрнэту і паспрабуйце яшчэ раз</string>
-    <string name="remove_offensive_words_msg">Прыбярыце непрыстойныя выразы — такое паведамленне не будзе адпраўлена</string>
+    <string name="remove_offensive_words_msg">Прыбярыце непрыстойныя і абразлівыя выразы — такое паведамленне не будзе адпраўлена</string>
     <string name="photo_did_not_pass_check_msg">Фота не прайшло аўтаматычную праверку і не будзе адпраўлена</string>
     <string name="could_not_open_photo_msg">Не атрымалася адкрыць фота. Выберыце іншае</string>
     <string name="checking_photo">Правяраем фота</string>
@@ -146,6 +146,7 @@
     <string name="add_to_card">Дадаць у картку</string>
     <string name="from_family_archive">З сямейнага архіва</string>
     <string name="failed_to_save_msg">Не ўдалося захаваць. Праверце падключэнне да інтэрнэту і паспрабуйце яшчэ раз</string>
+    <string name="no_permission_to_change_request_msg">Няма правоў на змяненне заяўкі. Праверце, што ваш UID ёсць у OurMemory/Admins і правілы базы апублікаваныя</string>
     <plurals name="photos_count">
         <item quantity="one">%d фота</item>
         <item quantity="few">%d фота</item>
@@ -243,6 +244,8 @@
     <string name="voice_over">Агучка</string>
     <string name="requests_and_messages">Заяўкі і звароты</string>
     <string name="if_something_is_wrong">Калі нешта не так</string>
+    <string name="administrators">Адміністратары</string>
+    <string name="do_not_publish_whole_rules_file_msg">Не публікуйце файлы правілаў з праекта цалкам: база агульная з іншымі праграмамі, і іх правілы сатруцца. Змяняйце толькі вузел OurMemory.</string>
     <string name="add_burials_first_msg">Пачніце з месцаў пахавання: ветэраны і экскурсіі спасылаюцца на іх</string>
     <string name="how_to_add_a_veteran">Як дадаць ветэрана?</string>
     <string name="how_to_add_a_burial_place">Як дадаць месца пахавання?</string>
@@ -296,9 +299,17 @@
         <item>«Зваротная сувязь» — паведамленні і справаздачы пра памылкі ад наведвальнікаў. Адзначце зварот прагледжаным і пры жаданні напішыце адказ.</item>
         <item>Нецэнзурныя тэксты і непрыстойныя фота праграма адсякае сама яшчэ да адпраўкі, але гэтую праверку можна абысці, таму праглядайце ўсё перад ухваленнем.</item>
     </string-array>
+    <string-array name="add_administrator_steps">
+        <item>Firebase Console → Authentication → Users → «Add user»: пазначце e-mail і пароль новага адміністратара.</item>
+        <item>Скапіруйце са спіса карыстальнікаў яго User UID.</item>
+        <item>Realtime Database → OurMemory → Admins: дадайце ключ з гэтым UID і значэннем true.</item>
+        <item>Storage → Rules: дапішыце UID у спіс функцыі isAdmin(), напрыклад [\'uid1\', \'uid2\'], і націсніце «Publish». Без гэтага новы адміністратар не зможа загружаць фота і аўдыя.</item>
+        <item>Новы адміністратар уваходзіць праз «Яшчэ → Уваход для адміністратара», пасля чаго ў яго з’яўляецца ўкладка «Адмін».</item>
+        <item>Каб зняць правы, выдаліце ключ з OurMemory/Admins і UID з правілаў Storage.</item>
+    </string-array>
     <string-array name="troubleshooting_steps">
         <item>Фота або аўдыя не загружаецца — праверце інтэрнэт і памер файла. Калі памылка паўтараецца, папрасіце распрацоўшчыка дадаць ваш UID у правілы Storage.</item>
-        <item>«Няма правоў адміністратара» пры ўваходзе — у базе няма запісу з вашым UID у OurMemory/Admins.</item>
+        <item>«Няма правоў адміністратара» пры ўваходзе — у базе няма запісу з вашым UID у OurMemory/Admins. Прайдзіце крокі раздзела «Адміністратары».</item>
         <item>Наведвальнік не бачыць змены — праграма загружае даныя адзін раз за запуск, новае з’явіцца пасля перазапуску.</item>
         <item>Уваход адміністратара на тэлефоне наведвальніка скідвае яго ўваход праз Google. Працуйце са свайго тэлефона.</item>
     </string-array>

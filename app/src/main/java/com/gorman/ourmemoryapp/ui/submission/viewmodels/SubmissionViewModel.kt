@@ -97,8 +97,8 @@ class SubmissionViewModel @Inject constructor(
     private fun send() {
         val state = formState.value
         if (!state.canSend) return
-        val hasTextProfanity = contentCheckRepository.containsProfanity(state.text)
-        val hasContactProfanity = contentCheckRepository.containsProfanity(state.contact)
+        val hasTextProfanity = contentCheckRepository.containsOffensiveText(state.text)
+        val hasContactProfanity = contentCheckRepository.containsOffensiveText(state.contact)
         if (hasTextProfanity || hasContactProfanity) {
             formState.update {
                 it.copy(hasTextProfanity = hasTextProfanity, hasContactProfanity = hasContactProfanity)

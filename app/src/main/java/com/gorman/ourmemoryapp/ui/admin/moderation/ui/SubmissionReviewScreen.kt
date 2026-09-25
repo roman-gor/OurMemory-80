@@ -103,10 +103,10 @@ private fun SubmissionReviewContent(
                 )
             }
         }
-        if (state.hasFailed) {
+        state.failure?.let { failure ->
             item {
                 Text(
-                    text = stringResource(R.string.failed_to_save_msg),
+                    text = stringResource(failure.messageRes),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.padding(horizontal = 16.dp)

@@ -8,7 +8,7 @@ class FakeContentCheckRepository(
     private val photoResults: Map<String, PhotoCheckResult> = emptyMap()
 ) : ContentCheckRepository {
 
-    override fun containsProfanity(text: String) = offensiveWords.any { it in text }
+    override fun containsOffensiveText(text: String) = offensiveWords.any { it in text }
 
     override suspend fun checkPhoto(uri: String) = photoResults[uri] ?: PhotoCheckResult.ALLOWED
 }

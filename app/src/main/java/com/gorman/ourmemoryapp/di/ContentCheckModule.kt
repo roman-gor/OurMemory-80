@@ -1,5 +1,7 @@
 package com.gorman.ourmemoryapp.di
 
+import com.gorman.ourmemoryapp.data.contentcheck.datasource.local.ExtremismDetector
+import com.gorman.ourmemoryapp.data.contentcheck.datasource.local.LatinProfanityDetector
 import com.gorman.ourmemoryapp.data.contentcheck.datasource.local.NsfwImageClassifier
 import com.gorman.ourmemoryapp.data.contentcheck.datasource.local.ProfanityDetector
 import com.gorman.ourmemoryapp.data.contentcheck.repository.ContentCheckRepositoryImpl
@@ -20,7 +22,15 @@ object ContentCheckModule {
     @Singleton
     fun provideContentCheckRepository(
         profanityDetector: ProfanityDetector,
+        latinProfanityDetector: LatinProfanityDetector,
+        extremismDetector: ExtremismDetector,
         imageClassifier: NsfwImageClassifier,
         @IoDispatcher ioDispatcher: CoroutineDispatcher
-    ): ContentCheckRepository = ContentCheckRepositoryImpl(profanityDetector, imageClassifier, ioDispatcher)
+    ): ContentCheckRepository = ContentCheckRepositoryImpl(
+        profanityDetector = profanityDetector,
+        latinProfanityDetector = latinProfanityDetector,
+        extremismDetector = extremismDetector,
+        imageClassifier = imageClassifier,
+        ioDispatcher = ioDispatcher
+    )
 }

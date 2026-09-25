@@ -1,6 +1,7 @@
 package com.gorman.ourmemoryapp.ui.admin.moderation.viewmodels
 
 import androidx.lifecycle.SavedStateHandle
+import com.gorman.ourmemoryapp.domain.models.ModerationDeniedException
 import com.gorman.ourmemoryapp.domain.models.ModerationStatus
 import com.gorman.ourmemoryapp.domain.models.Screen
 import com.gorman.ourmemoryapp.domain.models.Submission
@@ -8,6 +9,7 @@ import com.gorman.ourmemoryapp.domain.models.Veteran
 import com.gorman.ourmemoryapp.testutil.FakeModerationRepository
 import com.gorman.ourmemoryapp.testutil.FakeVeteransRepository
 import com.gorman.ourmemoryapp.testutil.MainDispatcherRule
+import com.gorman.ourmemoryapp.ui.admin.moderation.models.ReviewFailure
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.SubmissionReviewUiIntent
 import com.gorman.ourmemoryapp.ui.admin.moderation.models.SubmissionReviewUiState
 import kotlinx.coroutines.flow.first
@@ -89,9 +91,22 @@ class SubmissionReviewViewModelTest {
 
         viewModel.onUiIntent(SubmissionReviewUiIntent.OnApproveClick(""))
 
-        val state = viewModel.awaitSuccess { it.hasFailed }
+        val state = viewModel.awaitSuccess { it.failure != null }
+        assertEquals(ReviewFailure.NETWORK, state.failure)
         assertFalse(state.isFinished)
         assertTrue(state.isEditable)
+    }
+
+    @Test
+    fun deniedRejectionShowsPermissionError() = runTest {
+        val viewModel = viewModel(FakeModerationRepository(listOf(submission), ModerationDeniedException()))
+        viewModel.awaitSuccess()
+
+        viewModel.onUiIntent(SubmissionReviewUiIntent.OnRejectClick)
+
+        val state = viewModel.awaitSuccess { it.failure != null }
+        assertEquals(ReviewFailure.NO_PERMISSION, state.failure)
+        assertFalse(state.isFinished)
     }
 
     @Test

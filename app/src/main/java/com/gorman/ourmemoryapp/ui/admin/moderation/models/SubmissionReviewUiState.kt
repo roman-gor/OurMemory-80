@@ -15,7 +15,7 @@ sealed interface SubmissionReviewUiState {
         val photos: ImmutableList<ReviewPhotoUi>,
         val status: ModerationStatus,
         val isProcessing: Boolean,
-        val hasFailed: Boolean,
+        val failure: ReviewFailure?,
         val isFinished: Boolean
     ) : SubmissionReviewUiState {
         val isEditable = status == ModerationStatus.PENDING && !isProcessing

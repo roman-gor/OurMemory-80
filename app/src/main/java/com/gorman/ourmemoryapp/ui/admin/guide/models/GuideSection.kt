@@ -21,6 +21,12 @@ enum class GuideSection(
         R.array.requests_steps,
         R.string.reply_shown_to_author_msg
     ),
+    ADMINISTRATORS(
+        R.string.administrators,
+        R.drawable.shield,
+        R.array.add_administrator_steps,
+        R.string.do_not_publish_whole_rules_file_msg
+    ),
     TROUBLESHOOTING(
         R.string.if_something_is_wrong,
         R.drawable.help,
