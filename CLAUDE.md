@@ -58,6 +58,8 @@ Package root: `app/src/main/java/com/gorman/ourmemoryapp/`:
 | `Feedback` | visitors' messages and error reports (`type`, `text`, `contact`, optional `veteranId`, `status` `new` / `done`) | written after anonymous auth, read and marked reviewed by admins |
 | `Users/{uid}/favorites/{veteranId}` | `true` for every favorite of a visitor signed in with Google | read and written only by that uid through `FavoritesRemoteDataSource`; signed-out visitors keep favorites in DataStore |
 | `Admins/{uid}` | `true` for every administrator account | read by `AuthRepository` to decide the role |
+| `SuperAdmins/{uid}` | `true` for every super administrator (also listed in `Admins`); set only in the console | read by `AuthRepository` (`AdminSession.isSuperAdmin`) and `AdminsRepository` |
+| `Accounts/{emailKey}` | `{uid, email}` for every non-anonymous account, key from `AccountKeys.forEmail` | written by the account itself in `AuthRepositoryImpl`; read by super admins to add administrators by e-mail |
 
 Other data facts:
 - `VeteransRepositoryImpl`, `BurialsRepositoryImpl` and `ToursRepositoryImpl` load each node once per process and cache it behind a `Mutex`, so screens filter locally. `invalidate()` drops the cache; `ContentEditorRepositoryImpl` calls it after every admin write.
@@ -68,7 +70,7 @@ Other data facts:
 - Live listeners go through `DatabaseReference.observeValue()` (`data/firebase/DatabaseReferenceFlows.kt`) so errors reach the flow instead of the main thread. Visitor writes call `AnonymousSession.ensureSignedIn()` first. Parse lists with `DataSnapshot.childrenAs<T>()`, which skips malformed children, and build veteran keys with `VeteranKeys.forId`.
 - `firebase/database.rules.json` and `firebase/storage.rules` cover only `OurMemory` and are **not** wired into `firebase.json`. Deploying them would replace the rules of the other apps, so merge them by hand in the console.
 - Rules: everyone reads `Veterans`, `Burials`, `Tours`; only uids listed in `Admins` write them and read `Submissions` / `Feedback`; visitors may only create new submissions and feedback (with `authorUid` equal to their uid) and read their own through an `orderByChild("authorUid").equalTo(uid)` query. Storage rules cannot read the database, so admin uids are listed in `isAdmin()` in `firebase/storage.rules` (replace `ADMIN_UID`). `OurMemory/Media/**` is public for reading.
-- Setting up an admin: enable Email/Password in Firebase Authentication, create the user, add `OurMemory/Admins/{uid}: true` in the console and put the uid into `storage.rules`.
+- Roles: a super admin manages administrators in Admin → «Администраторы» (`ui/admin/admins`): adds an account by e-mail once it has signed in (Google or admin e-mail sign-in registers it in `Accounts`) and removes ordinary admins. Super admins are assigned only in the console (`SuperAdmins/{uid}: true` plus `Admins/{uid}: true`). Media uploads still need the uid in `isAdmin()` of `firebase/storage.rules`.
 
 **Parsing veteran content.**
 - `veteransInfo` mixes paragraphs and media links. Entries containing `http` are links, optionally written as `url|description`.

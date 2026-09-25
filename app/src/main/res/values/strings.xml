@@ -246,6 +246,15 @@
     <string name="voice_over">Озвучка</string>
     <string name="requests_and_messages">Заявки и обращения</string>
     <string name="if_something_is_wrong">Если что-то не так</string>
+    <string name="add_administrator">Добавить администратора</string>
+    <string name="super_administrator">Супер-администратор</string>
+    <string name="administrator_added_msg">Администратор добавлен. Вкладка «Админ» появится у него после перезапуска приложения</string>
+    <string name="account_not_found_msg">Аккаунт с таким e-mail не найден. Попросите человека сначала войти в приложение</string>
+    <string name="already_administrator_msg">Этот аккаунт уже администратор</string>
+    <string name="remove_administrator_msg">Снять права администратора?</string>
+    <string name="copy_uid">Скопировать UID</string>
+    <string name="add_uid_to_storage_rules_msg">Чтобы администратор мог загружать фото и аудио, добавьте его UID в функцию isAdmin() правил Storage</string>
+    <string name="add_and_remove_administrators_msg">Добавление и удаление администраторов</string>
     <string name="administrators">Администраторы</string>
     <string name="do_not_publish_whole_rules_file_msg">Не публикуйте файлы правил из проекта целиком: база общая с другими приложениями, и их правила сотрутся. Правьте только узел OurMemory.</string>
     <string name="add_burials_first_msg">Начните с мест захоронения: ветераны и экскурсии ссылаются на них</string>
@@ -302,12 +311,12 @@
         <item>Нецензурные тексты и непристойные фото приложение отсекает само ещё до отправки, но эту проверку можно обойти, поэтому просматривайте всё перед одобрением.</item>
     </string-array>
     <string-array name="add_administrator_steps">
-        <item>Firebase Console → Authentication → Users → «Add user»: укажите e-mail и пароль нового администратора.</item>
-        <item>Скопируйте из списка пользователей его User UID.</item>
-        <item>Realtime Database → OurMemory → Admins: добавьте ключ с этим UID и значением true.</item>
-        <item>Storage → Rules: допишите UID в список функции isAdmin(), например [\'uid1\', \'uid2\'], и нажмите «Publish». Без этого новый администратор не сможет загружать фото и аудио.</item>
-        <item>Новый администратор входит через «Ещё → Вход для администратора», после чего у него появляется вкладка «Админ».</item>
-        <item>Чтобы снять права, удалите ключ из OurMemory/Admins и UID из правил Storage.</item>
+        <item>Новый администратор один раз входит в приложение: через Google в «Ещё» или через «Вход для администратора» со своим e-mail.</item>
+        <item>Супер-администратор открывает Админ → «Администраторы» и добавляет его по e-mail.</item>
+        <item>Storage → Rules: допишите UID нового администратора (его можно скопировать на экране «Администраторы») в список функции isAdmin() и нажмите «Publish». Без этого он не сможет загружать фото и аудио.</item>
+        <item>После перезапуска приложения у нового администратора появляется вкладка «Админ».</item>
+        <item>Чтобы снять права, удалите администратора на экране «Администраторы» и уберите его UID из правил Storage.</item>
+        <item>Супер-администраторы назначаются только в Firebase Console: узел OurMemory/SuperAdmins, ключ UID со значением true (и тот же UID в OurMemory/Admins).</item>
     </string-array>
     <string-array name="troubleshooting_steps">
         <item>Фото или аудио не загружается — проверьте интернет и размер файла. Если ошибка повторяется, попросите разработчика добавить ваш UID в правила Storage.</item>

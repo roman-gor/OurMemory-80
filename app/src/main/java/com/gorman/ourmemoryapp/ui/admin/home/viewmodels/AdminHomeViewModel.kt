@@ -57,6 +57,7 @@ class AdminHomeViewModel @Inject constructor(
     ) { session, pendingSubmissionsCount, newFeedbackCount, contentCounts ->
         AdminHomeUiState(
             email = session.email,
+            isSuperAdmin = session.isSuperAdmin,
             pendingSubmissionsCount = pendingSubmissionsCount,
             newFeedbackCount = newFeedbackCount,
             contentCounts = contentCounts

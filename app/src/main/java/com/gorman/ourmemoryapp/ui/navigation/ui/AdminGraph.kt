@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.gorman.ourmemoryapp.domain.models.Screen
+import com.gorman.ourmemoryapp.ui.admin.admins.ui.AdminsScreen
 import com.gorman.ourmemoryapp.ui.admin.feedbacklist.ui.FeedbackListScreen
 import com.gorman.ourmemoryapp.ui.admin.guide.ui.EditorGuideScreen
 import com.gorman.ourmemoryapp.ui.admin.home.ui.AdminHomeScreen
@@ -26,12 +27,7 @@ fun NavGraphBuilder.adminGraph(navController: NavHostController) {
     }
     tabComposable(Screen.AdminHomeScreen.route, hasStatusBarScrim = true) {
         AdminHomeScreen(
-            onModerationClick = { navController.navigate(Screen.AdminModerationScreen.route) },
-            onVeteransClick = { navController.navigate(Screen.AdminVeteransScreen.route) },
-            onBurialsClick = { navController.navigate(Screen.AdminBurialsScreen.route) },
-            onToursClick = { navController.navigate(Screen.AdminToursScreen.route) },
-            onFeedbackClick = { navController.navigate(Screen.AdminFeedbackScreen.route) },
-            onGuideClick = { navController.navigate(Screen.AdminGuideScreen.route) },
+            onNavigate = { destination -> navController.navigate(destination.route()) },
             onSignedOut = { navController.navigateToTab(TopLevelTab.MORE) }
         )
     }
@@ -46,6 +42,9 @@ fun NavGraphBuilder.adminGraph(navController: NavHostController) {
         )
     ) {
         EditorGuideScreen(onBackClick = { navController.popBackStack() })
+    }
+    composable(Screen.AdminAdminsScreen.route) {
+        AdminsScreen(onBackClick = { navController.popBackStack() })
     }
     composable(Screen.AdminFeedbackScreen.route) {
         FeedbackListScreen(

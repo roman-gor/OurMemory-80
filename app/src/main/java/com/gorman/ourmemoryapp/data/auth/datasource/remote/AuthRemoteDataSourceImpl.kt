@@ -26,6 +26,10 @@ class AuthRemoteDataSourceImpl @Inject constructor(
         .map { it.exists() }
         .catch { emit(false) }
 
+    override fun observeIsSuperAdmin(uid: String) = root.child(DatabaseNodes.SUPER_ADMINS).child(uid).observeValue()
+        .map { it.exists() }
+        .catch { emit(false) }
+
     override suspend fun isAdmin(uid: String) = adminReference(uid).get().await().exists()
 
     override suspend fun signIn(email: String, password: String): AuthUser? = try {

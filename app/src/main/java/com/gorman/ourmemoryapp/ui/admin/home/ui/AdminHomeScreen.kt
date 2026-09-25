@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gorman.ourmemoryapp.R
+import com.gorman.ourmemoryapp.ui.admin.home.models.AdminHomeDestination
 import com.gorman.ourmemoryapp.ui.admin.home.models.AdminHomeUiEvent
 import com.gorman.ourmemoryapp.ui.admin.home.viewmodels.AdminHomeViewModel
 import com.gorman.ourmemoryapp.ui.common.ui.GroupTitle
@@ -27,12 +30,7 @@ import com.gorman.ourmemoryapp.ui.common.ui.statusBarContentPadding
 
 @Composable
 fun AdminHomeScreen(
-    onModerationClick: () -> Unit,
-    onVeteransClick: () -> Unit,
-    onBurialsClick: () -> Unit,
-    onToursClick: () -> Unit,
-    onFeedbackClick: () -> Unit,
-    onGuideClick: () -> Unit,
+    onNavigate: (AdminHomeDestination) -> Unit,
     onSignedOut: () -> Unit,
     adminHomeViewModel: AdminHomeViewModel = hiltViewModel()
 ) {
@@ -67,14 +65,14 @@ fun AdminHomeScreen(
                     count = state.pendingSubmissionsCount,
                     title = stringResource(R.string.pending_submissions),
                     iconRes = R.drawable.add_photo,
-                    onClick = onModerationClick,
+                    onClick = { onNavigate(AdminHomeDestination.MODERATION) },
                     modifier = it
                 )
                 StatTile(
                     count = state.newFeedbackCount,
                     title = stringResource(R.string.new_requests),
                     iconRes = R.drawable.mail,
-                    onClick = onFeedbackClick,
+                    onClick = { onNavigate(AdminHomeDestination.FEEDBACK) },
                     modifier = it
                 )
             }
@@ -86,14 +84,14 @@ fun AdminHomeScreen(
                     title = stringResource(R.string.veterans),
                     subtitle = pluralStringResource(R.plurals.veteran_cards_count, counts.veterans, counts.veterans),
                     iconRes = R.drawable.person,
-                    onClick = onVeteransClick,
+                    onClick = { onNavigate(AdminHomeDestination.VETERANS) },
                     modifier = it
                 )
                 ContentTile(
                     title = stringResource(R.string.burial_places),
                     subtitle = pluralStringResource(R.plurals.burial_places_count, counts.burials, counts.burials),
                     iconRes = R.drawable.monument,
-                    onClick = onBurialsClick,
+                    onClick = { onNavigate(AdminHomeDestination.BURIALS) },
                     modifier = it
                 )
             }
@@ -104,17 +102,34 @@ fun AdminHomeScreen(
                     title = stringResource(R.string.tours),
                     subtitle = pluralStringResource(R.plurals.routes_count, counts.tours, counts.tours),
                     iconRes = R.drawable.directions_walk,
-                    onClick = onToursClick,
+                    onClick = { onNavigate(AdminHomeDestination.TOURS) },
                     modifier = it
                 )
                 ContentTile(
                     title = stringResource(R.string.editor_guide),
                     subtitle = stringResource(R.string.how_to_add_and_edit_content_msg),
                     iconRes = R.drawable.menu_book,
-                    onClick = onGuideClick,
+                    onClick = { onNavigate(AdminHomeDestination.GUIDE) },
                     modifier = it
                 )
             }
+        }
+        administratorsTile(isVisible = state.isSuperAdmin, onClick = { onNavigate(AdminHomeDestination.ADMINS) })
+    }
+}
+
+private fun LazyListScope.administratorsTile(isVisible: Boolean, onClick: () -> Unit) {
+    if (!isVisible) return
+    item {
+        TilesRow {
+            ContentTile(
+                title = stringResource(R.string.administrators),
+                subtitle = stringResource(R.string.add_and_remove_administrators_msg),
+                iconRes = R.drawable.shield,
+                onClick = onClick,
+                modifier = it
+            )
+            Spacer(modifier = it)
         }
     }
 }

@@ -3,6 +3,7 @@ package com.gorman.ourmemoryapp.data.auth.repository
 import com.gorman.ourmemoryapp.data.auth.model.AuthUser
 import com.gorman.ourmemoryapp.domain.models.AdminSession
 import com.gorman.ourmemoryapp.domain.models.SignInResult
+import com.gorman.ourmemoryapp.testutil.FakeAccountIndexRemoteDataSource
 import com.gorman.ourmemoryapp.testutil.FakeAuthRemoteDataSource
 import com.gorman.ourmemoryapp.testutil.FakeAuthRemoteDataSource.Companion.PASSWORD
 import kotlinx.coroutines.flow.first
@@ -21,7 +22,8 @@ class AuthRepositoryImplTest {
         accounts = listOf(admin, editor).associateBy { it.email },
         adminUids = setOf(admin.uid, visitor.uid)
     )
-    private val repository = AuthRepositoryImpl(dataSource)
+    private val accountIndex = FakeAccountIndexRemoteDataSource()
+    private val repository = AuthRepositoryImpl(dataSource, accountIndex)
 
     @Test
     fun signedOutUserIsNotAdmin() = runTest {
@@ -39,7 +41,10 @@ class AuthRepositoryImplTest {
     fun userListedInAdminsIsAdmin() = runTest {
         dataSource.user.value = admin
 
-        assertEquals(AdminSession(email = admin.email, isAdmin = true), repository.observeSession().first())
+        assertEquals(
+            AdminSession(uid = admin.uid, email = admin.email, isAdmin = true),
+            repository.observeSession().first()
+        )
     }
 
     @Test

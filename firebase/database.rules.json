@@ -13,9 +13,11 @@
         }
       },
       "Admins": {
+        ".read": "auth != null && root.child('OurMemory/SuperAdmins/' + auth.uid).exists()",
         "$uid": {
           ".read": "auth != null && auth.uid === $uid",
-          ".write": false
+          ".write": "auth != null && $uid !== auth.uid && root.child('OurMemory/SuperAdmins/' + auth.uid).exists()",
+          ".validate": "!newData.exists() || newData.val() === true"
         }
       },
       "Veterans": {
@@ -56,6 +58,20 @@
         ".indexOn": [
           "authorUid"
         ]
+      },
+      "SuperAdmins": {
+        ".read": "auth != null && root.child('OurMemory/SuperAdmins/' + auth.uid).exists()",
+        "$uid": {
+          ".read": "auth != null && auth.uid === $uid",
+          ".write": false
+        }
+      },
+      "Accounts": {
+        ".read": "auth != null && root.child('OurMemory/SuperAdmins/' + auth.uid).exists()",
+        "$emailKey": {
+          ".write": "auth != null && auth.token.email != null && $emailKey === auth.token.email.toLowerCase().replace('.', ',')",
+          ".validate": "newData.child('uid').val() === auth.uid && newData.child('email').val() === auth.token.email"
+        }
       }
     }
   }

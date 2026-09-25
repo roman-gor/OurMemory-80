@@ -7,15 +7,19 @@ import kotlinx.coroutines.flow.map
 
 class FakeAuthRemoteDataSource(
     private val accounts: Map<String, AuthUser> = emptyMap(),
-    adminUids: Set<String> = emptySet()
+    adminUids: Set<String> = emptySet(),
+    superAdminUids: Set<String> = emptySet()
 ) : AuthRemoteDataSource {
 
     val user = MutableStateFlow<AuthUser?>(null)
     val admins = MutableStateFlow(adminUids)
+    val superAdmins = MutableStateFlow(superAdminUids)
 
     override fun observeUser() = user
 
     override fun observeIsAdmin(uid: String) = admins.map { uid in it }
+
+    override fun observeIsSuperAdmin(uid: String) = superAdmins.map { uid in it }
 
     override suspend fun isAdmin(uid: String) = uid in admins.value
 

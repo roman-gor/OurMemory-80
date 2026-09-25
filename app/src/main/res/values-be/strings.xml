@@ -244,6 +244,15 @@
     <string name="voice_over">Агучка</string>
     <string name="requests_and_messages">Заяўкі і звароты</string>
     <string name="if_something_is_wrong">Калі нешта не так</string>
+    <string name="add_administrator">Дадаць адміністратара</string>
+    <string name="super_administrator">Супер-адміністратар</string>
+    <string name="administrator_added_msg">Адміністратар дададзены. Укладка «Адмін» з’явіцца ў яго пасля перазапуску праграмы</string>
+    <string name="account_not_found_msg">Акаўнт з такім e-mail не знойдзены. Папрасіце чалавека спачатку ўвайсці ў праграму</string>
+    <string name="already_administrator_msg">Гэты акаўнт ужо адміністратар</string>
+    <string name="remove_administrator_msg">Зняць правы адміністратара?</string>
+    <string name="copy_uid">Скапіраваць UID</string>
+    <string name="add_uid_to_storage_rules_msg">Каб адміністратар мог загружаць фота і аўдыя, дадайце яго UID у функцыю isAdmin() правілаў Storage</string>
+    <string name="add_and_remove_administrators_msg">Даданне і выдаленне адміністратараў</string>
     <string name="administrators">Адміністратары</string>
     <string name="do_not_publish_whole_rules_file_msg">Не публікуйце файлы правілаў з праекта цалкам: база агульная з іншымі праграмамі, і іх правілы сатруцца. Змяняйце толькі вузел OurMemory.</string>
     <string name="add_burials_first_msg">Пачніце з месцаў пахавання: ветэраны і экскурсіі спасылаюцца на іх</string>
@@ -300,12 +309,12 @@
         <item>Нецэнзурныя тэксты і непрыстойныя фота праграма адсякае сама яшчэ да адпраўкі, але гэтую праверку можна абысці, таму праглядайце ўсё перад ухваленнем.</item>
     </string-array>
     <string-array name="add_administrator_steps">
-        <item>Firebase Console → Authentication → Users → «Add user»: пазначце e-mail і пароль новага адміністратара.</item>
-        <item>Скапіруйце са спіса карыстальнікаў яго User UID.</item>
-        <item>Realtime Database → OurMemory → Admins: дадайце ключ з гэтым UID і значэннем true.</item>
-        <item>Storage → Rules: дапішыце UID у спіс функцыі isAdmin(), напрыклад [\'uid1\', \'uid2\'], і націсніце «Publish». Без гэтага новы адміністратар не зможа загружаць фота і аўдыя.</item>
-        <item>Новы адміністратар уваходзіць праз «Яшчэ → Уваход для адміністратара», пасля чаго ў яго з’яўляецца ўкладка «Адмін».</item>
-        <item>Каб зняць правы, выдаліце ключ з OurMemory/Admins і UID з правілаў Storage.</item>
+        <item>Новы адміністратар адзін раз уваходзіць у праграму: праз Google у «Яшчэ» або праз «Уваход для адміністратара» са сваім e-mail.</item>
+        <item>Супер-адміністратар адкрывае Адмін → «Адміністратары» і дадае яго па e-mail.</item>
+        <item>Storage → Rules: дапішыце UID новага адміністратара (яго можна скапіраваць на экране «Адміністратары») у спіс функцыі isAdmin() і націсніце «Publish». Без гэтага ён не зможа загружаць фота і аўдыя.</item>
+        <item>Пасля перазапуску праграмы ў новага адміністратара з’яўляецца ўкладка «Адмін».</item>
+        <item>Каб зняць правы, выдаліце адміністратара на экране «Адміністратары» і прыбярыце яго UID з правілаў Storage.</item>
+        <item>Супер-адміністратары прызначаюцца толькі ў Firebase Console: вузел OurMemory/SuperAdmins, ключ UID са значэннем true (і той жа UID у OurMemory/Admins).</item>
     </string-array>
     <string-array name="troubleshooting_steps">
         <item>Фота або аўдыя не загружаецца — праверце інтэрнэт і памер файла. Калі памылка паўтараецца, папрасіце распрацоўшчыка дадаць ваш UID у правілы Storage.</item>
