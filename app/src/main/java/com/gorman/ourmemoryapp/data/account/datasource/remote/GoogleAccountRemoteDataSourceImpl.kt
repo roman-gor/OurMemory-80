@@ -38,6 +38,7 @@ class GoogleAccountRemoteDataSourceImpl @Inject constructor(
         } catch (_: FirebaseException) {
             null
         }
+        runCatching { user?.getIdToken(true)?.await() }
         accountVersion.update { it + 1 }
         return user?.toVisitorAccount()
     }

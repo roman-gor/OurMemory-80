@@ -5,6 +5,7 @@ import com.google.firebase.database.DatabaseReference
 import com.gorman.ourmemoryapp.data.account.datasource.remote.GoogleAccountRemoteDataSource
 import com.gorman.ourmemoryapp.data.account.datasource.remote.GoogleAccountRemoteDataSourceImpl
 import com.gorman.ourmemoryapp.data.account.repository.VisitorAccountRepositoryImpl
+import com.gorman.ourmemoryapp.data.accounts.datasource.remote.AccountIndexRemoteDataSourceImpl
 import com.gorman.ourmemoryapp.data.favorites.datasource.local.FavoritesLocalDataSource
 import com.gorman.ourmemoryapp.data.favorites.datasource.remote.FavoritesRemoteDataSource
 import com.gorman.ourmemoryapp.data.favorites.datasource.remote.FavoritesRemoteDataSourceImpl
@@ -35,10 +36,12 @@ object AccountModule {
     fun provideVisitorAccountRepository(
         accountDataSource: GoogleAccountRemoteDataSource,
         favoritesLocalDataSource: FavoritesLocalDataSource,
-        favoritesRemoteDataSource: FavoritesRemoteDataSource
+        favoritesRemoteDataSource: FavoritesRemoteDataSource,
+        @MemoryRoot root: DatabaseReference
     ): VisitorAccountRepository = VisitorAccountRepositoryImpl(
         accountDataSource = accountDataSource,
         favoritesLocalDataSource = favoritesLocalDataSource,
-        favoritesRemoteDataSource = favoritesRemoteDataSource
+        favoritesRemoteDataSource = favoritesRemoteDataSource,
+        accountIndex = AccountIndexRemoteDataSourceImpl(root)
     )
 }
