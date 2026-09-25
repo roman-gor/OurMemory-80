@@ -1,69 +1,75 @@
-# 🪖 OurMemoryApp  
+# OurMemory для Android
 
-An Android application dedicated to the **digitalization of a historical military cemetery**, designed as part of a **college educational project**.  
-The app allows users to navigate the cemetery, access detailed information about each memorial site, and interact with associated media in a structured, immersive way.  
+Приложение об историческом военном кладбище в Минске: кто там похоронен, где находится каждое захоронение и какие истории стоят за именами. Есть iOS-версия на SwiftUI: [OurMemory-ios](https://github.com/roman-gor/OurMemory-ios). Оба приложения работают с одной базой Firebase, поэтому контент, свечи памяти и заявки у них общие.
 
----
+Проект сделан как учебный в колледже, в рамках мобильной разработки и оцифровки исторических данных.
 
-## 📚 Project Overview  
+## Возможности
 
-This project explores the integration of **modern mobile architectures** and **networked data acquisition** in a real-world educational setting.  
-It aims to demonstrate a modular, maintainable, and testable approach to building Android applications that manage structured historical datasets.  
+- **Ветераны.** Список с поиском по имени и фильтром по категориям. Карточка ветерана: биография, награды, фотографии, аудиобиография, дата рождения и смерти, место захоронения.
+- **Карта.** Захоронения на Yandex MapKit с кластеризацией, ваше местоположение, аудиоэкскурсии по остановкам.
+- **Память.** Можно зажечь свечу (общий счётчик для всех посетителей), добавить ветерана в избранное (с Google-аккаунтом избранное синхронизируется), получать напоминания о 9 Мая и памятных датах избранных ветеранов.
+- **QR-коды.** QR на табличке открывает карточку ветерана; работают и app links `https://chatroom-85fb8.web.app/veteran/{id}`.
+- **Посетители.** Родственники присылают воспоминания и фото, любой посетитель может отправить отзыв или сообщить об ошибке. Ответы администраторов появляются в «Моих обращениях». Перед отправкой текст проверяется на мат, а фото — на откровенный контент (LiteRT).
+- **Администрирование.** Редакторы ветеранов, захоронений и экскурсий с загрузкой медиа, модерация заявок, обратная связь. Супер-администратор назначает администраторов по e-mail.
+- **Языки и оформление.** Русский, белорусский, английский и китайский. Светлая и тёмная тема, настраиваемый размер текста.
 
-Key objectives include:  
-- Creating a **responsive, Jetpack Compose-based UI**.  
-- Implementing a **clean architecture** to separate domain, data, and presentation layers.  
-- Utilizing **MVVM** for lifecycle-aware, reactive state management.  
-- Applying **Hilt** for dependency injection and component lifecycle control.  
-- Accessing historical data through **Retrofit** with **Yandex Kit API** integration.  
+## Стек
 
----
+- Kotlin, Coroutines и Flow
+- Jetpack Compose, Material 3, Navigation Compose
+- MVVM с однонаправленным состоянием (`UiState` + `UiIntent`)
+- Hilt (KSP) для внедрения зависимостей
+- Firebase Auth, Realtime Database, Storage; вход через Google (Credential Manager)
+- Yandex MapKit
+- Media3 ExoPlayer для аудио
+- Coil для изображений, Retrofit для прямых ссылок Яндекс Диска
+- DataStore для локальных настроек, WorkManager для напоминаний
+- Google Code Scanner для QR, LiteRT для проверки фото
+- Detekt для статического анализа
 
-## 🛠️ Tech Stack  
+## Архитектура
 
-- **Kotlin** — primary programming language  
-- **Jetpack Compose** — modern declarative UI toolkit  
-- **MVVM (Model–View–ViewModel)** — separation of concerns and reactive state management  
-- **Clean Architecture** — layered modular structure for scalability and testability  
-- **Hilt (Dagger)** — dependency injection  
-- **Retrofit** — network requests and REST API integration  
-- **Yandex Kit API** — fetching and processing historical/geographical data  
-- **Coroutines & Flow** — asynchronous and reactive programming  
+Один модуль `:app`, пакет `com.gorman.ourmemoryapp`:
 
----
+- `data/` — источники данных и репозитории по областям (ветераны, захоронения, экскурсии, свечи, заявки и т. д.);
+- `domain/` — модели и интерфейсы репозиториев;
+- `di/` — модули Hilt;
+- `ui/` — экраны по фичам, в каждой `models/`, `ui/` и `viewmodels/`;
+- `reminders/` — фоновые задачи WorkManager для напоминаний.
 
-## 🚀 Features  
+Все данные лежат в Firebase Realtime Database под узлом `OurMemory`. Структура узлов и правила доступа описаны в [CLAUDE.md](CLAUDE.md).
 
-- 🗺️ **Interactive Cemetery Map** — navigate and explore memorials  
-- 📝 **Detailed Memorial Information** — historical context, images, and metadata  
-- 🔍 **Search and Filter** — find specific memorials by name, date, or category  
-- ⚙️ **Configurable Display Options** — adjust map layers, themes, and content visibility  
-- 🧩 **Structured Data Presentation** — adheres to best practices in educational and historical data digitization  
+## Сборка
 
----
+Нужны Android Studio (JDK 17) и Android SDK. `minSdk` 28.
 
-## 🔧 Architecture & Design Principles  
+1. В `local.properties` укажите ключ Yandex MapKit:
+   ```properties
+   MAPKIT_API_KEY=ваш-ключ
+   ```
+2. Firebase настраивается файлом `app/google-services.json`. Для входа через Google SHA-1 вашего ключа подписи должен быть добавлен в настройки проекта Firebase.
+3. Соберите и установите:
+   ```bash
+   ./gradlew assembleDebug
+   ./gradlew installDebug
+   ```
 
-The application is designed with principles of **software modularity, scalability, and testability**:  
+Релизная сборка (`./gradlew assembleRelease`) подписывается, если в корне есть `keystore.properties` (`storeFile`, `storePassword`, `keyAlias`, `keyPassword`).
 
-- **Domain layer** — independent of frameworks, containing core business logic  
-- **Data layer** — repositories, remote API services, and caching  
-- **Presentation layer** — Jetpack Compose UI with ViewModel and LiveData / StateFlow  
-- **Dependency injection layer** — Hilt ensures lifecycle-aware, decoupled components  
+Проверки и тесты:
 
-The architecture emphasizes **reactive programming** and **clean separation of concerns**, making the app both maintainable and extensible for future research or educational expansion.  
+```bash
+./gradlew detektAll
+./gradlew testDebugUnitTest
+```
 
----
+## Инструменты
 
-## 📌 Status  
-The project is **actively developed as part of a college curriculum**.  
-Future enhancements include:  
-- 🔗 **Integration of augmented reality markers** for immersive cemetery exploration  
-- 📊 **Analytics and statistics dashboards** for historical research  
-- 🖼️ **Enhanced media management** (photos, documents, 3D scans)  
+- `tools/qr/generate_qr_sheet.py` генерирует PDF с QR-карточками по данным из базы.
+- `tools/nsfw/convert_model.py` пересобирает TFLite-модель проверки фото.
+- `firebase/` — хостинг для app links (`assetlinks.json`) и веб-страницы ветерана.
 
----
+## Автор
 
-## 👤 Author 
-Roman Gorbachev  
-Developed as a **college educational project** in the field of **mobile development and historical data digitalization**.  
+Роман Горбачёв
