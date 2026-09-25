@@ -1,75 +1,75 @@
-# OurMemory для Android
+# OurMemory for Android
 
-Приложение об историческом военном кладбище в Минске: кто там похоронен, где находится каждое захоронение и какие истории стоят за именами. Есть iOS-версия на SwiftUI: [OurMemory-ios](https://github.com/roman-gor/OurMemory-ios). Оба приложения работают с одной базой Firebase, поэтому контент, свечи памяти и заявки у них общие.
+An app about a historical military cemetery in Minsk: who is buried there, where each grave is and the stories behind the names. There is also a SwiftUI version for iOS: [OurMemory-ios](https://github.com/roman-gor/OurMemory-ios). Both apps share one Firebase database, so the content, memorial candles and visitor submissions are the same in both.
 
-Проект сделан как учебный в колледже, в рамках мобильной разработки и оцифровки исторических данных.
+The project started as a college assignment in mobile development and the digitization of historical data.
 
-## Возможности
+## Features
 
-- **Ветераны.** Список с поиском по имени и фильтром по категориям. Карточка ветерана: биография, награды, фотографии, аудиобиография, дата рождения и смерти, место захоронения.
-- **Карта.** Захоронения на Yandex MapKit с кластеризацией, ваше местоположение, аудиоэкскурсии по остановкам.
-- **Память.** Можно зажечь свечу (общий счётчик для всех посетителей), добавить ветерана в избранное (с Google-аккаунтом избранное синхронизируется), получать напоминания о 9 Мая и памятных датах избранных ветеранов.
-- **QR-коды.** QR на табличке открывает карточку ветерана; работают и app links `https://chatroom-85fb8.web.app/veteran/{id}`.
-- **Посетители.** Родственники присылают воспоминания и фото, любой посетитель может отправить отзыв или сообщить об ошибке. Ответы администраторов появляются в «Моих обращениях». Перед отправкой текст проверяется на мат, а фото — на откровенный контент (LiteRT).
-- **Администрирование.** Редакторы ветеранов, захоронений и экскурсий с загрузкой медиа, модерация заявок, обратная связь. Супер-администратор назначает администраторов по e-mail.
-- **Языки и оформление.** Русский, белорусский, английский и китайский. Светлая и тёмная тема, настраиваемый размер текста.
+- **Veterans.** A list with search by name and a category filter. Each veteran's page has a biography, awards, photos, an audio biography, dates of birth and death, and the burial place.
+- **Map.** Burials on Yandex MapKit with clustering, your location, and audio tours by stop.
+- **Remembrance.** Light a candle (one counter shared by all visitors), add veterans to favorites (synced when signed in with Google), and get reminders for May 9 and anniversaries of favorite veterans.
+- **QR codes.** The QR code on a grave plaque opens the veteran's page; app links `https://chatroom-85fb8.web.app/veteran/{id}` work too.
+- **Visitors.** Relatives can send memories and photos, and anyone can leave feedback or report a mistake. Admin replies show up under "My requests". Before sending, text is checked for profanity and photos for explicit content (LiteRT).
+- **Administration.** Editors for veterans, burials and tours with media uploads, moderation of submissions, and feedback review. A super admin adds administrators by e-mail.
+- **Languages and appearance.** Russian, Belarusian, English and Chinese. Light and dark themes and adjustable text size.
 
-## Стек
+## Tech stack
 
-- Kotlin, Coroutines и Flow
+- Kotlin, Coroutines and Flow
 - Jetpack Compose, Material 3, Navigation Compose
-- MVVM с однонаправленным состоянием (`UiState` + `UiIntent`)
-- Hilt (KSP) для внедрения зависимостей
-- Firebase Auth, Realtime Database, Storage; вход через Google (Credential Manager)
+- MVVM with unidirectional state (`UiState` + `UiIntent`)
+- Hilt (KSP) for dependency injection
+- Firebase Auth, Realtime Database, Storage; Google sign-in through Credential Manager
 - Yandex MapKit
-- Media3 ExoPlayer для аудио
-- Coil для изображений, Retrofit для прямых ссылок Яндекс Диска
-- DataStore для локальных настроек, WorkManager для напоминаний
-- Google Code Scanner для QR, LiteRT для проверки фото
-- Detekt для статического анализа
+- Media3 ExoPlayer for audio
+- Coil for images, Retrofit for direct Yandex Disk links
+- DataStore for local settings, WorkManager for reminders
+- Google Code Scanner for QR codes, LiteRT for photo checks
+- Detekt for static analysis
 
-## Архитектура
+## Architecture
 
-Один модуль `:app`, пакет `com.gorman.ourmemoryapp`:
+A single `:app` module, package `com.gorman.ourmemoryapp`:
 
-- `data/` — источники данных и репозитории по областям (ветераны, захоронения, экскурсии, свечи, заявки и т. д.);
-- `domain/` — модели и интерфейсы репозиториев;
-- `di/` — модули Hilt;
-- `ui/` — экраны по фичам, в каждой `models/`, `ui/` и `viewmodels/`;
-- `reminders/` — фоновые задачи WorkManager для напоминаний.
+- `data/` holds data sources and repositories per area (veterans, burials, tours, candles, submissions and so on).
+- `domain/` holds models and repository interfaces.
+- `di/` holds the Hilt modules.
+- `ui/` holds screens per feature, each with `models/`, `ui/` and `viewmodels/`.
+- `reminders/` holds the WorkManager jobs for reminders.
 
-Все данные лежат в Firebase Realtime Database под узлом `OurMemory`. Структура узлов и правила доступа описаны в [CLAUDE.md](CLAUDE.md).
+All data lives in Firebase Realtime Database under the `OurMemory` node. The node layout and access rules are described in [CLAUDE.md](CLAUDE.md).
 
-## Сборка
+## Building
 
-Нужны Android Studio (JDK 17) и Android SDK. `minSdk` 28.
+You need Android Studio (JDK 17) and the Android SDK. `minSdk` is 28.
 
-1. В `local.properties` укажите ключ Yandex MapKit:
+1. Put your Yandex MapKit key in `local.properties`:
    ```properties
-   MAPKIT_API_KEY=ваш-ключ
+   MAPKIT_API_KEY=your-key
    ```
-2. Firebase настраивается файлом `app/google-services.json`. Для входа через Google SHA-1 вашего ключа подписи должен быть добавлен в настройки проекта Firebase.
-3. Соберите и установите:
+2. Firebase is configured by `app/google-services.json`. For Google sign-in, add the SHA-1 of your signing key to the Firebase project settings.
+3. Build and install:
    ```bash
    ./gradlew assembleDebug
    ./gradlew installDebug
    ```
 
-Релизная сборка (`./gradlew assembleRelease`) подписывается, если в корне есть `keystore.properties` (`storeFile`, `storePassword`, `keyAlias`, `keyPassword`).
+The release build (`./gradlew assembleRelease`) is signed when the repo root has a `keystore.properties` (`storeFile`, `storePassword`, `keyAlias`, `keyPassword`).
 
-Проверки и тесты:
+Checks and tests:
 
 ```bash
 ./gradlew detektAll
 ./gradlew testDebugUnitTest
 ```
 
-## Инструменты
+## Tools
 
-- `tools/qr/generate_qr_sheet.py` генерирует PDF с QR-карточками по данным из базы.
-- `tools/nsfw/convert_model.py` пересобирает TFLite-модель проверки фото.
-- `firebase/` — хостинг для app links (`assetlinks.json`) и веб-страницы ветерана.
+- `tools/qr/generate_qr_sheet.py` generates a PDF of QR cards from the database.
+- `tools/nsfw/convert_model.py` rebuilds the TFLite model used for photo checks.
+- `firebase/` holds the hosting for app links (`assetlinks.json`) and the veteran web page.
 
-## Автор
+## Author
 
-Роман Горбачёв
+Roman Gorbachev
