@@ -10,6 +10,8 @@ import com.gorman.ourmemoryapp.data.datasource.FirebaseDBImpl
 import com.gorman.ourmemoryapp.data.datasource.YandexApiService
 import com.gorman.ourmemoryapp.data.firebase.DatabaseNodes
 import com.gorman.ourmemoryapp.data.repository.VeteransRepositoryImpl
+import com.gorman.ourmemoryapp.data.settings.language.AppLocaleContentLanguageProvider
+import com.gorman.ourmemoryapp.data.settings.language.ContentLanguageProvider
 import com.gorman.ourmemoryapp.data.tours.datasource.remote.ToursRemoteDataSource
 import com.gorman.ourmemoryapp.data.tours.datasource.remote.ToursRemoteDataSourceImpl
 import com.gorman.ourmemoryapp.data.tours.repository.ToursRepositoryImpl
@@ -58,8 +60,16 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideVeteransRepositoryImpl(firebaseDB: FirebaseDB, apiService: YandexApiService): VeteransRepository {
-        return VeteransRepositoryImpl(firebaseDB, apiService)
+    fun provideContentLanguageProvider(): ContentLanguageProvider = AppLocaleContentLanguageProvider()
+
+    @Provides
+    @Singleton
+    fun provideVeteransRepositoryImpl(
+        firebaseDB: FirebaseDB,
+        apiService: YandexApiService,
+        contentLanguage: ContentLanguageProvider
+    ): VeteransRepository {
+        return VeteransRepositoryImpl(firebaseDB, apiService, contentLanguage)
     }
 
     @Provides
@@ -69,8 +79,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideBurialsRepository(dataSource: BurialsRemoteDataSource): BurialsRepository =
-        BurialsRepositoryImpl(dataSource)
+    fun provideBurialsRepository(
+        dataSource: BurialsRemoteDataSource,
+        contentLanguage: ContentLanguageProvider
+    ): BurialsRepository = BurialsRepositoryImpl(dataSource, contentLanguage)
 
     @Provides
     @Singleton
@@ -79,8 +91,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideToursRepository(dataSource: ToursRemoteDataSource): ToursRepository =
-        ToursRepositoryImpl(dataSource)
+    fun provideToursRepository(
+        dataSource: ToursRemoteDataSource,
+        contentLanguage: ContentLanguageProvider
+    ): ToursRepository = ToursRepositoryImpl(dataSource, contentLanguage)
 
     @Provides
     @Singleton

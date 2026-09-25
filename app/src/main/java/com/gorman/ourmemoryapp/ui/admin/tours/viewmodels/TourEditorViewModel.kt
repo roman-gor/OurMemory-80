@@ -84,7 +84,7 @@ class TourEditorViewModel @Inject constructor(
         val form = if (isNew) {
             TourForm(id = contentEditorRepository.newTourId())
         } else {
-            toursRepository.getAllTours().first { it.id == tourId }.toForm()
+            toursRepository.getOriginalTours().first { it.id == tourId }.toForm()
         }
         return LoadedEditor(form = form, burials = burials.toPersistentList())
     }

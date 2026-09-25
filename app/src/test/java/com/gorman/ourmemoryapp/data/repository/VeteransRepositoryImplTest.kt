@@ -26,7 +26,7 @@ class VeteransRepositoryImplTest {
     @Test
     fun veteransAreLoadedOnceAndServedFromCache() = runTest {
         val firebaseDB = CountingFirebaseDB()
-        val repository = VeteransRepositoryImpl(firebaseDB, FailingYandexApiService())
+        val repository = VeteransRepositoryImpl(firebaseDB, FailingYandexApiService()) { null }
 
         repository.getAllVeterans()
         repository.getAllVeterans()
@@ -36,7 +36,7 @@ class VeteransRepositoryImplTest {
 
     @Test
     fun yandexLinkFallsBackToOriginalUrlWhenResolvingFails() = runTest {
-        val repository = VeteransRepositoryImpl(CountingFirebaseDB(), FailingYandexApiService())
+        val repository = VeteransRepositoryImpl(CountingFirebaseDB(), FailingYandexApiService()) { null }
         val link = "https://disk.yandex.ru/i/photo"
 
         assertEquals(link, repository.resolveDirectUrl(link))

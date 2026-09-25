@@ -122,7 +122,7 @@ class VeteranEditorViewModel @Inject constructor(
 
     private suspend fun loadEditor(): LoadedEditor {
         if (isNew) veteransRepository.invalidate()
-        val veterans = veteransRepository.getAllVeterans()
+        val veterans = veteransRepository.getOriginalVeterans()
         val burials = runCatching { burialsRepository.getAllBurials() }
             .onFailure { Log.e(LOG_TAG, "Failed to load burials", it) }
             .getOrDefault(emptyList())

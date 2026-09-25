@@ -10,6 +10,8 @@ class FakeToursRepository(
 
     var invalidations = 0
 
+    override suspend fun getOriginalTours(): List<Tour> = getAllTours()
+
     override suspend fun getAllTours(): List<Tour> {
         error?.let { throw it }
         return tours

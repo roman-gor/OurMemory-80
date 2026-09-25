@@ -3,6 +3,8 @@ package com.gorman.ourmemoryapp.ui.home.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.gorman.ourmemoryapp.domain.models.Veteran
+import com.gorman.ourmemoryapp.domain.models.allNames
 import com.gorman.ourmemoryapp.domain.repository.VeteransRepository
 import com.gorman.ourmemoryapp.ui.home.models.HomeUiIntent
 import com.gorman.ourmemoryapp.ui.home.models.HomeUiState
@@ -46,22 +48,26 @@ class HomeViewModel @Inject constructor(
         reloadState
     ) { search, war, art, isRefreshing, _ ->
         val veteransList = repository.getAllVeterans()
+        val namesById = repository.getOriginalVeterans().associate { it.id to it.allNames() }
+        val matchesSearch = { veteran: Veteran ->
+            namesById[veteran.id].orEmpty().plus(veteran.name).any { it.contains(search, ignoreCase = true) }
+        }
         val filteredVeterans = when {
             war && art -> {
                 if (search.isBlank()) {
                     veteransList
                 } else {
-                    veteransList.filter { it.name.contains(search, ignoreCase = true) }
+                    veteransList.filter(matchesSearch)
                 }
             }
             war -> {
                 veteransList.filter {
-                    it.category == "War" && it.name.contains(search, ignoreCase = true)
+                    it.category == "War" && matchesSearch(it)
                 }
             }
             art -> {
                 veteransList.filter {
-                    it.category == "Art" && it.name.contains(search, ignoreCase = true)
+                    it.category == "Art" && matchesSearch(it)
                 }
             }
             else -> {

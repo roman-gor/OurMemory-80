@@ -11,6 +11,8 @@ class FakeVeteransRepository(
 
     var invalidations = 0
 
+    override suspend fun getOriginalVeterans(): List<Veteran> = getAllVeterans()
+
     override suspend fun getAllVeterans(): List<Veteran> {
         error?.let { throw it }
         return veterans

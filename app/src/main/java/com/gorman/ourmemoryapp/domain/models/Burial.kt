@@ -9,5 +9,6 @@ data class Burial(
     val place: String = "",
     val type: String = "",
     val photo: String = "",
-    val description: String = ""
+    val description: String = "",
+    val translations: Map<String, BurialTranslation> = emptyMap()
 )

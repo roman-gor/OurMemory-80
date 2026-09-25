@@ -13,5 +13,6 @@ data class Veteran(
     val burialId: String = "",
     val audioUrl: String = "",
     val birthDate: String = "",
-    val deathDate: String = ""
+    val deathDate: String = "",
+    val translations: Map<String, VeteranTranslation> = emptyMap()
 )

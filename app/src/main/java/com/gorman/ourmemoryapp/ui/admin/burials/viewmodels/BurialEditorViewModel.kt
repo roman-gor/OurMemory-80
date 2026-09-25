@@ -74,7 +74,7 @@ class BurialEditorViewModel @Inject constructor(
             longitude = CemeteryLocation.LONGITUDE.toCoordinateText()
         )
     } else {
-        burialsRepository.getAllBurials().first { it.id == burialId }.toForm()
+        burialsRepository.getOriginalBurials().first { it.id == burialId }.toForm()
     }
 
     private fun observeBurialEditorUiState() = combine(loadedForm, editedForm, status) { result, form, status ->

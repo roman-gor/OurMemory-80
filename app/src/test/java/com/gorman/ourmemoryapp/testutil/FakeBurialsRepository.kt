@@ -10,6 +10,8 @@ class FakeBurialsRepository(
 
     var invalidations = 0
 
+    override suspend fun getOriginalBurials(): List<Burial> = getAllBurials()
+
     override suspend fun getAllBurials(): List<Burial> {
         error?.let { throw it }
         return burials
