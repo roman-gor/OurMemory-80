@@ -1,0 +1,37 @@
+{
+  "Burials/b_004/translations": {
+    "be": {"description": "Брацкая магіла воінаў, якія загінулі пры вызваленні Мінска ў 1944 годзе."},
+    "en": {"description": "Mass grave of soldiers who fell during the liberation of Minsk in 1944."},
+    "zh": {"description": "1944年解放明斯克时牺牲的战士合葬墓。"}
+  },
+  "Burials/b_005/translations": {
+    "be": {"description": "Помнік каля галоўнага ўвахода."},
+    "en": {"description": "Monument at the main entrance."},
+    "zh": {"description": "正门旁的纪念碑。"}
+  },
+  "Tours/t_heroes/translations": {
+    "be": {"title": "Героі Савецкага Саюза", "description": "Кароткі маршрут ад галоўнага ўвахода да брацкай магілы"},
+    "en": {"title": "Heroes of the Soviet Union", "description": "A short route from the main entrance to the mass grave"},
+    "zh": {"title": "苏联英雄", "description": "从正门到合葬墓的简短路线"}
+  },
+  "Tours/t_heroes/stops/0/translations": {
+    "be": {"text": "Помнік каля галоўнага ўвахода — пачатак маршруту."},
+    "en": {"text": "The monument at the main entrance is where the route begins."},
+    "zh": {"text": "正门旁的纪念碑——路线起点。"}
+  },
+  "Tours/t_heroes/stops/1/translations": {
+    "be": {"text": "Першы прыпынак на ўчастку 1."},
+    "en": {"text": "The first stop, in section 1."},
+    "zh": {"text": "第1区的第一站。"}
+  },
+  "Tours/t_heroes/stops/2/translations": {
+    "be": {"text": "Суседні рад таго ж участка."},
+    "en": {"text": "The next row of the same section."},
+    "zh": {"text": "同一区的相邻一排。"}
+  },
+  "Tours/t_heroes/stops/3/translations": {
+    "be": {"text": "Брацкая магіла воінаў, якія загінулі пры вызваленні Мінска ў 1944 годзе."},
+    "en": {"text": "Mass grave of soldiers who fell during the liberation of Minsk in 1944."},
+    "zh": {"text": "1944年解放明斯克时牺牲的战士合葬墓。"}
+  }
+}

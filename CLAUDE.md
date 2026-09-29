@@ -97,7 +97,7 @@ Other data facts:
 - When the app is opened from a link, it starts on home instead of the intro.
 - The app is edge-to-edge with an always-light scheme. Hero screens overlay `FloatingTopBar` (a circle back button and a centered title once scrolled) and toggle status bar icon color with `SystemBarIcons`.
 
-**Localization.** Strings are in `values/` (default, Russian) and `values-be/` (Belarusian); both must be updated together. The language switch on the About tab calls `MainActivity.updateLocale`, which recreates the activity.
+**Localization.** Strings are in `values/` (default, Russian), `values-be/`, `values-en/` and `values-zh/`; all four must be updated together. The language switch on the About tab calls `MainActivity.updateLocale`, which recreates the activity. Content is translated through an optional `translations/{be|en|zh}` node on `Veterans`, `Burials`, `Tours` and tour stops; a missing field falls back to Russian. Translation sources live in `firebase/content/translations/` (one file per veteran, `veteransInfo` of the same length as the original, link entries hold only the translated caption). `python3 tools/translations/build_translations.py` fetches the live originals, restores the URLs and writes the multi-path update `firebase/content/translations.json`, imported with `npx -y firebase-tools database:update /OurMemory firebase/content/translations.json --project chatroom-85fb8 --instance chatroom-85fb8-default-rtdb`.
 
 ## Team Conventions
 
@@ -254,7 +254,7 @@ When adding a file to an existing feature that is still flat, create the missing
       }
   }
   ```
-- **Localization**: never hardcode user-facing strings (e.g. the `"Биография ветерана"` title in `DetailsViewModel`). Every string shown in the UI must go through Android string resources (`context.getString(R.string.key)` / Compose `stringResource(R.string.key)`), with the key added to both `values/strings.xml` (Russian) and `values-be/strings.xml` (Belarusian).
+- **Localization**: never hardcode user-facing strings (e.g. the `"Биография ветерана"` title in `DetailsViewModel`). Every string shown in the UI must go through Android string resources (`context.getString(R.string.key)` / Compose `stringResource(R.string.key)`), with the key added to `values/strings.xml` (Russian), `values-be/`, `values-en/` and `values-zh/`.
 - **String resource naming**: the key mirrors the string's own content (in English), lowercased and snake_cased — never a category/role prefix like `details_audio_title` or a `_title`/`_label` suffix. When the content is too long to spell out in full, take the first few meaningful words and append `_msg`.
 
   ```xml
