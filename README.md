@@ -70,6 +70,10 @@ Checks and tests:
 - `tools/nsfw/convert_model.py` rebuilds the TFLite model used for photo checks.
 - `firebase/` holds the hosting for app links (`assetlinks.json`) and the veteran web page.
 
+## License
+
+All rights reserved. The code is published for viewing only; see [LICENSE](LICENSE).
+
 ## Author
 
 Roman Gorbachev
