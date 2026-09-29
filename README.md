@@ -1,6 +1,6 @@
 # OurMemory for Android
 
-An app about a historical military cemetery in Minsk: who is buried there, where each grave is and the stories behind the names. There is also a SwiftUI version for iOS: [OurMemory-ios](https://github.com/roman-gor/OurMemory-ios). Both apps share one Firebase database, so the content, memorial candles and visitor submissions are the same in both.
+An app about a historical military cemetery in Minsk: who is buried there, where each grave is and the stories behind the names. There is also a SwiftUI version for iOS: [OurMemory-ios](https://github.com/roman-gor/OurMemory-ios). Both apps share one Firebase database, so the content, memorial candles and visitor submissions are the same in both. Editors can also manage the content in the browser with the [web admin panel](https://ourmemory-admin.web.app).
 
 The project started as a college assignment in mobile development and the digitization of historical data.
 
@@ -11,7 +11,7 @@ The project started as a college assignment in mobile development and the digiti
 - **Remembrance.** Light a candle (one counter shared by all visitors), add veterans to favorites (synced when signed in with Google), and get reminders for May 9 and anniversaries of favorite veterans.
 - **QR codes.** The QR code on a grave plaque opens the veteran's page; app links `https://chatroom-85fb8.web.app/veteran/{id}` work too.
 - **Visitors.** Relatives can send memories and photos, and anyone can leave feedback or report a mistake. Admin replies show up under "My requests". Before sending, text is checked for profanity and photos for explicit content (LiteRT).
-- **Administration.** Editors for veterans, burials and tours with media uploads, moderation of submissions, and feedback review. A super admin adds administrators by e-mail.
+- **Administration.** Editors for veterans, burials and tours with media uploads, moderation of submissions, and feedback review. A super admin adds administrators by e-mail. The same tools are available on the web in the admin panel.
 - **Languages and appearance.** Russian, Belarusian, English and Chinese. Light and dark themes and adjustable text size.
 
 ## Tech stack

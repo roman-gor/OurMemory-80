@@ -47,3 +47,4 @@ keystore.properties
 
 *.apk
 *.dm
+firebase/.firebase/
