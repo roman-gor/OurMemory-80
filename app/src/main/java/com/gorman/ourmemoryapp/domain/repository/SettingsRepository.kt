@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.Flow
 interface SettingsRepository {
     fun observeNotificationsAsked(): Flow<Boolean>
     suspend fun markNotificationsAsked()
+    fun observeIntroSeen(): Flow<Boolean>
+    suspend fun markIntroSeen()
     fun observeSettings(): Flow<AppSettings>
     suspend fun setThemeMode(mode: ThemeMode)
     suspend fun setTextScale(scale: TextScale)

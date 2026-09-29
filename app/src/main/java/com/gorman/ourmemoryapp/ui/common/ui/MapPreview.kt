@@ -5,10 +5,8 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
-import com.gorman.ourmemoryapp.R
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
-import com.yandex.runtime.image.ImageProvider
 
 @Composable
 fun MapPreview(
@@ -31,7 +29,7 @@ fun MapPreview(
         map.move(CameraPosition(point, zoom, NO_AZIMUTH, NO_TILT))
         val placemark = map.mapObjects.addPlacemark().apply {
             geometry = point
-            setIcon(ImageProvider.fromResource(context, R.drawable.ic_marker))
+            setIcon(MarkerImageProvider(context), MarkerImageProvider.iconStyle())
         }
         onDispose {
             map.mapObjects.remove(placemark)

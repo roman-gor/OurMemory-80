@@ -12,8 +12,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
-import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.ui.common.models.CemeteryLocation
+import com.gorman.ourmemoryapp.ui.common.ui.MarkerImageProvider
 import com.gorman.ourmemoryapp.ui.common.ui.NumberImageProvider
 import com.gorman.ourmemoryapp.ui.map.models.BurialMarkerUi
 import com.yandex.mapkit.geometry.Point
@@ -23,7 +23,6 @@ import com.yandex.mapkit.map.ClusterTapListener
 import com.yandex.mapkit.map.MapObjectTapListener
 import com.yandex.mapkit.map.MapType
 import com.yandex.mapkit.mapview.MapView
-import com.yandex.runtime.image.ImageProvider
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -40,7 +39,7 @@ fun BurialsMap(
     val currentOnMarkerClick by rememberUpdatedState(onMarkerClick)
     var savedCamera by rememberSaveable { mutableStateOf<DoubleArray?>(null) }
 
-    val markerIcon = remember { ImageProvider.fromResource(context, R.drawable.ic_marker) }
+    val markerIcon = remember { MarkerImageProvider(context) }
     val markerTapListener = remember {
         MapObjectTapListener { mapObject, _ ->
             (mapObject.userData as? String)?.let(currentOnMarkerClick)
@@ -77,7 +76,7 @@ fun BurialsMap(
         markers.forEach { marker ->
             collection.addPlacemark().apply {
                 geometry = Point(marker.latitude, marker.longitude)
-                setIcon(markerIcon)
+                setIcon(markerIcon, MarkerImageProvider.iconStyle())
                 userData = marker.id
                 addTapListener(markerTapListener)
             }

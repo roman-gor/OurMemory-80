@@ -35,8 +35,13 @@ import com.gorman.ourmemoryapp.ui.tours.ui.TourScreen
 import kotlinx.collections.immutable.toPersistentList
 
 @Composable
-fun AppNavigation(openedFromLink: Boolean, onChangeLangClick: (String) -> Unit) {
+fun AppNavigation(
+    showIntro: Boolean,
+    onIntroStartClick: () -> Unit,
+    onChangeLangClick: (String) -> Unit
+) {
     val navController = rememberNavController()
+    val startDestination = remember { if (showIntro) Screen.IntroScreen.route else Screen.HomeScreen.route }
     val activity = LocalActivity.current as? ComponentActivity
 
     DisposableEffect(navController, activity) {
@@ -55,7 +60,8 @@ fun AppNavigation(openedFromLink: Boolean, onChangeLangClick: (String) -> Unit) 
     Box(modifier = Modifier.fillMaxSize()) {
         AppNavHost(
             navController = navController,
-            openedFromLink = openedFromLink,
+            startDestination = startDestination,
+            onIntroStartClick = onIntroStartClick,
             isAdmin = isAdmin,
             onChangeLangClick = onChangeLangClick,
             modifier = Modifier.fillMaxSize()
@@ -74,7 +80,8 @@ fun AppNavigation(openedFromLink: Boolean, onChangeLangClick: (String) -> Unit) 
 @Composable
 private fun AppNavHost(
     navController: NavHostController,
-    openedFromLink: Boolean,
+    startDestination: String,
+    onIntroStartClick: () -> Unit,
     isAdmin: Boolean,
     onChangeLangClick: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -88,11 +95,12 @@ private fun AppNavHost(
 
     NavHost(
         navController = navController,
-        startDestination = if (openedFromLink) Screen.HomeScreen.route else Screen.IntroScreen.route,
+        startDestination = startDestination,
         modifier = modifier
     ) {
         composable(Screen.IntroScreen.route) {
             IntroScreen {
+                onIntroStartClick()
                 navController.navigate(Screen.HomeScreen.route) {
                     popUpTo(Screen.IntroScreen.route) { inclusive = true }
                 }

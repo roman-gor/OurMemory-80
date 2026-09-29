@@ -24,6 +24,13 @@ class SettingsRepositoryImpl @Inject constructor(
         dataStore.edit { it[NOTIFICATIONS_ASKED_KEY] = true }
     }
 
+    override fun observeIntroSeen(): Flow<Boolean> =
+        dataStore.data.map { it[INTRO_SEEN_KEY] == true }
+
+    override suspend fun markIntroSeen() {
+        dataStore.edit { it[INTRO_SEEN_KEY] = true }
+    }
+
     override fun observeSettings() = dataStore.data.map { preferences ->
         AppSettings(
             themeMode = ThemeMode.entries.firstOrNull { it.name == preferences[THEME_MODE_KEY] } ?: ThemeMode.SYSTEM,
@@ -51,6 +58,7 @@ class SettingsRepositoryImpl @Inject constructor(
 
     companion object {
         private val NOTIFICATIONS_ASKED_KEY = booleanPreferencesKey("notifications_asked")
+        private val INTRO_SEEN_KEY = booleanPreferencesKey("intro_seen")
         private val THEME_MODE_KEY = stringPreferencesKey("theme_mode")
         private val TEXT_SCALE_KEY = stringPreferencesKey("text_scale")
         private val VICTORY_DAY_REMINDER_KEY = booleanPreferencesKey("victory_day_reminder")

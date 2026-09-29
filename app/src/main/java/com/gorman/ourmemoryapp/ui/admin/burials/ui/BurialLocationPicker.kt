@@ -26,11 +26,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.gorman.ourmemoryapp.R
 import com.gorman.ourmemoryapp.ui.common.models.CemeteryLocation
+import com.gorman.ourmemoryapp.ui.common.ui.MarkerImageProvider
 import com.gorman.ourmemoryapp.ui.common.ui.rememberMapViewWithLifecycle
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
 import com.yandex.mapkit.map.InputListener
-import com.yandex.runtime.image.ImageProvider
 import com.yandex.mapkit.map.Map as YandexMap
 
 @Composable
@@ -57,7 +57,7 @@ fun BurialLocationPicker(
     val placemark = remember(mapView) {
         mapView.mapWindow.map.mapObjects.addPlacemark().apply {
             geometry = initialPoint
-            setIcon(ImageProvider.fromResource(context, R.drawable.ic_marker))
+            setIcon(MarkerImageProvider(context), MarkerImageProvider.iconStyle())
         }
     }
     val requestLocation = rememberCurrentLocationRequest(

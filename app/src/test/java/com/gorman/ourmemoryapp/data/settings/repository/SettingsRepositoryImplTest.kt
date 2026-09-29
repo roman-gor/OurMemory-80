@@ -54,6 +54,15 @@ class SettingsRepositoryImplTest {
     }
 
     @Test
+    fun introIsSeenOnlyAfterMarked() = runTest {
+        val repository = repository()
+
+        assertEquals(false, repository.observeIntroSeen().first())
+        repository.markIntroSeen()
+        assertEquals(true, repository.observeIntroSeen().first())
+    }
+
+    @Test
     fun themeModeResolvesAgainstSystem() {
         assertEquals(true, ThemeMode.SYSTEM.isDark(isSystemDark = true))
         assertEquals(false, ThemeMode.LIGHT.isDark(isSystemDark = true))

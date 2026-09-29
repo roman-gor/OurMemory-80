@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         val openedFromLink = intent?.data != null
         setContent {
             val settings by mainViewModel.settings.collectAsStateWithLifecycle()
+            val isIntroSeen by mainViewModel.isIntroSeen.collectAsStateWithLifecycle()
             val isDark = settings.themeMode.isDark(isSystemInDarkTheme())
             val density = LocalDensity.current
 
@@ -48,10 +49,13 @@ class MainActivity : AppCompatActivity() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.background
                     ) {
-                        AppNavigation(
-                            openedFromLink = openedFromLink,
-                            onChangeLangClick = ::updateLocale
-                        )
+                        isIntroSeen?.let { seen ->
+                            AppNavigation(
+                                showIntro = !seen && !openedFromLink,
+                                onIntroStartClick = mainViewModel::onIntroStartClick,
+                                onChangeLangClick = ::updateLocale
+                            )
+                        }
                     }
                 }
             }
